@@ -1,0 +1,578 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<groupId>at.mug.iqm</groupId>
+		<artifactId>iqm</artifactId>
+		<version>3.5</version>
+		<relativePath>..</relativePath>
+	</parent>
+
+	<groupId>at.mug.iqm</groupId>
+	<artifactId>iqm-app</artifactId>
+	<version>3.5</version>
+	<packaging>jar</packaging>
+
+	<name>IQM - Application</name>
+	<description>This is the main module of the application. 
+		It is bootstrapping the core module.</description>
+	<url>https://sourceforge.net/projects/iqm</url>
+
+	<properties>
+		<project.mainClass>at.mug.iqm.main.IQM</project.mainClass>
+		<project.osx-bundle.icon>./src/main/resources/app/icons/IqmLogoRed32_v5.icns</project.osx-bundle.icon>
+		<project.osx-bundle.stub>./src/macosx/Java1.6/JavaApplicationStub</project.osx-bundle.stub>
+		<project.launch4j.icon>./src/main/resources/app/icons/IqmLogoRed32_v5.ico</project.launch4j.icon>
+	</properties>
+
+	<dependencies>
+		<dependency>
+			<groupId>log4j</groupId>
+			<artifactId>log4j</artifactId>
+			<version>1.2.16</version>
+			<type>jar</type>
+		</dependency>
+		<dependency>
+			<groupId>javax.media.jai</groupId>
+			<artifactId>jai_core</artifactId>
+			<version>1.1.3</version>
+			<type>jar</type>
+		</dependency>
+		<dependency>
+			<groupId>com.apple</groupId>
+			<artifactId>AppleJavaExtensions</artifactId>
+			<version>20111109</version>
+		</dependency>
+
+		<!-- IQM MODULES -->
+		<dependency>
+			<groupId>at.mug.iqm</groupId>
+			<artifactId>iqm-core</artifactId>
+			<version>3.5</version>
+		</dependency>
+		<dependency>
+			<groupId>at.mug.iqm</groupId>
+			<artifactId>iqm-api</artifactId>
+			<version>3.5</version>
+			<type>jar</type>
+		</dependency>
+	</dependencies>
+
+	<profiles>
+		<profile>
+			<id>build-base-jars</id>
+			<activation>
+				<property>
+					<name>!disabled</name>
+				</property>
+			</activation>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.codehaus.mojo</groupId>
+						<artifactId>license-maven-plugin</artifactId>
+						<version>1.6</version>
+						<configuration>
+							<verbose>false</verbose>
+							<canUpdateCopyright>true</canUpdateCopyright>
+							<canUpdateDescription>false</canUpdateDescription>
+						</configuration>
+						<executions>
+							<execution>
+								<id>update-source-file-headers</id>
+								<goals>
+									<goal>update-file-header</goal>
+								</goals>
+								<phase>process-sources</phase>
+								<configuration>
+									<licenseName>gpl_v3</licenseName>
+									<roots>
+										<root>src/main</root>
+										<root>src/test</root>
+									</roots>
+									<excludes>
+										<exclude>**/*/log4j.dtd</exclude>
+										<exclude>src/assembly</exclude>
+										<exclude>src/license</exclude>
+										<exclude>src/macosx</exclude>
+									</excludes>
+									<extraExtensions>
+										<xsd>xml</xsd>
+									</extraExtensions>
+									<descriptionTemplate>
+										${project.rootdir}/license/descriptionTemplate.ftl
+									</descriptionTemplate>
+								</configuration>
+							</execution>
+						</executions>
+					</plugin>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-antrun-plugin</artifactId>
+						<version>1.7</version>
+						<executions>
+							<execution>
+								<id>create-empty-plugin-directory</id>
+								<phase>process-classes</phase>
+								<goals>
+									<goal>run</goal>
+								</goals>
+								<configuration>
+									<target>
+										<mkdir dir="${project.build.directory}/plugins" />
+									</target>
+								</configuration>
+							</execution>
+						</executions>
+					</plugin>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-dependency-plugin</artifactId>
+						<version>2.5.1</version>
+						<executions>
+							<execution>
+								<id>copy-dependencies</id>
+								<phase>prepare-package</phase>
+								<goals>
+									<goal>copy-dependencies</goal>
+								</goals>
+								<configuration>
+									<outputDirectory>${project.build.directory}/lib</outputDirectory>
+									<overWriteReleases>true</overWriteReleases>
+									<overWriteSnapshots>true</overWriteSnapshots>
+									<overWriteIfNewer>true</overWriteIfNewer>
+								</configuration>
+							</execution>
+						</executions>
+					</plugin>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-jar-plugin</artifactId>
+						<version>2.4</version>
+						<configuration>
+							<archive>
+								<manifest>
+									<addClasspath>true</addClasspath>
+									<classpathPrefix>lib</classpathPrefix>
+									<mainClass>${project.mainClass}</mainClass>
+								</manifest>
+							</archive>
+						</configuration>
+					</plugin>
+					<plugin>
+						<artifactId>maven-assembly-plugin</artifactId>
+						<version>2.4</version>
+						<executions>
+							<execution>
+								<id>assembly-fat-jar</id>
+								<phase>package</phase>
+								<goals>
+									<goal>attached</goal>
+								</goals>
+								<configuration>
+									<archive>
+										<manifest>
+											<addClasspath>true</addClasspath>
+											<classpathPrefix>lib</classpathPrefix>
+											<mainClass>${project.mainClass}</mainClass>
+										</manifest>
+									</archive>
+									<descriptor>src/assembly/descriptor-jar-with-dependencies.xml</descriptor>
+								</configuration>
+							</execution>
+							<execution>
+								<id>assembly-bin</id>
+								<phase>package</phase>
+								<goals>
+									<goal>attached</goal>
+								</goals>
+								<configuration>
+									<descriptor>src/assembly/descriptor-bin.xml</descriptor>
+									<finalName>${project.build.finalName}</finalName>
+								</configuration>
+							</execution>
+							<execution>
+								<id>assembly-bin-exe</id>
+								<phase>package</phase>
+								<goals>
+									<goal>single</goal>
+								</goals>
+								<configuration>
+									<descriptor>src/assembly/descriptor-bin-exe.xml</descriptor>
+									<finalName>${project.build.finalName}-exe</finalName>
+								</configuration>
+							</execution>
+							<execution>
+								<id>assembly-src</id>
+								<phase>package</phase>
+								<goals>
+									<goal>attached</goal>
+								</goals>
+								<configuration>
+									<descriptor>src/assembly/descriptor-src.xml</descriptor>
+									<finalName>${project.build.finalName}</finalName>
+								</configuration>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+		<profile>
+			<id>build-win-apps</id>
+			<activation>
+				<activeByDefault>false</activeByDefault>
+				<jdk>[1.6,)</jdk>
+			</activation>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>com.akathist.maven.plugins.launch4j</groupId>
+						<artifactId>launch4j-maven-plugin</artifactId>
+						<version>1.5.2</version>
+						<executions>
+							<execution>
+								<id>l4j-small</id>
+								<phase>package</phase>
+								<goals>
+									<goal>launch4j</goal>
+								</goals>
+								<configuration>
+									<headerType>gui</headerType>
+									<outfile>${project.build.directory}/${project.build.finalName}.exe</outfile>
+									<jar>${project.build.directory}/${project.build.finalName}.jar</jar>
+									<errTitle></errTitle>
+									<priority>normal</priority>
+									<downloadUrl>http://java.com/download</downloadUrl>
+									<icon>${project.launch4j.icon}</icon>
+									<classPath>
+										<mainClass>${project.mainClass}</mainClass>
+									</classPath>
+									<jre>
+										<minVersion>${project.launch4j.javaMinVersion}</minVersion>
+									</jre>
+									<versionInfo>
+										<fileVersion>${project.launch4j.version}</fileVersion>
+										<txtFileVersion>${project.launch4j.version}</txtFileVersion>
+										<fileDescription>IQM - Image Analysis Software</fileDescription>
+										<copyright>${project.release.copyright}</copyright>
+										<productVersion>${project.launch4j.version}</productVersion>
+										<txtProductVersion>${project.launch4j.version}</txtProductVersion>
+										<productName>${project.release.name}</productName>
+										<internalName>${project.artifactId}</internalName>
+										<originalFilename>${project.build.finalName}.exe</originalFilename>
+									</versionInfo>
+								</configuration>
+							</execution>
+
+							<execution>
+								<id>l4j-fat-jar</id>
+								<phase>package</phase>
+								<goals>
+									<goal>launch4j</goal>
+								</goals>
+								<configuration>
+									<headerType>gui</headerType>
+									<outfile>${project.build.directory}/${project.build.finalName}-jar-with-dependencies.exe</outfile>
+									<jar>${project.build.directory}/${project.build.finalName}-jar-with-dependencies.jar</jar>
+									<errTitle></errTitle>
+									<priority>normal</priority>
+									<downloadUrl>http://java.com/download</downloadUrl>
+									<icon>${project.launch4j.icon}</icon>
+									<classPath>
+										<mainClass>${project.mainClass}</mainClass>
+									</classPath>
+									<jre>
+										<minVersion>${project.launch4j.javaMinVersion}</minVersion>
+									</jre>
+									<versionInfo>
+										<fileVersion>${project.launch4j.version}</fileVersion>
+										<txtFileVersion>${project.launch4j.version}</txtFileVersion>
+										<fileDescription>IQM - Image Analysis Software</fileDescription>
+										<copyright>${project.release.copyright}</copyright>
+										<productVersion>${project.launch4j.version}</productVersion>
+										<txtProductVersion>${project.launch4j.version}</txtProductVersion>
+										<productName>${project.release.name}</productName>
+										<internalName>${project.artifactId}</internalName>
+										<originalFilename>${project.build.finalName}-jar-with-dependencies.exe</originalFilename>
+									</versionInfo>
+								</configuration>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+		<profile>
+			<id>build-mac-app-1.7+</id>
+			<activation>
+				<activeByDefault>false</activeByDefault>
+				<jdk>[1.7,)</jdk>
+			</activation>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-antrun-plugin</artifactId>
+						<version>1.7</version>
+						<executions>
+							<execution>
+								<id>osx-app-bundle-without-oracle-JRE</id>
+								<phase>package</phase>
+								<configuration>
+									<target>
+										<echo
+											message="${java.vm.vendor}: building application bundle for Sun/Oracle JVM." />
+
+										<taskdef resource="net/sf/antcontrib/antcontrib.properties"
+											classpathref="maven.plugin.classpath" />
+
+										<mkdir dir="${project.build.directory}/mac-oracle" />
+
+										<taskdef name="bundleapp" classname="com.oracle.appbundler.AppBundlerTask"
+											classpath="../lib/appbundler-1.0.jar" />
+
+										<bundleapp outputdirectory="${project.build.directory}/mac-oracle"
+											displayname="${project.osx-bundle.name.oracleJRE}" name="${project.release.name}"
+											identifier="${project.groupId}" shortversion="${project.osx-bundle.version}"
+											icon="${project.osx-bundle.icon}" applicationCategory="public.app-category.utilities"
+											mainclassname="${project.mainClass}" copyright="${project.release.copyright}">
+											<classpath
+												file="${project.build.directory}/${project.build.finalName}.jar" />
+											<classpath file="${project.build.directory}/lib/*.*" />
+										</bundleapp>
+
+										<!-- copy the (possibly empty) plugins directory -->
+										<mkdir
+											dir="${project.build.directory}/mac-oracle/${project.release.name}.app/Contents/Java/plugins" />
+										<copy
+											todir="${project.build.directory}/mac-oracle/${project.release.name}.app/Contents/Java/plugins">
+											<fileset dir="${project.build.directory}/plugins" />
+										</copy>
+
+										<!-- create ZIP for distribution -->
+										<tar
+											destfile="${project.build.directory}/${project.build.finalName}-mac-oracle.tar"
+											longfile="gnu">
+											<tarfileset dir="${project.build.directory}/mac-oracle"
+												filemode="755">
+												<include name="**/**" />
+											</tarfileset>
+										</tar>
+										<zip
+											destfile="${project.build.directory}/${project.build.finalName}-mac-oracle.zip">
+											<tarfileset
+												src="${project.build.directory}/${project.build.finalName}-mac-oracle.tar" />
+										</zip>
+									</target>
+								</configuration>
+								<goals>
+									<goal>run</goal>
+								</goals>
+							</execution>
+						</executions>
+						<dependencies>
+							<dependency>
+								<groupId>ant-contrib</groupId>
+								<artifactId>ant-contrib</artifactId>
+								<version>20020829</version>
+							</dependency>
+						</dependencies>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+		<profile>
+			<id>build-mac-app-jvm-1.7+</id>
+			<activation>
+				<activeByDefault>false</activeByDefault>
+				<jdk>[1.7.0,)</jdk>
+			</activation>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-antrun-plugin</artifactId>
+						<version>1.7</version>
+						<executions>
+							<execution>
+								<id>osx-app-bundle-with-oracle-JRE</id>
+								<phase>package</phase>
+								<configuration>
+									<target>
+										<taskdef resource="net/sf/antcontrib/antcontrib.properties"
+											classpathref="maven.plugin.classpath" />
+
+										<condition property="isMac">
+											<os family="mac" />
+										</condition>
+
+										<condition property="isLionOrLater">
+											<matches string="${os.version}"
+												pattern="^\d\d\.(([7-9])|(\d\d))[\.]*((\d)|(\d\d))*" />
+										</condition>
+
+										<condition property="isOracleJVM">
+											<matches string="${java.vendor}" pattern="(Oracle|oracle)*" />
+										</condition>
+
+										<if>
+											<and>
+												<isset property="isMac" />
+												<isset property="isLionOrLater" />
+												<isset property="isOracleJVM" />
+											</and>
+											<then>
+												<echo
+													message="${java.vm.vendor}: building application bundle for Sun/Oracle JVM including a JRE." />
+
+												<mkdir dir="${project.build.directory}/mac-oracle-jvm" />
+
+												<property environment="env" />
+
+												<taskdef name="bundleapp" classname="com.oracle.appbundler.AppBundlerTask"
+													classpath="../lib/appbundler-1.0.jar" />
+
+												<bundleapp outputdirectory="${project.build.directory}/mac-oracle-jvm"
+													displayname="${project.osx-bundle.name.withOracleJRE}"
+													name="${project.release.name}" identifier="${project.groupId}"
+													shortversion="${project.osx-bundle.version}" icon="${project.osx-bundle.icon}"
+													applicationCategory="public.app-category.utilities"
+													mainclassname="${project.mainClass}" copyright="${project.release.copyright}">
+													<runtime dir="${env.JAVA_HOME}" />
+													<classpath
+														file="${project.build.directory}/${project.build.finalName}.jar" />
+													<classpath file="${project.build.directory}/lib/*.*" />
+												</bundleapp>
+
+												<!-- copy the (possibly empty) plugins directory -->
+												<mkdir
+													dir="${project.build.directory}/mac-oracle-jvm/${project.release.name}.app/Contents/Java/plugins" />
+												<copy
+													todir="${project.build.directory}/mac-oracle-jvm/${project.release.name}.app/Contents/Java/plugins">
+													<fileset dir="${project.build.directory}/plugins" />
+												</copy>
+
+												<!-- create ZIP for distribution -->
+												<tar
+													destfile="${project.build.directory}/${project.build.finalName}-mac-oracle-jvm.tar"
+													longfile="gnu">
+													<tarfileset dir="${project.build.directory}/mac-oracle-jvm"
+														filemode="755">
+														<include name="**/**" />
+													</tarfileset>
+												</tar>
+												<zip
+													destfile="${project.build.directory}/${project.build.finalName}-mac-oracle-jvm.zip">
+													<tarfileset
+														src="${project.build.directory}/${project.build.finalName}-mac-oracle-jvm.tar" />
+												</zip>
+											</then>
+											<else>
+												<echo
+													message="You are using a non-mac system: skipping application bundle for Sun/Oracle JVM including a JRE!" />
+											</else>
+										</if>
+									</target>
+								</configuration>
+								<goals>
+									<goal>run</goal>
+								</goals>
+							</execution>
+						</executions>
+						<dependencies>
+							<dependency>
+								<groupId>ant-contrib</groupId>
+								<artifactId>ant-contrib</artifactId>
+								<version>20020829</version>
+							</dependency>
+						</dependencies>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+		<profile>
+			<id>build-mac-app-1.6</id>
+			<activation>
+				<!-- just build, if the JDK is 1.6 and sources are reqired to be compiled 
+					against 1.6 -->
+				<activeByDefault>false</activeByDefault>
+				<jdk>1.6</jdk>
+			</activation>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-antrun-plugin</artifactId>
+						<version>1.7</version>
+						<executions>
+							<execution>
+								<id>osx-app-bundle-without-apple-JRE</id>
+								<phase>package</phase>
+								<configuration>
+									<target>
+										<echo
+											message="${java.vm.vendor}: building application bundle for Apple JVM." />
+
+										<mkdir dir="${project.build.directory}/mac-apple" />
+
+										<taskdef name="jarbundler" classname="net.sourceforge.jarbundler.JarBundler"
+											classpath="../lib/jarbundler-2.2.0.jar" />
+
+										<jarbundler dir="${project.build.directory}/mac-apple"
+											name="${project.osx-bundle.name.appleJRE}" shortname="${project.release.name}"
+											bundleid="${project.groupId}" version="${project.osx-bundle.version}"
+											icon="${project.osx-bundle.icon}" jvmversion="1.6+"
+											mainclass="${project.mainClass}" verbose="true"
+											stubfile="${project.osx-bundle.stub}">
+											<jarfileset dir="${project.build.directory}/lib">
+												<include name="**/*.*" />
+											</jarfileset>
+											<jarfileset dir="${project.build.directory}">
+												<include name="${project.build.finalName}.jar" />
+											</jarfileset>
+										</jarbundler>
+
+										<!-- copy the (possibly empty) plugins directory -->
+										<mkdir
+											dir="${project.build.directory}/mac-apple/${project.osx-bundle.name.appleJRE}.app/Contents/Resources/Java/plugins" />
+										<copy
+											todir="${project.build.directory}/mac-apple/${project.osx-bundle.name.appleJRE}.app/Contents/Resources/Java/plugins">
+											<fileset dir="${project.build.directory}/plugins" />
+										</copy>
+
+										<!-- create ZIP for distribution -->
+										<tar
+											destfile="${project.build.directory}/${project.build.finalName}-mac-apple.tar"
+											longfile="gnu">
+											<tarfileset dir="${project.build.directory}/mac-apple"
+												filemode="755">
+												<include name="**/**" />
+											</tarfileset>
+										</tar>
+										<zip
+											destfile="${project.build.directory}/${project.build.finalName}-mac-apple.zip">
+											<tarfileset
+												src="${project.build.directory}/${project.build.finalName}-mac-apple.tar" />
+										</zip>
+									</target>
+								</configuration>
+								<goals>
+									<goal>run</goal>
+								</goals>
+							</execution>
+						</executions>
+						<dependencies>
+							<dependency>
+								<groupId>ant-contrib</groupId>
+								<artifactId>ant-contrib</artifactId>
+								<version>20020829</version>
+							</dependency>
+						</dependencies>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+	</profiles>
+</project>

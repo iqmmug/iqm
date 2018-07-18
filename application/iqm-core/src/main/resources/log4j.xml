@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  #%L
+  Project: IQM - Application Core
+  File: log4j.xml
+  
+  $Id$
+  $HeadURL$
+  
+  This file is part of IQM, hereinafter referred to as "this program".
+  %%
+  Copyright (C) 2009 - 2017 Helmut Ahammer, Philipp Kainz
+  %%
+  This program is free software: you can redistribute it and/or modify
+  it under the terms of the GNU General Public License as
+  published by the Free Software Foundation, either version 3 of the
+  License, or (at your option) any later version.
+  
+  This program is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU General Public License for more details.
+  
+  You should have received a copy of the GNU General Public
+  License along with this program.  If not, see
+  <http://www.gnu.org/licenses/gpl-3.0.html>.
+  #L%
+  -->
+
+<!DOCTYPE log4j:configuration PUBLIC "-//APACHE//DTD LOG4J 1.2//EN" "http://logging.apache.org/log4j/1.2/apidocs/org/apache/log4j/xml/doc-files/log4j.dtd">
+<!-- Log-levels: ALL > TRACE > DEBUG > INFO > WARN > ERROR > FATAL > OFF -->
+<!-- 
+	Author: Philipp Kainz 
+-->
+
+<log4j:configuration>
+	<!-- standard console logging -->
+	<appender name="console" class="org.apache.log4j.ConsoleAppender">
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="%d{ISO8601} %-5p [%t] %c{2}:%L - %m%n" />
+		</layout>
+	</appender>
+
+	<!-- daily file logging to ${user.home}/IQM/logs -->
+	<appender name="dailyFile" class="org.apache.log4j.DailyRollingFileAppender">
+		<param name="DatePattern" value="'.'yyyy-MM-dd" />
+		<param name="File" value="${user.home}/IQM/logs/iqm.log" />
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="%d{ISO8601} %-5p [%t] %c{2}:%L - %m%n" />
+		</layout>
+	</appender>
+
+	<!-- error-Logger for the application (excluding libraries). Set log level 
+		to 'info' or lower during development. All loggers inherit from the <root> 
+		element in this document -->
+	<logger name="at.mug.iqm.core">
+		<level value="info" />
+	</logger>
+
+	<!-- error-Logger for the application (excluding libraries). Set log level 
+		to 'info' or lower during development. All loggers inherit from the <root> 
+		element in this document -->
+	<logger name="at.mug.iqm.gui">
+		<level value="debug" />
+	</logger>
+
+	<!--fatal-logger as root logger for the whole application (including libraries) -->
+	<root>
+		<level value="error" />
+
+		<!-- writes to console and file if not alternatively configured -->
+		<appender-ref ref="console" />
+		<appender-ref ref="dailyFile" />
+	</root>
+</log4j:configuration>

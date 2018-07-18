@@ -1,0 +1,61 @@
+// Watershed Demo Macro
+//
+// This demo shows a watersehed segmentation on a graylevel image with
+// a gaussian blur to avoid the natural oversegmentation and with two
+// output display.
+//
+// http://bigwww.epfl.ch/sage/soft/watershed
+// 
+// Daniel Sage
+// Biomecial Imaging Group (BIG)
+// Ecole Polytechnique Federale de Lausanne (EPFL), Lausanne, Switzerland
+//
+// 22 March 2007
+//
+
+// Open an image
+run("Cell Colony (31K)");
+
+// Watershed segmentation by flooding from the level 0 to 170 
+// preceeded by a gaussian blur at 1.0
+// All outputs are generated as example.
+run("Watershed ", "blurring='1.0'   watershed='0 1 0 170 0 1'   display='6 5 4 3 2 1 0' ");
+
+// Description of the arguments of the blurring command
+//
+// argument 1: (mandatory)
+//		Radius of the Gaussian blurring.
+//		Decimal value authorized
+//		0 or less than 0 means no blurring 
+
+// Description of the arguments of the watershed command
+//
+// argument 1: (mandatory)
+//		0 for dark objects on bright background, 1 otherwise
+//
+// argument 2: (mandatory)
+//		0 a neighborhood of 4 pixels, 1 a neighborhood of 8 pixels
+//
+// argument 3: (mandatory) 
+//		minimum level [0..255]		
+//
+// argument 4: (mandatory) 
+//		maximum level [0..255]		
+//
+// argument 5: (mandatory)
+//		1 to show the progression messages, 0 otherwise
+//
+// argument 6: (mandatory)
+//		1 to create an animation, 0 otherwise. Not allowed for image stack.
+
+// Description of the arguments of the display command
+//
+//
+// argument 0..6: (optional) kind of display outputs 
+//		0 for object/background binary image
+//		1 for watershed lines
+//		2 for red overlaid dams
+//		3 for labelized basins
+//		4 for colorized basins
+//		5 for composite image
+//		6 for showing input image of the watershed operation

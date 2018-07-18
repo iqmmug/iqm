@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+	<comment>This is an IQM operator wrapped in an IQM plugin.</comment>
+	<entry key="uid">my.plugins.myOperator.Plugin</entry><!-- This UID identifies 
+		the plugin on the entire classpath at runtime and is used as the action command 
+		for clicking a menu item and launching the operator -->
+	<entry key="name">Simple-Plugin-Template</entry><!-- This name will be used 
+		in the plugin registry -->
+	<entry key="version">0.1</entry><!-- This version is displayed 
+		next to the plugin in the menu -->
+	<entry key="type">image</entry><!-- The type can either be "image" or "plot" 
+		and determines the location of the entry in the plugin menu -->
+</properties>

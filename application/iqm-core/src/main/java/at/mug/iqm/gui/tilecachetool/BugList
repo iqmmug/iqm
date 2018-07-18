@@ -1,0 +1,15 @@
+Bug ID:        0001
+Version:       1.00
+Date:          October 15, 2002
+Submitter:     Mike Pilone
+Description:   TCTool causes Swing applications to freeze up.
+Files:         TCTool.java, Statistics.java
+Status:        Fixed in V1.01 (see code comments)
+
+Bug ID:
+Version:
+Date:
+Submitter:
+Description:
+Files:
+Status:

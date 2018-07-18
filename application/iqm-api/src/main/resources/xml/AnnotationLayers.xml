@@ -1,0 +1,1293 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  #%L
+  Project: IQM - API
+  File: AnnotationLayers.xml
+  
+  $Id$
+  $HeadURL$
+  
+  This file is part of IQM, hereinafter referred to as "this program".
+  %%
+  Copyright (C) 2009 - 2017 Helmut Ahammer, Philipp Kainz
+  %%
+  This program is free software: you can redistribute it and/or modify
+  it under the terms of the GNU General Public License as
+  published by the Free Software Foundation, either version 3 of the
+  License, or (at your option) any later version.
+  
+  This program is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU General Public License for more details.
+  
+  You should have received a copy of the GNU General Public
+  License along with this program.  If not, see
+  <http://www.gnu.org/licenses/gpl-3.0.html>.
+  #L%
+  -->
+
+
+<!-- Author: Philipp Kainz -->
+
+<!-- The root element is a wrapper for the ArrayList of DefaultDrawingLayers -->
+<annotationLayers lastUpdate="2013-02-23T11:12:35.854+02:00" IQMVersion="3.1.0" JavaVersion="1.7.0_45">
+	<annotationLayer id="5e1e23da-35a4-4f59-8865-dc7601b8956d"
+		name="default" zOrder="0" visible="true" selected="true">
+		
+		<!-- the color of the ROIs on the layer -->
+		<color name="DEFAULT_LAYER_COLOR" class="java.awt.Color"> 
+			<colorChannel type="red" class="java.lang.Integer">255</colorChannel>
+			<colorChannel type="green" class="java.lang.Integer">0</colorChannel>
+			<colorChannel type="blue" class="java.lang.Integer">0</colorChannel>
+			<colorChannel type="alpha" class="java.lang.Integer">255</colorChannel>
+		</color>
+		<!-- the stroke of the ROIs on the layer -->
+		<stroke name="DEFAULT_LAYER_STROKE" class="java.awt.BasicStroke">
+			<lineWidth class="java.lang.Float">1.5</lineWidth>
+			<endCap class="java.lang.Integer">0</endCap>
+			<lineJoin class="java.lang.Integer">0</lineJoin>
+			<miterLimit class="java.lang.Float">1.0</miterLimit>
+			<dashArray>
+				<dash order="0" class="java.lang.Float">10.0</dash>
+				<dash order="1" class="java.lang.Float">5.0</dash>
+			</dashArray>
+			<dashPhase class="java.lang.Float">0.0</dashPhase>
+		</stroke>
+		
+		<!-- store the highlighting color of the layer -->
+		<color name="HIGHLIGHT_COLOR" class="java.awt.Color"> 
+			<colorChannel type="red" class="java.lang.Integer">255</colorChannel>
+			<colorChannel type="green" class="java.lang.Integer">255</colorChannel>
+			<colorChannel type="blue" class="java.lang.Integer">255</colorChannel>
+			<colorChannel type="alpha" class="java.lang.Integer">255</colorChannel>
+		</color>
+		<!-- store the default stroke of highlighted shapes of the layer -->
+		<stroke name="HIGHLIGHT_STROKE" class="java.awt.BasicStroke">
+			<lineWidth class="java.lang.Float">1.0</lineWidth>
+			<endCap class="java.lang.Integer">0</endCap>
+			<lineJoin class="java.lang.Integer">0</lineJoin>
+			<miterLimit class="java.lang.Float">1.0</miterLimit>
+			<dashArray/>
+			<dashPhase class="java.lang.Float">0.0</dashPhase>
+		</stroke>
+	
+		<!-- A set of region of interests  -->
+		<roiSet class="at.mug.iqm.api.gui.roi.PointROI"> 
+			<!-- each ID is the index in the list -->
+			<pointRoi id="0"> 
+				<location>
+					<point id="0">
+						<x class="java.lang.Double">10.0</x>
+						<y class="java.lang.Double">200.0</y>
+					</point>
+				</location>
+				<!-- the path of the underlying shape -->
+				<path>
+					<windingRule name="WIND_NON_ZERO" code="1" />
+					<segments count="6">
+						<segment type="SEG_MOVETO" code="0" sequence="0">
+							<point id="0">
+								<x class="java.lang.Double">5.0</x>
+								<y class="java.lang.Double">4.5</y>
+							</point>
+							<point id="1">
+								<x class="java.lang.Double">0.0</x>
+								<y class="java.lang.Double">0.0</y>
+							</point>
+							<point id="2">
+								<x class="java.lang.Double">0.0</x>
+								<y class="java.lang.Double">0.0</y>
+							</point>
+						</segment>
+						<segment type="SEG_CUBICTO" code="3" sequence="1">
+							<point id="0">
+								<x class="java.lang.Double">5.0</x>
+								<y class="java.lang.Double">5.32842712474619</y>
+							</point>
+							<point id="1">
+								<x class="java.lang.Double">4.32842712474619</x>
+								<y class="java.lang.Double">6.0</y>
+							</point>
+							<point id="2">
+								<x class="java.lang.Double">3.5</x>
+								<y class="java.lang.Double">6.0</y>
+							</point>
+						</segment>
+						<segment type="SEG_CUBICTO" code="3" sequence="2">
+							<point id="0">
+								<x class="java.lang.Double">2.67157287525381</x>
+								<y class="java.lang.Double">6.0</y>
+							</point>
+							<point id="1">
+								<x class="java.lang.Double">2.0</x>
+								<y class="java.lang.Double">5.32842712474619</y>
+							</point>
+							<point id="2">
+								<x class="java.lang.Double">2.0</x>
+								<y class="java.lang.Double">4.5</y>
+							</point>
+						</segment>
+						<segment type="SEG_CUBICTO" code="3" sequence="3">
+							<point id="0">
+								<x class="java.lang.Double">2.0</x>
+								<y class="java.lang.Double">3.67157287525381</y>
+							</point>
+							<point id="1">
+								<x class="java.lang.Double">2.67157287525381</x>
+								<y class="java.lang.Double">3.0</y>
+							</point>
+							<point id="2">
+								<x class="java.lang.Double">3.5</x>
+								<y class="java.lang.Double">3.0</y>
+							</point>
+						</segment>
+						<segment type="SEG_CUBICTO" code="3" sequence="4">
+							<point id="0">
+								<x class="java.lang.Double">4.32842712474619</x>
+								<y class="java.lang.Double">3.0</y>
+							</point>
+							<point id="1">
+								<x class="java.lang.Double">5.0</x>
+								<y class="java.lang.Double">3.67157287525381</y>
+							</point>
+							<point id="2">
+								<x class="java.lang.Double">5.0</x>
+								<y class="java.lang.Double">4.5</y>
+							</point>
+						</segment>
+						<segment type="SEG_CLOSE" code="4" sequence="5">
+							<point id="0">
+								<x class="java.lang.Double">0.0</x>
+								<y class="java.lang.Double">0.0</y>
+							</point>
+							<point id="1">
+								<x class="java.lang.Double">0.0</x>
+								<y class="java.lang.Double">0.0</y>
+							</point>
+							<point id="2">
+								<x class="java.lang.Double">0.0</x>
+								<y class="java.lang.Double">0.0</y>
+							</point>
+						</segment>
+					</segments>
+				</path>
+				<!-- the boundaries of the ROI shape -->
+				<bounds>
+					<x class="java.lang.Double">10.0</x>
+					<y class="java.lang.Double">200.0</y>
+					<width class="java.lang.Double">3.0</width>
+					<height class="java.lang.Double">3.0</height>
+				</bounds>
+				<!-- OPTIONAL: store the data as base64 encoded string to be deserialized again.
+					 		   This only works when the same JVM version is used for serialization and deserialization! -->
+				<data encoding="base64">rO0ABXNyAB9hdC5tdWcuaXFtLmFwaS5ndWkucm9pLlBvaW50Uk9JEb6fUs9db+oCAAFMAAhsb2NhdGlvbnQAEExqYXZhL2F3dC9Qb2ludDt4cgAYamF2YXgubWVkaWEuamFpLlJPSVNoYXBl5vd3QEAbY5UDAAB4cgATamF2YXgubWVkaWEuamFpLlJPSSbK6YF/SaEhAwABSQAJdGhyZXNob2xkeHAAAAB/dwEAeHNyABRqYXZhLnV0aWwuTGlua2VkTGlzdAwpU11KYIgiAwAAeHB3BAAAAAFzcgASamF2YS5hd3QuUmVjdGFuZ2xlw7BqBRrKanQCAARJAAZoZWlnaHRJAAV3aWR0aEkAAXhJAAF5eHAAAAADAAAAAwAAAAIAAAADeHhzcgAOamF2YS5hd3QuUG9pbnS2xIpyNH7IJgIAAkkAAXhJAAF5eHAAAAADAAAABA==</data>
+			</pointRoi>
+		</roiSet>
+		<roiSet class="at.mug.iqm.api.gui.roi.RectangleROI">
+			<rectangleRoi id="0">
+				<!-- the area of the ROI shape -->
+				<area units="px^2" class="java.lang.Double">100.0</area>
+				<path>
+					<windingRule name="WIND_NON_ZERO" code="1" />
+					<segments count="6">
+						<segment type="SEG_MOVETO" code="0" sequence="0">
+							<point id="0">
+								<x class="java.lang.Double">0.0</x>
+								<y class="java.lang.Double">0.0</y>
+							</point>
+							<point id="1">
+								<x class="java.lang.Double">0.0</x>
+								<y class="java.lang.Double">0.0</y>
+							</point>
+							<point id="2">
+								<x class="java.lang.Double">0.0</x>
+								<y class="java.lang.Double">0.0</y>
+							</point>
+						</segment>
+						<segment type="SEG_LINETO" code="1" sequence="1">
+							<point id="0">
+								<x class="java.lang.Double">10.0</x>
+								<y class="java.lang.Double">0.0</y>
+							</point>
+							<point id="1">
+								<x class="java.lang.Double">0.0</x>
+								<y class="java.lang.Double">0.0</y>
+							</point>
+							<point id="2">
+								<x class="java.lang.Double">0.0</x>
+								<y class="java.lang.Double">0.0</y>
+							</point>
+						</segment>
+						<segment type="SEG_LINETO" code="1" sequence="2">
+							<point id="0">
+								<x class="java.lang.Double">0.0</x>
+								<y class="java.lang.Double">10.0</y>
+							</point>
+							<point id="1">
+								<x class="java.lang.Double">10.0</x>
+								<y class="java.lang.Double">10.0</y>
+							</point>
+							<point id="2">
+								<x class="java.lang.Double">0.0</x>
+								<y class="java.lang.Double">0.0</y>
+							</point>
+						</segment>
+						<segment type="SEG_LINETO" code="1" sequence="3">
+							<point id="0">
+								<x class="java.lang.Double">0.0</x>
+								<y class="java.lang.Double">10.0</y>
+							</point>
+							<point id="1">
+								<x class="java.lang.Double">0.0</x>
+								<y class="java.lang.Double">0.0</y>
+							</point>
+							<point id="2">
+								<x class="java.lang.Double">0.0</x>
+								<y class="java.lang.Double">0.0</y>
+							</point>
+						</segment>
+						<segment type="SEG_LINETO" code="1" sequence="4">
+							<point id="0">
+								<x class="java.lang.Double">0.0</x>
+								<y class="java.lang.Double">0.0</y>
+							</point>
+							<point id="1">
+								<x class="java.lang.Double">0.0</x>
+								<y class="java.lang.Double">0.0</y>
+							</point>
+							<point id="2">
+								<x class="java.lang.Double">0.0</x>
+								<y class="java.lang.Double">0.0</y>
+							</point>
+						</segment>
+						<segment type="SEG_CLOSE" code="4" sequence="5">
+							<point id="0">
+								<x class="java.lang.Double">0.0</x>
+								<y class="java.lang.Double">0.0</y>
+							</point>
+							<point id="1">
+								<x class="java.lang.Double">0.0</x>
+								<y class="java.lang.Double">0.0</y>
+							</point>
+							<point id="2">
+								<x class="java.lang.Double">0.0</x>
+								<y class="java.lang.Double">0.0</y>
+							</point>
+						</segment>
+					</segments>
+				</path>
+				<bounds>
+					<x class="java.lang.Double">0.0</x>
+					<y class="java.lang.Double">0.0</y>
+					<width class="java.lang.Double">10.0</width>
+					<height class="java.lang.Double">10.0</height>
+				</bounds>
+				<data encoding="base64">rO0ABXNyACNhdC5tdWcuaXFtLmFwaS5ndWkucm9pLlJlY3RhbmdsZVJPScdLb3RswSPMAgABRAAEYXJlYXhyABhqYXZheC5tZWRpYS5qYWkuUk9JU2hhcGXm93dAQBtjlQMAAHhyABNqYXZheC5tZWRpYS5qYWkuUk9JJsrpgX9JoSEDAAFJAAl0aHJlc2hvbGR4cAAAAH93AQB4c3IAFGphdmEudXRpbC5MaW5rZWRMaXN0DClTXUpgiCIDAAB4cHcEAAAAAXNyABJqYXZhLmF3dC5SZWN0YW5nbGXDsGoFGspqdAIABEkABmhlaWdodEkABXdpZHRoSQABeEkAAXl4cAAAAAoAAAAKAAAAAAAAAAB4eEBZAAAAAAAA</data>
+			</rectangleRoi>
+		</roiSet>
+		<roiSet class="at.mug.iqm.api.gui.roi.AngleROI"> 
+			<angleRoi id="0">
+				<legs>
+					<!-- the length of the first leg -->
+					<lineSegment type="firstLeg">
+						<length units="px" class="java.lang.Double">14.142135623730951</length>
+					</lineSegment>
+					<!-- the length of the second leg -->
+					<lineSegment type="secondLeg">
+						<length units="px" class="java.lang.Double">10.0</length>
+					</lineSegment>
+				</legs>
+				<angles>
+					<!-- the enclosing angle -->
+					<angle type="enclosing" units="degree" class="java.lang.Double">45.0</angle>
+					<!-- the complementary angle to 360 degrees -->
+					<angle type="complementary" units="degree" class="java.lang.Double">315.0</angle>
+				</angles>
+				<path>
+					<windingRule name="WIND_NON_ZERO" code="1" />
+					<segments count="3">
+						<segment type="SEG_MOVETO" code="0" sequence="0">
+							<point id="0">
+								<x class="java.lang.Double">0.0</x>
+								<y class="java.lang.Double">0.0</y>
+							</point>
+							<point id="1">
+								<x class="java.lang.Double">0.0</x>
+								<y class="java.lang.Double">0.0</y>
+							</point>
+							<point id="2">
+								<x class="java.lang.Double">0.0</x>
+								<y class="java.lang.Double">0.0</y>
+							</point>
+						</segment>
+						<segment type="SEG_LINETO" code="1" sequence="1">
+							<point id="0">
+								<x class="java.lang.Double">10.0</x>
+								<y class="java.lang.Double">10.0</y>
+							</point>
+							<point id="1">
+								<x class="java.lang.Double">0.0</x>
+								<y class="java.lang.Double">0.0</y>
+							</point>
+							<point id="2">
+								<x class="java.lang.Double">0.0</x>
+								<y class="java.lang.Double">0.0</y>
+							</point>
+						</segment>
+						<segment type="SEG_LINETO" code="1" sequence="2">
+							<point id="0">
+								<x class="java.lang.Double">0.0</x>
+								<y class="java.lang.Double">10.0</y>
+							</point>
+							<point id="1">
+								<x class="java.lang.Double">10.0</x>
+								<y class="java.lang.Double">10.0</y>
+							</point>
+							<point id="2">
+								<x class="java.lang.Double">0.0</x>
+								<y class="java.lang.Double">0.0</y>
+							</point>
+						</segment>
+					</segments>
+				</path>
+				<bounds>
+					<x class="java.lang.Double">0.0</x>
+					<y class="java.lang.Double">0.0</y>
+					<width class="java.lang.Double">10.0</width>
+					<height class="java.lang.Double">10.0</height>
+				</bounds>
+				<data encoding="base64">rO0ABXNyAB9hdC5tdWcuaXFtLmFwaS5ndWkucm9pLkFuZ2xlUk9JE2twnEFbmIICAAREAApsYXJnZUFuZ2xlRAAObGVuZ3RoRmlyc3RMZWdEAA9sZW5ndGhTZWNvbmRMZWdEAApzbWFsbEFuZ2xleHIAGGphdmF4Lm1lZGlhLmphaS5ST0lTaGFwZeb3d0BAG2OVAwAAeHIAE2phdmF4Lm1lZGlhLmphaS5ST0kmyumBf0mhIQMAAUkACXRocmVzaG9sZHhwAAAAf3cBAHhzcgAUamF2YS51dGlsLkxpbmtlZExpc3QMKVNdSmCIIgMAAHhwdwQAAAAKc3IAEmphdmEuYXd0LlJlY3RhbmdsZcOwagUaymp0AgAESQAGaGVpZ2h0SQAFd2lkdGhJAAF4SQABeXhwAAAAAQAAAAEAAAAAAAAAAHNxAH4ABgAAAAEAAAACAAAAAAAAAAFzcQB+AAYAAAABAAAAAwAAAAAAAAACc3EAfgAGAAAAAQAAAAQAAAAAAAAAA3NxAH4ABgAAAAEAAAAFAAAAAAAAAARzcQB+AAYAAAABAAAABgAAAAAAAAAFc3EAfgAGAAAAAQAAAAcAAAAAAAAABnNxAH4ABgAAAAEAAAAIAAAAAAAAAAdzcQB+AAYAAAABAAAACQAAAAAAAAAIc3EAfgAGAAAAAQAAAAoAAAAAAAAACXh4QHOwAAAAAABALEjGAB8KwEAkAAAAAAAAQEaAAAAAAAE=</data>
+			</angleRoi>
+		</roiSet>
+		<roiSet class="at.mug.iqm.api.gui.roi.EllipseROI">
+			<ellipseRoi id="0">
+				<area units="px^2" class="java.lang.Double">3926.9908169872415</area>
+				<path>
+					<windingRule name="WIND_NON_ZERO" code="1" />
+					<segments count="6">
+						<segment type="SEG_MOVETO" code="0" sequence="0">
+							<point id="0">
+								<x class="java.lang.Double">100.0</x>
+								<y class="java.lang.Double">25.0</y>
+							</point>
+							<point id="1">
+								<x class="java.lang.Double">0.0</x>
+								<y class="java.lang.Double">0.0</y>
+							</point>
+							<point id="2">
+								<x class="java.lang.Double">0.0</x>
+								<y class="java.lang.Double">0.0</y>
+							</point>
+						</segment>
+						<segment type="SEG_CUBICTO" code="3" sequence="1">
+							<point id="0">
+								<x class="java.lang.Double">100.0</x>
+								<y class="java.lang.Double">38.80711874576983</y>
+							</point>
+							<point id="1">
+								<x class="java.lang.Double">77.61423749153965</x>
+								<y class="java.lang.Double">50.0</y>
+							</point>
+							<point id="2">
+								<x class="java.lang.Double">50.0</x>
+								<y class="java.lang.Double">50.0</y>
+							</point>
+						</segment>
+						<segment type="SEG_CUBICTO" code="3" sequence="2">
+							<point id="0">
+								<x class="java.lang.Double">22.38576250846033</x>
+								<y class="java.lang.Double">50.0</y>
+							</point>
+							<point id="1">
+								<x class="java.lang.Double">0.0</x>
+								<y class="java.lang.Double">38.80711874576983</y>
+							</point>
+							<point id="2">
+								<x class="java.lang.Double">0.0</x>
+								<y class="java.lang.Double">25.0</y>
+							</point>
+						</segment>
+						<segment type="SEG_CUBICTO" code="3" sequence="3">
+							<point id="0">
+								<x class="java.lang.Double">0.0</x>
+								<y class="java.lang.Double">11.192881254230166</y>
+							</point>
+							<point id="1">
+								<x class="java.lang.Double">22.38576250846033</x>
+								<y class="java.lang.Double">0.0</y>
+							</point>
+							<point id="2">
+								<x class="java.lang.Double">50.0</x>
+								<y class="java.lang.Double">0.0</y>
+							</point>
+						</segment>
+						<segment type="SEG_CUBICTO" code="3" sequence="4">
+							<point id="0">
+								<x class="java.lang.Double">77.61423749153965</x>
+								<y class="java.lang.Double">0.0</y>
+							</point>
+							<point id="1">
+								<x class="java.lang.Double">100.0</x>
+								<y class="java.lang.Double">11.192881254230166</y>
+							</point>
+							<point id="2">
+								<x class="java.lang.Double">100.0</x>
+								<y class="java.lang.Double">25.0</y>
+							</point>
+						</segment>
+						<segment type="SEG_CLOSE" code="4" sequence="5">
+							<point id="0">
+								<x class="java.lang.Double">0.0</x>
+								<y class="java.lang.Double">0.0</y>
+							</point>
+							<point id="1">
+								<x class="java.lang.Double">0.0</x>
+								<y class="java.lang.Double">0.0</y>
+							</point>
+							<point id="2">
+								<x class="java.lang.Double">0.0</x>
+								<y class="java.lang.Double">0.0</y>
+							</point>
+						</segment>
+					</segments>
+				</path>
+				<bounds>
+					<x class="java.lang.Double">0.0</x>
+					<y class="java.lang.Double">0.0</y>
+					<width class="java.lang.Double">100.0</width>
+					<height class="java.lang.Double">50.0</height>
+				</bounds>
+				<data encoding="base64">rO0ABXNyACFhdC5tdWcuaXFtLmFwaS5ndWkucm9pLkVsbGlwc2VST0mIVERjBv+voAIAAUQABGFyZWF4cgAYamF2YXgubWVkaWEuamFpLlJPSVNoYXBl5vd3QEAbY5UDAAB4cgATamF2YXgubWVkaWEuamFpLlJPSSbK6YF/SaEhAwABSQAJdGhyZXNob2xkeHAAAAB/dwEAeHNyABRqYXZhLnV0aWwuTGlua2VkTGlzdAwpU11KYIgiAwAAeHB3BAAAAChzcgASamF2YS5hd3QuUmVjdGFuZ2xlw7BqBRrKanQCAARJAAZoZWlnaHRJAAV3aWR0aEkAAXhJAAF5eHAAAAABAAAAFAAAACgAAAAAc3EAfgAGAAAAAQAAACIAAAAhAAAAAXNxAH4ABgAAAAEAAAAsAAAAHAAAAAJzcQB+AAYAAAABAAAAMwAAABkAAAADc3EAfgAGAAAAAQAAADoAAAAVAAAABHNxAH4ABgAAAAEAAAA+AAAAEwAAAAVzcQB+AAYAAAABAAAARAAAABAAAAAGc3EAfgAGAAAAAQAAAEgAAAAOAAAAB3NxAH4ABgAAAAEAAABMAAAADAAAAAhzcQB+AAYAAAABAAAATgAAAAsAAAAJc3EAfgAGAAAAAQAAAFIAAAAJAAAACnNxAH4ABgAAAAEAAABUAAAACAAAAAtzcQB+AAYAAAABAAAAVgAAAAcAAAAMc3EAfgAGAAAAAQAAAFgAAAAGAAAADXNxAH4ABgAAAAEAAABaAAAABQAAAA5zcQB+AAYAAAABAAAAXAAAAAQAAAAPc3EAfgAGAAAAAQAAAF4AAAADAAAAEHNxAH4ABgAAAAIAAABgAAAAAgAAABFzcQB+AAYAAAACAAAAYgAAAAEAAAATc3EAfgAGAAAAAQAAAGMAAAABAAAAFXNxAH4ABgAAAAcAAABkAAAAAAAAABZzcQB+AAYAAAACAAAAYgAAAAEAAAAdc3EAfgAGAAAAAgAAAGAAAAACAAAAH3NxAH4ABgAAAAEAAABeAAAAAwAAACFzcQB+AAYAAAABAAAAXAAAAAQAAAAic3EAfgAGAAAAAQAAAFoAAAAFAAAAI3NxAH4ABgAAAAEAAABYAAAABgAAACRzcQB+AAYAAAABAAAAVgAAAAcAAAAlc3EAfgAGAAAAAQAAAFQAAAAIAAAAJnNxAH4ABgAAAAEAAABSAAAACQAAACdzcQB+AAYAAAABAAAATgAAAAsAAAAoc3EAfgAGAAAAAQAAAEwAAAAMAAAAKXNxAH4ABgAAAAEAAABIAAAADgAAACpzcQB+AAYAAAABAAAARAAAABAAAAArc3EAfgAGAAAAAQAAAD4AAAATAAAALHNxAH4ABgAAAAEAAAA6AAAAFQAAAC1zcQB+AAYAAAABAAAAMwAAABkAAAAuc3EAfgAGAAAAAQAAACwAAAAcAAAAL3NxAH4ABgAAAAEAAAAiAAAAIQAAADBzcQB+AAYAAAABAAAAFAAAACgAAAAxeHhArq37TF05DA==</data>
+			</ellipseRoi>
+		</roiSet>
+		<roiSet class="at.mug.iqm.api.gui.roi.FreehandROI">
+			<freehandRoi id="0">
+				<path>
+					<windingRule name="WIND_NON_ZERO" code="1" />
+					<segments count="4">
+						<segment type="SEG_MOVETO" code="0" sequence="0">
+							<point id="0">
+								<x class="java.lang.Double">0.0</x>
+								<y class="java.lang.Double">0.0</y>
+							</point>
+							<point id="1">
+								<x class="java.lang.Double">0.0</x>
+								<y class="java.lang.Double">0.0</y>
+							</point>
+							<point id="2">
+								<x class="java.lang.Double">0.0</x>
+								<y class="java.lang.Double">0.0</y>
+							</point>
+						</segment>
+						<segment type="SEG_LINETO" code="1" sequence="1">
+							<point id="0">
+								<x class="java.lang.Double">10.0</x>
+								<y class="java.lang.Double">10.0</y>
+							</point>
+							<point id="1">
+								<x class="java.lang.Double">0.0</x>
+								<y class="java.lang.Double">0.0</y>
+							</point>
+							<point id="2">
+								<x class="java.lang.Double">0.0</x>
+								<y class="java.lang.Double">0.0</y>
+							</point>
+						</segment>
+						<segment type="SEG_LINETO" code="1" sequence="2">
+							<point id="0">
+								<x class="java.lang.Double">0.0</x>
+								<y class="java.lang.Double">10.0</y>
+							</point>
+							<point id="1">
+								<x class="java.lang.Double">0.0</x>
+								<y class="java.lang.Double">0.0</y>
+							</point>
+							<point id="2">
+								<x class="java.lang.Double">0.0</x>
+								<y class="java.lang.Double">0.0</y>
+							</point>
+						</segment>
+						<segment type="SEG_CLOSE" code="4" sequence="3">
+							<point id="0">
+								<x class="java.lang.Double">0.0</x>
+								<y class="java.lang.Double">0.0</y>
+							</point>
+							<point id="1">
+								<x class="java.lang.Double">0.0</x>
+								<y class="java.lang.Double">0.0</y>
+							</point>
+							<point id="2">
+								<x class="java.lang.Double">0.0</x>
+								<y class="java.lang.Double">0.0</y>
+							</point>
+						</segment>
+					</segments>
+				</path>
+				<bounds>
+					<x class="java.lang.Double">0.0</x>
+					<y class="java.lang.Double">0.0</y>
+					<width class="java.lang.Double">10.0</width>
+					<height class="java.lang.Double">10.0</height>
+				</bounds>
+				<data encoding="base64">rO0ABXNyACJhdC5tdWcuaXFtLmFwaS5ndWkucm9pLkZyZWVoYW5kUk9JL/uWTiMCRw8CAAFaAAZjbG9zZWR4cgAYamF2YXgubWVkaWEuamFpLlJPSVNoYXBl5vd3QEAbY5UDAAB4cgATamF2YXgubWVkaWEuamFpLlJPSSbK6YF/SaEhAwABSQAJdGhyZXNob2xkeHAAAAB/dwEAeHNyABRqYXZhLnV0aWwuTGlua2VkTGlzdAwpU11KYIgiAwAAeHB3BAAAAApzcgASamF2YS5hd3QuUmVjdGFuZ2xlw7BqBRrKanQCAARJAAZoZWlnaHRJAAV3aWR0aEkAAXhJAAF5eHAAAAABAAAAAQAAAAAAAAAAc3EAfgAGAAAAAQAAAAIAAAAAAAAAAXNxAH4ABgAAAAEAAAADAAAAAAAAAAJzcQB+AAYAAAABAAAABAAAAAAAAAADc3EAfgAGAAAAAQAAAAUAAAAAAAAABHNxAH4ABgAAAAEAAAAGAAAAAAAAAAVzcQB+AAYAAAABAAAABwAAAAAAAAAGc3EAfgAGAAAAAQAAAAgAAAAAAAAAB3NxAH4ABgAAAAEAAAAJAAAAAAAAAAhzcQB+AAYAAAABAAAACgAAAAAAAAAJeHgA</data>
+			</freehandRoi>
+		</roiSet>
+		<roiSet class="at.mug.iqm.api.gui.roi.LineROI">
+			<lineRoi id="0">
+				<point id="startPoint">
+					<x class="java.lang.Double">0.0</x>
+					<y class="java.lang.Double">0.0</y>
+				</point>
+				<point id="endPoint">
+					<x class="java.lang.Double">10.0</x>
+					<y class="java.lang.Double">10.0</y>
+				</point>
+				<lineSegment>
+					<length units="px" class="java.lang.Double">14.142135623730951</length>
+				</lineSegment>
+				<path>
+					<windingRule name="WIND_NON_ZERO" code="1" />
+					<segments count="2">
+						<segment type="SEG_MOVETO" code="0" sequence="0">
+							<point id="0">
+								<x class="java.lang.Double">0.0</x>
+								<y class="java.lang.Double">0.0</y>
+							</point>
+							<point id="1">
+								<x class="java.lang.Double">0.0</x>
+								<y class="java.lang.Double">0.0</y>
+							</point>
+							<point id="2">
+								<x class="java.lang.Double">0.0</x>
+								<y class="java.lang.Double">0.0</y>
+							</point>
+						</segment>
+						<segment type="SEG_LINETO" code="1" sequence="1">
+							<point id="0">
+								<x class="java.lang.Double">10.0</x>
+								<y class="java.lang.Double">10.0</y>
+							</point>
+							<point id="1">
+								<x class="java.lang.Double">0.0</x>
+								<y class="java.lang.Double">0.0</y>
+							</point>
+							<point id="2">
+								<x class="java.lang.Double">0.0</x>
+								<y class="java.lang.Double">0.0</y>
+							</point>
+						</segment>
+					</segments>
+				</path>
+				<bounds>
+					<x class="java.lang.Double">0.0</x>
+					<y class="java.lang.Double">0.0</y>
+					<width class="java.lang.Double">10.0</width>
+					<height class="java.lang.Double">0.0</height>
+				</bounds>
+				<data encoding="base64">rO0ABXNyACJhdC5tdWcuaXFtLmFwaS5ndWkucm9pLkZyZWVoYW5kUk9JL/uWTiMCRw8CAAFaAAZjbG9zZWR4cgAYamF2YXgubWVkaWEuamFpLlJPSVNoYXBl5vd3QEAbY5UDAAB4cgATamF2YXgubWVkaWEuamFpLlJPSSbK6YF/SaEhAwABSQAJdGhyZXNob2xkeHAAAAB/dwEAeHNyABRqYXZhLnV0aWwuTGlua2VkTGlzdAwpU11KYIgiAwAAeHB3BAAAAApzcgASamF2YS5hd3QuUmVjdGFuZ2xlw7BqBRrKanQCAARJAAZoZWlnaHRJAAV3aWR0aEkAAXhJAAF5eHAAAAABAAAAAQAAAAAAAAAAc3EAfgAGAAAAAQAAAAIAAAAAAAAAAXNxAH4ABgAAAAEAAAADAAAAAAAAAAJzcQB+AAYAAAABAAAABAAAAAAAAAADc3EAfgAGAAAAAQAAAAUAAAAAAAAABHNxAH4ABgAAAAEAAAAGAAAAAAAAAAVzcQB+AAYAAAABAAAABwAAAAAAAAAGc3EAfgAGAAAAAQAAAAgAAAAAAAAAB3NxAH4ABgAAAAEAAAAJAAAAAAAAAAhzcQB+AAYAAAABAAAACgAAAAAAAAAJeHgA</data>
+			</lineRoi>
+		</roiSet>
+		<roiSet class="at.mug.iqm.api.gui.roi.PolygonROI">
+			<polygonRoi id="0">
+				<path>
+					<windingRule name="WIND_NON_ZERO" code="1" />
+					<segments count="4">
+						<segment type="SEG_MOVETO" code="0" sequence="0">
+							<point id="0">
+								<x class="java.lang.Double">0.0</x>
+								<y class="java.lang.Double">0.0</y>
+							</point>
+							<point id="1">
+								<x class="java.lang.Double">0.0</x>
+								<y class="java.lang.Double">0.0</y>
+							</point>
+							<point id="2">
+								<x class="java.lang.Double">0.0</x>
+								<y class="java.lang.Double">0.0</y>
+							</point>
+						</segment>
+						<segment type="SEG_LINETO" code="1" sequence="1">
+							<point id="0">
+								<x class="java.lang.Double">10.0</x>
+								<y class="java.lang.Double">10.0</y>
+							</point>
+							<point id="1">
+								<x class="java.lang.Double">0.0</x>
+								<y class="java.lang.Double">0.0</y>
+							</point>
+							<point id="2">
+								<x class="java.lang.Double">0.0</x>
+								<y class="java.lang.Double">0.0</y>
+							</point>
+						</segment>
+						<segment type="SEG_LINETO" code="1" sequence="2">
+							<point id="0">
+								<x class="java.lang.Double">0.0</x>
+								<y class="java.lang.Double">10.0</y>
+							</point>
+							<point id="1">
+								<x class="java.lang.Double">0.0</x>
+								<y class="java.lang.Double">0.0</y>
+							</point>
+							<point id="2">
+								<x class="java.lang.Double">0.0</x>
+								<y class="java.lang.Double">0.0</y>
+							</point>
+						</segment>
+						<segment type="SEG_CLOSE" code="4" sequence="3">
+							<point id="0">
+								<x class="java.lang.Double">0.0</x>
+								<y class="java.lang.Double">0.0</y>
+							</point>
+							<point id="1">
+								<x class="java.lang.Double">0.0</x>
+								<y class="java.lang.Double">0.0</y>
+							</point>
+							<point id="2">
+								<x class="java.lang.Double">0.0</x>
+								<y class="java.lang.Double">0.0</y>
+							</point>
+						</segment>
+					</segments>
+				</path>
+				<bounds>
+					<x class="java.lang.Double">0.0</x>
+					<y class="java.lang.Double">0.0</y>
+					<width class="java.lang.Double">10.0</width>
+					<height class="java.lang.Double">10.0</height>
+				</bounds>
+				<data encoding="base64">rO0ABXNyACFhdC5tdWcuaXFtLmFwaS5ndWkucm9pLlBvbHlnb25ST0kTa3CcPvk+ggIAAVoABmNsb3NlZHhyABhqYXZheC5tZWRpYS5qYWkuUk9JU2hhcGXm93dAQBtjlQMAAHhyABNqYXZheC5tZWRpYS5qYWkuUk9JJsrpgX9JoSEDAAFJAAl0aHJlc2hvbGR4cAAAAH93AQB4c3IAFGphdmEudXRpbC5MaW5rZWRMaXN0DClTXUpgiCIDAAB4cHcEAAAACnNyABJqYXZhLmF3dC5SZWN0YW5nbGXDsGoFGspqdAIABEkABmhlaWdodEkABXdpZHRoSQABeEkAAXl4cAAAAAEAAAABAAAAAAAAAABzcQB+AAYAAAABAAAAAgAAAAAAAAABc3EAfgAGAAAAAQAAAAMAAAAAAAAAAnNxAH4ABgAAAAEAAAAEAAAAAAAAAANzcQB+AAYAAAABAAAABQAAAAAAAAAEc3EAfgAGAAAAAQAAAAYAAAAAAAAABXNxAH4ABgAAAAEAAAAHAAAAAAAAAAZzcQB+AAYAAAABAAAACAAAAAAAAAAHc3EAfgAGAAAAAQAAAAkAAAAAAAAACHNxAH4ABgAAAAEAAAAKAAAAAAAAAAl4eAA=</data>
+			</polygonRoi>
+		</roiSet>
+	</annotationLayer>
+	<annotationLayer id="5e1e23da-35f4-4f59-8865-dc7601b8956d"
+		name="Layer 1" zOrder="1" visible="true" selected="false">
+		
+		<!-- the color of the ROIs on the layer -->
+		<color name="DEFAULT_LAYER_COLOR" class="java.awt.Color"> 
+			<colorChannel type="red" class="java.lang.Integer">255</colorChannel>
+			<colorChannel type="green" class="java.lang.Integer">0</colorChannel>
+			<colorChannel type="blue" class="java.lang.Integer">0</colorChannel>
+			<colorChannel type="alpha" class="java.lang.Integer">255</colorChannel>
+		</color>
+		<!-- the stroke of the ROIs on the layer -->
+		<stroke name="DEFAULT_LAYER_STROKE" class="java.awt.BasicStroke">
+			<lineWidth class="java.lang.Float">1.5</lineWidth>
+			<endCap class="java.lang.Integer">0</endCap>
+			<lineJoin class="java.lang.Integer">0</lineJoin>
+			<miterLimit class="java.lang.Float">1.0</miterLimit>
+			<dashArray>
+				<dash order="0" class="java.lang.Float">10</dash>
+				<dash order="1" class="java.lang.Float">5</dash>
+			</dashArray>
+			<dashPhase class="java.lang.Float">0.0</dashPhase>
+		</stroke>
+		
+		<!-- store the highlighting color of the layer -->
+		<color name="HIGHLIGHT_COLOR" class="java.awt.Color"> 
+			<colorChannel type="red" class="java.lang.Integer">255</colorChannel>
+			<colorChannel type="green" class="java.lang.Integer">255</colorChannel>
+			<colorChannel type="blue" class="java.lang.Integer">255</colorChannel>
+			<colorChannel type="alpha" class="java.lang.Integer">255</colorChannel>
+		</color>
+		<!-- store the default stroke of highlighted shapes of the layer -->
+		<stroke name="HIGHLIGHT_STROKE" class="java.awt.BasicStroke">
+			<lineWidth class="java.lang.Float">1.0</lineWidth>
+			<endCap class="java.lang.Integer">0</endCap>
+			<lineJoin class="java.lang.Integer">0</lineJoin>
+			<miterLimit class="java.lang.Float">1.0</miterLimit>
+			<dashArray/>
+			<dashPhase class="java.lang.Float">0.0</dashPhase>
+		</stroke>
+	
+		<!-- A set of region of interests  -->
+		<roiSet class="at.mug.iqm.api.gui.roi.PointROI"> 
+			<!-- each ID is the index in the list -->
+			<pointRoi id="0"> 
+				<location>
+					<point id="0">
+						<x class="java.lang.Double">10.0</x>
+						<y class="java.lang.Double">200.0</y>
+					</point>
+				</location>
+				<!-- the path of the underlying shape -->
+				<path>
+					<windingRule name="WIND_NON_ZERO" code="1" />
+					<segments count="6">
+						<segment type="SEG_MOVETO" code="0" sequence="0">
+							<point id="0">
+								<x class="java.lang.Double">5.0</x>
+								<y class="java.lang.Double">4.5</y>
+							</point>
+							<point id="1">
+								<x class="java.lang.Double">0.0</x>
+								<y class="java.lang.Double">0.0</y>
+							</point>
+							<point id="2">
+								<x class="java.lang.Double">0.0</x>
+								<y class="java.lang.Double">0.0</y>
+							</point>
+						</segment>
+						<segment type="SEG_CUBICTO" code="3" sequence="1">
+							<point id="0">
+								<x class="java.lang.Double">5.0</x>
+								<y class="java.lang.Double">5.32842712474619</y>
+							</point>
+							<point id="1">
+								<x class="java.lang.Double">4.32842712474619</x>
+								<y class="java.lang.Double">6.0</y>
+							</point>
+							<point id="2">
+								<x class="java.lang.Double">3.5</x>
+								<y class="java.lang.Double">6.0</y>
+							</point>
+						</segment>
+						<segment type="SEG_CUBICTO" code="3" sequence="2">
+							<point id="0">
+								<x class="java.lang.Double">2.67157287525381</x>
+								<y class="java.lang.Double">6.0</y>
+							</point>
+							<point id="1">
+								<x class="java.lang.Double">2.0</x>
+								<y class="java.lang.Double">5.32842712474619</y>
+							</point>
+							<point id="2">
+								<x class="java.lang.Double">2.0</x>
+								<y class="java.lang.Double">4.5</y>
+							</point>
+						</segment>
+						<segment type="SEG_CUBICTO" code="3" sequence="3">
+							<point id="0">
+								<x class="java.lang.Double">2.0</x>
+								<y class="java.lang.Double">3.67157287525381</y>
+							</point>
+							<point id="1">
+								<x class="java.lang.Double">2.67157287525381</x>
+								<y class="java.lang.Double">3.0</y>
+							</point>
+							<point id="2">
+								<x class="java.lang.Double">3.5</x>
+								<y class="java.lang.Double">3.0</y>
+							</point>
+						</segment>
+						<segment type="SEG_CUBICTO" code="3" sequence="4">
+							<point id="0">
+								<x class="java.lang.Double">4.32842712474619</x>
+								<y class="java.lang.Double">3.0</y>
+							</point>
+							<point id="1">
+								<x class="java.lang.Double">5.0</x>
+								<y class="java.lang.Double">3.67157287525381</y>
+							</point>
+							<point id="2">
+								<x class="java.lang.Double">5.0</x>
+								<y class="java.lang.Double">4.5</y>
+							</point>
+						</segment>
+						<segment type="SEG_CLOSE" code="4" sequence="5">
+							<point id="0">
+								<x class="java.lang.Double">0.0</x>
+								<y class="java.lang.Double">0.0</y>
+							</point>
+							<point id="1">
+								<x class="java.lang.Double">0.0</x>
+								<y class="java.lang.Double">0.0</y>
+							</point>
+							<point id="2">
+								<x class="java.lang.Double">0.0</x>
+								<y class="java.lang.Double">0.0</y>
+							</point>
+						</segment>
+					</segments>
+				</path>
+				<!-- the boundaries of the ROI shape -->
+				<bounds>
+					<x class="java.lang.Double">10.0</x>
+					<y class="java.lang.Double">200.0</y>
+					<width class="java.lang.Double">3.0</width>
+					<height class="java.lang.Double">3.0</height>
+				</bounds>
+				<!-- OPTIONAL: store the data as base64 encoded string to be deserialized again.
+					 		   This only works when the same JVM version is used for serialization and deserialization! -->
+				<data encoding="base64">rO0ABXNyAB9hdC5tdWcuaXFtLmFwaS5ndWkucm9pLlBvaW50Uk9JEb6fUs9db+oCAAFMAAhsb2NhdGlvbnQAEExqYXZhL2F3dC9Qb2ludDt4cgAYamF2YXgubWVkaWEuamFpLlJPSVNoYXBl5vd3QEAbY5UDAAB4cgATamF2YXgubWVkaWEuamFpLlJPSSbK6YF/SaEhAwABSQAJdGhyZXNob2xkeHAAAAB/dwEAeHNyABRqYXZhLnV0aWwuTGlua2VkTGlzdAwpU11KYIgiAwAAeHB3BAAAAAFzcgASamF2YS5hd3QuUmVjdGFuZ2xlw7BqBRrKanQCAARJAAZoZWlnaHRJAAV3aWR0aEkAAXhJAAF5eHAAAAADAAAAAwAAAAIAAAADeHhzcgAOamF2YS5hd3QuUG9pbnS2xIpyNH7IJgIAAkkAAXhJAAF5eHAAAAADAAAABA==</data>
+			</pointRoi>
+		</roiSet>
+		<roiSet class="at.mug.iqm.api.gui.roi.RectangleROI">
+			<rectangleRoi id="0">
+				<!-- the area of the ROI shape -->
+				<area units="px^2" class="java.lang.Double">100.0</area>
+				<path>
+					<windingRule name="WIND_NON_ZERO" code="1" />
+					<segments count="6">
+						<segment type="SEG_MOVETO" code="0" sequence="0">
+							<point id="0">
+								<x class="java.lang.Double">0.0</x>
+								<y class="java.lang.Double">0.0</y>
+							</point>
+							<point id="1">
+								<x class="java.lang.Double">0.0</x>
+								<y class="java.lang.Double">0.0</y>
+							</point>
+							<point id="2">
+								<x class="java.lang.Double">0.0</x>
+								<y class="java.lang.Double">0.0</y>
+							</point>
+						</segment>
+						<segment type="SEG_LINETO" code="1" sequence="1">
+							<point id="0">
+								<x class="java.lang.Double">10.0</x>
+								<y class="java.lang.Double">0.0</y>
+							</point>
+							<point id="1">
+								<x class="java.lang.Double">0.0</x>
+								<y class="java.lang.Double">0.0</y>
+							</point>
+							<point id="2">
+								<x class="java.lang.Double">0.0</x>
+								<y class="java.lang.Double">0.0</y>
+							</point>
+						</segment>
+						<segment type="SEG_LINETO" code="1" sequence="2">
+							<point id="0">
+								<x class="java.lang.Double">0.0</x>
+								<y class="java.lang.Double">10.0</y>
+							</point>
+							<point id="1">
+								<x class="java.lang.Double">10.0</x>
+								<y class="java.lang.Double">10.0</y>
+							</point>
+							<point id="2">
+								<x class="java.lang.Double">0.0</x>
+								<y class="java.lang.Double">0.0</y>
+							</point>
+						</segment>
+						<segment type="SEG_LINETO" code="1" sequence="3">
+							<point id="0">
+								<x class="java.lang.Double">0.0</x>
+								<y class="java.lang.Double">10.0</y>
+							</point>
+							<point id="1">
+								<x class="java.lang.Double">0.0</x>
+								<y class="java.lang.Double">0.0</y>
+							</point>
+							<point id="2">
+								<x class="java.lang.Double">0.0</x>
+								<y class="java.lang.Double">0.0</y>
+							</point>
+						</segment>
+						<segment type="SEG_LINETO" code="1" sequence="4">
+							<point id="0">
+								<x class="java.lang.Double">0.0</x>
+								<y class="java.lang.Double">0.0</y>
+							</point>
+							<point id="1">
+								<x class="java.lang.Double">0.0</x>
+								<y class="java.lang.Double">0.0</y>
+							</point>
+							<point id="2">
+								<x class="java.lang.Double">0.0</x>
+								<y class="java.lang.Double">0.0</y>
+							</point>
+						</segment>
+						<segment type="SEG_CLOSE" code="4" sequence="5">
+							<point id="0">
+								<x class="java.lang.Double">0.0</x>
+								<y class="java.lang.Double">0.0</y>
+							</point>
+							<point id="1">
+								<x class="java.lang.Double">0.0</x>
+								<y class="java.lang.Double">0.0</y>
+							</point>
+							<point id="2">
+								<x class="java.lang.Double">0.0</x>
+								<y class="java.lang.Double">0.0</y>
+							</point>
+						</segment>
+					</segments>
+				</path>
+				<bounds>
+					<x class="java.lang.Double">0.0</x>
+					<y class="java.lang.Double">0.0</y>
+					<width class="java.lang.Double">10.0</width>
+					<height class="java.lang.Double">10.0</height>
+				</bounds>
+				<data encoding="base64">rO0ABXNyACNhdC5tdWcuaXFtLmFwaS5ndWkucm9pLlJlY3RhbmdsZVJPScdLb3RswSPMAgABRAAEYXJlYXhyABhqYXZheC5tZWRpYS5qYWkuUk9JU2hhcGXm93dAQBtjlQMAAHhyABNqYXZheC5tZWRpYS5qYWkuUk9JJsrpgX9JoSEDAAFJAAl0aHJlc2hvbGR4cAAAAH93AQB4c3IAFGphdmEudXRpbC5MaW5rZWRMaXN0DClTXUpgiCIDAAB4cHcEAAAAAXNyABJqYXZhLmF3dC5SZWN0YW5nbGXDsGoFGspqdAIABEkABmhlaWdodEkABXdpZHRoSQABeEkAAXl4cAAAAAoAAAAKAAAAAAAAAAB4eEBZAAAAAAAA</data>
+			</rectangleRoi>
+		</roiSet>
+		<roiSet class="at.mug.iqm.api.gui.roi.AngleROI"> 
+			<angleRoi id="0">
+				<legs>
+					<!-- the length of the first leg -->
+					<lineSegment type="firstLeg">
+						<length units="px" class="java.lang.Double">14.142135623730951</length>
+					</lineSegment>
+					<!-- the length of the second leg -->
+					<lineSegment type="secondLeg">
+						<length units="px" class="java.lang.Double">10.0</length>
+					</lineSegment>
+				</legs>
+				<angles>
+					<!-- the enclosing angle -->
+					<angle type="enclosing" units="degree" class="java.lang.Double">45</angle>
+					<!-- the complementary angle to 360 degrees -->
+					<angle type="complementary" units="degree" class="java.lang.Double">315</angle>
+				</angles>
+				<path>
+					<windingRule name="WIND_NON_ZERO" code="1" />
+					<segments count="3">
+						<segment type="SEG_MOVETO" code="0" sequence="0">
+							<point id="0">
+								<x class="java.lang.Double">0.0</x>
+								<y class="java.lang.Double">0.0</y>
+							</point>
+							<point id="1">
+								<x class="java.lang.Double">0.0</x>
+								<y class="java.lang.Double">0.0</y>
+							</point>
+							<point id="2">
+								<x class="java.lang.Double">0.0</x>
+								<y class="java.lang.Double">0.0</y>
+							</point>
+						</segment>
+						<segment type="SEG_LINETO" code="1" sequence="1">
+							<point id="0">
+								<x class="java.lang.Double">10.0</x>
+								<y class="java.lang.Double">10.0</y>
+							</point>
+							<point id="1">
+								<x class="java.lang.Double">0.0</x>
+								<y class="java.lang.Double">0.0</y>
+							</point>
+							<point id="2">
+								<x class="java.lang.Double">0.0</x>
+								<y class="java.lang.Double">0.0</y>
+							</point>
+						</segment>
+						<segment type="SEG_LINETO" code="1" sequence="2">
+							<point id="0">
+								<x class="java.lang.Double">0.0</x>
+								<y class="java.lang.Double">10.0</y>
+							</point>
+							<point id="1">
+								<x class="java.lang.Double">10.0</x>
+								<y class="java.lang.Double">10.0</y>
+							</point>
+							<point id="2">
+								<x class="java.lang.Double">0.0</x>
+								<y class="java.lang.Double">0.0</y>
+							</point>
+						</segment>
+					</segments>
+				</path>
+				<bounds>
+					<x class="java.lang.Double">0.0</x>
+					<y class="java.lang.Double">0.0</y>
+					<width class="java.lang.Double">10.0</width>
+					<height class="java.lang.Double">10.0</height>
+				</bounds>
+				<data encoding="base64">rO0ABXNyAB9hdC5tdWcuaXFtLmFwaS5ndWkucm9pLkFuZ2xlUk9JE2twnEFbmIICAAREAApsYXJnZUFuZ2xlRAAObGVuZ3RoRmlyc3RMZWdEAA9sZW5ndGhTZWNvbmRMZWdEAApzbWFsbEFuZ2xleHIAGGphdmF4Lm1lZGlhLmphaS5ST0lTaGFwZeb3d0BAG2OVAwAAeHIAE2phdmF4Lm1lZGlhLmphaS5ST0kmyumBf0mhIQMAAUkACXRocmVzaG9sZHhwAAAAf3cBAHhzcgAUamF2YS51dGlsLkxpbmtlZExpc3QMKVNdSmCIIgMAAHhwdwQAAAAKc3IAEmphdmEuYXd0LlJlY3RhbmdsZcOwagUaymp0AgAESQAGaGVpZ2h0SQAFd2lkdGhJAAF4SQABeXhwAAAAAQAAAAEAAAAAAAAAAHNxAH4ABgAAAAEAAAACAAAAAAAAAAFzcQB+AAYAAAABAAAAAwAAAAAAAAACc3EAfgAGAAAAAQAAAAQAAAAAAAAAA3NxAH4ABgAAAAEAAAAFAAAAAAAAAARzcQB+AAYAAAABAAAABgAAAAAAAAAFc3EAfgAGAAAAAQAAAAcAAAAAAAAABnNxAH4ABgAAAAEAAAAIAAAAAAAAAAdzcQB+AAYAAAABAAAACQAAAAAAAAAIc3EAfgAGAAAAAQAAAAoAAAAAAAAACXh4QHOwAAAAAABALEjGAB8KwEAkAAAAAAAAQEaAAAAAAAE=</data>
+			</angleRoi>
+		</roiSet>
+		<roiSet class="at.mug.iqm.api.gui.roi.EllipseROI">
+			<ellipseRoi id="0">
+				<area units="px^2" class="java.lang.Double">3926.9908169872415</area>
+				<path>
+					<windingRule name="WIND_NON_ZERO" code="1" />
+					<segments count="6">
+						<segment type="SEG_MOVETO" code="0" sequence="0">
+							<point id="0">
+								<x class="java.lang.Double">100.0</x>
+								<y class="java.lang.Double">25.0</y>
+							</point>
+							<point id="1">
+								<x class="java.lang.Double">0.0</x>
+								<y class="java.lang.Double">0.0</y>
+							</point>
+							<point id="2">
+								<x class="java.lang.Double">0.0</x>
+								<y class="java.lang.Double">0.0</y>
+							</point>
+						</segment>
+						<segment type="SEG_CUBICTO" code="3" sequence="1">
+							<point id="0">
+								<x class="java.lang.Double">100.0</x>
+								<y class="java.lang.Double">38.80711874576983</y>
+							</point>
+							<point id="1">
+								<x class="java.lang.Double">77.61423749153965</x>
+								<y class="java.lang.Double">50.0</y>
+							</point>
+							<point id="2">
+								<x class="java.lang.Double">50.0</x>
+								<y class="java.lang.Double">50.0</y>
+							</point>
+						</segment>
+						<segment type="SEG_CUBICTO" code="3" sequence="2">
+							<point id="0">
+								<x class="java.lang.Double">22.38576250846033</x>
+								<y class="java.lang.Double">50.0</y>
+							</point>
+							<point id="1">
+								<x class="java.lang.Double">0.0</x>
+								<y class="java.lang.Double">38.80711874576983</y>
+							</point>
+							<point id="2">
+								<x class="java.lang.Double">0.0</x>
+								<y class="java.lang.Double">25.0</y>
+							</point>
+						</segment>
+						<segment type="SEG_CUBICTO" code="3" sequence="3">
+							<point id="0">
+								<x class="java.lang.Double">0.0</x>
+								<y class="java.lang.Double">11.192881254230166</y>
+							</point>
+							<point id="1">
+								<x class="java.lang.Double">22.38576250846033</x>
+								<y class="java.lang.Double">0.0</y>
+							</point>
+							<point id="2">
+								<x class="java.lang.Double">50.0</x>
+								<y class="java.lang.Double">0.0</y>
+							</point>
+						</segment>
+						<segment type="SEG_CUBICTO" code="3" sequence="4">
+							<point id="0">
+								<x class="java.lang.Double">77.61423749153965</x>
+								<y class="java.lang.Double">0.0</y>
+							</point>
+							<point id="1">
+								<x class="java.lang.Double">100.0</x>
+								<y class="java.lang.Double">11.192881254230166</y>
+							</point>
+							<point id="2">
+								<x class="java.lang.Double">100.0</x>
+								<y class="java.lang.Double">25.0</y>
+							</point>
+						</segment>
+						<segment type="SEG_CLOSE" code="4" sequence="5">
+							<point id="0">
+								<x class="java.lang.Double">0.0</x>
+								<y class="java.lang.Double">0.0</y>
+							</point>
+							<point id="1">
+								<x class="java.lang.Double">0.0</x>
+								<y class="java.lang.Double">0.0</y>
+							</point>
+							<point id="2">
+								<x class="java.lang.Double">0.0</x>
+								<y class="java.lang.Double">0.0</y>
+							</point>
+						</segment>
+					</segments>
+				</path>
+				<bounds>
+					<x class="java.lang.Double">0.0</x>
+					<y class="java.lang.Double">0.0</y>
+					<width class="java.lang.Double">100.0</width>
+					<height class="java.lang.Double">50.0</height>
+				</bounds>
+				<data encoding="base64">rO0ABXNyACFhdC5tdWcuaXFtLmFwaS5ndWkucm9pLkVsbGlwc2VST0mIVERjBv+voAIAAUQABGFyZWF4cgAYamF2YXgubWVkaWEuamFpLlJPSVNoYXBl5vd3QEAbY5UDAAB4cgATamF2YXgubWVkaWEuamFpLlJPSSbK6YF/SaEhAwABSQAJdGhyZXNob2xkeHAAAAB/dwEAeHNyABRqYXZhLnV0aWwuTGlua2VkTGlzdAwpU11KYIgiAwAAeHB3BAAAAChzcgASamF2YS5hd3QuUmVjdGFuZ2xlw7BqBRrKanQCAARJAAZoZWlnaHRJAAV3aWR0aEkAAXhJAAF5eHAAAAABAAAAFAAAACgAAAAAc3EAfgAGAAAAAQAAACIAAAAhAAAAAXNxAH4ABgAAAAEAAAAsAAAAHAAAAAJzcQB+AAYAAAABAAAAMwAAABkAAAADc3EAfgAGAAAAAQAAADoAAAAVAAAABHNxAH4ABgAAAAEAAAA+AAAAEwAAAAVzcQB+AAYAAAABAAAARAAAABAAAAAGc3EAfgAGAAAAAQAAAEgAAAAOAAAAB3NxAH4ABgAAAAEAAABMAAAADAAAAAhzcQB+AAYAAAABAAAATgAAAAsAAAAJc3EAfgAGAAAAAQAAAFIAAAAJAAAACnNxAH4ABgAAAAEAAABUAAAACAAAAAtzcQB+AAYAAAABAAAAVgAAAAcAAAAMc3EAfgAGAAAAAQAAAFgAAAAGAAAADXNxAH4ABgAAAAEAAABaAAAABQAAAA5zcQB+AAYAAAABAAAAXAAAAAQAAAAPc3EAfgAGAAAAAQAAAF4AAAADAAAAEHNxAH4ABgAAAAIAAABgAAAAAgAAABFzcQB+AAYAAAACAAAAYgAAAAEAAAATc3EAfgAGAAAAAQAAAGMAAAABAAAAFXNxAH4ABgAAAAcAAABkAAAAAAAAABZzcQB+AAYAAAACAAAAYgAAAAEAAAAdc3EAfgAGAAAAAgAAAGAAAAACAAAAH3NxAH4ABgAAAAEAAABeAAAAAwAAACFzcQB+AAYAAAABAAAAXAAAAAQAAAAic3EAfgAGAAAAAQAAAFoAAAAFAAAAI3NxAH4ABgAAAAEAAABYAAAABgAAACRzcQB+AAYAAAABAAAAVgAAAAcAAAAlc3EAfgAGAAAAAQAAAFQAAAAIAAAAJnNxAH4ABgAAAAEAAABSAAAACQAAACdzcQB+AAYAAAABAAAATgAAAAsAAAAoc3EAfgAGAAAAAQAAAEwAAAAMAAAAKXNxAH4ABgAAAAEAAABIAAAADgAAACpzcQB+AAYAAAABAAAARAAAABAAAAArc3EAfgAGAAAAAQAAAD4AAAATAAAALHNxAH4ABgAAAAEAAAA6AAAAFQAAAC1zcQB+AAYAAAABAAAAMwAAABkAAAAuc3EAfgAGAAAAAQAAACwAAAAcAAAAL3NxAH4ABgAAAAEAAAAiAAAAIQAAADBzcQB+AAYAAAABAAAAFAAAACgAAAAxeHhArq37TF05DA==</data>
+			</ellipseRoi>
+		</roiSet>
+		<roiSet class="at.mug.iqm.api.gui.roi.FreehandROI">
+			<freehandRoi id="0">
+				<path>
+					<windingRule name="WIND_NON_ZERO" code="1" />
+					<segments count="4">
+						<segment type="SEG_MOVETO" code="0" sequence="0">
+							<point id="0">
+								<x class="java.lang.Double">0.0</x>
+								<y class="java.lang.Double">0.0</y>
+							</point>
+							<point id="1">
+								<x class="java.lang.Double">0.0</x>
+								<y class="java.lang.Double">0.0</y>
+							</point>
+							<point id="2">
+								<x class="java.lang.Double">0.0</x>
+								<y class="java.lang.Double">0.0</y>
+							</point>
+						</segment>
+						<segment type="SEG_LINETO" code="1" sequence="1">
+							<point id="0">
+								<x class="java.lang.Double">10.0</x>
+								<y class="java.lang.Double">10.0</y>
+							</point>
+							<point id="1">
+								<x class="java.lang.Double">0.0</x>
+								<y class="java.lang.Double">0.0</y>
+							</point>
+							<point id="2">
+								<x class="java.lang.Double">0.0</x>
+								<y class="java.lang.Double">0.0</y>
+							</point>
+						</segment>
+						<segment type="SEG_LINETO" code="1" sequence="2">
+							<point id="0">
+								<x class="java.lang.Double">0.0</x>
+								<y class="java.lang.Double">10.0</y>
+							</point>
+							<point id="1">
+								<x class="java.lang.Double">0.0</x>
+								<y class="java.lang.Double">0.0</y>
+							</point>
+							<point id="2">
+								<x class="java.lang.Double">0.0</x>
+								<y class="java.lang.Double">0.0</y>
+							</point>
+						</segment>
+						<segment type="SEG_CLOSE" code="4" sequence="3">
+							<point id="0">
+								<x class="java.lang.Double">0.0</x>
+								<y class="java.lang.Double">0.0</y>
+							</point>
+							<point id="1">
+								<x class="java.lang.Double">0.0</x>
+								<y class="java.lang.Double">0.0</y>
+							</point>
+							<point id="2">
+								<x class="java.lang.Double">0.0</x>
+								<y class="java.lang.Double">0.0</y>
+							</point>
+						</segment>
+					</segments>
+				</path>
+				<bounds>
+					<x class="java.lang.Double">0.0</x>
+					<y class="java.lang.Double">0.0</y>
+					<width class="java.lang.Double">10.0</width>
+					<height class="java.lang.Double">10.0</height>
+				</bounds>
+				<data encoding="base64">rO0ABXNyACJhdC5tdWcuaXFtLmFwaS5ndWkucm9pLkZyZWVoYW5kUk9JL/uWTiMCRw8CAAFaAAZjbG9zZWR4cgAYamF2YXgubWVkaWEuamFpLlJPSVNoYXBl5vd3QEAbY5UDAAB4cgATamF2YXgubWVkaWEuamFpLlJPSSbK6YF/SaEhAwABSQAJdGhyZXNob2xkeHAAAAB/dwEAeHNyABRqYXZhLnV0aWwuTGlua2VkTGlzdAwpU11KYIgiAwAAeHB3BAAAAApzcgASamF2YS5hd3QuUmVjdGFuZ2xlw7BqBRrKanQCAARJAAZoZWlnaHRJAAV3aWR0aEkAAXhJAAF5eHAAAAABAAAAAQAAAAAAAAAAc3EAfgAGAAAAAQAAAAIAAAAAAAAAAXNxAH4ABgAAAAEAAAADAAAAAAAAAAJzcQB+AAYAAAABAAAABAAAAAAAAAADc3EAfgAGAAAAAQAAAAUAAAAAAAAABHNxAH4ABgAAAAEAAAAGAAAAAAAAAAVzcQB+AAYAAAABAAAABwAAAAAAAAAGc3EAfgAGAAAAAQAAAAgAAAAAAAAAB3NxAH4ABgAAAAEAAAAJAAAAAAAAAAhzcQB+AAYAAAABAAAACgAAAAAAAAAJeHgA</data>
+			</freehandRoi>
+		</roiSet>
+		<roiSet class="at.mug.iqm.api.gui.roi.LineROI">
+			<lineRoi id="0">
+				<point id="startPoint">
+					<x class="java.lang.Double">0.0</x>
+					<y class="java.lang.Double">0.0</y>
+				</point>
+				<point id="endPoint">
+					<x class="java.lang.Double">10.0</x>
+					<y class="java.lang.Double">10.0</y>
+				</point>
+				<lineSegment>
+					<length units="px" class="java.lang.Double">14.142135623730951</length>
+				</lineSegment>
+				<path>
+					<windingRule name="WIND_NON_ZERO" code="1" />
+					<segments count="2">
+						<segment type="SEG_MOVETO" code="0" sequence="0">
+							<point id="0">
+								<x class="java.lang.Double">0.0</x>
+								<y class="java.lang.Double">0.0</y>
+							</point>
+							<point id="1">
+								<x class="java.lang.Double">0.0</x>
+								<y class="java.lang.Double">0.0</y>
+							</point>
+							<point id="2">
+								<x class="java.lang.Double">0.0</x>
+								<y class="java.lang.Double">0.0</y>
+							</point>
+						</segment>
+						<segment type="SEG_LINETO" code="1" sequence="1">
+							<point id="0">
+								<x class="java.lang.Double">10.0</x>
+								<y class="java.lang.Double">10.0</y>
+							</point>
+							<point id="1">
+								<x class="java.lang.Double">0.0</x>
+								<y class="java.lang.Double">0.0</y>
+							</point>
+							<point id="2">
+								<x class="java.lang.Double">0.0</x>
+								<y class="java.lang.Double">0.0</y>
+							</point>
+						</segment>
+					</segments>
+				</path>
+				<bounds>
+					<x class="java.lang.Double">0.0</x>
+					<y class="java.lang.Double">0.0</y>
+					<width class="java.lang.Double">10.0</width>
+					<height class="java.lang.Double">0.0</height>
+				</bounds>
+				<data encoding="base64">rO0ABXNyACJhdC5tdWcuaXFtLmFwaS5ndWkucm9pLkZyZWVoYW5kUk9JL/uWTiMCRw8CAAFaAAZjbG9zZWR4cgAYamF2YXgubWVkaWEuamFpLlJPSVNoYXBl5vd3QEAbY5UDAAB4cgATamF2YXgubWVkaWEuamFpLlJPSSbK6YF/SaEhAwABSQAJdGhyZXNob2xkeHAAAAB/dwEAeHNyABRqYXZhLnV0aWwuTGlua2VkTGlzdAwpU11KYIgiAwAAeHB3BAAAAApzcgASamF2YS5hd3QuUmVjdGFuZ2xlw7BqBRrKanQCAARJAAZoZWlnaHRJAAV3aWR0aEkAAXhJAAF5eHAAAAABAAAAAQAAAAAAAAAAc3EAfgAGAAAAAQAAAAIAAAAAAAAAAXNxAH4ABgAAAAEAAAADAAAAAAAAAAJzcQB+AAYAAAABAAAABAAAAAAAAAADc3EAfgAGAAAAAQAAAAUAAAAAAAAABHNxAH4ABgAAAAEAAAAGAAAAAAAAAAVzcQB+AAYAAAABAAAABwAAAAAAAAAGc3EAfgAGAAAAAQAAAAgAAAAAAAAAB3NxAH4ABgAAAAEAAAAJAAAAAAAAAAhzcQB+AAYAAAABAAAACgAAAAAAAAAJeHgA</data>
+			</lineRoi>
+		</roiSet>
+		<roiSet class="at.mug.iqm.api.gui.roi.PolygonROI">
+			<polygonRoi id="0">
+				<path>
+					<windingRule name="WIND_NON_ZERO" code="1" />
+					<segments count="4">
+						<segment type="SEG_MOVETO" code="0" sequence="0">
+							<point id="0">
+								<x class="java.lang.Double">0.0</x>
+								<y class="java.lang.Double">0.0</y>
+							</point>
+							<point id="1">
+								<x class="java.lang.Double">0.0</x>
+								<y class="java.lang.Double">0.0</y>
+							</point>
+							<point id="2">
+								<x class="java.lang.Double">0.0</x>
+								<y class="java.lang.Double">0.0</y>
+							</point>
+						</segment>
+						<segment type="SEG_LINETO" code="1" sequence="1">
+							<point id="0">
+								<x class="java.lang.Double">10.0</x>
+								<y class="java.lang.Double">10.0</y>
+							</point>
+							<point id="1">
+								<x class="java.lang.Double">0.0</x>
+								<y class="java.lang.Double">0.0</y>
+							</point>
+							<point id="2">
+								<x class="java.lang.Double">0.0</x>
+								<y class="java.lang.Double">0.0</y>
+							</point>
+						</segment>
+						<segment type="SEG_LINETO" code="1" sequence="2">
+							<point id="0">
+								<x class="java.lang.Double">0.0</x>
+								<y class="java.lang.Double">10.0</y>
+							</point>
+							<point id="1">
+								<x class="java.lang.Double">0.0</x>
+								<y class="java.lang.Double">0.0</y>
+							</point>
+							<point id="2">
+								<x class="java.lang.Double">0.0</x>
+								<y class="java.lang.Double">0.0</y>
+							</point>
+						</segment>
+						<segment type="SEG_CLOSE" code="4" sequence="3">
+							<point id="0">
+								<x class="java.lang.Double">0.0</x>
+								<y class="java.lang.Double">0.0</y>
+							</point>
+							<point id="1">
+								<x class="java.lang.Double">0.0</x>
+								<y class="java.lang.Double">0.0</y>
+							</point>
+							<point id="2">
+								<x class="java.lang.Double">0.0</x>
+								<y class="java.lang.Double">0.0</y>
+							</point>
+						</segment>
+					</segments>
+				</path>
+				<bounds>
+					<x class="java.lang.Double">0.0</x>
+					<y class="java.lang.Double">0.0</y>
+					<width class="java.lang.Double">10.0</width>
+					<height class="java.lang.Double">10.0</height>
+				</bounds>
+				<data encoding="base64">rO0ABXNyACFhdC5tdWcuaXFtLmFwaS5ndWkucm9pLlBvbHlnb25ST0kTa3CcPvk+ggIAAVoABmNsb3NlZHhyABhqYXZheC5tZWRpYS5qYWkuUk9JU2hhcGXm93dAQBtjlQMAAHhyABNqYXZheC5tZWRpYS5qYWkuUk9JJsrpgX9JoSEDAAFJAAl0aHJlc2hvbGR4cAAAAH93AQB4c3IAFGphdmEudXRpbC5MaW5rZWRMaXN0DClTXUpgiCIDAAB4cHcEAAAACnNyABJqYXZhLmF3dC5SZWN0YW5nbGXDsGoFGspqdAIABEkABmhlaWdodEkABXdpZHRoSQABeEkAAXl4cAAAAAEAAAABAAAAAAAAAABzcQB+AAYAAAABAAAAAgAAAAAAAAABc3EAfgAGAAAAAQAAAAMAAAAAAAAAAnNxAH4ABgAAAAEAAAAEAAAAAAAAAANzcQB+AAYAAAABAAAABQAAAAAAAAAEc3EAfgAGAAAAAQAAAAYAAAAAAAAABXNxAH4ABgAAAAEAAAAHAAAAAAAAAAZzcQB+AAYAAAABAAAACAAAAAAAAAAHc3EAfgAGAAAAAQAAAAkAAAAAAAAACHNxAH4ABgAAAAEAAAAKAAAAAAAAAAl4eAA=</data>
+			</polygonRoi>
+		</roiSet>
+	</annotationLayer>
+</annotationLayers>
