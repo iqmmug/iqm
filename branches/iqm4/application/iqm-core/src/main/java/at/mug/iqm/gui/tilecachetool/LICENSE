@@ -1,0 +1,59 @@
+                         License Agreement
+
+                               for
+
+                             TCTool
+
+
+Use of this software constitutes an agreement to the following
+license conditions and restrictions between Virtual Visions
+Software, Inc. (aka VVSI) and users of this software:
+
+          Copyright (c) 2002, Virtual Visions Software, Inc.
+                        All Rights Reserved
+
+The following restrictions apply:
+    1.  Source and binary code must maintain inclusions of the
+        above copyright notice and associated java doc comments
+        specifying copyright, author, date, and version number
+        located in the accompaning source code.
+
+    2.  The software contained in TCTool cannot be resold or
+        any fee charged for its use or resdistribution.
+
+    3.  Redistribution in any form must include the COPYRIGHT
+        and LICENSE agreement text files included in the
+        distribution.
+
+    4.  Neither the name of Virtual Visions Software or the names
+        of contributers may be used to endorse or promote products
+        derived from this software without specific prior written
+        authorization.
+
+    5.  No support is provided for this software.
+
+    6.  Software and documentation are subject to change without notice.
+
+This software is provided "AS IS", without warranty of any kind.  ALL
+EXPRESS OR IMPLIED CONDITIONS, REPRESENTATIONS AND WARRANTIES, INCLUDING
+ANY IMPLIED WARRANTY OF MERCHANTABILITY, FITNESS FOR A PARTICULAR
+PURPOSE OR NON-INFRINGEMENT, ARE HEREBY EXCLUDED.  Virtual Visions
+Software, Inc and its Licensors SHALL NOT BE LIABLE FOR ANY DAMAGES
+SUFFERED BY LICENSEE AS A RESULT OF USING, MODIFYING OR DISTRIBUTING
+THE SOFTWARE OR ITS DERIVATIVES.  IN NO EVENT SHALL VVSI OR ITS
+LICENSORS BE LIABLE FOR ANY LOST REVENUE, PROFIT OR DATA, OR FOR
+DIRECT, INDIRECT, SPECIAL, CONSEQUENTIAL, INCIDENTAL OR PUNITIVE
+DAMAGES, HOWEVER CAUSED AND REGARDLESS OF THE THEORY OF LIABILITY,
+ARISING OUT OF THE USE OF OR INABILITY TO USE SOFTWARE, EVEN IF
+VVSI HAS BEEN ADVISED OF THE POSSIBILITY OF SUCH DAMAGES.  YOU
+ACKNOWLEGDE THAT SOFTWARE IS NOT DESIGNED, LICENSED OR INTENDED
+FOR USE IN THE DESIGN, CONSTRUCTION, OPERATION OR MAINTENANCE OF
+ANY NUCLEAR FACILITY.  THE SOFTWARE IS NOT DESIGNED OR INTENDED
+FOR USE IN ON-LINE CONTROL OF AIRCRAFT, AIR TRAFFIC, AIRCRAFT
+NAVIGATION OR AIRCRAFT COMMUNICATIONS.
+
+VVSI grants you ("Licensee") a non-exclusive, royalty free, license to
+use, modify and redistribute this software in source and binary code form,
+provided that the above restrictions are adhered to and that licensee
+does not utilize the software in a manner which is disparaging to VVSI.
+

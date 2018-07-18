@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+* This file is part of IQM, hereinafter referred to as "this program".
+* 
+* Copyright (C) 2009 - 2014 Helmut Ahammer, Philipp Kainz
+* 
+* This program is free software: you can redistribute it and/or modify
+* it under the terms of the GNU General Public License as
+* published by the Free Software Foundation, either version 3 of the
+* License, or (at your option) any later version.
+* 
+* This program is distributed in the hope that it will be useful,
+* but WITHOUT ANY WARRANTY; without even the implied warranty of
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+* GNU General Public License for more details.
+* 
+* You should have received a copy of the GNU General Public
+* License along with this program.  If not, see
+* <http://www.gnu.org/licenses/gpl-3.0.html>.
+*-->
+
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+	<comment>The Local Binary Pattern statistical texture descriptor.</comment>
+	<entry key="uid">feat.lbp.Plugin</entry><!-- This UID identifies the plugin on the entire classpath at 
+												 runtime and is used as the action command 
+												 for clicking a menu item and launching the operator -->
+	<entry key="name">LBP Texture Descriptor</entry><!-- This name will be used in the plugin registry -->
+	<entry key="version">1.0</entry><!-- This version is displayed next to the plugin in the menu -->
+	<entry key="type">image</entry><!-- The type can either be "image" or "plot" and determines the 
+										location of the entry in the plugin menu -->
+</properties>

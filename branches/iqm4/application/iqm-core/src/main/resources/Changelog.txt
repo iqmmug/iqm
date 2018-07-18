@@ -1,0 +1,192 @@
+
+Known problems:
+
+Java 1.6.0_10 bug: TableJ doesn't work properly
+"SubSampleAverage": JAI 1.1.3 native acceleration problems: sometimes black lines around tiles (Pyramid Dimension)
+"SubSampleAverage": some images don't work
+
+---------------------------------------------------------------------
+---------------------------------------------------------------------  	
+  	
+History & Changelog:
+
+2013 02 26 RGBRelative: new option Rank operation
+2013 02 21 new: Permutation entropy of plot
+2013 02 11 Generalized dimensions new option: raster box counting
+2012 12 29 new: discrete chaotic map plot signal generator
+2012 12 21 new: fGn fBm plot signal generator
+2012 12 12 new: Hurst coefficient of plot
+2012 12 10 new: FFT of plot
+2012 11 27 new: Otsus's threshold for images
+2012 11 25 new: Statistics of plot
+2012 11 18 new: Auto correlation of plot
+2012 11 14 new: Plot signal generator
+2012 11 13 new: Period finder of plot
+2012 11 11 new: Cut of plot
+2012 11 08 new: Higuchi of plot
+2012 11 08 new: Surrogate of plot
+2012 11 08 new: Surrogate of image
+2012 11 06 new: Auto correlation function ACF of image
+2012 11 01 new: Entropy measures of plot
+2012 10 10 new: Menu entry for Plot analysis
+2012 08 03 bugfix Changing of templates did not work properly for GUIs overriding the update method
+-----------------------------------------------------------------------------------------------------------------------------
+2012 07 26 IQM-2.00
+2012 06 29 new: IqmOpFracScan fractal box or nexel scan through image 
+2012 06 22 PK: Restructuring completed (Version 2.0 alpha - core). 
+2012 03 16 PK: branch 2.0 opened
+2012 03 14 PK: Project restructuring: upgrade to ImageJ 1.46g, changed naming and version convention, svn checkin, log4j 
+2012 03 12 new IqmOpGenDim Generalized dimensions
+2012 03 01 MAJOR PROJECT CHANGE: Iqm2 integrated windows look
+2012 02 21 MAJOR PROJECT CHANGE: Iqm uses the new IqmDataBox class
+2012 01 12 bugfix: equidistant grey values output for IqmOpKMeans and IqmOpKMeansFuzzy
+2012 01 30 bug fix IqmOpFracFFT correct regEnd if necessary        
+2012 01 26 new: IqmOpStackStat Statistics of an image stack  
+2012 01 20 new: IqmOpStatRegMerge imageJ's Statistical Region Growing
+2012 01 19 IqmOpNexelScan and IqmGUI_NexelScan: added Alikeness
+-----------------------------------------------------------------------------------------------------------------------------
+2012 01 05 Iqm_1.12.001
+2012 01 04 IqmOpFracMinkowski IqmGUI_FracMinkowski: added horizontal and vertical kernel shape
+2012 01 04 IqmOpFracMinkowski bug fix for binary images. Binary images need the old regression 
+2011 01 01 IqmOpMorph and IqmGUI_Morph changed kernel size to kernel width and height and added square checkbox
+2011 12 30 IqmOpDistMap: added 8SEDGrevera method according to Grevera 
+2011 12 29 IqmOpDistMap: added 4SED and 8SED method according to Danielsson P.E. Comp Graph ImgProc 14, 227-248, 1980 
+2011 12 18 IqmOpNexelScan: added Range, Skewness and Kurtosis
+2011 12 18 IqmOpStatistics changed equation of Kurtosis  
+2011 12 18 bux fix jpg image cropped and saved as jpg: wrong offset 
+2011 12 18 bug fix fractal methods table data settings
+2011 12 04 Major revision of file naming
+2011 12 04 new: IqmOpNexelScan scanning of nexel (kernel, box) through image, Mean Energy and Entropy
+2011 12 02 IqmOpRegGrow Region growing by ROI seed points
+2011 11 27 Create Fractal Surface: added option Sum on sine functions (approx. Weierstrass function)
+2011 11 12 Edge Detection: added option: vertical and horizontal edges
+2011 11 11 Edge Detection: added grey value "greyMax/2" in case of horizontal and vertical edges in order to see negative values properly
+2011 11 11 Edge Detection: changed name of button "Standard" to "Gradient Magnitude"
+2011 11 07 Edge Detection: added Laplace option 
+2011 11 05 Threshold GUI: changed button layout
+2011 11 05 bugfix: Threshold GUI histogram update after color model change
+2011 11 03 bugfix: value for 2ndEnergy was not set and therefore all subsequent columns showed wrong values
+2011 10 26 bugfix: image too bright in CreateImage!
+2011 10 26 bugfix: image too bright in Convert/ExtractChannel!
+2011 10 26 bugfix: ROI segmentation, grey values
+-----------------------------------------------------------------------------------------------------------------------------
+2011 09 30 Iqm_1.11.003
+2011 09 15 IqmOpFracMinkowski: improved regression for Minkowski-Blanket method according to Dubuc et al. 1989
+2011 08 17 eliminated bug in Higuchi.class - plot only for Dh > 1.5
+2011 08 09 IqmFracHiguchi: new option single (current) line ROI added 
+2011 06 24 Interactive JVM memory setting
+-----------------------------------------------------------------------------------------------------------------------------
+2011 06 09 Iqm_1.11.002
+2011 06 07 IqmFracHiguchi: new options radial and spiral added
+2011 05 09 IqmConvert: added option Palette to Grey (NTSC or Mean)
+2011 05 ?? not ready IqmFracLac lacunarity
+2011 04 19 added calculation of center of gravities in BlobFinder class
+2011 03 24 model.removeTableModelListener(jTable) because adding a lot of data would be very slow due to active model listener!!!!!!
+2011 03 24 IqmFracFFTOperator: sorting dataX and dataY (essential for maximal k and for limited RegStart RegEnd settings!)
+2011 03 19 scripts are initiated equivalent to operators
+2011 02 22 added IqmFracFFT 
+2011 02 22 added regression data to table for fractal methods
+2011 02 09 bug fix: error when deleting last ROI
+2011 01 27 added 16bit support for almost every function (some ImageJ plugins are not still properly working) 
+2011 01 24 added 16bit option for CreateImage and CreateFractalSurface
+2011 01 19 added IqmFracBoxGUI.updateIqmOperatorGUI() content (needed to decide if binary or grey value)
+2011 01 19 added IqmOperatorJFrame.updateIqmOperatorGUI() to left click mouse event in TankFrame and ManagerFrame
+-----------------------------------------------------------------------------------------------------------------------------
+2011 01 17 Iqm_1.11.001
+2011 01 17 some fixes for user preferences modifications (save new template, change template name)
+2011 01 17 fixed bug: Pyramid dimension of binary images  
+2010 12 30 fixed bug: 1st order energy measurement
+2010 11 26 ScrollPane for Feature GUI's (modified IqmOperatorJFrame)
+2010 11 26 modified by Philipp W. <java@scaenicus.net> in order to save user preferences (xml templates)
+2010 11 16 bug fix: second Manager row serial processing did not work
+2010 10 29 added erasion of blobs to IqmMorph (new class BlobFinder)
+-----------------------------------------------------------------------------------------------------------------------------
+2010 10 05 Iqm_1.10.003 ImageJ conference 2010 release
+2010 09 29 IqmEdgeDectection: added direction option
+2010 09 24 added progress bar function to image open and save functions
+2010 09 24 performance enhancement for opening tiff files (especially for server streaming)
+2010 08 30 open "dcm" DICOM images as 8bit grey level images using ImageJ's dicom loader
+-----------------------------------------------------------------------------------------------------------------------------
+2010 06 22 Iqm_1.10.002
+2010 06 20 Copy to Clipboard
+2010 06 20 new class ImageSelection for Clipboard operations
+2010 06 18 bug in Color Deconvolution IqmColDeconoperator fixed
+2010 06 10 open "fits" images as 8bit grey level images using ImageJ's fits loader
+-----------------------------------------------------------------------------------------------------------------------------
+2010 06 04 Iqm_1.10.001 first official release http://code.google.com/p/iqm/
+2010 05 registering tiff reader if reader is not available through native imageio (jai_imageio installation is not necessary any more) 
+2010 05 iqm.ini properties file instead of simple string txt file for the storage of the current image path
+2010 05 IqmDistMap calculates the Distance Map (Distance Transformation)
+2010 05 IqmImgStabilizer using ImageJ plugin Image_stabilizer by Kang Li
+-----------------------------------------------------------------------------------------------------------------------------
+2010 05 Iqm_0.10.007 (2010/05/14)
+2010 05 GNU licence text inserted (whole project, 2010/05/14)
+2010 05 IqmVectorPlot new class for vector plots (JFreeChart)
+2010 05 IqmDirLocal calculates a vector field of grey value gradients
+2010 05 IqmWatershed using ImageJ plugin by Daniel Sage
+2010 04 IqmFracMinkowski Grey scale image support "Blanket Method"
+2010 04 IqmResize Bug "1/10 not selected" solved  
+2010 04 Option ShowPlot and DeleteExistingPlot for IqmFracHiguchi, IqmFracBox, IqmFracPyramid and IqmFracMinkowski
+-----------------------------------------------------------------------------------------------------------------------------
+2010 04 IqmJ_0.10.006 (2010/04/06)
+2010 04 IqmFracHiguchi Higuchi Dimension for images  
+2010 03 IqmFracPyramid Grey scale image support with surfaces. Doesn't work very well
+2010 03 IqmFracBox     Grey scale image support DBC or RDBC  
+2010 02 new icons v4
+2010 02 IqmJFrame Table of current Plot
+2010 02 IqmJFrame Higuchi of current Plot
+2010 02 Higuchi.java new class
+2010 02 changed sequential numbering to: R.YY.NNN  (R release 0 preOfficial, 1 first official, YY Year, NNN sequential numbering)
+-----------------------------------------------------------------------------------------------------------------------------
+2010 02 IqmJ_0.10.005 (2010/02/11) old numbering: IqmJ_0.00.008
+2010 02 IqmNeighDilMacro neighbor dilation macro
+2010 02 IqmNeighDilGUI  first macro neighbor dilation 
+2010 02 IqmMacroGUIBuilder interface for macros
+2010 02 IqmMacroJFrame root class for macros
+2010 02 IqmCreateImage
+2010 01 IqmFracBoxOperator improved code, test image stack_0015.tif 5x enlarged to 930x1130 pixel: 10 times faster!
+2010 01 ManagerJFrame added progress bar for single image calculations
+-----------------------------------------------------------------------------------------------------------------------------
+2010 01 IqmJ_0.10.004 (2010/01/27) old numbering: IqmJ_0.00.007
+2010 01 ManagerJFrame added possibility to create image copies
+2010 01 ManagerJFrame added checkboxes in order to set the size of the main and main2 scrollpanes
+2010 01 IqmCreateFracSurf grey value surface with fractal Dimension in the range of 2 to 3
+-----------------------------------------------------------------------------------------------------------------------------
+2010 01 IqmJ_0.10.003 (2010/1/19)  old numbering: IqmJ_0.00.006
+2010 01 LooJFrame: Length and Angle value display in bottom line of LookJ
+2010 01 IqmAlign: Spinners for Angle, dX and dY
+2010 01 IqmBorder: new button for getting maximal image size, mainly for stacks of images with different image sizes 
+2010 01 IqmBorder: new option for stack preference (border setting or new size)
+2010 01 ExtractSVS: jpeg2000 33005 compressed svs files
+2010 01 ExtractSVSSelection: added type of output image option
+-----------------------------------------------------------------------------------------------------------------------------
+2010 01 IqmJ_0.10.002 (2010/01/07) old numbering: IqmJ_0.00.005
+2010 01 IqmThreshold: new option: HSV, HLS
+2010 01 IqmConvert: new option RGBtoHSV, RGBtoHLS and back
+2010 01 IqmOperatorJFrame new method reset(), so unprocessed image is sent to LookJ
+2010 01 ExtraLookJ
+2010 01 LookJFrame: all static references eliminated, WindoListener for closing, Auto creation if null
+-----------------------------------------------------------------------------------------------------------------------------
+2010 01 IqmJ_0.10.001 (2010/01/04) old numbering: IqmJ_0.00.004
+2010 01 LookJFrame: Angle ROI and Angle measurement
+2010 01 LookJFrame: Introduction of GeneralPath instead of Polygon
+2009 12 LookJFrame: Full ROI functionality (Vector of ROIs, edit)
+2009 12 LookDisplayJAI new class because of graphics (ROI) problems, overwritten method paintComponent is essential
+2009 12 IqmWhiteBalance: new parameters (ROI or Manual and grey level spinners)
+2009 12 IqmCrop: Additional Method Option: Manual or ROI
+2009 12 LookJ:  , Polygon ROI, Freehand ROI, Line ROI, Edit ROI
+2009 12 IqmROISegment:   ROI defined segmentation
+2009 12 IqmWhiteBalance: ROI defined White Balance
+-----------------------------------------------------------------------------------------------------------------------------
+2009 12 IqmJ_0.09.003  old numbering: IqmJ_0.00.003
+2009 12 LookJ: Introduction of 3 buttons (Magnify, Rectangle ROI, Oval ROI);
+2009 12 IqmRGBRelative: calculations direct in IqmRGBRelativeOperator; tif and png DisplayJAI Red/Blue Channel problem but data OK
+2009 12 IqmConvert: Extract R,G,B  DisplaJAI Brightness problem solved: "bandmerge" instead of "bandselect" (bandselected image too bright but data OK) 
+-----------------------------------------------------------------------------------------------------------------------------
+2009 11 IqmJ_0.09.002 old numbering: IqmJ_0.00.002
+2009 06 IqmJ_0.09.001 2009 first version of a useful software  old numbering: IqmJ_0.00.001
+2008 12 Start of first functionalities 
+
+
+
+

@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  #%L
+  Project: IQM - API
+  File: IQMConfig.xml
+  
+  $Id$
+  $HeadURL$
+  
+  This file is part of IQM, hereinafter referred to as "this program".
+  %%
+  Copyright (C) 2009 - 2017 Helmut Ahammer, Philipp Kainz
+  %%
+  This program is free software: you can redistribute it and/or modify
+  it under the terms of the GNU General Public License as
+  published by the Free Software Foundation, either version 3 of the
+  License, or (at your option) any later version.
+  
+  This program is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU General Public License for more details.
+  
+  You should have received a copy of the GNU General Public
+  License along with this program.  If not, see
+  <http://www.gnu.org/licenses/gpl-3.0.html>.
+  #L%
+  -->
+
+<IQMConfig>
+    <lastUpdate>2012-04-23T11:12:35.854+02:00</lastUpdate>
+    <application>
+        <paths>
+            <root>${user.home}/IQM</root>
+            <temp>${user.home}/IQM/temp</temp>
+            <conf>${user.home}/IQM/conf</conf>
+            <script>${user.home}/IQM/script</script>
+            <images>${user.home}</images>
+        </paths>
+        <cleanerTask>
+            <name>CleanerTask</name>
+            <interval>10000</interval>
+        </cleanerTask>
+        <memoryMonitor>
+            <name>MemoryMonitor</name>
+            <interval>5000</interval>
+        </memoryMonitor>
+        <gui>
+            <look-and-feel>default</look-and-feel>
+            <annotations>
+            	<keep-existing-rois>true</keep-existing-rois>
+            </annotations>
+        </gui>
+    </application>
+</IQMConfig>

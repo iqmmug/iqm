@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  #%L
+  Project: IQM - API
+  File: IQMConfig.xsd
+  
+  $Id$
+  $HeadURL$
+  
+  This file is part of IQM, hereinafter referred to as "this program".
+  %%
+  Copyright (C) 2009 - 2017 Helmut Ahammer, Philipp Kainz
+  %%
+  This program is free software: you can redistribute it and/or modify
+  it under the terms of the GNU General Public License as
+  published by the Free Software Foundation, either version 3 of the
+  License, or (at your option) any later version.
+  
+  This program is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU General Public License for more details.
+  
+  You should have received a copy of the GNU General Public
+  License along with this program.  If not, see
+  <http://www.gnu.org/licenses/gpl-3.0.html>.
+  #L%
+  -->
+
+
+<!--
+	Author: Philipp Kainz
+	Date: 	2012 04 22
+	
+	You may generate the JAXB java files using the command line tool 'xjc'
+	as follows (e.g. when the schema changes!)
+	$: xjc -d /path/to/project_root/src -p at.mug.iqm.config.jaxb /path/to/IQMConfig.xsd
+	C:\>xjc -d src -p at.mug.iqm.commons.config.jaxb src\at\mug\iqm\config\IQMConfig.xsd
+
+-->
+
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	elementFormDefault="qualified">
+	<xs:element name="IQMConfig">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="lastUpdate" minOccurs="1" maxOccurs="1" />
+				<xs:element ref="application" minOccurs="1" maxOccurs="1" />
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="application">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="paths" minOccurs="1" maxOccurs="1" />
+				<xs:element ref="cleanerTask" minOccurs="1" maxOccurs="1" />
+				<xs:element ref="memoryMonitor" minOccurs="1" maxOccurs="1" />
+				<xs:element ref="gui" minOccurs="0" maxOccurs="1" />
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="paths">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="root" minOccurs="0" maxOccurs="1" />
+				<xs:element ref="temp" minOccurs="0" maxOccurs="1" />
+				<xs:element ref="conf" minOccurs="0" maxOccurs="1" />
+				<xs:element ref="script" minOccurs="0" maxOccurs="1" />
+				<xs:element ref="images" minOccurs="0" maxOccurs="1" />
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="cleanerTask">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="name" minOccurs="0" maxOccurs="1" />
+				<xs:element ref="interval" minOccurs="1" maxOccurs="1" />
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="memoryMonitor">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="name" minOccurs="0" maxOccurs="1" />
+				<xs:element ref="interval" minOccurs="1" maxOccurs="1" />
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="gui">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="look-and-feel" minOccurs="0" maxOccurs="1" />
+				<xs:element ref="annotations" minOccurs="0" maxOccurs="1" />
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+
+	<!-- Single field declarations and restrictions -->
+	<xs:element name="root" type="xs:string" default="${user.home}/IQM">
+		<xs:annotation>
+			<xs:documentation>The root directory where the application tries to
+				create sub-directories, e.g. for logging, at runtime.
+			</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:element name="temp" type="xs:string" default="${user.home}/IQM/temp" />
+	<xs:annotation>
+		<xs:documentation>The root directory where the application tries to
+			create sub-directories, e.g. for virtual processing, at runtime.
+		</xs:documentation>
+	</xs:annotation>
+	<xs:element name="images" type="xs:string">
+		<xs:annotation>
+			<xs:documentation>The default image path, will be overwritten each
+				time the user selects a new file system location to load or store
+				images from/to.
+			</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:element name="conf" type="xs:string" default="${user.home}/IQM/conf">
+		<xs:annotation>
+			<xs:documentation>The configuration path where IQMConfig.xml is stored.
+			</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:element name="script" type="xs:string" default="${user.home}/IQM/script">
+		<xs:annotation>
+			<xs:documentation>The scripting path where Groovy scripts are stored.
+			</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:element name="look-and-feel" default="default">
+		<xs:annotation>
+			<xs:documentation>These are possible (working) Look-and-Feel
+				specifications. Default refers to <code>UIManager.getSystemLookAndFeelClassName()</code>.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:simpleType>
+			<xs:restriction base="xs:string">
+				<xs:enumeration
+					value="javax.swing.plaf.metal.MetalLookAndFeel" />
+				<xs:enumeration
+					value="com.sun.java.swing.plaf.windows.WindowsLookAndFeel" />
+				<xs:enumeration
+					value="com.sun.java.swing.plaf.windows.WindowsClassicLookAndFeel" />
+				<xs:enumeration
+					value="com.sun.java.swing.plaf.nimbus.NimbusLookAndFeel" />	
+				<xs:enumeration
+					value="com.sun.java.swing.plaf.motif.MotifLookAndFeel" />
+				<xs:enumeration
+					value="com.sun.java.swing.plaf.gtk.GTKLookAndFeel"/>
+				<xs:enumeration
+					value="com.apple.laf.AquaLookAndFeel"/>
+				<xs:enumeration value="default" />
+				<xs:enumeration value="system" />
+				<xs:enumeration value="nimbus" />
+			</xs:restriction>
+		</xs:simpleType>
+	</xs:element>
+	<xs:element name="name" type="xs:string" />
+	<xs:element name="lastUpdate" type="xs:dateTime">
+		<xs:annotation>
+			<xs:documentation>The last time stamp, the file has been updated.
+			</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:element name="interval">
+		<xs:annotation>
+			<xs:documentation>
+				The interval (in milliseconds) a thread wakes up,
+				does its stuff and sleeps again.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:simpleType>
+			<xs:restriction base="xs:long">
+				<xs:minInclusive value="-2147483648" />
+				<xs:maxInclusive value="2147483648" />
+			</xs:restriction>
+		</xs:simpleType>
+	</xs:element>
+	<xs:element name="annotations">
+		<xs:annotation>
+			<xs:documentation>
+				The root element of annotation settings.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="keep-existing-rois" type="xs:boolean" />
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>
