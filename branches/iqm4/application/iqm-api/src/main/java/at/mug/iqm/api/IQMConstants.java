@@ -42,7 +42,7 @@ public final class IQMConstants {
 	/**
 	 * The application version string.
 	 */
-	public final static String APPLICATION_VERSION = "3.5.0";
+	public final static String APPLICATION_VERSION = "4.0.0";
 	/**
 	 * The application name.
 	 */
