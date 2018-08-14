@@ -5,13 +5,13 @@
 	<parent>
 		<groupId>at.mug.iqm</groupId>
 		<artifactId>iqm</artifactId>
-		<version>3.5</version>
+		<version>4.0</version>
 		<relativePath>..</relativePath>
 	</parent>
 
 	<groupId>at.mug.iqm</groupId>
 	<artifactId>iqm-plot-op-bundle</artifactId>
-	<version>3.5</version>
+	<version>4.0</version>
 	<packaging>jar</packaging>
 
 	<name>IQM - Standard Plot Operator Bundle</name>
