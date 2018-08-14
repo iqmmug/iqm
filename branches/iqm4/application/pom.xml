@@ -4,7 +4,7 @@
 
 	<groupId>at.mug.iqm</groupId>
 	<artifactId>iqm</artifactId>
-	<version>3.5</version>
+	<version>4.0</version>
 	<packaging>pom</packaging>
 
 	<name>IQM</name>
@@ -22,7 +22,7 @@
 
 		<project.rootdir>${project.basedir}/..</project.rootdir>
 		<project.release.name>IQM</project.release.name>
-		<project.release.version>3.5.0.0</project.release.version>
+		<project.release.version>4.0.0.0</project.release.version>
 		<project.release.copyright>(c) ${project.inceptionYear} - ${currentYear} ${project.organization.name}</project.release.copyright>
 
 		<!-- License information for the file headers -->
