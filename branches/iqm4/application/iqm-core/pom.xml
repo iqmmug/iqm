@@ -63,21 +63,21 @@
 		<dependency>
 			<groupId>at.mug.iqm</groupId>
 			<artifactId>iqm-api</artifactId>
-			<version>3.5</version>
+			<version>4.0</version>
 			<type>jar</type>
 			<scope>compile</scope>
 		</dependency>
 		<dependency>
 			<groupId>at.mug.iqm</groupId>
 			<artifactId>iqm-img-op-bundle</artifactId>
-			<version>3.5</version>
+			<version>4.0</version>
 			<type>jar</type>
 			<scope>compile</scope>
 		</dependency>
 		<dependency>
 			<groupId>at.mug.iqm</groupId>
 			<artifactId>iqm-plot-op-bundle</artifactId>
-			<version>3.5</version>
+			<version>4.0</version>
 			<type>jar</type>
 			<scope>compile</scope>
 		</dependency>
