@@ -63,6 +63,7 @@ import com.sun.media.jai.codec.TIFFDirectory;
  * It uses ImageJ plugins for decoding FITS and DICOM images.
  * 
  * @author Philipp Kainz
+ * @update 2018-08-14 HA JAI cannot open jpg images with Java 1.9 and higher
  * 
  */
 public class ImageFileReader implements Callable<List<PlanarImage>> {
@@ -139,8 +140,17 @@ public class ImageFileReader implements Callable<List<PlanarImage>> {
 					list.add(img);
 				}
 			}
-		} else if (ext.toLowerCase().equals(IQMConstants.DCM_EXTENSION)) { // dicom
-																			// image
+		} else if (ext.toLowerCase().equals(IQMConstants.JPG_EXTENSION) 
+				|| ext.toLowerCase().equals(IQMConstants.JPEG_EXTENSION)) { // jpg image		
+			try { // try imageIO
+				BufferedImage bi = ImageIO.read(file);
+				img = PlanarImage.wrapRenderedImage(bi);
+			} catch (Exception ex) {
+				logger.error("It is not possible to open this image: " + file.getPath());
+			}
+			list.add(img);
+		
+		} else if (ext.toLowerCase().equals(IQMConstants.DCM_EXTENSION)) { // dicom mimage
 			// this uses ImageJ's DICOM reader
 			ImagePlus imp = (ImagePlus) IJ.runPlugIn("ij.plugin.DICOM",
 					file.toString());
@@ -162,8 +172,8 @@ public class ImageFileReader implements Callable<List<PlanarImage>> {
 				img = PlanarImage.wrapRenderedImage(imp.getBufferedImage());
 				list.add(img);
 			}
-		} else { // all other images
-					// shorter but other codecs and works without JAI-ImageIO
+		} else { // all other images shorter but other codecs and works without JAI-ImageIO
+			//since Java1.9  JAI cannot open jpg images any more
 			img = JAI.create("fileload", file.toString());
 			
 			if (img == null) {
