@@ -488,7 +488,7 @@ public class PlotMenu extends DeactivatableMenu implements ActionListener {
 			JTableHeader tableHeader = Table.getInstance().getTablePanel().getTable().getTableHeader();
 			
 			@SuppressWarnings("unchecked")
-			Vector<Vector<Double>> doubleData = tableModel.getDataVector();  //
+			Vector<Vector> doubleData = tableModel.getDataVector();  //
 		
 			//PlotSelectionFrame and PlotParser need Data in String format see Ticket #70
 			//Convert Double values to String
