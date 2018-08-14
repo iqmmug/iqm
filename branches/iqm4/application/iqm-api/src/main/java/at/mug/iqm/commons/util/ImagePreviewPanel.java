@@ -69,6 +69,7 @@ import at.mug.iqm.api.Resources;
  * 
  * @author Helmut Ahammer, Philipp Kainz
  * @since 2009
+ * @update 2018-08-14 HA - opening jpg images now with ImageIO.read() because JAI throws an error since Java 1.9.
  */
 public class ImagePreviewPanel extends JPanel implements PropertyChangeListener {
 
@@ -214,37 +215,28 @@ public class ImagePreviewPanel extends JPanel implements PropertyChangeListener 
 									"." + IQMConstants.BMP_EXTENSION)
 							|| name.toLowerCase().endsWith(
 									"." + IQMConstants.PNG_EXTENSION)) {
-
-						PlanarImage pi = JAI.create("fileload", name); // shorter,
-																		// works
-																		// with
-																		// other
-																		// codecs
-																		// than
-																		// ImageIO
-						// PlanarImage pi = JAI.create("imageread", name); //
-						// not
-						// working properly
-						// System.out.println("ImagePreviewPanel  pi.getNumBands(): "
-						// +
-						// pi.getNumBands());
-
-						try {
-							image = pi.getAsBufferedImage();
-						} catch (Throwable e1) {
-							logger.error("Fileload not possible, trying ImageIO. "
-									+ e1);
-							image = null;
-							doShowErrorAtTheEnd(true);
-						}
+			
+//						//JAI cannot open jpg images with Java 1.9 and higher				
+//						PlanarImage pi = JAI.create("fileload", name); // shorter, works with other codecs than ImageIO
+//																	   
+//						// PlanarImage pi = JAI.create("imageread", name); //
+//						// not
+//						// working properly
+//						// System.out.println("ImagePreviewPanel  pi.getNumBands(): "
+//						// +
+//						// pi.getNumBands());
+//
+//						try {
+//							image = pi.getAsBufferedImage();
+//						} catch (Throwable e1) {
+//							//logger.error("Fileload not possible, trying ImageIO. " + e1); //opening of a jpg image will yield a huge list of errors
+//							logger.error("Fileload not possible, trying ImageIO. ");
+//							image = null;
+//							doShowErrorAtTheEnd(true);
+//						}
 						if (image == null) {
 							try { // try imageIO
-								image = ImageIO.read(new File(name)); // tiff
-																		// only
-																		// with
-																		// newest
-																		// JAI_imageio.jar
-																		// version
+								image = ImageIO.read(new File(name)); // tiff only with newest JAI_imageio.jar version
 							} catch (IOException e2) {
 								logger.error("It is not possible to perform a preview!");
 								doShowErrorAtTheEnd(true);
