@@ -293,7 +293,7 @@ public class IQM {
 	protected static void checkJavaVersion() {
 		// check JAVA version
 		// read out environment variables System
-		String javaVersionMin = "1.6.0_12";
+		String javaVersionMin = "10.0.2";
 		String javaVersionInUse = System.getProperty("java.version");
 		if (javaVersionInUse.replace("_", "").replace(".", "")
 				.compareTo(javaVersionMin.replace("_", "").replace(".", "")) < 0) {
