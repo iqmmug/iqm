@@ -20,6 +20,26 @@
 
 	<dependencies>
 		<dependency>
+			<groupId>javax.xml.bind</groupId>
+			<artifactId>jaxb-api</artifactId>
+			<version>2.3.0</version>
+		</dependency>
+		<dependency>
+			<groupId>com.sun.xml.bind</groupId>
+			<artifactId>jaxb-impl</artifactId>
+			<version>2.3.0.1</version>
+		</dependency>
+		<dependency>
+			<groupId>org.glassfish.jaxb</groupId>
+			<artifactId>jaxb-runtime</artifactId>
+			<version>2.3.0.1</version>
+		</dependency>
+		<dependency>
+			<groupId>javax.activation</groupId>
+			<artifactId>activation</artifactId>
+			<version>1.1.1</version>
+		</dependency>
+		<dependency>
 			<groupId>log4j</groupId>
 			<artifactId>log4j</artifactId>
 			<version>1.2.16</version>
@@ -101,6 +121,15 @@
 			<artifactId>matlabcontrol</artifactId>
 			<version>4.1.0</version>
 		</dependency>
+		<!-- maybe we do not need tools.jar any more because ImageJ seems to work without it
+		<dependency>
+			<groupId>java.jdk.lib</groupId>
+			<artifactId>tools</artifactId>
+			<version>1.8.0_181</version>
+			<type>jar</type>
+		</dependency>
+		-->
+
 	</dependencies>
 
 	<build>

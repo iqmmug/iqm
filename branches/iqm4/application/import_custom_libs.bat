@@ -29,4 +29,8 @@ call mvn install:install-file -Dfile=./lib/matlabcontrol/matlabcontrol-4.1.0.jar
 ::AppleJavaExtensions version 2011 11 09
 call mvn install:install-file -Dfile=./lib/apple/AppleJavaExtensions-20111109.jar -DgroupId=com.apple -DartifactId=AppleJavaExtensions -Dversion=20111109 -Dpackaging=jar
 
+::tools.jar because Java 1.9 and higher does not include it in the JDK any more
+::maybe we do not need it any more because ImageJ is already working
+::call mvn install:install-file -Dfile=./lib/Tools-1.8.0_181/tools.jar -DgroupId=java.jdk.lib -DartifactId=tools -Dversion=1.8.0_181 -Dpackaging=jar
+
 pause
