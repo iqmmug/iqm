@@ -30,7 +30,7 @@
 
 		<!-- Launch4j options -->
 		<project.launch4j.version>${project.release.version}</project.launch4j.version>
-		<project.launch4j.javaMinVersion>1.6.0_12</project.launch4j.javaMinVersion>
+		<project.launch4j.javaMinVersion>10.0.2</project.launch4j.javaMinVersion>
 
 		<!-- OSX Bundle options -->
 		<project.osx-bundle.version>${project.launch4j.version}</project.osx-bundle.version>
