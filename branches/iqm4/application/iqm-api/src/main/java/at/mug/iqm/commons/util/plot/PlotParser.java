@@ -356,7 +356,7 @@ public class PlotParser extends SwingWorker<Vector<Vector<String>>, Void> {
 	            //.....
 
 	            // Loop through frames and look for minimum and maximum value
-	            for (int s=0 ; s<framesRead; s=s+numColumns){     
+	            for (int s=0 ; s<framesRead*numColumns; s=s+numColumns){     
 	           		line.clear();
 					for (int i = 0; i < numColumns; i++) {
 						//System.out.println("s + i*bufferSize: " + s +" " + i*bufferSize +" " +(s + i*bufferSize));
