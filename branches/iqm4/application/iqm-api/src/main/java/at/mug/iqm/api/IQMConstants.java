@@ -72,6 +72,8 @@ public final class IQMConstants {
 	public static final String GVY_EXTENSION = "gvy";
 	public static final String GROOVY_EXTENSION = "groovy";
 	public static final String GSH_EXTENSION = "gsh";
+	
+	public static final String WAV_EXTENSION = "wav";
 
 	/**
 	 * The extension for a serialized {@link IVirtualizable} object:<br>
@@ -118,6 +120,9 @@ public final class IQMConstants {
 			+ ", *."
 			+ GROOVY_EXTENSION
 			+ ", *." + GSH_EXTENSION + ", *." + TXT_EXTENSION + ")";
+	
+	public final static String WAV_FILTER_DESCRIPTION = "WAV (*."
+			+ WAV_EXTENSION + ")";
 
 	/**
      * 

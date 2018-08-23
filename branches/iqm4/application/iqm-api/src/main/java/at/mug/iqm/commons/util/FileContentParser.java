@@ -112,6 +112,9 @@ public class FileContentParser {
 			} else if (mimeType.equals("text/plain")) {
 				// all plot files in plain text are allowed
 				currType = DataType.PLOT;
+			} else if (mimeType.equals("audio/x-wav")) {
+				// all plot files in plain text are allowed
+				currType = DataType.PLOT;
 			} else {
 				throw new UnsupportedMIMETypeException("Current MIME type ["
 						+ mimeType + "] is not supported in IQM.");

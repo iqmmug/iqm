@@ -88,12 +88,15 @@ public class OpenPlotDialog extends Thread{
 			fc.setDialogTitle(I18N.getGUILabelText("application.dialog.openPlot.title"));
 			FileNameExtensionFilter filt = new FileNameExtensionFilter(
 					I18N.getGUILabelText("application.dialog.fileExtensionFilter.plotFiles.supported"), 
-					IQMConstants.TXT_EXTENSION);
+					IQMConstants.TXT_EXTENSION, IQMConstants.WAV_EXTENSION);
 			fc.addChoosableFileFilter(filt);
 
 			fc.addChoosableFileFilter(new FileNameExtensionFilter(
 					IQMConstants.TXT_FILTER_DESCRIPTION, 
 					IQMConstants.TXT_EXTENSION));
+			fc.addChoosableFileFilter(new FileNameExtensionFilter(
+					IQMConstants.WAV_FILTER_DESCRIPTION, 
+					IQMConstants.WAV_EXTENSION));
 			fc.setFileFilter(filt);        //default setting
 
 			currImgDir = ConfigManager.getCurrentInstance().getImagePath();
