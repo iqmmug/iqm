@@ -43,6 +43,7 @@ import javax.swing.SwingWorker;
 import org.apache.log4j.Logger;
 
 import at.mug.iqm.api.I18N;
+import at.mug.iqm.api.IQMConstants;
 import at.mug.iqm.api.gui.PlotSelectionFrame;
 import at.mug.iqm.commons.util.DialogUtil;
 
@@ -107,6 +108,16 @@ public class PlotParser extends SwingWorker<Vector<Vector<String>>, Void> {
 	 */
 	public void setFile(File file) {
 		this.file = file;
+	}
+	
+	/**
+	 * Get the file to be parsed.
+	 * 
+	 * @param file
+	 *            the file to be parsed
+	 */
+	public File getFile() {
+		return this.file;
 	}
 
 	/**
@@ -223,7 +234,7 @@ public class PlotParser extends SwingWorker<Vector<Vector<String>>, Void> {
 	 * content on to the {@link PlotSelectionFrame} instance in order to enable
 	 * the user to choose the data.
 	 */
-	public Vector<Vector<String>> parseContent() {
+	public Vector<Vector<String>> parseContentTXT() {
 		try {
 			this.setProgress(5);
 			// Prepare vector
@@ -263,6 +274,104 @@ public class PlotParser extends SwingWorker<Vector<Vector<String>>, Void> {
 			}
 			this.setProgress(90);
 			fin.close();
+
+		} catch (FileNotFoundException e) {
+			logger.error("An error occurred: ", e);
+			DialogUtil.getInstance().showErrorMessage(
+					I18N.getMessage("application.error.generic"), e, true);
+			this.dataString = null;
+		} catch (IOException e) {
+			logger.error("An error occurred: ", e);
+			DialogUtil.getInstance().showErrorMessage(
+					I18N.getMessage("application.error.generic"), e, true);
+			this.dataString = null;
+		} catch (Exception e) {
+			logger.error("An error occurred: ", e);
+			DialogUtil.getInstance().showErrorMessage(
+					I18N.getMessage("application.error.generic"), e, true);
+			this.dataString = null;
+		} finally {
+			if (buf != null) {
+				try {
+					buf.close();
+				} catch (IOException e) {
+					// do nothing
+				}
+			}
+			if (fin != null) {
+				try {
+					fin.close();
+				} catch (IOException e) {
+					// do nothing
+				}
+			}
+		}
+
+		return this.dataString;
+	}
+	
+	/**
+	 * Parse the file's content into a 2D-Vector array: {@link Vector}&lt;
+	 * {@link Vector}&lt;{@link String}&gt;&gt;. In the end, pass the parsed
+	 * content on to the {@link PlotSelectionFrame} instance in order to enable
+	 * the user to choose the data.
+	 */
+	public Vector<Vector<String>> parseContentWAV() {
+		try {
+			this.setProgress(5);
+			// Prepare vector
+			dataString = new Vector<Vector<String>>();
+	
+			// first read the file
+			// Open the wav file specified as the first argument
+	         WavFile wavFile = WavFile.openWavFile(this.file);
+	         
+	         // Display information about the wav file to System.out
+	         wavFile.display();
+
+	         // Get the number of audio channels in the wav file
+	         numColumns = wavFile.getNumChannels();
+	      
+	         //Set buffersize
+	         int bufferSize = 300;
+
+	         // Create a buffer of 100 frames
+	         double[] buffer = new double[bufferSize * numColumns];
+
+	         //number of read frames
+	         int framesRead;
+	         
+	         //A single line (row) of data columns
+	         Vector<String> line = new Vector<String>();
+	             
+	         numRows = 0;	
+	         
+	       	 this.setProgress(15);
+	         do {
+	            // Read frames into buffer
+	            framesRead = wavFile.readFrames(buffer, bufferSize);
+	            //framesRead will be 100 (or maybe smaller at the end of the file)
+	            //1st frame includes all 1st values of all channels (e.g. 2channels: 1st channel: buffer[0], 2nd channel: buffer[1])
+	            //2nd frame includes all 2nd values of all channels (e.g. 2channels: 1st Channel: buffer[2], 2nd cahnnel: buffer[3])
+	            //.....
+
+	            // Loop through frames and look for minimum and maximum value
+	            for (int s=0 ; s<framesRead; s=s+numColumns){     
+	           		line.clear();
+					for (int i = 0; i < numColumns; i++) {
+						//System.out.println("s + i*bufferSize: " + s +" " + i*bufferSize +" " +(s + i*bufferSize));
+						line.add(i, String.valueOf(buffer[s + i]));  //NO TESTED YET!!!!!!!!!!!
+					}
+					dataString.add(new Vector<String>(line));
+					numRows++;          
+	            }
+	         }
+	         while (framesRead != 0);
+					
+			
+			 this.setProgress(90);
+			 // Close the wavFile
+	          wavFile.close();
 
 		} catch (FileNotFoundException e) {
 			logger.error("An error occurred: ", e);
@@ -403,7 +512,20 @@ public class PlotParser extends SwingWorker<Vector<Vector<String>>, Void> {
 	@Override
 	protected Vector<Vector<String>> doInBackground() throws Exception {
 		// build the content
-		return parseContent();
+		File f = this.getFile();
+		String fileName = f.getAbsolutePath();
+		int length = fileName.length();
+		String extension =  this.getFile().getAbsolutePath().substring(length-3, length);
+		logger.info("Detected file extension: " + extension);
+		
+		
+		if (fileName.endsWith(IQMConstants.TXT_EXTENSION)) {
+			this.dataString = parseContentTXT();
+		}
+		if (fileName.endsWith(IQMConstants.WAV_EXTENSION)) {
+			this.dataString = parseContentWAV();
+		}
+		return dataString ;
 	}
 
 	@Override
