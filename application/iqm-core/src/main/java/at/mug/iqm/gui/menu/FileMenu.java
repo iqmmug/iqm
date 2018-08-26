@@ -92,6 +92,7 @@ import at.mug.iqm.gui.util.GUITools;
  * This is the base class for the file menu in IQM.
  * 
  * @author Helmut Ahammer, Philipp Kainz
+ * @update HA 2018-08  added wav reading writing
  */
 public class FileMenu extends DeactivatableMenu implements ActionListener {
 	/**
@@ -235,12 +236,9 @@ public class FileMenu extends DeactivatableMenu implements ActionListener {
 	 * @return javax.swing.JMenuItem
 	 */
 	private JMenuItem createSaveSequMenuItem() {
-		this.saveSequMenuItem.setText(I18N
-				.getGUILabelText("menu.file.saveSequ.text"));
-		this.saveSequMenuItem.setToolTipText(I18N
-				.getGUILabelText("menu.file.saveSequ.ttp"));
-		this.saveSequMenuItem.setIcon(new ImageIcon(Resources
-				.getImageURL("icon.menu.file.saveSequ")));
+		this.saveSequMenuItem.setText       (I18N.getGUILabelText("menu.file.saveSequ.text"));
+		this.saveSequMenuItem.setToolTipText(I18N.getGUILabelText("menu.file.saveSequ.ttp"));
+		this.saveSequMenuItem.setIcon(new ImageIcon(Resources.getImageURL("icon.menu.file.saveSequ")));
 		this.saveSequMenuItem.addActionListener(this);
 		this.saveSequMenuItem.setActionCommand("savesequ");
 		return this.saveSequMenuItem;
@@ -252,12 +250,9 @@ public class FileMenu extends DeactivatableMenu implements ActionListener {
 	 * @return javax.swing.JMenuItem
 	 */
 	private JMenuItem createSaveStackMenuItem() {
-		this.saveStackMenuItem.setText(I18N
-				.getGUILabelText("menu.file.saveStack.text"));
-		this.saveStackMenuItem.setToolTipText(I18N
-				.getGUILabelText("menu.file.saveStack.ttp"));
-		this.saveStackMenuItem.setIcon(new ImageIcon(Resources
-				.getImageURL("icon.menu.file.saveStack")));
+		this.saveStackMenuItem.setText(I18N.getGUILabelText("menu.file.saveStack.text"));
+		this.saveStackMenuItem.setToolTipText(I18N.getGUILabelText("menu.file.saveStack.ttp"));
+		this.saveStackMenuItem.setIcon(new ImageIcon(Resources.getImageURL("icon.menu.file.saveStack")));
 		this.saveStackMenuItem.addActionListener(this);
 		this.saveStackMenuItem.setActionCommand("savestack");
 		return this.saveStackMenuItem;
@@ -269,12 +264,9 @@ public class FileMenu extends DeactivatableMenu implements ActionListener {
 	 * @return javax.swing.JMenuItem
 	 */
 	private JMenuItem createSavePlotDataMenuItem() {
-		this.savePlotDataMenuItem.setText(I18N
-				.getGUILabelText("menu.file.savePlotData.text"));
-		this.savePlotDataMenuItem.setToolTipText(I18N
-				.getGUILabelText("menu.file.savePlotData.ttp"));
-		this.savePlotDataMenuItem.setIcon(new ImageIcon(Resources
-				.getImageURL("icon.menu.file.savePlotData")));
+		this.savePlotDataMenuItem.setText(I18N.getGUILabelText("menu.file.savePlotData.text"));
+		this.savePlotDataMenuItem.setToolTipText(I18N.getGUILabelText("menu.file.savePlotData.ttp"));
+		this.savePlotDataMenuItem.setIcon(new ImageIcon(Resources.getImageURL("icon.menu.file.savePlotData")));
 		this.savePlotDataMenuItem.addActionListener(this);
 		this.savePlotDataMenuItem.setActionCommand("saveplotdata");
 		return this.savePlotDataMenuItem;
@@ -286,12 +278,9 @@ public class FileMenu extends DeactivatableMenu implements ActionListener {
 	 * @return javax.swing.JMenuItem
 	 */
 	private JMenuItem createOpenHeaderMenuItem() {
-		this.openHeaderMenuItem.setText(I18N
-				.getGUILabelText("menu.file.openHeader.text"));
-		this.openHeaderMenuItem.setToolTipText(I18N
-				.getGUILabelText("menu.file.openHeader.ttp"));
-		this.openHeaderMenuItem.setIcon(new ImageIcon(Resources
-				.getImageURL("icon.menu.file.openHeader")));
+		this.openHeaderMenuItem.setText(I18N.getGUILabelText("menu.file.openHeader.text"));
+		this.openHeaderMenuItem.setToolTipText(I18N.getGUILabelText("menu.file.openHeader.ttp"));
+		this.openHeaderMenuItem.setIcon(new ImageIcon(Resources.getImageURL("icon.menu.file.openHeader")));
 		this.openHeaderMenuItem.addActionListener(this);
 		this.openHeaderMenuItem.setActionCommand("openheader");
 		return this.openHeaderMenuItem;
@@ -303,12 +292,9 @@ public class FileMenu extends DeactivatableMenu implements ActionListener {
 	 * @return javax.swing.JMenuItem
 	 */
 	private JMenuItem createExtractSVSMenuItem() {
-		this.extractSVSMenuItem.setText(I18N
-				.getGUILabelText("menu.file.extractSVS.text"));
-		this.extractSVSMenuItem.setToolTipText(I18N
-				.getGUILabelText("menu.file.extractSVS.ttp"));
-		this.extractSVSMenuItem.setIcon(new ImageIcon(Resources
-				.getImageURL("icon.menu.file.extractSVS")));
+		this.extractSVSMenuItem.setText(I18N.getGUILabelText("menu.file.extractSVS.text"));
+		this.extractSVSMenuItem.setToolTipText(I18N.getGUILabelText("menu.file.extractSVS.ttp"));
+		this.extractSVSMenuItem.setIcon(new ImageIcon(Resources.getImageURL("icon.menu.file.extractSVS")));
 		this.extractSVSMenuItem.addActionListener(this);
 		this.extractSVSMenuItem.setActionCommand("extractsvs");
 		return this.extractSVSMenuItem;
@@ -320,12 +306,9 @@ public class FileMenu extends DeactivatableMenu implements ActionListener {
 	 * @return javax.swing.JMenuItem
 	 */
 	private JMenuItem createOpenPlotMenuItem() {
-		this.openPlotMenuItem.setText(I18N
-				.getGUILabelText("menu.file.openPlot.text"));
-		this.openPlotMenuItem.setToolTipText(I18N
-				.getGUILabelText("menu.file.openPlot.ttp"));
-		this.openPlotMenuItem.setIcon(new ImageIcon(Resources
-				.getImageURL("icon.menu.file.openPlot")));
+		this.openPlotMenuItem.setText(I18N.getGUILabelText("menu.file.openPlot.text"));
+		this.openPlotMenuItem.setToolTipText(I18N.getGUILabelText("menu.file.openPlot.ttp"));
+		this.openPlotMenuItem.setIcon(new ImageIcon(Resources.getImageURL("icon.menu.file.openPlot")));
 		this.openPlotMenuItem.addActionListener(this);
 		this.openPlotMenuItem.setActionCommand("openplot");
 		return this.openPlotMenuItem;
@@ -337,12 +320,9 @@ public class FileMenu extends DeactivatableMenu implements ActionListener {
 	 * @return javax.swing.JMenuItem
 	 */
 	private JMenuItem createOpenTableMenuItem() {
-		this.openTableMenuItem.setText(I18N
-				.getGUILabelText("menu.file.openTable.text"));
-		this.openTableMenuItem.setToolTipText(I18N
-				.getGUILabelText("menu.file.openTable.ttp"));
-		this.openTableMenuItem.setIcon(new ImageIcon(Resources
-				.getImageURL("icon.menu.file.openTable")));
+		this.openTableMenuItem.setText(I18N.getGUILabelText("menu.file.openTable.text"));
+		this.openTableMenuItem.setToolTipText(I18N.getGUILabelText("menu.file.openTable.ttp"));
+		this.openTableMenuItem.setIcon(new ImageIcon(Resources.getImageURL("icon.menu.file.openTable")));
 		this.openTableMenuItem.addActionListener(this);
 		this.openTableMenuItem.setActionCommand("opentable");
 		return this.openTableMenuItem;
@@ -354,12 +334,9 @@ public class FileMenu extends DeactivatableMenu implements ActionListener {
 	 * @return javax.swing.JMenuItem
 	 */
 	private JMenuItem createSaveTableMenuItem() {
-		this.saveTableMenuItem.setText(I18N
-				.getGUILabelText("menu.file.saveTable.text"));
-		this.saveTableMenuItem.setToolTipText(I18N
-				.getGUILabelText("menu.file.saveTable.ttp"));
-		this.saveTableMenuItem.setIcon(new ImageIcon(Resources
-				.getImageURL("icon.menu.file.saveTable")));
+		this.saveTableMenuItem.setText(I18N.getGUILabelText("menu.file.saveTable.text"));
+		this.saveTableMenuItem.setToolTipText(I18N.getGUILabelText("menu.file.saveTable.ttp"));
+		this.saveTableMenuItem.setIcon(new ImageIcon(Resources.getImageURL("icon.menu.file.saveTable")));
 		this.saveTableMenuItem.addActionListener(this);
 		this.saveTableMenuItem.setActionCommand("savetable");
 		return this.saveTableMenuItem;
@@ -371,20 +348,16 @@ public class FileMenu extends DeactivatableMenu implements ActionListener {
 	 * @return javax.swing.JMenuItem
 	 */
 	private JMenuItem createSaveTableSequMenuItem() {
-		this.saveTableSequMenuItem.setText(I18N
-				.getGUILabelText("menu.file.saveTableSequ.text"));
-		this.saveTableSequMenuItem.setToolTipText(I18N
-				.getGUILabelText("menu.file.saveTableSequ.ttp"));
-		this.saveTableSequMenuItem.setIcon(new ImageIcon(Resources
-				.getImageURL("icon.menu.file.saveTable")));
+		this.saveTableSequMenuItem.setText(I18N.getGUILabelText("menu.file.saveTableSequ.text"));
+		this.saveTableSequMenuItem.setToolTipText(I18N.getGUILabelText("menu.file.saveTableSequ.ttp"));
+		this.saveTableSequMenuItem.setIcon(new ImageIcon(Resources.getImageURL("icon.menu.file.saveTable")));
 		this.saveTableSequMenuItem.addActionListener(this);
 		this.saveTableSequMenuItem.setActionCommand("savetablesequ");
 		return this.saveTableSequMenuItem;
 	}
 
 	private JMenu createOpenSamplesMenu() {
-		this.openSamplesMenu.setText(I18N
-				.getGUILabelText("menu.file.openSamples.text"));
+		this.openSamplesMenu.setText(I18N.getGUILabelText("menu.file.openSamples.text"));
 		// this.openSamplesMenu.setToolTipText("");
 
 		this.openSamplesMenu.add(this.createOpenSamplesImagesMenu());
@@ -394,8 +367,7 @@ public class FileMenu extends DeactivatableMenu implements ActionListener {
 	}
 
 	private RecentFilesMenu createOpenRecentMenu() {
-		this.openRecentMenu.setText(I18N
-				.getGUILabelText("menu.file.openRecent.text"));
+		this.openRecentMenu.setText(I18N.getGUILabelText("menu.file.openRecent.text"));
 
 		this.openRecentMenu.createMenu();
 
@@ -403,8 +375,7 @@ public class FileMenu extends DeactivatableMenu implements ActionListener {
 	}
 
 	private JMenuItem createOpenSamplesPlotMenu() {
-		this.openSamplesPlotsMenu.setText(I18N
-				.getGUILabelText("menu.file.openSamples.plot.text"));
+		this.openSamplesPlotsMenu.setText(I18N.getGUILabelText("menu.file.openSamples.plot.text"));
 		// this.openSamplesPlotsMenu.setToolTipText("");
 
 		// assemble the menu items in the menu
@@ -421,9 +392,7 @@ public class FileMenu extends DeactivatableMenu implements ActionListener {
 
 		try {
 			// list all files and get their file names
-			String[] fileNames = new DynamicResourceLoader()
-					.getResourceListing(DynamicResourceLoader.class,
-							"samples/plot/");
+			String[] fileNames = new DynamicResourceLoader().getResourceListing(DynamicResourceLoader.class, "samples/plot/");
 
 			// sort the files according to the file name
 			Vector<String> sortedNames = new Vector<String>(fileNames.length);
@@ -448,9 +417,7 @@ public class FileMenu extends DeactivatableMenu implements ActionListener {
 						InputStream is = null;
 						OutputStream out = null;
 						try {
-							is = DynamicResourceLoader.class
-									.getResourceAsStream("/samples/plot/"
-											+ item.getText());
+							is = DynamicResourceLoader.class.getResourceAsStream("/samples/plot/"+ item.getText());
 
 							File targetDir = new File(ConfigManager
 									.getCurrentInstance().getTempPath()
@@ -464,8 +431,7 @@ public class FileMenu extends DeactivatableMenu implements ActionListener {
 							}
 
 							// write the inputStream to a FileOutputStream
-							out = new FileOutputStream(targetDir
-									+ File.separator + item.getText());
+							out = new FileOutputStream(targetDir + File.separator + item.getText());
 
 							int read = 0;
 							byte[] bytes = new byte[1024];
@@ -479,8 +445,7 @@ public class FileMenu extends DeactivatableMenu implements ActionListener {
 							out.flush();
 							out.close();
 
-							File f = new File(targetDir + File.separator
-									+ item.getText());
+							File f = new File(targetDir + File.separator + item.getText());
 
 							logger.debug("File exists? -> " + f.exists());
 
@@ -488,10 +453,8 @@ public class FileMenu extends DeactivatableMenu implements ActionListener {
 							// for selection of data:
 							PlotParser pP = new PlotParser(f);
 							WaitingDialog dialog = new WaitingDialog();
-							pP.addPropertyChangeListener(new CompletionWaiter(
-									dialog));
-							pP.addPropertyChangeListener(GUITools
-									.getStatusPanel());
+							pP.addPropertyChangeListener(new CompletionWaiter(dialog));
+							pP.addPropertyChangeListener(GUITools.getStatusPanel());
 							dialog.setVisible(true);
 
 							pP.execute();
@@ -525,8 +488,7 @@ public class FileMenu extends DeactivatableMenu implements ActionListener {
 	}
 
 	private JMenu createOpenSamplesImagesMenu() {
-		this.openSamplesImagesMenu.setText(I18N
-				.getGUILabelText("menu.file.openSamples.image.text"));
+		this.openSamplesImagesMenu.setText(I18N.getGUILabelText("menu.file.openSamples.image.text"));
 		// this.openSamplesImagesMenu.setToolTipText(I18N.getGUILabelText("menu.file.openSamples.image.ttp"));
 
 		// assemble the menu items in the menu
@@ -543,9 +505,7 @@ public class FileMenu extends DeactivatableMenu implements ActionListener {
 
 		try {
 			// list all files and get their file names
-			String[] fileNames = new DynamicResourceLoader()
-					.getResourceListing(DynamicResourceLoader.class,
-							"samples/image/");
+			String[] fileNames = new DynamicResourceLoader().getResourceListing(DynamicResourceLoader.class, "samples/image/");
 
 			// sort the files according to the file name
 			Vector<String> sortedNames = new Vector<String>(fileNames.length);
@@ -570,9 +530,7 @@ public class FileMenu extends DeactivatableMenu implements ActionListener {
 						InputStream is = null;
 						OutputStream out = null;
 						try {
-							is = DynamicResourceLoader.class
-									.getResourceAsStream("/samples/image/"
-											+ item.getText());
+							is = DynamicResourceLoader.class.getResourceAsStream("/samples/image/" + item.getText());
 
 							File targetDir = new File(ConfigManager
 									.getCurrentInstance().getTempPath()
@@ -586,8 +544,7 @@ public class FileMenu extends DeactivatableMenu implements ActionListener {
 							}
 
 							// write the inputStream to a FileOutputStream
-							out = new FileOutputStream(targetDir
-									+ File.separator + item.getText());
+							out = new FileOutputStream(targetDir + File.separator + item.getText());
 
 							int read = 0;
 							byte[] bytes = new byte[1024];
@@ -601,8 +558,7 @@ public class FileMenu extends DeactivatableMenu implements ActionListener {
 							out.flush();
 							out.close();
 
-							File f = new File(targetDir + File.separator
-									+ item.getText());
+							File f = new File(targetDir + File.separator + item.getText());
 
 							logger.debug("File exists? -> " + f.exists());
 
@@ -644,10 +600,8 @@ public class FileMenu extends DeactivatableMenu implements ActionListener {
 	 */
 	private JMenuItem createQuitMenuItem() {
 		this.quitMenuItem.setText(I18N.getGUILabelText("menu.file.quit.text"));
-		this.quitMenuItem.setIcon(new ImageIcon(Resources
-				.getImageURL("icon.menu.file.quit")));
-		this.quitMenuItem.setToolTipText(I18N
-				.getGUILabelText("menu.file.quit.ttp"));
+		this.quitMenuItem.setIcon(new ImageIcon(Resources.getImageURL("icon.menu.file.quit")));
+		this.quitMenuItem.setToolTipText(I18N.getGUILabelText("menu.file.quit.ttp"));
 		this.quitMenuItem.addActionListener(this);
 		this.quitMenuItem.setActionCommand("quit");
 		
@@ -687,8 +641,7 @@ public class FileMenu extends DeactivatableMenu implements ActionListener {
 					}
 
 					// log ALL loaded files anyway
-					logger.info("Selected image(s) for loading: "
-							+ Arrays.asList(files).toString());
+					logger.info("Selected image(s) for loading: " + Arrays.asList(files).toString());
 
 					Application.getTank().loadImagesFromHD(files);
 				}
@@ -702,8 +655,7 @@ public class FileMenu extends DeactivatableMenu implements ActionListener {
 				@Override
 				public void run() {
 					if (Look.getInstance().getCurrentLookPanel().isEmpty()) {
-						BoardPanel.appendTextln(I18N
-								.getMessage("application.noImageToSave"));
+						BoardPanel.appendTextln(I18N.getMessage("application.noImageToSave"));
 					} else {
 						SaveSingleImageDialog dlg = new SaveSingleImageDialog();
 						File target = dlg.showDialog();
@@ -715,12 +667,10 @@ public class FileMenu extends DeactivatableMenu implements ActionListener {
 						String encoding = dlg.getEncoding();
 
 						// get the currently shown image
-						PlanarImage image = Application.getLook()
-								.getCurrentImage();
+						PlanarImage image = Application.getLook().getCurrentImage();
 
 						// write the file
-						ImageFileWriter fw = new ImageFileWriter(target, image,
-								encoding);
+						ImageFileWriter fw = new ImageFileWriter(target, image, encoding);
 						fw.setWithROIs(dlg.drawROIs());
 						Thread t = new Thread(fw);
 						t.start();
@@ -739,8 +689,7 @@ public class FileMenu extends DeactivatableMenu implements ActionListener {
 					int index = Tank.getInstance().getCurrIndex();
 
 					if (index == -1) {
-						BoardPanel.appendTextln(I18N
-								.getMessage("application.missingImage"));
+						BoardPanel.appendTextln(I18N.getMessage("application.missingImage"));
 						return;
 					}
 
@@ -757,9 +706,7 @@ public class FileMenu extends DeactivatableMenu implements ActionListener {
 					}
 
 					// write the files
-					ImageFileWriter fw = new ImageFileWriter(targetFileName,
-							boxes, dlg.getEncoding(), dlg.getExtension(),
-							ImageFileWriter.MODE_SEQUENCE);
+					ImageFileWriter fw = new ImageFileWriter(targetFileName, boxes, dlg.getEncoding(), dlg.getExtension(), ImageFileWriter.MODE_SEQUENCE);
 					fw.setWithROIs(dlg.drawROIs());
 					Thread t = new Thread(fw);
 					t.start();
@@ -777,14 +724,12 @@ public class FileMenu extends DeactivatableMenu implements ActionListener {
 					int index = Tank.getInstance().getCurrIndex();
 
 					if (index == -1) {
-						BoardPanel.appendTextln(I18N
-								.getMessage("application.missingImage"));
+						BoardPanel.appendTextln(I18N.getMessage("application.missingImage"));
 						return;
 					}
 
 					// get the number of images to be stored as a sequence
-					List<IqmDataBox> boxes = Tank.getInstance().getTankDataAt(
-							index);
+					List<IqmDataBox> boxes = Tank.getInstance().getTankDataAt(index);
 
 					// locate the target
 					SaveImageStackDialog dlg = new SaveImageStackDialog();
@@ -795,9 +740,7 @@ public class FileMenu extends DeactivatableMenu implements ActionListener {
 					}
 
 					// write the files
-					ImageFileWriter fw = new ImageFileWriter(targetFileName,
-							boxes, dlg.getEncoding(), dlg.getExtension(),
-							ImageFileWriter.MODE_STACK);
+					ImageFileWriter fw = new ImageFileWriter(targetFileName,boxes, dlg.getEncoding(), dlg.getExtension(),ImageFileWriter.MODE_STACK);
 					fw.setWithROIs(dlg.drawROIs());
 					Thread t = new Thread(fw);
 					t.start();
@@ -877,38 +820,27 @@ public class FileMenu extends DeactivatableMenu implements ActionListener {
 						// gather selected data
 						if (extension.equals(IQMConstants.CSV_EXTENSION)) {
 							if (exportModel) {
-								outputObject = TableTools.convertToCSV(tp
-										.getTableModel());
+								outputObject = TableTools.convertToCSV(tp.getTableModel());
 							} else {
-								outputObject = TableTools.convertToCSV(tp
-										.getTableClone());
+								outputObject = TableTools.convertToCSV(tp.getTableClone());
 							}
 						} else if (extension.equals(IQMConstants.DAT_EXTENSION)) {
 							if (exportModel) {
-								outputObject = TableTools
-										.convertToTabDelimited(tp
-												.getTableModel());
+								outputObject = TableTools.convertToTabDelimited(tp.getTableModel());
 							} else {
-								outputObject = TableTools
-										.convertToTabDelimited(tp
-												.getTableClone());
+								outputObject = TableTools.convertToTabDelimited(tp.getTableClone());
 							}
 						} else if (extension.equals(IQMConstants.TXT_EXTENSION)) {
 							if (exportModel) {
-								outputObject = TableTools
-										.convertToTabDelimited(tp
-												.getTableModel());
+								outputObject = TableTools.convertToTabDelimited(tp.getTableModel());
 							} else {
-								outputObject = TableTools
-										.convertToTabDelimited(tp
-												.getTableClone());
+								outputObject = TableTools.convertToTabDelimited(tp.getTableClone());
 							}
 						}
 					}
 
 					// write the file according to the content
-					TableFileWriter tfw = new TableFileWriter(destination,
-							outputObject, extension);
+					TableFileWriter tfw = new TableFileWriter(destination, outputObject, extension);
 					tfw.run();
 				}
 			});
@@ -943,36 +875,35 @@ public class FileMenu extends DeactivatableMenu implements ActionListener {
 						// gather selected data
 						if (extension.equals(IQMConstants.CSV_EXTENSION)) {
 							if (exportModel) {
-								outputObject = TableTools.convertToCSV(pp
-										.getTableModel());
+								outputObject = TableTools.convertToCSV(pp.getTableModel());
 							} else {
-								outputObject = TableTools.convertToCSV(pp
-										.exportTable());
+								outputObject = TableTools.convertToCSV(pp.exportTable());
 							}
 						} else if (extension.equals(IQMConstants.DAT_EXTENSION)) {
 							if (exportModel) {
-								outputObject = TableTools
-										.convertToTabDelimited(pp
-												.getTableModel());
+								outputObject = TableTools.convertToTabDelimited(pp.getTableModel());
 							} else {
 								outputObject = TableTools
 										.convertToTabDelimited(pp.exportTable());
 							}
 						} else if (extension.equals(IQMConstants.TXT_EXTENSION)) {
 							if (exportModel) {
-								outputObject = TableTools
-										.convertToTabDelimited(pp
-												.getTableModel());
+								outputObject = TableTools.convertToTabDelimited(pp.getTableModel());
 							} else {
-								outputObject = TableTools
-										.convertToTabDelimited(pp.exportTable());
+								outputObject = TableTools.convertToTabDelimited(pp.exportTable());
+							}
+						} else if (extension.equals(IQMConstants.WAV_EXTENSION)) {
+							if (exportModel) {
+								outputObject = pp.getTableModel();
+							} else {
+								outputObject = pp.exportTable().getModel();
 							}
 						}
+						
 					}
 
 					// write the file according to the content
-					TableFileWriter tfw = new TableFileWriter(destination,
-							outputObject, extension);
+					TableFileWriter tfw = new TableFileWriter(destination, outputObject, extension);
 					tfw.run();
 				}
 			});
@@ -990,8 +921,7 @@ public class FileMenu extends DeactivatableMenu implements ActionListener {
 					int index = Tank.getInstance().getCurrIndex();
 
 					if (index == -1) {
-						BoardPanel.appendTextln(I18N
-								.getMessage("application.missingTable"));
+						BoardPanel.appendTextln(I18N.getMessage("application.missingTable"));
 						return;
 					}
 

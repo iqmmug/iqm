@@ -9,10 +9,10 @@ package at.mug.iqm.commons.util.plot;
 * http://www.sonicspot.com/guide/wavefiles.html
 * http://www.blitter.com/~russtopia/MIDI/~jglatt/tech/wave.htm
 *
-* Version 1.0
+* Version 1.1
+* @update 2018-08 HA added (floatScale - 1 e.g. 16bit --> 32768 -1)) for reading files so that it is identical to the writing case (16bit --> 32767)    
 *
 **/
-
 import java.io.*;
 
 public class WavFile
@@ -154,7 +154,7 @@ public class WavFile
 			// If more than 8 validBits, data is signed
 			// Conversion required multiplying by magnitude of max positive value
 			wavFile.floatOffset = 0;
-			wavFile.floatScale = Long.MAX_VALUE >> (64 - wavFile.validBits);
+		    wavFile.floatScale = Long.MAX_VALUE >> (64 - wavFile.validBits);//16bit --> 32767  //32768 would not work for because 32768 is to high 
 		}
 		else
 		{
@@ -246,6 +246,8 @@ public class WavFile
 
 				// Calculate the number of bytes required to hold 1 sample
 				wavFile.bytesPerSample = (wavFile.validBits + 7) / 8;
+				//System.out.println("WavFile: validBits: " + wavFile.validBits);
+				//System.out.println("WavFile: bytesPerSample: " + wavFile.bytesPerSample);
 				if (wavFile.bytesPerSample * wavFile.numChannels != wavFile.blockAlign)
 					throw new WavFileException("Block Align does not agree with bytes required for validBits and number of channels");
 
@@ -289,7 +291,10 @@ public class WavFile
 			// If more than 8 validBits, data is signed
 			// Conversion required dividing by magnitude of max negative value
 			wavFile.floatOffset = 0;
-			wavFile.floatScale = 1 << (wavFile.validBits - 1);
+			wavFile.floatScale = 1 << (wavFile.validBits - 1); //Original Version 1.0//16bit --> 32768
+			wavFile.floatScale = wavFile.floatScale -1; //Version 1.1 HA 2018-08 //16bit --> 32767 This is now the same scaling value that is used for writing 
+			System.out.println("WavFile: validBits: " + wavFile.validBits);
+			System.out.println("floatScale: " + wavFile.floatScale);
 		}
 		else
 		{
@@ -581,7 +586,13 @@ public class WavFile
 
 			for (int c=0 ; c<numChannels ; c++)
 			{
-				sampleBuffer[offset] = floatOffset + (double) readSample() / floatScale;
+//				double sample = (double) readSample(); //every call of readSample() increments internal counter (+1)
+//				System.out.println("WavFile: " + sample 
+//						   +"  floatScale: " + floatScale
+//						   +"  flaotOffset: " + floatOffset
+//						   +"  value:  " + (floatOffset + sample / floatScale));
+//				sampleBuffer[offset] = floatOffset + sample / floatScale;
+				sampleBuffer[offset] = floatOffset + (double) readSample() / floatScale; //every call of readSample() increments internal counter (+1)
 				offset ++;
 			}
 
@@ -651,7 +662,14 @@ public class WavFile
 		{
 			if (frameCounter == numFrames) return f;
 
-			for (int c=0 ; c<numChannels ; c++) writeSample((long) (floatScale * (floatOffset + sampleBuffer[c][offset])));
+			
+			for (int c=0 ; c<numChannels ; c++) {
+//				System.out.println("WavFile: " + sampleBuffer[c][offset] 
+//											   +"  floatScale: " + floatScale
+//											   +"  flaotOffset: " + floatOffset
+//											   +"  long:  " + (long) (floatScale * (floatOffset + sampleBuffer[c][offset])));
+				writeSample((long) (floatScale * (floatOffset + sampleBuffer[c][offset])));
+			}
 
 			offset ++;
 			frameCounter ++;

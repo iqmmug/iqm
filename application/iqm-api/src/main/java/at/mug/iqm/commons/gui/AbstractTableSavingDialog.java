@@ -59,6 +59,8 @@ import at.mug.iqm.config.ConfigManager;
  * 
  * @author Philipp Kainz
  * @since 3.2
+ * @update 2018-08 HA added wav extension
+ * 
  */
 public abstract class AbstractTableSavingDialog extends JFileChooser implements
 		ISaveTableDialog, PropertyChangeListener {
@@ -165,6 +167,9 @@ public abstract class AbstractTableSavingDialog extends JFileChooser implements
 			} else if (destination.toString().toLowerCase()
 					.endsWith(IQMConstants.DAT_EXTENSION)) {
 				extension = IQMConstants.DAT_EXTENSION;
+			} else if (destination.toString().toLowerCase()
+					.endsWith(IQMConstants.WAV_EXTENSION)) {
+				extension = IQMConstants.WAV_EXTENSION;
 			}
 
 			// test with an pseudo file
@@ -229,6 +234,9 @@ public abstract class AbstractTableSavingDialog extends JFileChooser implements
 			} else if (destination.toString().toLowerCase()
 					.endsWith(IQMConstants.DAT_EXTENSION)) {
 				extension = IQMConstants.DAT_EXTENSION;
+			} else if (destination.toString().toLowerCase()
+					.endsWith(IQMConstants.WAV_EXTENSION)) {
+				extension = IQMConstants.WAV_EXTENSION;
 			}
 		}
 		// name is written without extension
@@ -245,6 +253,9 @@ public abstract class AbstractTableSavingDialog extends JFileChooser implements
 			} else if (this.getFileFilter().getDescription()
 					.equals(IQMConstants.DAT_FILTER_DESCRIPTION)) {
 				extension = IQMConstants.DAT_EXTENSION;
+			} else if (this.getFileFilter().getDescription()
+					.equals(IQMConstants.WAV_FILTER_DESCRIPTION)) {
+				extension = IQMConstants.WAV_EXTENSION;
 			}
 			// default, if "all files" is chosen and the extension is
 			// empty, save file as txt.
@@ -294,6 +305,9 @@ public abstract class AbstractTableSavingDialog extends JFileChooser implements
 		this.addChoosableFileFilter(new FileNameExtensionFilter(
 				IQMConstants.TXT_FILTER_DESCRIPTION,
 				IQMConstants.TXT_EXTENSION));
+		this.addChoosableFileFilter(new FileNameExtensionFilter(
+				IQMConstants.WAV_FILTER_DESCRIPTION,
+				IQMConstants.WAV_EXTENSION));
 		this.setFileFilter(allFormats); // default setting
 
 		try {
@@ -345,6 +359,15 @@ public abstract class AbstractTableSavingDialog extends JFileChooser implements
 			} else {
 				chbxStoreModel.setEnabled(true);
 			}
+			if (((FileNameExtensionFilter) evt.getNewValue()).getDescription()
+					.equals(IQMConstants.WAV_FILTER_DESCRIPTION)) {
+				chbxStoreModel.setEnabled(false);
+				DialogUtil.getInstance().showDefaultInfoMessage("<html><font color=\"red\">WAV format leads to rounding errors due to conversion to signed long!<br/>"
+																						+ "Values are normalized to the range [-1,1] </font></html>");
+			} else {
+				chbxStoreModel.setEnabled(true);
+			}
+						
 		}
 	}
 

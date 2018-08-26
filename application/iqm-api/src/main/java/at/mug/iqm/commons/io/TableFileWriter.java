@@ -36,6 +36,7 @@ import java.util.List;
 
 import javax.swing.JTable;
 import javax.swing.event.TableModelListener;
+import javax.swing.table.DefaultTableModel;
 
 import org.apache.log4j.Logger;
 
@@ -126,11 +127,9 @@ public class TableFileWriter implements Runnable {
 	 * 
 	 * @throws IllegalArgumentException if {@link #mode} equals {@link #MODE_SINGLE}
 	 */
-	public TableFileWriter(File destination, List<IqmDataBox> boxes,
-			String extension, int mode) {
+	public TableFileWriter(File destination, List<IqmDataBox> boxes, String extension, int mode) {
 		if (mode == MODE_SINGLE) {
-			throw new IllegalArgumentException(
-					"The mode must not be MODE_SINGLE on this constructor!");
+			throw new IllegalArgumentException("The mode must not be MODE_SINGLE on this constructor!");
 		}
 
 		this.destination = destination;
@@ -146,8 +145,7 @@ public class TableFileWriter implements Runnable {
 	 * @param table a {@link IqmDataBox} containing the table
 	 * @param extension the extension of the target files
 	 */
-	public TableFileWriter(File destination, IqmDataBox table,
-			String extension) {
+	public TableFileWriter(File destination, IqmDataBox table, String extension) {
 		this(MODE_SINGLE);
 		this.destination = destination;
 		this.boxes = new ArrayList<IqmDataBox>(1);
@@ -175,18 +173,21 @@ public class TableFileWriter implements Runnable {
 				
 				// convert to JTable
 				JTable jtb = new JTable(mdl);
-				ObjectFileWriter ofw = new ObjectFileWriter(destination,
-						jtb);
+				ObjectFileWriter ofw = new ObjectFileWriter(destination,jtb);
 				ofw.write();
 			} catch (IOException e) {
-				DialogUtil.getInstance().showErrorMessage(
-						"I/O Exception, cannot write table object!", e, true);
+				DialogUtil.getInstance().showErrorMessage("I/O Exception, cannot write table object!", e, true);
 				return;
 			} catch (CloneNotSupportedException e) {
-				DialogUtil.getInstance().showErrorMessage(
-						"I/O Exception, cannot clone table model object!", e, true);
+				DialogUtil.getInstance().showErrorMessage("I/O Exception, cannot clone table model object!", e, true);
 				return;
 			}
+		} else if (extension.equals(IQMConstants.WAV_EXTENSION)) {
+			
+			// write the wav encoded file
+			WAVFileWriter wfw = new WAVFileWriter(destination, (DefaultTableModel) this.tableData);
+			wfw.run();
+			
 		} else {
 //			Object outputObject = null;
 //		
@@ -212,14 +213,12 @@ public class TableFileWriter implements Runnable {
 			
 			
 			// write the plain text file as US-ASCII encoded file
-			PlainTextFileWriter ptfw = new PlainTextFileWriter(destination,
-			String.valueOf(this.tableData), "US-ASCII");
+			PlainTextFileWriter ptfw = new PlainTextFileWriter(destination, String.valueOf(this.tableData), "US-ASCII");
 			ptfw.run();
 			
 		}
 
-		BoardPanel.appendTextln("Saved table data to file "
-				+ destination.toString() + ".");
+		BoardPanel.appendTextln("Saved table data to file " + destination.toString() + ".");
 	}
 
 	/**
@@ -239,11 +238,9 @@ public class TableFileWriter implements Runnable {
 		// no extension is selected/entered
 		if (extension.equals("default")) {
 			// file name e.g. filename_0001
-			if (destination.toString().endsWith(
-					"_" + String.format("%0" + nDigits + "d", 1))) {
+			if (destination.toString().endsWith("_" + String.format("%0" + nDigits + "d", 1))) {
 				// take just 'filename'
-				plainName = destination.toString().substring(0,
-						destination.toString().lastIndexOf("_"));
+				plainName = destination.toString().substring(0,destination.toString().lastIndexOf("_"));
 			}
 			// file name ends arbitrarily e.g. filename_subFileName
 			else {
@@ -255,18 +252,14 @@ public class TableFileWriter implements Runnable {
 		// if any recognized extension is set
 		else {
 			// file name e.g. filename_0001.txt
-			if (destination.toString().endsWith(
-					"_" + String.format("%0" + nDigits + "d", 1) + "."
-							+ extension)) {
+			if (destination.toString().endsWith("_" + String.format("%0" + nDigits + "d", 1) + "."+ extension)) {
 				// take just 'filename'
-				plainName = destination.toString().substring(0,
-						destination.toString().lastIndexOf("_"));
+				plainName = destination.toString().substring(0,destination.toString().lastIndexOf("_"));
 			}
 			// file name ends arbitrarily e.g. filename_subFileName_.txt
 			else if (destination.toString().endsWith("." + extension)) {
 				// remove the extension and take 'filename_subFileName_'
-				plainName = destination.toString().substring(0,
-						destination.toString().lastIndexOf("."));
+				plainName = destination.toString().substring(0,destination.toString().lastIndexOf("."));
 			}
 			// existing file name has been selected via mouse/keyboard
 			else {
@@ -283,11 +276,9 @@ public class TableFileWriter implements Runnable {
 		if (testFile.exists()) {
 			Toolkit.getDefaultToolkit().beep();
 
-			int selected = DialogUtil.getInstance().showDefaultWarnMessage(
-					I18N.getMessage("application.fileExists.overwrite"));
+			int selected = DialogUtil.getInstance().showDefaultWarnMessage(I18N.getMessage("application.fileExists.overwrite"));
 			if (selected != IDialogUtil.YES_OPTION) {
-				BoardPanel.appendTextln(I18N
-						.getMessage("application.tableNotSaved"));
+				BoardPanel.appendTextln(I18N.getMessage("application.tableNotSaved"));
 				return;
 			}
 		}
@@ -301,19 +292,15 @@ public class TableFileWriter implements Runnable {
 			// value)
 			int proz = (n + 1) * 100;
 			proz = proz / length;
-			Application.getMainFrame().getStatusPanel()
-					.setProgressBarValueStack(proz);
+			Application.getMainFrame().getStatusPanel().setProgressBarValueStack(proz);
 
 			IqmDataBox box = boxes.get(n);
 
 			if (box instanceof VirtualDataBox) {
-				box = VirtualDataManager.getInstance().load(
-						(IVirtualizable) box);
+				box = VirtualDataManager.getInstance().load((IVirtualizable) box);
 			}
 
-			fileName = plainName + "_"
-					+ String.format("%0" + nDigits + "d", n + 1) + "."
-					+ extension;
+			fileName = plainName + "_"+ String.format("%0" + nDigits + "d", n + 1) + "."+ extension;
 
 			try {
 				// prepare object
@@ -324,30 +311,24 @@ public class TableFileWriter implements Runnable {
 					// JTB extension is always a JTable object
 					outputObject = new JTable(box.getTableModel());
 
-					ObjectFileWriter ofw = new ObjectFileWriter(new File(
-							fileName), outputObject);
+					ObjectFileWriter ofw = new ObjectFileWriter(new File(fileName), outputObject);
 					ofw.run();
 				} else {
 					if (extension.equals(IQMConstants.CSV_EXTENSION)) {
 
-						outputObject = TableTools.convertToCSV(box
-								.getTableModel());
+						outputObject = TableTools.convertToCSV(box.getTableModel());
 					} else if (extension.equals(IQMConstants.DAT_EXTENSION)) {
-						outputObject = TableTools.convertToTabDelimited(box
-								.getTableModel());
+						outputObject = TableTools.convertToTabDelimited(box.getTableModel());
 					} else if (extension.equals(IQMConstants.TXT_EXTENSION)) {
-						outputObject = TableTools.convertToTabDelimited(box
-								.getTableModel());
+						outputObject = TableTools.convertToTabDelimited(box.getTableModel());
 					}
 
-					PlainTextFileWriter ptfw = new PlainTextFileWriter(new File(
-							fileName), String.valueOf(outputObject), "US-ASCII");
+					PlainTextFileWriter ptfw = new PlainTextFileWriter(new File(fileName), String.valueOf(outputObject), "US-ASCII");
 					ptfw.run();
 				}
 
 				// write to board
-				BoardPanel.appendTextln(I18N.getMessage(
-						"application.tableSaved", fileName));
+				BoardPanel.appendTextln(I18N.getMessage("application.tableSaved", fileName));
 
 				// add file name to array
 				storedFileNames.add(fileName);
@@ -355,18 +336,15 @@ public class TableFileWriter implements Runnable {
 			} catch (Exception e) {
 				e.printStackTrace();
 				logger.error("An error occurred: ", e);
-				DialogUtil.getInstance().showErrorMessage(
-						I18N.getMessage("application.error.generic"), e);
+				DialogUtil.getInstance().showErrorMessage(I18N.getMessage("application.error.generic"), e);
 			}
 		}
 
 		// print just the first 15 files to board
 		BoardPanel.appendTextln(I18N.getMessage("application.tableSequSaved",
-				(storedFileNames.size() > 15) ? storedFileNames.subList(0, 15)
-						+ ", ..." : storedFileNames));
+				(storedFileNames.size() > 15) ? storedFileNames.subList(0, 15)+ ", ..." : storedFileNames));
 		// log ALL saved files anyway
-		logger.info("Saved image sequence with encoding " + ": "
-				+ storedFileNames.toString());
+		logger.info("Saved image sequence with encoding " + ": "+ storedFileNames.toString());
 
 		// reset progress bar
 		Application.getMainFrame().getStatusPanel().setProgressBarValueStack(0);
