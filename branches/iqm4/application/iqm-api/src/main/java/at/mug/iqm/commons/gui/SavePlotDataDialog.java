@@ -45,6 +45,7 @@ import at.mug.iqm.api.Resources;
  * 
  * @author Philipp Kainz
  * @since 3.2
+ * @update HA 2018-08  added wav reading writing
  * 
  */
 public class SavePlotDataDialog extends AbstractTableSavingDialog {

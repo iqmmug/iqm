@@ -333,7 +333,7 @@ public class PlotParser extends SwingWorker<Vector<Vector<String>>, Void> {
 	         numColumns = wavFile.getNumChannels();
 	      
 	         //Set buffersize
-	         int bufferSize = 300;
+	         int bufferSize = 100;
 
 	         // Create a buffer of 100 frames
 	         double[] buffer = new double[bufferSize * numColumns];
@@ -360,6 +360,7 @@ public class PlotParser extends SwingWorker<Vector<Vector<String>>, Void> {
 	           		line.clear();
 					for (int i = 0; i < numColumns; i++) {
 						//System.out.println("s + i*bufferSize: " + s +" " + i*bufferSize +" " +(s + i*bufferSize));
+						//System.out.println("  " + buffer[s + i]+ "   "+ String.valueOf(buffer[s + i]));
 						line.add(i, String.valueOf(buffer[s + i]));  //NO TESTED YET!!!!!!!!!!!
 					}
 					dataString.add(new Vector<String>(line));
