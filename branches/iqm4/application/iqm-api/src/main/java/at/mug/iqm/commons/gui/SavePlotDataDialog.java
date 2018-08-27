@@ -33,11 +33,13 @@ import java.io.File;
 
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 import org.apache.log4j.Logger;
 
 import at.mug.iqm.api.Application;
 import at.mug.iqm.api.I18N;
+import at.mug.iqm.api.IQMConstants;
 import at.mug.iqm.api.Resources;
 
 /**
@@ -76,6 +78,8 @@ public class SavePlotDataDialog extends AbstractTableSavingDialog {
 	@Override
 	protected void init() {
 		super.init();
+		this.addChoosableFileFilter(new FileNameExtensionFilter(IQMConstants.WAV_FILTER_DESCRIPTION, IQMConstants.WAV_EXTENSION));
+
 		this.addPropertyChangeListener(
 				JFileChooser.FILE_FILTER_CHANGED_PROPERTY, this);
 		this.setDialogTitle(I18N
