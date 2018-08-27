@@ -287,7 +287,7 @@ implements ActionListener, ChangeListener {
 	private  JRadioButton getJRadioButtonP90() {
 		if (buttP90 == null) {
 			buttP90  = new JRadioButton();
-			buttP90.setText("+90�");
+			buttP90.setText("+90°");
 			buttP90.setToolTipText("rotation 90° clockwise");
 			buttP90.addActionListener(this);
 			buttP90.setActionCommand("parameter");
@@ -302,7 +302,7 @@ implements ActionListener, ChangeListener {
 	private  JRadioButton getJRadioButtonM90() {
 		if (buttM90 == null) {
 			buttM90  = new JRadioButton();
-			buttM90.setText("-90�");
+			buttM90.setText("-90°");
 			buttM90.setToolTipText("rotation 90° counterclockwise");
 			buttM90.addActionListener(this);
 			buttM90.setActionCommand("parameter");
@@ -317,7 +317,7 @@ implements ActionListener, ChangeListener {
 	private  JRadioButton getJRadioButton180() {
 		if (butt180 == null) {
 			butt180  = new JRadioButton();
-			butt180.setText("180�");
+			butt180.setText("180°");
 			butt180.setToolTipText("rotation 180°");
 			butt180.addActionListener(this);
 			butt180.setActionCommand("parameter");
