@@ -59,6 +59,7 @@ import at.mug.iqm.img.bundle.descriptors.IqmOpStatisticsDescriptor;
  *
  * @author Ahammer, Kainz
  * @since 2009 06
+ * @update 2018-08  added some binary Histogram statistics 
  */
 public class IqmOpStatistics extends AbstractOperator {
     // WARNING: Don't declare fields here
@@ -130,7 +131,7 @@ public class IqmOpStatistics extends AbstractOperator {
             calculateCommonFeatures(dataRows[b], b, fileName, imgName, strBack, width, height);
 
             if (binary == 1) {
-                calculateBinaryFeatures(dataRows[b], b, histo, backgroundIsIncluded);
+                calculateBinaryFeatures(dataRows[b], b, histo, (int) imgTypeGreyMax,  backgroundIsIncluded);
             }
             if (order1 == 1) {
 
@@ -215,17 +216,32 @@ public class IqmOpStatistics extends AbstractOperator {
      * @param histo
      * @param backgroundIsIncluded
      */
-    private void calculateBinaryFeatures(Vector dataRow, int b, Histogram histo, boolean backgroundIsIncluded) {
-        int totals = histo.getTotals()[b];
-        int greater0;
-        if (backgroundIsIncluded) { // inclusive
-            int totalZero = histo.getSubTotal(b, 0, 0);
-            greater0 = totals - totalZero;
-        } else {
-            greater0 = totals;
+    private void calculateBinaryFeatures(Vector dataRow, int b, Histogram histo, int imgTypeGreyMax,  boolean backgroundIsIncluded) {
+        int totals      = histo.getTotals()[b];
+        int totalMin    = 99999;
+        int totalMax    = 99999;
+        int numGreater0 = 99999;
+        int numGreater02 = 99999;
+        if (backgroundIsIncluded) { // inclusive   
+        	totalMin     = histo.getSubTotal(b, 0, 0);
+        	totalMax     = histo.getSubTotal(b, imgTypeGreyMax, imgTypeGreyMax);
+        	numGreater0  = totals - totalMin;
+        	//or
+        	//numGreater0 = histo.getSubTotal(b, 1, imgTypeGreyMax);
+        } else { //eclusive
+            totalMin    = histo.getSubTotal(b, 0, 0);
+            totalMax    = histo.getSubTotal(b, imgTypeGreyMax-1, imgTypeGreyMax-1);
+            numGreater0 = totals;
+            //or
+            //numGreater0 = histo.getSubTotal(b, 0, imgTypeGreyMax-1);
         }
+       
+        
+        System.out.println("IqmOpStatistics: # >0: " + numGreater0 +"   "+ numGreater02);
+        dataRow.add(totalMin);
+        dataRow.add(totalMax);
+        dataRow.add(numGreater0);
         dataRow.add(totals);
-        dataRow.add(greater0);
     }
 
     /**
@@ -410,9 +426,11 @@ public class IqmOpStatistics extends AbstractOperator {
         model.addColumn("Width");
         model.addColumn("Height");
 
-        if (binary == 1) {
-            model.addColumn("# Total");
-            model.addColumn("# > 0");
+        if (binary == 1) {      
+            model.addColumn("# Histo Min");
+            model.addColumn("# Histo Max");
+            model.addColumn("# Histo > 0");
+            model.addColumn("# Histo Total");
         }
         if (order1 == 1) {
             model.addColumn("Min");
