@@ -107,8 +107,7 @@ public abstract class AbstractTableSavingDialog extends JFileChooser implements
 
 		// Save property to XML file
 		// update configuration
-		ConfigManager.getCurrentInstance().setImagePath(
-				this.getCurrentDirectory());
+		ConfigManager.getCurrentInstance().setImagePath(this.getCurrentDirectory());
 
 		return resolveDestination(destination);
 	}
@@ -125,14 +124,14 @@ public abstract class AbstractTableSavingDialog extends JFileChooser implements
 		
 		// initialize the variables
 		extensionExists = false;
-		extension = "default";
+		extension = "default";  //default
+//		File testFile;
+//		boolean testFileExists = false;
 
-		// get the already existing extension
+		// look for existing extension
 		// and compare it to all known and allowed extensions.
 		try {
-			extension = destination.toString().substring(
-					destination.toString().lastIndexOf("."),
-					destination.toString().length());
+			extension = destination.toString().substring(destination.toString().lastIndexOf("."),destination.toString().length());
 			extension = extension.substring(1);
 			for (String s : allFormats.getExtensions()) {
 				if (!s.equals(extension)) {
@@ -150,125 +149,40 @@ public abstract class AbstractTableSavingDialog extends JFileChooser implements
 			logger.debug(se);
 		}
 
-		File testFile;
-		boolean testFileExists = false;
+		
+	
 		if (!extensionExists) {
-			// check, whether a special filter is selected and take its
-			// extension
-			if (destination.toString().toLowerCase()
-					.endsWith(IQMConstants.JTB_EXTENSION)) {
+			// check, whether a special filter is selected and take its extension		
+			if        (this.getFileFilter().getDescription().equals(IQMConstants.JTB_FILTER_DESCRIPTION)) {
 				extension = IQMConstants.JTB_EXTENSION;
-			} else if (destination.toString().toLowerCase()
-					.endsWith(IQMConstants.CSV_EXTENSION)) {
+			} else if (this.getFileFilter().getDescription().equals(IQMConstants.CSV_FILTER_DESCRIPTION)) {
 				extension = IQMConstants.CSV_EXTENSION;
-			} else if (destination.toString().toLowerCase()
-					.endsWith(IQMConstants.TXT_EXTENSION)) {
+			} else if (this.getFileFilter().getDescription().equals(IQMConstants.TXT_FILTER_DESCRIPTION)) {
 				extension = IQMConstants.TXT_EXTENSION;
-			} else if (destination.toString().toLowerCase()
-					.endsWith(IQMConstants.DAT_EXTENSION)) {
+			} else if (this.getFileFilter().getDescription().equals(IQMConstants.DAT_FILTER_DESCRIPTION)) {
 				extension = IQMConstants.DAT_EXTENSION;
-			} else if (destination.toString().toLowerCase()
-					.endsWith(IQMConstants.WAV_EXTENSION)) {
+			} else if (this.getFileFilter().getDescription().equals(IQMConstants.WAV_FILTER_DESCRIPTION)) {
 				extension = IQMConstants.WAV_EXTENSION;
+			} else {
+				extension = "txt";
 			}
-
-			// test with an pseudo file
-			testFile = new File(destination.toString() + "." + extension);
-
-			// look
-			testFileExists = testFile.exists();
-			extension = "default";
+			//add extension to destination
+			destination = new File(destination.toString() + "." + extension);
+		
 		}
-
-		// file name is not altered until here!
-		// check for existing file names (may be saved with selected
-		// filter)
-		if (destination.exists() || testFileExists) {
+		
+		// check for already existing file
+		if (destination.exists()) {
 			Toolkit.getDefaultToolkit().beep();
 
-			int selected = DialogUtil
-					.getInstance()
-					.showDefaultWarnMessage(
-							I18N.getMessage("application.fileExists.overwrite"));
+			int selected = DialogUtil.getInstance().showDefaultWarnMessage(I18N.getMessage("application.fileExists.overwrite"));
 			if (selected != IDialogUtil.YES_OPTION) {
-				BoardPanel.appendTextln(
-						I18N.getMessage("application.tableNotSaved"));
+				BoardPanel.appendTextln(I18N.getMessage("application.tableNotSaved"));
 				return null;
 			} else {
-				// get the already existing extension
-				try {
-					extension = destination.toString().substring(
-							destination.toString().lastIndexOf("."),
-							destination.toString().length());
-					extension = extension.substring(1);
-					for (String s : allFormats.getExtensions()) {
-						if (!s.equals(extension)) {
-							extensionExists = false;
-						} else {
-							extensionExists = true;
-							break;
-						}
-					}
-				} catch (NullPointerException npe) {
-					extensionExists = false;
-					logger.debug(npe);
-				} catch (StringIndexOutOfBoundsException se) {
-					extensionExists = false;
-					logger.debug(se);
-				}
+				//do nothing here and overwrite in the following
 			}
 		}
-
-		if (extensionExists) {
-			// check entered file name + extension, if an extension
-			// exists
-			if (destination.toString().toLowerCase()
-					.endsWith(IQMConstants.JTB_EXTENSION)) {
-				extension = IQMConstants.JTB_EXTENSION;
-			} else if (destination.toString().toLowerCase()
-					.endsWith(IQMConstants.CSV_EXTENSION)) {
-				extension = IQMConstants.CSV_EXTENSION;
-			} else if (destination.toString().toLowerCase()
-					.endsWith(IQMConstants.TXT_EXTENSION)) {
-				extension = IQMConstants.TXT_EXTENSION;
-			} else if (destination.toString().toLowerCase()
-					.endsWith(IQMConstants.DAT_EXTENSION)) {
-				extension = IQMConstants.DAT_EXTENSION;
-			} else if (destination.toString().toLowerCase()
-					.endsWith(IQMConstants.WAV_EXTENSION)) {
-				extension = IQMConstants.WAV_EXTENSION;
-			}
-		}
-		// name is written without extension
-		if (extension.equals("default")) {
-			if (this.getFileFilter().getDescription()
-					.equals(IQMConstants.JTB_FILTER_DESCRIPTION)) {
-				extension = IQMConstants.JTB_EXTENSION;
-			} else if (this.getFileFilter().getDescription()
-					.equals(IQMConstants.CSV_FILTER_DESCRIPTION)) {
-				extension = IQMConstants.CSV_EXTENSION;
-			} else if (this.getFileFilter().getDescription()
-					.equals(IQMConstants.TXT_FILTER_DESCRIPTION)) {
-				extension = IQMConstants.TXT_EXTENSION;
-			} else if (this.getFileFilter().getDescription()
-					.equals(IQMConstants.DAT_FILTER_DESCRIPTION)) {
-				extension = IQMConstants.DAT_EXTENSION;
-			} else if (this.getFileFilter().getDescription()
-					.equals(IQMConstants.WAV_FILTER_DESCRIPTION)) {
-				extension = IQMConstants.WAV_EXTENSION;
-			}
-			// default, if "all files" is chosen and the extension is
-			// empty, save file as txt.
-			else {
-				extension = IQMConstants.TXT_EXTENSION;
-			}
-
-		}
-
-		if (!extension.equals("default") && extensionExists == false) {
-			destination = new File(destination.toString() + "." + extension);
-		}
-
 		return destination;
 	}
 	
@@ -291,23 +205,13 @@ public abstract class AbstractTableSavingDialog extends JFileChooser implements
 		allFormats = new FileNameExtensionFilter(
 				I18N.getGUILabelText("application.dialog.fileExtensionFilter.tableFiles.supported"),
 				IQMConstants.JTB_EXTENSION, IQMConstants.DAT_EXTENSION,
-				IQMConstants.CSV_EXTENSION, IQMConstants.TXT_EXTENSION);
+				IQMConstants.CSV_EXTENSION, IQMConstants.TXT_EXTENSION, IQMConstants.WAV_EXTENSION);
 		this.addChoosableFileFilter(allFormats);
-		this.addChoosableFileFilter(new FileNameExtensionFilter(
-				IQMConstants.JTB_FILTER_DESCRIPTION,
-				IQMConstants.JTB_EXTENSION));
-		this.addChoosableFileFilter(new FileNameExtensionFilter(
-				IQMConstants.DAT_FILTER_DESCRIPTION,
-				IQMConstants.DAT_EXTENSION));
-		this.addChoosableFileFilter(new FileNameExtensionFilter(
-				IQMConstants.CSV_FILTER_DESCRIPTION,
-				IQMConstants.CSV_EXTENSION));
-		this.addChoosableFileFilter(new FileNameExtensionFilter(
-				IQMConstants.TXT_FILTER_DESCRIPTION,
-				IQMConstants.TXT_EXTENSION));
-		this.addChoosableFileFilter(new FileNameExtensionFilter(
-				IQMConstants.WAV_FILTER_DESCRIPTION,
-				IQMConstants.WAV_EXTENSION));
+		this.addChoosableFileFilter(new FileNameExtensionFilter(IQMConstants.JTB_FILTER_DESCRIPTION, IQMConstants.JTB_EXTENSION));
+		this.addChoosableFileFilter(new FileNameExtensionFilter(IQMConstants.DAT_FILTER_DESCRIPTION, IQMConstants.DAT_EXTENSION));
+		this.addChoosableFileFilter(new FileNameExtensionFilter(IQMConstants.CSV_FILTER_DESCRIPTION, IQMConstants.CSV_EXTENSION));
+		this.addChoosableFileFilter(new FileNameExtensionFilter(IQMConstants.TXT_FILTER_DESCRIPTION, IQMConstants.TXT_EXTENSION));
+		this.addChoosableFileFilter(new FileNameExtensionFilter(IQMConstants.WAV_FILTER_DESCRIPTION, IQMConstants.WAV_EXTENSION));
 		this.setFileFilter(allFormats); // default setting
 
 		try {
@@ -331,13 +235,11 @@ public abstract class AbstractTableSavingDialog extends JFileChooser implements
 		if (additionalOptionsPanel == null) {
 			additionalOptionsPanel = new JPanel(new BorderLayout());
 
-			BoxLayout boxlayout = new BoxLayout(additionalOptionsPanel,
-					BoxLayout.LINE_AXIS);
+			BoxLayout boxlayout = new BoxLayout(additionalOptionsPanel, BoxLayout.LINE_AXIS);
 			additionalOptionsPanel.setLayout(boxlayout);
 
 			chbxStoreModel = new JCheckBox("Export model");
-			chbxStoreModel
-					.setToolTipText("<html>Export the model using the default sort order of the columns, the table's model will be exported only.<br/>"
+			chbxStoreModel.setToolTipText("<html>Export the model using the default sort order of the columns, the table's model will be exported only.<br/>"
 							+ "Uncheck this box, if you want to store a custom order of the "
 							+ "table's columns as shown in the TablePanel, the entire JTable object will be exported.</html>");
 			chbxStoreModel.setSelected(false);
@@ -353,17 +255,15 @@ public abstract class AbstractTableSavingDialog extends JFileChooser implements
 		logger.debug(evt.getSource() + ", " + evt.getPropertyName() + ", " + evt.getNewValue());
 		if (evt.getPropertyName().equals(
 				JFileChooser.FILE_FILTER_CHANGED_PROPERTY)) {
-			if (((FileNameExtensionFilter) evt.getNewValue()).getDescription()
-					.equals(IQMConstants.JTB_FILTER_DESCRIPTION)) {
+			if (((FileNameExtensionFilter) evt.getNewValue()).getDescription().equals(IQMConstants.JTB_FILTER_DESCRIPTION)) {
 				chbxStoreModel.setEnabled(false);
 			} else {
 				chbxStoreModel.setEnabled(true);
 			}
-			if (((FileNameExtensionFilter) evt.getNewValue()).getDescription()
-					.equals(IQMConstants.WAV_FILTER_DESCRIPTION)) {
+			if (((FileNameExtensionFilter) evt.getNewValue()).getDescription().equals(IQMConstants.WAV_FILTER_DESCRIPTION)) {
 				chbxStoreModel.setEnabled(false);
 				DialogUtil.getInstance().showDefaultInfoMessage("<html><font color=\"red\">WAV format leads to rounding errors due to conversion to signed long!<br/>"
-																						+ "Values are normalized to the range [-1,1] </font></html>");
+																						+ "Data values are normalized to the range [-1,1] </font></html>");
 			} else {
 				chbxStoreModel.setEnabled(true);
 			}
