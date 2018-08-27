@@ -205,13 +205,13 @@ public abstract class AbstractTableSavingDialog extends JFileChooser implements
 		allFormats = new FileNameExtensionFilter(
 				I18N.getGUILabelText("application.dialog.fileExtensionFilter.tableFiles.supported"),
 				IQMConstants.JTB_EXTENSION, IQMConstants.DAT_EXTENSION,
-				IQMConstants.CSV_EXTENSION, IQMConstants.TXT_EXTENSION, IQMConstants.WAV_EXTENSION);
+				IQMConstants.CSV_EXTENSION, IQMConstants.TXT_EXTENSION);
 		this.addChoosableFileFilter(allFormats);
 		this.addChoosableFileFilter(new FileNameExtensionFilter(IQMConstants.JTB_FILTER_DESCRIPTION, IQMConstants.JTB_EXTENSION));
 		this.addChoosableFileFilter(new FileNameExtensionFilter(IQMConstants.DAT_FILTER_DESCRIPTION, IQMConstants.DAT_EXTENSION));
 		this.addChoosableFileFilter(new FileNameExtensionFilter(IQMConstants.CSV_FILTER_DESCRIPTION, IQMConstants.CSV_EXTENSION));
 		this.addChoosableFileFilter(new FileNameExtensionFilter(IQMConstants.TXT_FILTER_DESCRIPTION, IQMConstants.TXT_EXTENSION));
-		this.addChoosableFileFilter(new FileNameExtensionFilter(IQMConstants.WAV_FILTER_DESCRIPTION, IQMConstants.WAV_EXTENSION));
+		//this.addChoosableFileFilter(new FileNameExtensionFilter(IQMConstants.WAV_FILTER_DESCRIPTION, IQMConstants.WAV_EXTENSION));
 		this.setFileFilter(allFormats); // default setting
 
 		try {
