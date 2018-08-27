@@ -296,9 +296,9 @@ public abstract class DefaultDrawingLayer extends JLabel implements
 	/**
 	 * The default color for drawing a {@link LineROI}'s boundary rectangles on
 	 * the canvas. These rectangles can be moved in order to resize the ROI
-	 * shape. Default value is {@link Color#BLUE}.
+	 * shape. Default value is {@link Color#GREEN}.
 	 */
-	protected Color lineROIBoundaryRectangleColor = Color.BLUE;
+	protected Color lineROIBoundaryRectangleColor = Color.GREEN;
 
 	/**
 	 * The default color for drawing a temporary ROI shape. Default value is
