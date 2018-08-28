@@ -391,7 +391,7 @@ public class ManagerPanel extends JPanel implements IManagerPanel,
 		radbutMainLeft.setSelected(true);
 		chbxMainLeft = new JCheckBox();
 		panel_Left.add(chbxMainLeft);
-		chbxMainLeft.setToolTipText(I18N.getGUILabelText("manager.hideThumbs"));
+		chbxMainLeft.setToolTipText(I18N.getGUILabelText("manager.showHideThumbs"));
 		chbxMainLeft.addActionListener(this);
 		chbxMainLeft.setActionCommand("checkmain");
 		chbxMainLeft.setSelected(true);
@@ -414,7 +414,7 @@ public class ManagerPanel extends JPanel implements IManagerPanel,
 		chbxMainRight = new JCheckBox();
 		panel_Right.add(chbxMainRight);
 		chbxMainRight
-				.setToolTipText(I18N.getGUILabelText("manager.hideThumbs"));
+				.setToolTipText(I18N.getGUILabelText("manager.showHideThumbs"));
 		chbxMainRight.setSelected(true);
 		chbxMainRight.addActionListener(this);
 		chbxMainRight.setActionCommand("checkmain2");
@@ -1553,10 +1553,10 @@ public class ManagerPanel extends JPanel implements IManagerPanel,
 			// turn on /off
 			if (chbxMainLeft.isSelected()) {
 				chbxMainLeft.setToolTipText(I18N
-						.getGUILabelText("manager.hideThumbs"));
+						.getGUILabelText("manager.showHideThumbs"));
 			} else {
 				chbxMainLeft.setToolTipText(I18N
-						.getGUILabelText("manager.showThumbs"));
+						.getGUILabelText("manager.showHideThumbs"));
 			}
 
 			this.revalidate();
@@ -1586,10 +1586,10 @@ public class ManagerPanel extends JPanel implements IManagerPanel,
 			// turn on /off
 			if (chbxMainRight.isSelected()) {
 				chbxMainRight.setToolTipText(I18N
-						.getGUILabelText("manager.hideThumbs"));
+						.getGUILabelText("manager.showHideThumbs"));
 			} else {
 				chbxMainRight.setToolTipText(I18N
-						.getGUILabelText("manager.showThumbs"));
+						.getGUILabelText("manager.showHideThumbs"));
 			}
 
 			this.revalidate();
