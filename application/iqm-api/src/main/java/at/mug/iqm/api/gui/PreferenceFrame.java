@@ -59,10 +59,10 @@ import at.mug.iqm.api.I18N;
 import at.mug.iqm.commons.util.DialogUtil;
 import at.mug.iqm.config.ConfigManager;
 
-import com.jgoodies.forms.factories.FormFactory;
-import com.jgoodies.forms.layout.ColumnSpec;
-import com.jgoodies.forms.layout.FormLayout;
-import com.jgoodies.forms.layout.RowSpec;
+//import com.jgoodies.forms.factories.FormFactory;  //somehow connected to bioformats loci_tools 5.0.0
+//import com.jgoodies.forms.layout.ColumnSpec;
+//import com.jgoodies.forms.layout.FormLayout;
+//import com.jgoodies.forms.layout.RowSpec;
 
 public class PreferenceFrame extends JDialog {
 
@@ -166,14 +166,15 @@ public class PreferenceFrame extends JDialog {
 		pnlGenGUI.setBorder(new TitledBorder(new EtchedBorder(
 				EtchedBorder.LOWERED, null, null), "GUI", TitledBorder.LEADING,
 				TitledBorder.TOP, null, null));
-		pnlGenGUI
-				.setLayout(new FormLayout(new ColumnSpec[] {
-						FormFactory.RELATED_GAP_COLSPEC,
-						FormFactory.DEFAULT_COLSPEC,
-						FormFactory.RELATED_GAP_COLSPEC,
-						ColumnSpec.decode("default:grow"), }, new RowSpec[] {
-						FormFactory.RELATED_GAP_ROWSPEC,
-						FormFactory.DEFAULT_ROWSPEC, }));
+//		pnlGenGUI
+//				.setLayout(new FormLayout(new ColumnSpec[] { //jgoodies Format
+//						FormFactory.RELATED_GAP_COLSPEC,
+//						FormFactory.DEFAULT_COLSPEC,
+//						FormFactory.RELATED_GAP_COLSPEC,
+//						ColumnSpec.decode("default:grow"), }, new RowSpec[] {
+//						FormFactory.RELATED_GAP_ROWSPEC,
+//						FormFactory.DEFAULT_ROWSPEC, }));
+		pnlGenGUI.setLayout(new FlowLayout());
 
 		JLabel lblLAF = new JLabel("Look-and-Feel:");
 		pnlGenGUI.add(lblLAF, "2, 2, right, default");
@@ -186,16 +187,17 @@ public class PreferenceFrame extends JDialog {
 		pnlCleanerTask.setBorder(new TitledBorder(null, "Cleaner Task",
 				TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		verticalBox.add(pnlCleanerTask);
-		pnlCleanerTask
-				.setLayout(new FormLayout(new ColumnSpec[] {
-						FormFactory.RELATED_GAP_COLSPEC,
-						FormFactory.DEFAULT_COLSPEC,
-						FormFactory.RELATED_GAP_COLSPEC,
-						ColumnSpec.decode("default:grow"), }, new RowSpec[] {
-						FormFactory.RELATED_GAP_ROWSPEC,
-						FormFactory.DEFAULT_ROWSPEC,
-						FormFactory.RELATED_GAP_ROWSPEC,
-						FormFactory.DEFAULT_ROWSPEC, }));
+//		pnlCleanerTask
+//				.setLayout(new FormLayout(new ColumnSpec[] { //jgoodies Format
+//						FormFactory.RELATED_GAP_COLSPEC,
+//						FormFactory.DEFAULT_COLSPEC,
+//						FormFactory.RELATED_GAP_COLSPEC,
+//						ColumnSpec.decode("default:grow"), }, new RowSpec[] {
+//						FormFactory.RELATED_GAP_ROWSPEC,
+//						FormFactory.DEFAULT_ROWSPEC,
+//						FormFactory.RELATED_GAP_ROWSPEC,
+//						FormFactory.DEFAULT_ROWSPEC, }));
+		pnlCleanerTask.setLayout(new FlowLayout());
 
 		JLabel lblCleanerName = new JLabel("Name:");
 		pnlCleanerTask.add(lblCleanerName, "2, 2, right, default");
@@ -217,16 +219,17 @@ public class PreferenceFrame extends JDialog {
 		pnlMemoryMonitor.setBorder(new TitledBorder(null, "Memory Monitor",
 				TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		verticalBox.add(pnlMemoryMonitor);
-		pnlMemoryMonitor
-				.setLayout(new FormLayout(new ColumnSpec[] {
-						FormFactory.RELATED_GAP_COLSPEC,
-						FormFactory.DEFAULT_COLSPEC,
-						FormFactory.RELATED_GAP_COLSPEC,
-						ColumnSpec.decode("default:grow"), }, new RowSpec[] {
-						FormFactory.RELATED_GAP_ROWSPEC,
-						FormFactory.DEFAULT_ROWSPEC,
-						FormFactory.RELATED_GAP_ROWSPEC,
-						FormFactory.DEFAULT_ROWSPEC, }));
+//		pnlMemoryMonitor
+//				.setLayout(new FormLayout(new ColumnSpec[] {  //jgoodies Format
+//						FormFactory.RELATED_GAP_COLSPEC,
+//						FormFactory.DEFAULT_COLSPEC,
+//						FormFactory.RELATED_GAP_COLSPEC,
+//						ColumnSpec.decode("default:grow"), }, new RowSpec[] {
+//						FormFactory.RELATED_GAP_ROWSPEC,
+//						FormFactory.DEFAULT_ROWSPEC,
+//						FormFactory.RELATED_GAP_ROWSPEC,
+//						FormFactory.DEFAULT_ROWSPEC, }));
+		pnlMemoryMonitor.setLayout(new FlowLayout());
 
 		JLabel lblMMName = new JLabel("Name:");
 		pnlMemoryMonitor.add(lblMMName, "2, 2, right, default");
