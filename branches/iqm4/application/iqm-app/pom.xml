@@ -92,7 +92,7 @@
 					<plugin>
 						<groupId>org.codehaus.mojo</groupId>
 						<artifactId>license-maven-plugin</artifactId>
-						<version>1.6</version>
+						<version>1.16</version>
 						<configuration>
 							<verbose>false</verbose>
 							<canUpdateCopyright>true</canUpdateCopyright>
@@ -130,7 +130,7 @@
 					<plugin>
 						<groupId>org.apache.maven.plugins</groupId>
 						<artifactId>maven-antrun-plugin</artifactId>
-						<version>1.7</version>
+						<version>1.8</version>
 						<executions>
 							<execution>
 								<id>create-empty-plugin-directory</id>
@@ -149,7 +149,7 @@
 					<plugin>
 						<groupId>org.apache.maven.plugins</groupId>
 						<artifactId>maven-dependency-plugin</artifactId>
-						<version>2.5.1</version>
+						<version>3.1.1</version>
 						<executions>
 							<execution>
 								<id>copy-dependencies</id>
@@ -169,7 +169,7 @@
 					<plugin>
 						<groupId>org.apache.maven.plugins</groupId>
 						<artifactId>maven-jar-plugin</artifactId>
-						<version>2.4</version>
+						<version>3.1.0</version>
 						<configuration>
 							<archive>
 								<manifest>
@@ -182,7 +182,7 @@
 					</plugin>
 					<plugin>
 						<artifactId>maven-assembly-plugin</artifactId>
-						<version>2.4</version>
+						<version>3.1.0</version>
 						<executions>
 							<execution>
 								<id>assembly-fat-jar</id>
@@ -335,7 +335,7 @@
 					<plugin>
 						<groupId>org.apache.maven.plugins</groupId>
 						<artifactId>maven-antrun-plugin</artifactId>
-						<version>1.7</version>
+						<version>1.8</version>
 						<executions>
 							<execution>
 								<id>osx-app-bundle-without-oracle-JRE</id>
@@ -414,7 +414,7 @@
 					<plugin>
 						<groupId>org.apache.maven.plugins</groupId>
 						<artifactId>maven-antrun-plugin</artifactId>
-						<version>1.7</version>
+						<version>1.8</version>
 						<executions>
 							<execution>
 								<id>osx-app-bundle-with-oracle-JRE</id>
@@ -525,7 +525,7 @@
 					<plugin>
 						<groupId>org.apache.maven.plugins</groupId>
 						<artifactId>maven-antrun-plugin</artifactId>
-						<version>1.7</version>
+						<version>1.8</version>
 						<executions>
 							<execution>
 								<id>osx-app-bundle-without-apple-JRE</id>
