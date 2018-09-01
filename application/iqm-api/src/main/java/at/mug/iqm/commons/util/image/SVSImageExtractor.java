@@ -70,6 +70,7 @@ import com.sun.media.jai.codec.TIFFDecodeParam;
 /**
  * @author Philipp Kainz
  * @since 2012 05 29
+ * @update 2018-08-14 HA JAI Fiff Decoder cannot open jpg compressed images with Java-9 and higher
  */
 public class SVSImageExtractor extends SwingWorker<Boolean, Void> {
 	// Logging variables
@@ -309,27 +310,40 @@ public class SVSImageExtractor extends SwingWorker<Boolean, Void> {
 		interP = params[2];
 		extension = params[3];
 		for (int i = 0; i < files.length; i++) {
-			SeekableStream s = null;
-			PlanarImage pi = null;
+			//SeekableStream  s = null;
+			BufferedImage  bi = null;
+			PlanarImage    pi = null;
 			try {
-				s = new FileSeekableStream(files[i].toString());
-				TIFFDecodeParam param = new TIFFDecodeParam();
-				ImageDecoder dec = ImageCodec.createImageDecoder("tiff", s,
-						param);
-				RenderedImage ri = dec.decodeAsRenderedImage(imageToLoad);
-				pi = new RenderedImageAdapter(ri);
+				//JAI Tiff decoder cannot open jpg compressed images since Java-9  1.9.2018
+//				s = new FileSeekableStream(files[i].toString());
+//				TIFFDecodeParam param = new TIFFDecodeParam();
+//				ImageDecoder dec = ImageCodec.createImageDecoder("tiff", s,
+//						param);
+//				RenderedImage ri = dec.decodeAsRenderedImage(imageToLoad);
+//				pi = new RenderedImageAdapter(ri);
 
-			} catch (IOException e) { // try another method e.g for Aperio jpeg
-										// 2000 compressed images
+				ImageInputStream iis = ImageIO.createImageInputStream(files[i]);
+				Iterator<ImageReader> readers = ImageIO.getImageReaders(iis);
+
+				if (readers.hasNext()) {// reader(s) available
+					
+					// pick the first available ImageReader
+					ImageReader reader = readers.next();
+
+					// attach source to the reader
+					reader.setInput(iis, false); // ImageInputStream, booleanseekForwardOnly
+					bi =reader.read(imageToLoad);		
+				}
+				
+				pi = PlanarImage.wrapRenderedImage(bi);
+				
+			} catch (IOException e) { // try another method e.g for Aperio jpeg 2000 compressed images
 				logger.error("An error occurred: ", e);
 
-				BoardPanel
-						.appendTextln(
-								"Standard method (jpeg compressed,...) failed, trying another method (e.g. for jpeg2000 compression,...)",
-								caller);
+				BoardPanel.appendTextln("Standard method (jpeg compressed,...) failed, trying another method (e.g. for jpeg2000 compression,...)", caller);
 
 				BufferedImageReader bR = new BufferedImageReader();
-				BufferedImage bi = null;
+				bi = null;
 
 				try {
 					bR.setId(files[i].toString());
