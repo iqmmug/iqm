@@ -48,7 +48,7 @@
 		<dependency>
 			<groupId>bioformats</groupId>
 			<artifactId>loci_tools</artifactId>
-			<version>5.0.0</version>
+			<version>5.9.1</version>
 		</dependency>
 		<dependency>
 			<groupId>org.jfree</groupId>
