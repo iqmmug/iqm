@@ -1,5 +1,5 @@
 ::LOCI-TOOLS
-call mvn install:install-file -Dfile=./lib/bioformats/loci_tools-5.0.0.jar -DgroupId=bioformats -DartifactId=loci_tools -Dversion=5.0.0 -Dpackaging=jar
+call mvn install:install-file -Dfile=./lib/bioformats/loci_tools-5.9.1.jar -DgroupId=bioformats -DartifactId=loci_tools -Dversion=5.9.1 -Dpackaging=jar
 
 ::FLANAGAN
 call mvn install:install-file -Dfile=./lib/flanagan/flanagan-1.0.jar -DgroupId=flanagan -DartifactId=flanagan -Dversion=1.0 -Dpackaging=jar
