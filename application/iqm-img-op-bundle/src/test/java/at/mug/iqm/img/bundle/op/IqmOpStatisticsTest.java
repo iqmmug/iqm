@@ -1,7 +1,7 @@
 package at.mug.iqm.img.bundle.op;
 
 /*
- * #%L
+ *#%L
  * Project: IQM - Standard Image Operator Bundle
  * File: IqmOpStatisticsTest.java
  * 
@@ -27,7 +27,6 @@ package at.mug.iqm.img.bundle.op;
  * <http://www.gnu.org/licenses/gpl-3.0.html>.
  * #L%
  */
-
 
 import at.mug.iqm.api.model.IqmDataBox;
 import at.mug.iqm.api.model.TableModel;
@@ -83,20 +82,20 @@ public class IqmOpStatisticsTest {
             for (Object obj : tm.getDataVector()) {
                 Vector row = (Vector) obj;
                 //Assertions calculated with operator before refactoring
-                assertEquals("3rd Moment", tm.getColumnName(18));
-                assertEquals(350350.75520653836, row.get(18));
+                assertEquals("1st Moment", tm.getColumnName(18));
+                assertEquals(129.11333333333332, row.get(18));
 
-                assertEquals("2nd Inverse Difference", tm.getColumnName(30));
-                assertEquals(0.010934898f, row.get(30));
+                assertEquals("2nd Dissimilarity", tm.getColumnName(30));
+                assertEquals(0.24577555f, row.get(30));
 
-                assertEquals("2nd StdDev x", tm.getColumnName(35));
-                assertEquals(7.4631295f, row.get(35));
+                assertEquals("2nd StdDev x", tm.getColumnName(37));
+                assertEquals(7.4631295f, row.get(37));
 
-                assertEquals("2nd StdDev y", tm.getColumnName(36));
-                assertEquals(7.4631276f, row.get(36));
+                assertEquals("2nd StdDev y", tm.getColumnName(38));
+                assertEquals(7.4631276f, row.get(38));
 
-                assertEquals("Skewness", tm.getColumnName(14));
-                assertEquals(1.512723112578398, row.get(14));
+                assertEquals("Skewness", tm.getColumnName(16));
+                assertEquals(1.512723112578398, row.get(16));
             }
         }
     }
@@ -117,20 +116,20 @@ public class IqmOpStatisticsTest {
             for (Object obj : tm.getDataVector()) {
                 Vector row = (Vector) obj;
                 //Assertions calculated with operator before refactoring
-                assertEquals("3rd Moment", tm.getColumnName(18));
-                assertEquals(350350.75520653836, row.get(18));
+                assertEquals("1st Moment", tm.getColumnName(18));
+                assertEquals(129.11333333333332, row.get(18));
 
-                assertEquals("2nd Inverse Difference", tm.getColumnName(30));
-                assertEquals(0.014186247f, row.get(30));
+                assertEquals("2nd Dissimilarity", tm.getColumnName(30));
+                assertEquals(0.03770235f, row.get(30));
 
-                assertEquals("2nd StdDev x", tm.getColumnName(35));
-                assertEquals(1.7202834f, row.get(35));
+                assertEquals("2nd StdDev x", tm.getColumnName(37));
+                assertEquals(1.7202834f, row.get(37));
 
-                assertEquals("2nd StdDev y", tm.getColumnName(36));
-                assertEquals(1.7202833f, row.get(36));
+                assertEquals("2nd StdDev y", tm.getColumnName(38));
+                assertEquals(1.7202833f, row.get(38));
 
-                assertEquals("Skewness", tm.getColumnName(14));
-                assertEquals(1.512723112578398, row.get(14));
+                assertEquals("Skewness", tm.getColumnName(16));
+                assertEquals(1.512723112578398, row.get(16));
             }
         }
     }
