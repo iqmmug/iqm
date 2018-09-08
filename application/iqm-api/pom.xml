@@ -60,12 +60,21 @@
 			<artifactId>ij</artifactId>
 			<version>1.49d</version>
 		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.apache.tika/tika-parsers -->
+		<!--tika parser is used to extract meta data of files and uses drewnoakes metadata extractor for images (don't use higher version than 1.2 -> xerces-problem!) -->
 		<dependency>
-    		<groupId>org.apache.tika</groupId>
-    		<artifactId>tika-parsers</artifactId>
-    		<version>1.2</version> <!-- don't use higher version -> xerces-problem! -->
-    		<type>jar</type>
- 		</dependency>
+			<groupId>org.apache.tika</groupId>
+			<artifactId>tika-parsers</artifactId>
+			<version>1.2</version> 
+			<type>jar</type>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/com.drewnoakes/metadata-extractor  because tika-parser 1.2 uses old com.drewnoakes -->
+		<dependency>
+			<groupId>com.drewnoakes</groupId>
+			<artifactId>metadata-extractor</artifactId>
+			<version>2.11.0</version>
+			<type>jar</type>
+		</dependency>
 		<dependency>
 			<groupId>flanagan</groupId>
 			<artifactId>flanagan</artifactId>
