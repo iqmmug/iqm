@@ -188,7 +188,7 @@
 								<id>assembly-fat-jar</id>
 								<phase>package</phase>
 								<goals>
-									<goal>attached</goal>
+									<goal>single</goal>
 								</goals>
 								<configuration>
 									<archive>
@@ -198,17 +198,21 @@
 											<mainClass>${project.mainClass}</mainClass>
 										</manifest>
 									</archive>
-									<descriptor>src/assembly/descriptor-jar-with-dependencies.xml</descriptor>
+									<descriptors>
+										<descriptor>src/assembly/descriptor-jar-with-dependencies.xml</descriptor>
+									</descriptors>
 								</configuration>
 							</execution>
 							<execution>
 								<id>assembly-bin</id>
 								<phase>package</phase>
 								<goals>
-									<goal>attached</goal>
+									<goal>single</goal>
 								</goals>
 								<configuration>
-									<descriptor>src/assembly/descriptor-bin.xml</descriptor>
+									<descriptors>
+										<descriptor>src/assembly/descriptor-bin.xml</descriptor>
+									</descriptors>
 									<finalName>${project.build.finalName}</finalName>
 								</configuration>
 							</execution>
@@ -219,7 +223,9 @@
 									<goal>single</goal>
 								</goals>
 								<configuration>
-									<descriptor>src/assembly/descriptor-bin-exe.xml</descriptor>
+									<descriptors>
+										<descriptor>src/assembly/descriptor-bin-exe.xml</descriptor>
+									</descriptors>
 									<finalName>${project.build.finalName}-exe</finalName>
 								</configuration>
 							</execution>
@@ -227,10 +233,12 @@
 								<id>assembly-src</id>
 								<phase>package</phase>
 								<goals>
-									<goal>attached</goal>
+									<goal>single</goal>
 								</goals>
 								<configuration>
-									<descriptor>src/assembly/descriptor-src.xml</descriptor>
+									<descriptors>
+										<descriptor>src/assembly/descriptor-src.xml</descriptor>
+									</descriptors>
 									<finalName>${project.build.finalName}</finalName>
 								</configuration>
 							</execution>
