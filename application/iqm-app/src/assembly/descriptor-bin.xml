@@ -11,7 +11,7 @@
 	<fileSets>
 		<fileSet>
 			<directory>${project.basedir}</directory>
-			<outputDirectory>/</outputDirectory>
+			<outputDirectory>${file.separator}</outputDirectory>
 			<includes>
 				<include>README*</include>
 				<include>LICENSE*</include>
@@ -20,10 +20,10 @@
 		</fileSet>
 		<fileSet>
 			<directory>${project.build.directory}</directory>
-			<outputDirectory>/</outputDirectory>
+			<outputDirectory>${file.separator}</outputDirectory>
 			<includes>
 				<include>${project.build.finalName}.jar</include>
-				<include>lib/*.*</include>
+				<include>lib${file.separator}*.*</include>
 			</includes>
 		</fileSet>
 		<fileSet>
@@ -31,8 +31,8 @@
 			<outputDirectory>docs</outputDirectory>
 		</fileSet>
 		<fileSet>
-			<directory>${project.build.directory}/plugins</directory>
-			<outputDirectory>/plugins</outputDirectory>
+			<directory>${project.build.directory}${file.separator}plugins</directory>
+			<outputDirectory>${file.separator}plugins</outputDirectory>
 			<excludes>
 				<exclude>*</exclude>
 			</excludes>

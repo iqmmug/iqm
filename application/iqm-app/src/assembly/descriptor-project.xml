@@ -10,11 +10,11 @@
   <fileSets>
     <fileSet>
       <directory>${project.basedir}</directory>
-      <outputDirectory>/</outputDirectory>
+      <outputDirectory>${file.separator}</outputDirectory>
       <useDefaultExcludes>true</useDefaultExcludes>
       <excludes>
-        <exclude>**/*.log</exclude>
-        <exclude>**/${project.build.directory}/**</exclude>
+        <exclude>**${file.separator}*.log</exclude>
+        <exclude>**${file.separator}${project.build.directory}${file.separator}**</exclude>
       </excludes>
     </fileSet>
   </fileSets>

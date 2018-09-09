@@ -20,7 +20,7 @@
     </fileSet>
     <fileSet>
       <!-- TODO: use expressions instead: ${project.build.sourceDirectory}, etc -->
-      <directory>${project.basedir}/src</directory>
+      <directory>${project.basedir}${file.separator}src</directory>
       <useDefaultExcludes>true</useDefaultExcludes>
     </fileSet>
   </fileSets>

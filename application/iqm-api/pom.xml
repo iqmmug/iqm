@@ -211,7 +211,9 @@
 							<goal>attached</goal>
 						</goals>
 						<configuration>
-							<descriptor>src/assembly/descriptor-jar-with-dependencies.xml</descriptor>
+							<descriptors>
+								<descriptor>src/assembly/descriptor-jar-with-dependencies.xml</descriptor>
+							</descriptors>
 						</configuration>
 					</execution>
 				</executions>
