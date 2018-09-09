@@ -36,6 +36,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Vector;
 
+import javax.imageio.ImageIO;
 import javax.media.jai.JAI;
 import javax.media.jai.PlanarImage;
 
@@ -62,6 +63,7 @@ import com.sun.media.jai.codec.TIFFEncodeParam;
  * 
  * @author Philipp Kainz
  * @since 3.1
+ * @update 2018-09-09 HA JAI does not save jpg since Java9+, changed to ImageIO
  */
 public class ImageFileWriter implements Runnable {
 
@@ -98,8 +100,7 @@ public class ImageFileWriter implements Runnable {
 	 * @param encoding
 	 *            a JAI-specific string
 	 */
-	public ImageFileWriter(File destination, RenderedImage image,
-			String encoding) {
+	public ImageFileWriter(File destination, RenderedImage image, String encoding) {
 		this.destination = destination;
 		this.image = image;
 		this.encoding = encoding;
@@ -275,11 +276,18 @@ public class ImageFileWriter implements Runnable {
 					PlanarImage.wrapRenderedImage(image), visLayers);
 		}
 
-		// save image using JAI
-		JAI.create("filestore", image, destination.toString(), encoding);
+		
+		try { // try imageIO
+			ImageIO.write(image, encoding, destination);
+		} catch (Exception ex) {
+			logger.error("It was not possible to write this image to: " + destination.getPath());
+		}
+		
+		//JAI does not work any more for jpg since Java9+
+		// save image using JAI   
+		//JAI.create("filestore", image, destination.toString(), encoding);
 
-		BoardPanel.appendTextln(I18N.getMessage("application.imageSaved",
-				encoding, destination));
+		BoardPanel.appendTextln(I18N.getMessage("application.imageSaved", encoding, destination));
 	}
 
 	/**
@@ -483,8 +491,13 @@ public class ImageFileWriter implements Runnable {
 				pi = ImageTools.paintROIsOnImage(pi, visLayers);
 			}
 
-			// write the image
-			JAI.create("filestore", pi, fileName, encoding);
+			try { // try imageIO
+				ImageIO.write(pi, encoding, new File(fileName));
+			} catch (Exception ex) {
+				logger.error("It was not possible to write this image to: " + destination.getPath());
+			}
+			// write the image  JAI does not work any more for jpg since Java9+
+			//JAI.create("filestore", pi, fileName, encoding);
 
 			logger.info("Successfully stored image [" + fileName + "].");
 		}
