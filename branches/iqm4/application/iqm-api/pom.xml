@@ -2,6 +2,14 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
+	<!-- This is needed for ome bioformats plugins -->
+	<repositories>
+		<repository>
+			<id>OME Bioformats repository</id>
+			<url>http://artifacts.openmicroscopy.org/artifactory/ome.releases/</url>
+		</repository>
+	</repositories>
+	
 	<parent>
 		<groupId>at.mug.iqm</groupId>
 		<artifactId>iqm</artifactId>
@@ -18,6 +26,7 @@
 	<description>Application Program Interface for IQM.</description>
 	<url>https://sourceforge.net/projects/iqm</url>
 
+	
 	<dependencies>
 		<dependency>
 			<groupId>javax.xml.bind</groupId>
@@ -45,10 +54,18 @@
 			<version>1.2.16</version>
 			<type>jar</type>
 		</dependency>
+		<!--loci_tools is a very large package, formats-bsd is enough for J2K reading
 		<dependency>
 			<groupId>bioformats</groupId>
 			<artifactId>loci_tools</artifactId>
 			<version>5.9.1</version>
+		</dependency>
+		-->
+		<!-- https://mvnrepository.com/artifact/ome/formats-bsd -->
+		<dependency>
+			<groupId>ome</groupId>
+			<artifactId>formats-bsd</artifactId>
+			<version>5.9.2</version>
 		</dependency>
 		<dependency>
 			<groupId>org.jfree</groupId>

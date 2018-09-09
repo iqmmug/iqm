@@ -31,7 +31,6 @@ package at.mug.iqm.commons.util.image;
 import java.awt.RenderingHints;
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBuffer;
-import java.awt.image.RenderedImage;
 import java.awt.image.renderable.ParameterBlock;
 import java.io.File;
 import java.io.IOException;
@@ -46,7 +45,6 @@ import javax.media.jai.BorderExtender;
 import javax.media.jai.Interpolation;
 import javax.media.jai.JAI;
 import javax.media.jai.PlanarImage;
-import javax.media.jai.RenderedImageAdapter;
 import javax.swing.SwingWorker;
 
 import loci.formats.FormatException;
@@ -61,11 +59,6 @@ import at.mug.iqm.api.gui.BoardPanel;
 import at.mug.iqm.api.gui.IDialogUtil;
 import at.mug.iqm.commons.util.DialogUtil;
 
-import com.sun.media.jai.codec.FileSeekableStream;
-import com.sun.media.jai.codec.ImageCodec;
-import com.sun.media.jai.codec.ImageDecoder;
-import com.sun.media.jai.codec.SeekableStream;
-import com.sun.media.jai.codec.TIFFDecodeParam;
 
 /**
  * @author Philipp Kainz
