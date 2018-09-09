@@ -31,6 +31,7 @@ package at.mug.iqm.commons.util.image;
 import java.awt.RenderingHints;
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBuffer;
+import java.awt.image.RenderedImage;
 import java.awt.image.renderable.ParameterBlock;
 import java.io.File;
 import java.io.IOException;
@@ -63,7 +64,8 @@ import at.mug.iqm.commons.util.DialogUtil;
 /**
  * @author Philipp Kainz
  * @since 2012 05 29
- * @update 2018-08-14 HA JAI Fiff Decoder cannot open jpg compressed images with Java-9 and higher
+ * @update 2018-08-14 HA JAI tiff Decoder cannot open jpg compressed images with Java-9+
+ * @update 2018-09-09 HA JAI does not save jpg since Java9+, changed to ImageIO
  */
 public class SVSImageExtractor extends SwingWorker<Boolean, Void> {
 	// Logging variables
@@ -411,7 +413,13 @@ public class SVSImageExtractor extends SwingWorker<Boolean, Void> {
 				if (extension == 0)
 					JAI.create("filestore", pi, newFile.toString(), "TIFF");
 				if (extension == 1)
-					JAI.create("filestore", pi, newFile.toString(), "JPEG");
+					try { // try imageIO
+						ImageIO.write(pi, "jpg", newFile);
+					} catch (Exception ex) {
+						logger.error("It was not possible to write this image to: " + newFile.toString());
+					}
+				    //JAI does not work any more for jpg since Java9+
+					//JAI.create("filestore", pi, newFile.toString(), "JPEG");
 				if (extension == 2)
 					JAI.create("filestore", pi, newFile.toString(), "PNG");
 				if (extension == 3)
