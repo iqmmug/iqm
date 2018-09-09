@@ -1,5 +1,7 @@
+
 ::LOCI-TOOLS
-call mvn install:install-file -Dfile=./lib/bioformats/loci_tools-5.9.1.jar -DgroupId=bioformats -DartifactId=loci_tools -Dversion=5.9.1 -Dpackaging=jar
+::2018-09 not used any more, because of the direct maven download of ome's formats-bsd
+::call mvn install:install-file -Dfile=./lib/bioformats/loci_tools-5.9.1.jar -DgroupId=bioformats -DartifactId=loci_tools -Dversion=5.9.1 -Dpackaging=jar
 
 ::FLANAGAN
 call mvn install:install-file -Dfile=./lib/flanagan/flanagan-1.0.jar -DgroupId=flanagan -DartifactId=flanagan -Dversion=1.0 -Dpackaging=jar
