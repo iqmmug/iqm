@@ -119,26 +119,27 @@ public class PlotOpHRV extends AbstractOperator {
 	 * @return Double 
 	 */
 	private Double calcSDANN(Vector<Double> data1D, int timeBase) {
-		double  sdann = 0.0;	
+		double sdann = 0.0;	
 		double fiveMinutes = 5.0;
 		if (timeBase == 0) fiveMinutes = fiveMinutes * 60.0 *1000.0;  //ms
 		if (timeBase == 1) fiveMinutes = fiveMinutes * 60.0 *1.0;     //s
-
-//		int numberOfPointsIn5Minutes = timeBase*1000 *60 *5;
-//		Vector<Double> fiveMinutesMeans  = new Vector<Double>();	
-//		Vector<Double> fiveMinutesSignal = new Vector<Double>();
-//			
-//		for (int i = 0; i < (data1D.size() - numberOfPointsIn5Minutes); i = i + numberOfPointsIn5Minutes) { // get subvector		
-//			for (int ii = i; ii < i + numberOfPointsIn5Minutes; ii++) {
-//				fiveMinutesSignal.add(data1D.get(ii));
-//			}
-//			fiveMinutesMeans.add(calcMean(fiveMinutesSignal));
-//		}
-//
-//		Double mean = calcMean(fiveMinutesMeans);
-//		return calcSDNN(fiveMinutesMeans, mean);
+		Vector<Double> fiveMinutesMeans  = new Vector<Double>();
+		Vector<Double> fiveMinutesSignal = new Vector<Double>();
+		double sumOfSubsequentIntervals = 0.0;
 		
-		return 999.111;
+		for (int i = 0; i < data1D.size(); i++) { // scroll through intervals		
+			fiveMinutesSignal.add(data1D.get(i));
+			sumOfSubsequentIntervals += data1D.get(i);
+			
+			if (sumOfSubsequentIntervals >= fiveMinutes) {
+				fiveMinutesMeans.add(calcMean(fiveMinutesSignal));
+				fiveMinutesSignal = new Vector<Double>();
+				sumOfSubsequentIntervals = 0.0;
+			}			
+		}
+		Double mean = calcMean(fiveMinutesMeans);
+		sdann = calcSDNN(fiveMinutesMeans, mean); 
+		return sdann;
 	}
 	/**
 	 * This method calculates the SDNNI (Mean over 5 minute SDs)
@@ -151,19 +152,23 @@ public class PlotOpHRV extends AbstractOperator {
 		double fiveMinutes = 5.0;
 		if (timeBase == 0) fiveMinutes = fiveMinutes * 60.0 *1000.0;  //ms
 		if (timeBase == 1) fiveMinutes = fiveMinutes * 60.0 *1.0;     //s
-//		int numberOfPointsIn5Minutes = timeBase*1000 *60 *5;
-//		Vector<Double> fiveMinutesSDs  = new Vector<Double>();	
-//		Vector<Double> fiveMinutesSignal = new Vector<Double>();
-//			
-//		for (int i = 0; i < (data1D.size() - numberOfPointsIn5Minutes); i = i + numberOfPointsIn5Minutes) { // get subvector		
-//			for (int ii = i; ii < i + numberOfPointsIn5Minutes; ii++) {
-//				fiveMinutesSignal.add(data1D.get(ii));
-//			}
-//			double mean = calcMean(fiveMinutesSignal); 
-//			fiveMinutesSDs.add(calcSDNN(fiveMinutesSignal, mean));
-//		}
-//		return calcMean(fiveMinutesSDs);
-		return 999.111;
+		Vector<Double> fiveMinutesSDs  = new Vector<Double>();	
+		Vector<Double> fiveMinutesSignal = new Vector<Double>();
+		double sumOfSubsequentIntervals = 0.0;
+		
+		for (int i = 0; i < data1D.size(); i++) { // scroll through intervals		
+			fiveMinutesSignal.add(data1D.get(i));
+			sumOfSubsequentIntervals += data1D.get(i);
+			
+			if (sumOfSubsequentIntervals >= fiveMinutes) {				
+				double mean = calcMean(fiveMinutesSignal); 
+				fiveMinutesSDs.add(calcSDNN(fiveMinutesSignal, mean));
+				fiveMinutesSignal = new Vector<Double>();
+				sumOfSubsequentIntervals = 0.0;
+			}			
+		}	
+		sdnni =  calcMean(fiveMinutesSDs);
+		return sdnni;
 	}
 	
 	/**
