@@ -60,6 +60,7 @@ import at.mug.iqm.plot.bundle.descriptors.PlotOpFracHiguchiDescriptor;
 import at.mug.iqm.plot.bundle.descriptors.PlotOpFracHurstDescriptor;
 import at.mug.iqm.plot.bundle.descriptors.PlotOpFracSurrogateDescriptor;
 import at.mug.iqm.plot.bundle.descriptors.PlotOpFractalGeneratorDescriptor;
+import at.mug.iqm.plot.bundle.descriptors.PlotOpHRVDescriptor;
 import at.mug.iqm.plot.bundle.descriptors.PlotOpMathDescriptor;
 import at.mug.iqm.plot.bundle.descriptors.PlotOpPointFinderDescriptor;
 import at.mug.iqm.plot.bundle.descriptors.PlotOpSignalGeneratorDescriptor;
@@ -94,6 +95,7 @@ public class PlotAnalysisMenu extends DeactivatableMenu implements
 	private OperatorMenuItem fFTMenuItem;
 	private OperatorMenuItem mathMenuItem;
 	private OperatorMenuItem allomScaleMenuItem;
+	private OperatorMenuItem hrvMenuItem;
 	private OperatorMenuItem higuchiMenuItem;
 	private OperatorMenuItem dfaMenuItem;
 	private OperatorMenuItem entropyMenuItem;
@@ -123,6 +125,7 @@ public class PlotAnalysisMenu extends DeactivatableMenu implements
 		this.fFTMenuItem               = new OperatorMenuItem(OperatorType.PLOT);
 		this.mathMenuItem              = new OperatorMenuItem(OperatorType.PLOT);
 		this.allomScaleMenuItem        = new OperatorMenuItem(OperatorType.PLOT);
+		this.hrvMenuItem               = new OperatorMenuItem(OperatorType.PLOT);
 		this.higuchiMenuItem           = new OperatorMenuItem(OperatorType.PLOT);
 		this.dfaMenuItem               = new OperatorMenuItem(OperatorType.PLOT);
 		this.entropyMenuItem           = new OperatorMenuItem(OperatorType.PLOT);
@@ -162,6 +165,7 @@ public class PlotAnalysisMenu extends DeactivatableMenu implements
 		this.add(this.createFilterMenuItem());
 		this.addSeparator();
 		this.add(this.createAllomScaleMenuItem());
+		this.add(this.createHRVMenuItem());
 		this.add(this.createHiguchiMenuItem());
 		this.add(this.createDFAMenuItem());
 		this.add(this.createEntropyMenuItem());
@@ -343,6 +347,18 @@ public class PlotAnalysisMenu extends DeactivatableMenu implements
 		return this.allomScaleMenuItem;
 	}
 	/**
+	 * This method initializes HRVMenuItem
+	 * 
+	 * @return javax.swing.JMenuItem
+	 */
+	private JMenuItem createHRVMenuItem() {
+		this.hrvMenuItem.setText(I18N.getGUILabelText("menu.plotanalysis.hrv.text"));
+		this.hrvMenuItem.setToolTipText(I18N.getGUILabelText("menu.plotanalysis.hrv.ttp"));
+		this.hrvMenuItem.addActionListener(this);
+		this.hrvMenuItem.setActionCommand("hrvofplot");
+		return this.hrvMenuItem;
+	}
+	/**
 	 * This method initializes HiguchiMenuItem
 	 * 
 	 * @return javax.swing.JMenuItem
@@ -475,6 +491,8 @@ public class PlotAnalysisMenu extends DeactivatableMenu implements
 			ExecutionProxy.launchInstance(new PlotOpMathDescriptor());
 		} else if ("allomscaleofplot".equals(e.getActionCommand())) {
 			ExecutionProxy.launchInstance(new PlotOpFracAllomScaleDescriptor());
+		} else if ("hrvofplot".equals(e.getActionCommand())) {
+			ExecutionProxy.launchInstance(new PlotOpHRVDescriptor());
 		} else if ("entropyofplot".equals(e.getActionCommand())) {
 			ExecutionProxy.launchInstance(new PlotOpEntropyDescriptor());
 		} else if ("dfaofplot".equals(e.getActionCommand())) {

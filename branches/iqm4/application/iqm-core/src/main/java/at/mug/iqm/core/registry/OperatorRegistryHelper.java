@@ -103,6 +103,7 @@ import at.mug.iqm.plot.bundle.descriptors.PlotOpFracHiguchiDescriptor;
 import at.mug.iqm.plot.bundle.descriptors.PlotOpFracHurstDescriptor;
 import at.mug.iqm.plot.bundle.descriptors.PlotOpFracSurrogateDescriptor;
 import at.mug.iqm.plot.bundle.descriptors.PlotOpFractalGeneratorDescriptor;
+import at.mug.iqm.plot.bundle.descriptors.PlotOpHRVDescriptor;
 import at.mug.iqm.plot.bundle.descriptors.PlotOpMathDescriptor;
 import at.mug.iqm.plot.bundle.descriptors.PlotOpPointFinderDescriptor;
 import at.mug.iqm.plot.bundle.descriptors.PlotOpSignalGeneratorDescriptor;
@@ -376,6 +377,9 @@ public final class OperatorRegistryHelper {
 		
 		IOperatorDescriptor plotFracAllomScaleDesc = PlotOpFracAllomScaleDescriptor.register();
 		updateWelcomeText(plotFracAllomScaleDesc.getName());
+		
+		IOperatorDescriptor plotHRVDesc = PlotOpHRVDescriptor.register();
+		updateWelcomeText(plotHRVDesc.getName());
 
 		IOperatorDescriptor plotFracHigDesc = PlotOpFracHiguchiDescriptor.register();
 		updateWelcomeText(plotFracHigDesc.getName());
