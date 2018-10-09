@@ -496,7 +496,7 @@ public class PlotGUI_HRV extends AbstractPlotOperatorGUI implements ChangeListen
 			buttGaussian.setText("Gaussian");
 			buttGaussian.setToolTipText("Gaussian surrogate(s) of the signal before computation of the Higuchi dimension(s)");
 			buttGaussian.setActionCommand("parameter");
-			//buttGaussian.setSelected(true);
+			buttGaussian.setEnabled(false);
 		}
 		return buttGaussian;
 	}
@@ -512,7 +512,7 @@ public class PlotGUI_HRV extends AbstractPlotOperatorGUI implements ChangeListen
 			buttRandPhase.setText("RandPhase");
 			buttRandPhase.setToolTipText("Randome phase surrogate(s) of the signal before computation of the Higuchi dimension(s)");
 			buttRandPhase.setActionCommand("parameter");
-			//buttRandPhase.setSelected(true);
+			buttRandPhase.setEnabled(false);
 		}
 		return buttRandPhase;
 	}
@@ -528,7 +528,7 @@ public class PlotGUI_HRV extends AbstractPlotOperatorGUI implements ChangeListen
 			buttAAFT.setText("AAFT");
 			buttAAFT.setToolTipText("AAFT surrogate(s) of the signal before computatoin of the Higuchi dimension(s)");
 			buttAAFT.setActionCommand("parameter");
-			//buttAAFT.setSelected(true);
+			buttAAFT.setEnabled(false);
 		}
 		return buttAAFT;
 	}

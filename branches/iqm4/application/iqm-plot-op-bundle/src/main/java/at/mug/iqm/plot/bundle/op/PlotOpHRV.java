@@ -54,12 +54,16 @@ import at.mug.iqm.plot.bundle.descriptors.PlotOpHRVDescriptor;
  *  Society of Pacing and Electrophysiology (Membership of the Task Force listed in the Appendix)
  *  Malik et al.
  *  European Heart Journal (1996) 17,354-381
+ *  
+ *  and
+ *  McNames & Aboy Med Bio Eng Comput (2006) 44:747–756)
  *    
  * From intervals:              
  * SDNN, the standard deviation of NN intervals. Often calculated over a 24-hour period.
  * SDANN, the standard deviation of the average NN intervals calculated over short periods, usually 5 minutes.
  * SDNN is therefore a measure of changes in heart rate due to cycles longer than 5 minutes. SDNN reflects all the cyclic components responsible for variability in the period of recording, therefore it represents total variability.
  * SDNNIndex is the mean of the 5-min standard deviations of the NN interval calculated over 24 h, which measures the variability due to cycles shorter than 5 min.
+ * HRVTI The HRV triangular index is a measure of the shape of the NN interval distribution. Generally, uniform distributions representing large variability have large values and distributions with single large peaks have small values. The metric is defined in terms of a histogram of the NN intervals.
  * 
  * From Interval (absolute) differences:
  * RMSSD ("root mean square of successive differences"), the square root of the mean of the squares of the successive differences between adjacent NNs.
@@ -164,6 +168,46 @@ public class PlotOpHRV extends AbstractOperator {
 		sdnni =  calcMean(fiveMinutesSDs);
 		return sdnni;
 	}
+	
+	/**
+	 * This method calculates the HRVTI (HRV triangular index) with a histogram
+	 * according to McNames & Aboy Med Bio Eng Comput (2006) 44:747–756)
+	 * 
+	 * @param data1D
+	 * @return Double 
+	 */
+	private Double calcHRVTI(Vector<Double> data1D, int timeBase) {
+		double hrvti    = 0.0;
+		double histoMax = 0.0;
+		double binSize = 8; //ms  8ms according to McNames & Aboy Med Bio Eng Comput (2006) 44:747–756)
+		
+		if (timeBase == 0) binSize = binSize; //ms
+		if (timeBase == 1) binSize = binSize/1000.0; //s
+		
+		
+		// create a histogram with bin size
+		double maxValue =  0.0;
+		for (double v : data1D) {
+			if (v > maxValue) maxValue = v;
+		}		
+		int binNumber = (int) Math.ceil(maxValue/binSize);
+		Vector<Integer> histo = new Vector<Integer>();
+		for (int b = 0; b < binNumber; b++) histo.add(0);
+				
+		for (int i = 0; i < data1D.size(); i++) { // scroll through intervals	
+			int index = (int) Math.ceil(data1D.get(i)/binSize);
+			histo.set(index-1, histo.get(index-1) + 1);		
+		}
+		//search for maximum in the histogram
+		for (double h : histo) {
+			//System.out.println("PlotOpHRV: Histogram  h: " + h);
+			if (h > histoMax) histoMax = h;
+		}
+		//System.out.println("PlotOpHRV: histoMax: " + histoMax);
+		hrvti = data1D.size()/histoMax;
+		return hrvti;
+	}
+	
 	
 	/**
 	 * This method computes the differences of subsequent data values
@@ -279,7 +323,8 @@ public class PlotOpHRV extends AbstractOperator {
 		double[] mean   = new double[numValues];
 		double[] sdnn   = new double[numValues];
 		double[] sdann  = new double[numValues];		
-		double[] sdnni  = new double[numValues];		
+		double[] sdnni  = new double[numValues];	
+		double[] hrvti  = new double[numValues];	
 		double[] rmssd  = new double[numValues];		
 		double[] sdsd   = new double[numValues];		
 		double[] nn50   = new double[numValues];		
@@ -292,6 +337,7 @@ public class PlotOpHRV extends AbstractOperator {
 		Vector<Double> sdnnSurr  = new Vector<Double>(); //May be used to store individual surrogate values
 		Vector<Double> sdannSurr = new Vector<Double>();
 		Vector<Double> sdnniSurr = new Vector<Double>();
+		Vector<Double> hrvtiSurr = new Vector<Double>();
 		Vector<Double> rmssdSurr = new Vector<Double>();
 		Vector<Double> sdsdSurr  = new Vector<Double>();
 		Vector<Double> nn50Surr  = new Vector<Double>();
@@ -304,6 +350,7 @@ public class PlotOpHRV extends AbstractOperator {
 		double sdnnSurrMean  = 0.0;
 		double sdannSurrMean = 0.0;
 		double sdnniSurrMean = 0.0;
+		double hrvtiSurrMean = 0.0;
 		double rmssdSurrMean = 0.0;
 		double sdsdSurrMean  = 0.0;
 		double nn50SurrMean  = 0.0;
@@ -322,6 +369,7 @@ public class PlotOpHRV extends AbstractOperator {
 				sdnn[0]   = calcSDNN(signal, mean[0]);
 				sdann[0]  = calcSDANN(signal, timeBase);		
 				sdnni[0]  = calcSDNNI(signal, timeBase);	
+				hrvti[0]  = calcHRVTI(signal, timeBase);	
 				
 				Vector<Double> diffSignal = getAbsDiffSignal(signal);		
 				rmssd[0]  = calcRMSSD(diffSignal);		
@@ -357,6 +405,7 @@ public class PlotOpHRV extends AbstractOperator {
 						sdnnSurr.add(calcSDNN(signalSurr, meanSurrLocal));
 						sdannSurr.add(calcSDANN(signalSurr, timeBase));
 						sdnniSurr.add(calcSDNNI(signalSurr, timeBase));
+						hrvtiSurr.add(calcHRVTI(signalSurr, timeBase));
 						
 						Vector<Double> diffSignalSurr = getAbsDiffSignal(signalSurr);		
 						rmssdSurr.add(calcRMSSD(diffSignalSurr));
@@ -383,6 +432,7 @@ public class PlotOpHRV extends AbstractOperator {
 				sdnnSurrMean  = this.calcMean(sdnnSurr);
 				sdannSurrMean = this.calcMean(sdannSurr);
 				sdnniSurrMean = this.calcMean(sdnniSurr);
+				hrvtiSurrMean = this.calcMean(hrvtiSurr);
 				rmssdSurrMean = this.calcMean(rmssdSurr);
 				sdsdSurrMean  = this.calcMean(sdsdSurr);
 				nn50SurrMean  = this.calcMean(nn50Surr);
@@ -412,6 +462,7 @@ public class PlotOpHRV extends AbstractOperator {
 						sdnn[i]   = calcSDNN(subSignal, mean[i]);
 						sdann[i]  = calcSDANN(subSignal, timeBase);		
 						sdnni[i]  = calcSDNNI(subSignal, timeBase);	
+						hrvti[i]  = calcHRVTI(subSignal, timeBase);	
 						
 						Vector<Double> diffSubSignal = getAbsDiffSignal(subSignal);		
 						rmssd[i]  = calcRMSSD(diffSubSignal);		
@@ -428,7 +479,7 @@ public class PlotOpHRV extends AbstractOperator {
 					}
 				}
 			} //no surrogate
-			if (typeSurr >= 1) {  //surrogate
+			if (typeSurr >= 0) {  //surrogate
 				for (int i = 0; i < numValues; i++) {
 					int proz = (int) (i + 1) * 90 / numValues;
 					fireProgressChanged(proz);
@@ -451,6 +502,7 @@ public class PlotOpHRV extends AbstractOperator {
 							sdnn[i]   += calcSDNN(subSignalSurr, mean[i]);
 							sdann[i]  += calcSDANN(subSignalSurr, timeBase);		
 							sdnni[i]  += calcSDNNI(subSignalSurr, timeBase);	
+							hrvti[i]  += calcHRVTI(subSignalSurr, timeBase);	
 							
 							Vector<Double> diffSubSignalSurr = getAbsDiffSignal(subSignalSurr);		
 							rmssd[i]  += calcRMSSD(diffSubSignalSurr);		
@@ -469,7 +521,8 @@ public class PlotOpHRV extends AbstractOperator {
 					mean[i]  = mean[i]/nSurr;
 					sdnn[i]  = sdnn[i]/nSurr;
 					sdann[i] = sdann[i]/nSurr;		
-					sdnni[i] = sdnni[i]/nSurr;		
+					sdnni[i] = sdnni[i]/nSurr;	
+					hrvti[i] = hrvti[i]/nSurr;	
 					rmssd[i] = rmssd[i]/nSurr;		
 					sdsd[i]  = sdsd[i]/nSurr;		
 					nn50[i]  = nn50[i]/nSurr;		
@@ -524,6 +577,7 @@ public class PlotOpHRV extends AbstractOperator {
 				model.addColumn("SDNN");
 				model.addColumn("SDANN");
 				model.addColumn("SDNNI");
+				model.addColumn("HRVTI");
 				model.addColumn("RMSSD");
 				model.addColumn("SDSD");
 				model.addColumn("NN50");
@@ -535,12 +589,13 @@ public class PlotOpHRV extends AbstractOperator {
 				model.setValueAt(sdnn[0],  0, numColumns+2);
 				model.setValueAt(sdann[0], 0, numColumns+3);
 				model.setValueAt(sdnni[0], 0, numColumns+4);
-				model.setValueAt(rmssd[0], 0, numColumns+5);
-				model.setValueAt(sdsd[0],  0, numColumns+6);
-				model.setValueAt(nn50[0],  0, numColumns+7);
-				model.setValueAt(pnn50[0], 0, numColumns+8);
-				model.setValueAt(nn20[0],  0, numColumns+9);
-				model.setValueAt(pnn20[0], 0, numColumns+10);
+				model.setValueAt(hrvti[0], 0, numColumns+5);
+				model.setValueAt(rmssd[0], 0, numColumns+6);
+				model.setValueAt(sdsd[0],  0, numColumns+7);
+				model.setValueAt(nn50[0],  0, numColumns+8);
+				model.setValueAt(pnn50[0], 0, numColumns+9);
+				model.setValueAt(nn20[0],  0, numColumns+10);
+				model.setValueAt(pnn20[0], 0, numColumns+11);
 			
 			}
 			if (advanced == 1) {
@@ -557,6 +612,7 @@ public class PlotOpHRV extends AbstractOperator {
 				model.addColumn("SDNN-Surr");	
 				model.addColumn("SDANN-Surr");
 				model.addColumn("SDNNI-Surr");
+				model.addColumn("HRVTI-Surr");
 				model.addColumn("RMSSD-Surr");
 				model.addColumn("SDSD-Surr");
 				model.addColumn("NN50-Surr");
@@ -569,12 +625,13 @@ public class PlotOpHRV extends AbstractOperator {
 				model.setValueAt(sdnnSurrMean,  0, numColumns+2);
 				model.setValueAt(sdannSurrMean, 0, numColumns+3);
 				model.setValueAt(sdnniSurrMean, 0, numColumns+4);
-				model.setValueAt(rmssdSurrMean, 0, numColumns+5);
-				model.setValueAt(sdsdSurrMean,  0, numColumns+6);
-				model.setValueAt(nn50SurrMean,  0, numColumns+7);
-				model.setValueAt(pnn50SurrMean, 0, numColumns+8);
-				model.setValueAt(nn20SurrMean,  0, numColumns+9);
-				model.setValueAt(pnn20SurrMean, 0, numColumns+10);
+				model.setValueAt(hrvtiSurrMean, 0, numColumns+5);
+				model.setValueAt(rmssdSurrMean, 0, numColumns+6);
+				model.setValueAt(sdsdSurrMean,  0, numColumns+7);
+				model.setValueAt(nn50SurrMean,  0, numColumns+8);
+				model.setValueAt(pnn50SurrMean, 0, numColumns+9);
+				model.setValueAt(nn20SurrMean,  0, numColumns+10);
+				model.setValueAt(pnn20SurrMean, 0, numColumns+11);
 				
 				numColumns = model.getColumnCount();
 				for (int x=0; x < nSurr; x++){
@@ -600,6 +657,11 @@ public class PlotOpHRV extends AbstractOperator {
 				for (int x=0; x < nSurr; x++){
 					model.addColumn("SDNNI-Surr"+(x+1));
 					model.setValueAt(sdnniSurr.get(x),  0, numColumns + x);
+				}
+				numColumns = model.getColumnCount();
+				for (int x=0; x < nSurr; x++){
+					model.addColumn("HRTVI-Surr"+(x+1));
+					model.setValueAt(hrvtiSurr.get(x),  0, numColumns + x);
 				}
 				numColumns = model.getColumnCount();
 				for (int x=0; x < nSurr; x++){
@@ -644,6 +706,7 @@ public class PlotOpHRV extends AbstractOperator {
 					model.addColumn("SDNN");
 					model.addColumn("SDANN");
 					model.addColumn("SDNNI");
+					model.addColumn("HRVTI");
 					model.addColumn("RMSSD");
 					model.addColumn("SDSD");
 					model.addColumn("NN50");
@@ -657,6 +720,7 @@ public class PlotOpHRV extends AbstractOperator {
 					model.addColumn("SDNN-Surr");	
 					model.addColumn("SDANN-Surr");
 					model.addColumn("SDNNI-Surr");
+					model.addColumn("HRVTI-Surr");
 					model.addColumn("RMSSD-Surr");
 					model.addColumn("SDSD-Surr");
 					model.addColumn("NN50-Surr");
@@ -670,12 +734,13 @@ public class PlotOpHRV extends AbstractOperator {
 					model.setValueAt(sdnn[i],  i, numColumns+2);
 					model.setValueAt(sdann[i], i, numColumns+3);
 					model.setValueAt(sdnni[i], i, numColumns+4);
-					model.setValueAt(rmssd[i], i, numColumns+5);
-					model.setValueAt(sdsd[i],  i, numColumns+6);
-					model.setValueAt(nn50[i],  i, numColumns+7);
-					model.setValueAt(pnn50[i], i, numColumns+8);
-					model.setValueAt(nn20[i],  i, numColumns+9);
-					model.setValueAt(pnn20[i], i, numColumns+10);
+					model.setValueAt(hrvti[i], i, numColumns+5);
+					model.setValueAt(rmssd[i], i, numColumns+6);
+					model.setValueAt(sdsd[i],  i, numColumns+7);
+					model.setValueAt(nn50[i],  i, numColumns+8);
+					model.setValueAt(pnn50[i], i, numColumns+9);
+					model.setValueAt(nn20[i],  i, numColumns+10);
+					model.setValueAt(pnn20[i], i, numColumns+11);
 					
 				}
 			}
