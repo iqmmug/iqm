@@ -461,7 +461,7 @@ public class PlotOpComplLogDepth extends AbstractOperator {
 					}
 				}
 			} //no surrogate
-			if (typeSurr >= 1) {  //surrogate
+			if (typeSurr >= 0) {  //surrogate
 				for (int i = 0; i < numValues; i++) {
 					int proz = (int) (i + 1) * 90 / numValues;
 					fireProgressChanged(proz);
