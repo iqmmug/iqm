@@ -29,17 +29,8 @@ package at.mug.iqm.plot.bundle.op;
  */
 
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
+
 import java.util.Vector;
-import java.util.zip.DataFormatException;
-import java.util.zip.Deflater;
-import java.util.zip.GZIPInputStream;
-import java.util.zip.GZIPOutputStream;
-import java.util.zip.Inflater;
-import org.apache.commons.math3.stat.descriptive.DescriptiveStatistics;
 import at.mug.iqm.api.model.IqmDataBox;
 import at.mug.iqm.api.model.PlotModel;
 import at.mug.iqm.api.model.TableModel;
@@ -53,7 +44,7 @@ import at.mug.iqm.api.operator.Result;
 import at.mug.iqm.commons.util.DialogUtil;
 import at.mug.iqm.commons.util.plot.Surrogate;
 import at.mug.iqm.plot.bundle.descriptors.PlotOpHRVDescriptor;
-import at.mug.iqm.plot.bundle.gui.PlotGUI_Math;
+
 
 /**
  *  <li>2018 10 
@@ -63,16 +54,19 @@ import at.mug.iqm.plot.bundle.gui.PlotGUI_Math;
  *  Society of Pacing and Electrophysiology (Membership of the Task Force listed in the Appendix)
  *  Malik et al.
  *  European Heart Journal (1996) 17,354-381
- *               
+ *    
+ * From intervals:              
  * SDNN, the standard deviation of NN intervals. Often calculated over a 24-hour period.
  * SDANN, the standard deviation of the average NN intervals calculated over short periods, usually 5 minutes.
  * SDNN is therefore a measure of changes in heart rate due to cycles longer than 5 minutes. SDNN reflects all the cyclic components responsible for variability in the period of recording, therefore it represents total variability.
- * SDNN Index is the mean of the 5-min standard deviation of the NN interval calculated over 24 h, which measures the variability due to cycles shorter than 5 min.
+ * SDNNIndex is the mean of the 5-min standard deviations of the NN interval calculated over 24 h, which measures the variability due to cycles shorter than 5 min.
+ * 
+ * From Interval (absolute) differences:
  * RMSSD ("root mean square of successive differences"), the square root of the mean of the squares of the successive differences between adjacent NNs.
  * SDSD ("standard deviation of successive differences"), the standard deviation of the successive differences between adjacent NNs.
  * NN50, the number of pairs of successive NNs that differ by more than 50 ms.
  * pNN50, the proportion of NN50 divided by total number of NNs.
- * NN20, the number of pairs of successive NNs that differ by more than 20 ms.[25]
+ * NN20, the number of pairs of successive NNs that differ by more than 20 ms.
  * pNN20, the proportion of NN20 divided by total number of NNs.
  * 
  * @author Ahammer
@@ -177,10 +171,10 @@ public class PlotOpHRV extends AbstractOperator {
 	 * @param data1D
 	 * @return Vector<Double>
 	 */
-	private Vector<Double> getDiffSignal(Vector<Double> data1D){
+	private Vector<Double> getAbsDiffSignal(Vector<Double> data1D){
 		Vector<Double> diffData1D = new Vector<Double>();
 		for (int i = 0; i < data1D.size()-1; i++){	
-			diffData1D.add((data1D.get(i+1) - data1D.get(i)));
+			diffData1D.add(Math.abs((data1D.get(i+1) - data1D.get(i))));
 		}
 		return diffData1D;
 	}
@@ -196,7 +190,7 @@ public class PlotOpHRV extends AbstractOperator {
 		for (double d : diffData1D) {
 			rmssd += Math.pow(d, 2.0);
 		}
-		return Math.sqrt(rmssd/(diffData1D.size()+1));
+		return Math.sqrt(rmssd/(diffData1D.size()));
 	}
 	/**
 	 * This method calculates the SDSD (SD of interval differences)
@@ -329,13 +323,13 @@ public class PlotOpHRV extends AbstractOperator {
 				sdann[0]  = calcSDANN(signal, timeBase);		
 				sdnni[0]  = calcSDNNI(signal, timeBase);	
 				
-				Vector<Double> diffSignal = getDiffSignal(signal);		
+				Vector<Double> diffSignal = getAbsDiffSignal(signal);		
 				rmssd[0]  = calcRMSSD(diffSignal);		
 				sdsd[0]   = calcSDSD(diffSignal);		
 				nn50[0]   = calcNN50(diffSignal, timeBase);		
-				pnn50[0]  = pnn50[0]/numb[0];		
+				pnn50[0]  = nn50[0]/numb[0];		
 				nn20[0]   = calcNN20(diffSignal ,timeBase);		
-				pnn20[0]  = pnn20[0]/numb[0];	
+				pnn20[0]  = nn20[0]/numb[0];	
 			
 				fireProgressChanged(50);
 				if (isCancelled(getParentTask())) return null;
@@ -364,7 +358,7 @@ public class PlotOpHRV extends AbstractOperator {
 						sdannSurr.add(calcSDANN(signalSurr, timeBase));
 						sdnniSurr.add(calcSDNNI(signalSurr, timeBase));
 						
-						Vector<Double> diffSignalSurr = getDiffSignal(signalSurr);		
+						Vector<Double> diffSignalSurr = getAbsDiffSignal(signalSurr);		
 						rmssdSurr.add(calcRMSSD(diffSignalSurr));
 						sdsdSurr.add(calcSDSD(diffSignalSurr));
 						Double nn50SurrLocal = calcNN50(diffSignalSurr, timeBase); 
@@ -419,13 +413,13 @@ public class PlotOpHRV extends AbstractOperator {
 						sdann[i]  = calcSDANN(subSignal, timeBase);		
 						sdnni[i]  = calcSDNNI(subSignal, timeBase);	
 						
-						Vector<Double> diffSubSignal = getDiffSignal(subSignal);		
+						Vector<Double> diffSubSignal = getAbsDiffSignal(subSignal);		
 						rmssd[i]  = calcRMSSD(diffSubSignal);		
 						sdsd[i]   = calcSDSD(diffSubSignal);		
 						nn50[i]   = calcNN50(diffSubSignal, timeBase);		
-						pnn50[i]  = pnn50[i]/numb[i];		
+						pnn50[i]  = nn50[i]/numb[i];		
 						nn20[i]   = calcNN20(diffSubSignal, timeBase);		
-						pnn20[i]  = pnn20[i]/numb[i];	
+						pnn20[i]  = nn20[i]/numb[i];	
 										
 					}
 					if (advanced == 1) {
@@ -458,13 +452,13 @@ public class PlotOpHRV extends AbstractOperator {
 							sdann[i]  += calcSDANN(subSignalSurr, timeBase);		
 							sdnni[i]  += calcSDNNI(subSignalSurr, timeBase);	
 							
-							Vector<Double> diffSubSignalSurr = getDiffSignal(subSignalSurr);		
+							Vector<Double> diffSubSignalSurr = getAbsDiffSignal(subSignalSurr);		
 							rmssd[i]  += calcRMSSD(diffSubSignalSurr);		
 							sdsd[i]   += calcSDSD(diffSubSignalSurr);		
 							nn50[i]   += calcNN50(diffSubSignalSurr, timeBase);		
-							pnn50[i]  += pnn50[i]/numb[i];		
+							pnn50[i]  += nn50[i]/numb[i];		
 							nn20[i]   += calcNN20(diffSubSignalSurr, timeBase);		
-							pnn20[i]  += pnn20[i]/numb[i];						
+							pnn20[i]  += nn20[i]/numb[i];						
 							
 						}
 						if (advanced == 1) {
