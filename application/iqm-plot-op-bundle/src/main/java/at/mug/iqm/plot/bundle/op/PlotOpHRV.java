@@ -42,6 +42,7 @@ import at.mug.iqm.api.operator.ParameterBlockIQM;
 import at.mug.iqm.api.operator.ParameterBlockPlot;
 import at.mug.iqm.api.operator.Result;
 import at.mug.iqm.commons.util.DialogUtil;
+import at.mug.iqm.commons.util.ErrorMessagePanel;
 import at.mug.iqm.commons.util.plot.Surrogate;
 import at.mug.iqm.plot.bundle.descriptors.PlotOpFFTDescriptor;
 import at.mug.iqm.plot.bundle.descriptors.PlotOpHRVDescriptor;
@@ -82,6 +83,9 @@ public class PlotOpHRV extends AbstractOperator {
 
 	public PlotOpHRV() {
 	}
+	
+	double maxValue = -Double.MAX_VALUE;
+	double minValue = Double.MAX_VALUE;
 
 	/**
 	 * This method calculates the mean of a data series
@@ -228,16 +232,16 @@ public class PlotOpHRV extends AbstractOperator {
 		
 		
 		// create a histogram with bin size
-		double maxValue =  0.0;
-		for (double v : data1D) {
-			if (v > maxValue) maxValue = v;
-		}		
+		double maxValue =  this.maxValue;
+
 		int binNumber = (int) Math.ceil(maxValue/binSize);
 		Vector<Integer> histo = new Vector<Integer>();
 		for (int b = 0; b < binNumber; b++) histo.add(0);
 				
-		for (int i = 0; i < data1D.size(); i++) { // scroll through intervals	
+		for (int i = 0; i < data1D.size(); i++) { // scroll through intervals, negative values are not allowed
+			//System.out.println("PlotOpHRV: i: " + i + "     data1D[i]: " + data1D.get(i));
 			int index = (int) Math.ceil(data1D.get(i)/binSize);
+			if (index == 0) index = 1; //can occur if data1D.get(i) = 0.0 
 			histo.set(index-1, histo.get(index-1) + 1);		
 		}
 		//search for maximum in the histogram
@@ -368,19 +372,59 @@ public class PlotOpHRV extends AbstractOperator {
 		//interpolate interval sequence to get equidistant time spacings - a sample rate
 		CubicSpline cs =new CubicSpline(xData, yData);
 		
-		//Virtual sample rate = 0.25s  (4Hz)
-		double virtSampleTime = 0.25; //first virtual time point
+		//Virtual sample rate = 4Hz
+		double virtSampleTime = 0.25; //virtual sample time in sec (first virtual time point)
 		double timeOfLastBeat = xData[xData.length -1]; //time of last beat (interval) in seconds, roughly the recording time
-		double numbVirtTimePts = timeOfLastBeat/0.25;
-		System.out.println("!PlotOpHRV: number of virtual Data points for FFT: "+ numbVirtTimePts);
-		//double[] xInterpolData = new double[xData1D.size()];
-		double[] yInterpolData = new double[yData1D.size()];
+		int numbVirtTimePts = (int) Math.floor(timeOfLastBeat/0.25);
+	
+		//System.out.println("PlotOpHRV: number of virtual data points for FFT: "+ numbVirtTimePts);
+		if (numbVirtTimePts < 10) {
+			DialogUtil.getInstance().showDefaultInfoMessage("Number of datapoints for FFT: "+numbVirtTimePts+ " is too low!");
+			
+			psdParameters[0] = 999.111;
+			psdParameters[1] = 999.111;
+			psdParameters[2] = 999.111;
+			psdParameters[3] = 999.111;
+			psdParameters[4] = 999.111;
+			psdParameters[5] = 999.111;
+			psdParameters[6] = 999.111;
+		
+			return psdParameters;
+		}
+		
+		//double[] xInterpolData = new double [numbVirtTimePts];
+		double[] yInterpolData = new double[numbVirtTimePts];
 		
 		for (int t = 1; t <= numbVirtTimePts; t++) { //
-			yInterpolData[t] = cs.interpolate(t*virtSampleTime);
+			yInterpolData[t-1] = cs.interpolate(t*virtSampleTime);
+			//System.out.println("PlotOpHRV: t: " + t + "       time: " + (t*virtSampleTime) + "     yInterpolate[t]: " +  yInterpolData[t-1]);
 		}
+		
+//		//not necessary because .powerSpectrum() does extend to power of 2 by itself!
+//		//data length should have a power of 2 because .powerSpectrum() truncates the signal to the next smaller power of 2 value
+//		//therefore, extend with zeros 
+//		int powerSize = 1;
+//		while (yInterpolData.length > powerSize){
+//			powerSize = powerSize*2;
+//		}
+//		//powerSize = powerSize /2;
+//		double[] yInterpolDataExtended = new double[powerSize];
+//		//set data
+//		if (powerSize <= yInterpolData.length) {
+//			for (int i = 0; i < powerSize; i++){
+//				yInterpolDataExtended[i] = yInterpolData[i];
+//		 }
+//		 } else {
+//			 for (int i = 0; i < yInterpolData.length; i++){
+//				 yInterpolDataExtended[i] = yInterpolData[i];
+//			 }
+//			 for (int i = yInterpolData.length; i < powerSize; i++){
+//				 yInterpolDataExtended[i] =0.0d; //extend with zeros
+//			 }
+//		 }
+		
 		   
-	    //FFT from 0 to 2Hz (
+	    //FFT from 0 to 2Hz
 	    FourierTransform ft = new FourierTransform();
 		//ft.removeWindow();
 		//ft.setRectangular();
@@ -391,14 +435,55 @@ public class PlotOpHRV extends AbstractOperator {
 		//ft.setKaiser();
 		//ft.setGaussian();
 		
-		// data length must not have a power of 2 because .powerSpectrum() truncates the signal to the next smaller power of 2 value
-	
 		ft.setData(yInterpolData);
+		ft.setDeltaT(virtSampleTime);
 	    //ft.transform();
-		//ft.plotPowerSpectrum();
+		//ft.plotPowerSpectrum(); //Flanagan plot window
 		double[][] ps = ft.powerSpectrum();
 	
-		System.out.println("PlotOpHRV: I'm here");
+//		//to see power spectrum in IQM 
+//		//return argument has to be changed to Result
+//		Vector<Double> signalPS = new Vector<Double>();
+//		Vector<Double> rangePS = new Vector<Double>();
+//		int resultLogLin = PlotOpFFTDescriptor.RESULT_LIN;
+//		for (int i = 0; i < ps[0].length; i++){
+//			if(resultLogLin == PlotOpFFTDescriptor.RESULT_LOG){
+//				signalPS.add(Math.log(ps[1][i]));  //log Power Spectrum
+//			}
+//			if(resultLogLin == PlotOpFFTDescriptor.RESULT_LIN){
+//				signalPS.add(ps[1][i]);  //Power Spectrum
+//			}
+//			rangePS.add(ps[0][i]); //if ft.setDeltaT(1/samplerate) is set
+//		}
+//
+//		// it is necessary to generate a new instance of PlotModel
+//		PlotModel plotModelNew = new PlotModel("DomainHeader", "DomainUnit", "DataHeader", "DataUnit", rangePS, signalPS);
+//		
+//		if (this.isCancelled(this.getParentTask())) return null;
+//		return new Result(plotModelNew);
+		
+		//scroll through spectrum and sum up 
+		for (int f = 0; f < ps[0].length; f++) {
+			if (ps[0][f] <= 0.04){ //VLF
+				vlf = vlf + ps[1][f];
+			}
+			if ((ps[0][f] > 0.04) && (ps[0][f] <= 0.15)){ //LF
+				lf = lf + ps[1][f];
+			}
+			if ((ps[0][f] > 0.15) && (ps[0][f] <= 0.4)){ //HF
+				hf = hf + ps[1][f];
+			}
+			if (ps[0][f] <= 0.15){ //TP
+				tp = tp + ps[1][f];
+			}	
+		}
+		psdParameters[0] = vlf;
+		psdParameters[1] = lf;
+		psdParameters[2] = hf;
+		psdParameters[3] = 100.0*lf/(tp-vlf);
+		psdParameters[4] = 100.0*hf/(tp-vlf);
+		psdParameters[5] = lf/hf;
+		psdParameters[6] = tp;
 	
 		return psdParameters;
 	}
@@ -428,7 +513,19 @@ public class PlotOpHRV extends AbstractOperator {
 		// new instance is essential
 		Vector<Double> signal = new Vector<Double>(plotModel.getData());
 		Vector<Double> domain = new Vector<Double>(plotModel.getDomain());
-
+		
+		//check min max values
+		this.maxValue =  0.0; // for histogram
+		this.minValue = Double.MAX_VALUE; //in order to check if there are negative values
+		for (double v : signal) {
+			if (v > maxValue) maxValue = v;
+			if (v < minValue) minValue = v;
+		}	
+		if (minValue < 0.0) { //stop execution, negative values are not allowed	
+			DialogUtil.getInstance().showDefaultErrorMessage("Negative values are not allowed!");
+			return null;
+		}
+		
 	    int numValues = 1;
 		
 		//number of  values	
@@ -454,7 +551,14 @@ public class PlotOpHRV extends AbstractOperator {
 		double[] nn50   = new double[numValues];		
 		double[] pnn50  = new double[numValues];		
 		double[] nn20   = new double[numValues];		
-		double[] pnn20  = new double[numValues];		
+		double[] pnn20  = new double[numValues];	
+		double[] vlf    = new double[numValues];	 //power spectral parameters
+		double[] lf     = new double[numValues];	
+		double[] hf     = new double[numValues];	
+		double[] lfn    = new double[numValues];	
+		double[] hfn    = new double[numValues];	
+		double[] lfhf   = new double[numValues];	
+		double[] tp     = new double[numValues];	
 			 
 		Vector<Double> numbnnSurr= new Vector<Double>(); //May be used to store individual surrogate values
 		Vector<Double> meannnSurr= new Vector<Double>(); //May be used to store individual surrogate values
@@ -468,6 +572,14 @@ public class PlotOpHRV extends AbstractOperator {
 		Vector<Double> pnn50Surr = new Vector<Double>();
 		Vector<Double> nn20Surr  = new Vector<Double>();
 		Vector<Double> pnn20Surr = new Vector<Double>();
+		Vector<Double> vlfSurr  = new Vector<Double>();
+		Vector<Double> lfSurr   = new Vector<Double>();
+		Vector<Double> hfSurr   = new Vector<Double>();
+		Vector<Double> lfnSurr  = new Vector<Double>();
+		Vector<Double> hfnSurr  = new Vector<Double>();
+		Vector<Double> lfhfSurr = new Vector<Double>();
+		Vector<Double> tpSurr   = new Vector<Double>();
+		
 		
 		double numbnnSurrMean= 0.0;
 		double meannnSurrMean= 0.0;
@@ -481,6 +593,13 @@ public class PlotOpHRV extends AbstractOperator {
 		double pnn50SurrMean = 0.0;
 		double nn20SurrMean  = 0.0;
 		double pnn20SurrMean = 0.0;
+		double vlfSurrMean   = 0.0;
+		double lfSurrMean    = 0.0;
+		double hfSurrMean    = 0.0;
+		double lfnSurrMean   = 0.0;
+		double hfnSurrMean   = 0.0;
+		double lfhfSurrMean  = 0.0;
+		double tpSurrMean    = 0.0;
 	    
 		fireProgressChanged(5);
 		if (isCancelled(getParentTask())) return null;
@@ -503,10 +622,18 @@ public class PlotOpHRV extends AbstractOperator {
 				nn20[0]   = calcNN20(diffSignal ,timeBase);		
 				pnn20[0]  = nn20[0]/numbnn[0];	
 			
-				calcPSDParameters(domain, signal, timeBase);
+				double[] psdParameters = calcPSDParameters(domain, signal, timeBase);
+				vlf[0]  = psdParameters[0];
+				lf[0]   = psdParameters[1];
+				hf[0]   = psdParameters[2];
+				lfn[0]  = psdParameters[3];
+				hfn[0]  = psdParameters[4];
+				lfhf[0] = psdParameters[5];
+				tp[0]   = psdParameters[6];
 				
 				fireProgressChanged(50);
 				if (isCancelled(getParentTask())) return null;
+				
 			}
 			if (advanced == 1) {
 				
@@ -542,6 +669,15 @@ public class PlotOpHRV extends AbstractOperator {
 						nn20Surr.add(nn20SurrLocal);
 						pnn20Surr.add(nn20SurrLocal/diffSignalSurr.size());
 						
+						double[] psdParameters = calcPSDParameters(domain, signalSurr, timeBase);
+						vlfSurr.add(psdParameters[0]);
+						lfSurr.add(psdParameters[1]);
+						hfSurr.add(psdParameters[2]);
+						lfnSurr.add(psdParameters[3]);
+						hfnSurr.add(psdParameters[4]);
+						lfhfSurr.add(psdParameters[5]);
+						tpSurr.add(psdParameters[6]);
+										
 						fireProgressChanged(50);
 						if (isCancelled(getParentTask())) return null;
 					}
@@ -564,6 +700,13 @@ public class PlotOpHRV extends AbstractOperator {
 				pnn50SurrMean = this.calcMean(pnn50Surr);
 				nn20SurrMean  = this.calcMean(nn20Surr);
 				pnn20SurrMean = this.calcMean(pnn20Surr);
+				vlfSurrMean   = this.calcMean(vlfSurr);
+				lfSurrMean    = this.calcMean(lfSurr);
+				hfSurrMean    = this.calcMean(hfSurr);
+				lfnSurrMean   = this.calcMean(lfnSurr);
+				hfnSurrMean   = this.calcMean(hfnSurr);
+				lfhfSurrMean  = this.calcMean(lfhfSurr);
+				tpSurrMean    = this.calcMean(tpSurr);
 				
 			}//Surrogates
 		}//method == 0 single value
@@ -576,8 +719,10 @@ public class PlotOpHRV extends AbstractOperator {
 					fireProgressChanged(proz);
 					if (isCancelled(getParentTask())) return null;
 					Vector<Double> subSignal = new Vector<Double>();
+					Vector<Double> subDomain = new Vector<Double>();
 					for (int ii = i; ii < i + boxLength; ii++) { // get subvector
 						subSignal.add(signal.get(ii));
+						subDomain.add(domain.get(ii));
 					}
 					
 					if (standard == 1) {
@@ -596,7 +741,15 @@ public class PlotOpHRV extends AbstractOperator {
 						pnn50[i]  = nn50[i]/numbnn[i];		
 						nn20[i]   = calcNN20(diffSubSignal, timeBase);		
 						pnn20[i]  = nn20[i]/numbnn[i];	
-										
+						
+						double[] psdParameters = calcPSDParameters(subDomain, subSignal, timeBase);
+						vlf[i]  = psdParameters[0];
+						lf[i]   = psdParameters[1];
+						hf[i]   = psdParameters[2];
+						lfn[i]  = psdParameters[3];
+						hfn[i]  = psdParameters[4];
+						lfhf[i] = psdParameters[5];
+						tp[i]   = psdParameters[6];				
 					}
 					if (advanced == 1) {
 					
@@ -610,8 +763,10 @@ public class PlotOpHRV extends AbstractOperator {
 					fireProgressChanged(proz);
 					if (isCancelled(getParentTask())) return null;
 					Vector<Double> subSignal = new Vector<Double>();
+					Vector<Double> subDomain = new Vector<Double>();
 					for (int ii = i; ii < i + boxLength; ii++) { // get subvector
 						subSignal.add(signal.get(ii));
+						subDomain.add(domain.get(ii));
 					}
 					for (int s= 1; s <= nSurr; s++) {	
 						
@@ -635,7 +790,17 @@ public class PlotOpHRV extends AbstractOperator {
 							nn50[i]   += calcNN50 (diffSubSignalSurr, timeBase);		
 							pnn50[i]  += nn50[i]/numbnn[i];		
 							nn20[i]   += calcNN20 (diffSubSignalSurr, timeBase);		
-							pnn20[i]  += nn20[i]/numbnn[i];						
+							pnn20[i]  += nn20[i]/numbnn[i];		
+							
+							
+							double[] psdParameters = calcPSDParameters(subDomain, subSignalSurr, timeBase);
+							vlf[i]  += psdParameters[0];
+							lf[i]   += psdParameters[1];
+							hf[i]   += psdParameters[2];
+							lfn[i]  += psdParameters[3];
+							hfn[i]  += psdParameters[4];
+							lfhf[i] += psdParameters[5];
+							tp[i]   += psdParameters[6];		
 							
 						}
 						if (advanced == 1) {
@@ -654,6 +819,13 @@ public class PlotOpHRV extends AbstractOperator {
 					pnn50[i] = pnn50[i]/nSurr;		
 					nn20[i]  = nn20[i]/nSurr;		
 					pnn20[i] = pnn20[i]/nSurr;	
+					vlf[i]   = vlf[i]/nSurr;
+					lf[i]    = lf[i]/nSurr;
+					hf[i]    = hf[i]/nSurr;
+					lfn[i]   = lfn[i]/nSurr;
+					hfn[i]   = hfn[i]/nSurr;
+					lfhf[i]  = lfhf[i]/nSurr;
+					tp[i]    = tp[i]/nSurr;		
 					
 				}
 			} //surrogate
@@ -710,6 +882,13 @@ public class PlotOpHRV extends AbstractOperator {
 				model.addColumn("PNN50 [%]");
 				model.addColumn("NN20 [#]");
 				model.addColumn("PNN20 [%]");
+				model.addColumn("VLF [%]");
+				model.addColumn("LF [%]");
+				model.addColumn("HF [%]");
+				model.addColumn("LFnorm");
+				model.addColumn("HFnorm");
+				model.addColumn("LF/HF");
+				model.addColumn("TP [%]");
 				model.setValueAt(numbnn[0],  0, numColumns);
 				model.setValueAt(1.0/meannn[0]*1000.0*60.0, 0, numColumns+1);
 				model.setValueAt(meannn[0],0, numColumns+2);
@@ -723,6 +902,13 @@ public class PlotOpHRV extends AbstractOperator {
 				model.setValueAt(pnn50[0], 0, numColumns+10);
 				model.setValueAt(nn20[0],  0, numColumns+11);
 				model.setValueAt(pnn20[0], 0, numColumns+12);
+				model.setValueAt(vlf[0],   0, numColumns+13);
+				model.setValueAt(lf[0],    0, numColumns+14);
+				model.setValueAt(hf[0],    0, numColumns+15);
+				model.setValueAt(lfn[0],   0, numColumns+16);
+				model.setValueAt(hfn[0],   0, numColumns+17);
+				model.setValueAt(lfhf[0],  0, numColumns+18);
+				model.setValueAt(tp[0],    0, numColumns+19);
 			
 			}
 			if (advanced == 1) {
@@ -747,6 +933,13 @@ public class PlotOpHRV extends AbstractOperator {
 				model.addColumn("PNN50-Surr [%]");
 				model.addColumn("NN20-Surr [#]");
 				model.addColumn("PNN20-Surr[%]");
+				model.addColumn("VLF-Surr [%]");
+				model.addColumn("LF-Surr [%]");
+				model.addColumn("HF-Surr [%]");
+				model.addColumn("LFnorm-Surr");
+				model.addColumn("HFnorm-Surr");
+				model.addColumn("LF/HF-Surr");
+				model.addColumn("TP-Surr [%]");
 								
 				model.setValueAt(numbnnSurrMean,0, numColumns);
 				model.setValueAt(1.0/meannnSurrMean * 1000.0*60, 0, numColumns+1);	
@@ -761,6 +954,13 @@ public class PlotOpHRV extends AbstractOperator {
 				model.setValueAt(pnn50SurrMean, 0, numColumns+10);
 				model.setValueAt(nn20SurrMean,  0, numColumns+11);
 				model.setValueAt(pnn20SurrMean, 0, numColumns+12);
+				model.setValueAt(vlfSurrMean,   0, numColumns+13);
+				model.setValueAt(lfSurrMean,    0, numColumns+14);
+				model.setValueAt(hfSurrMean,    0, numColumns+15);
+				model.setValueAt(lfnSurrMean,   0, numColumns+16);
+				model.setValueAt(hfnSurrMean,   0, numColumns+17);
+				model.setValueAt(lfhfSurrMean,  0, numColumns+18);
+				model.setValueAt(tpSurrMean,    0, numColumns+19);
 				
 				numColumns = model.getColumnCount();
 				for (int x=0; x < nSurr; x++){
@@ -827,6 +1027,41 @@ public class PlotOpHRV extends AbstractOperator {
 					model.addColumn("PNN20-Surr [%]"+(x+1));
 					model.setValueAt(pnn20Surr.get(x),  0, numColumns + x);
 				}
+				numColumns = model.getColumnCount();
+				for (int x=0; x < nSurr; x++){
+					model.addColumn("VLF-Surr [%]"+(x+1));
+					model.setValueAt(vlfSurr.get(x),  0, numColumns + x);
+				}
+				numColumns = model.getColumnCount();
+				for (int x=0; x < nSurr; x++){
+					model.addColumn("LF-Surr [%]"+(x+1));
+					model.setValueAt(lfSurr.get(x),  0, numColumns + x);
+				}
+				numColumns = model.getColumnCount();
+				for (int x=0; x < nSurr; x++){
+					model.addColumn("HF-Surr [%]"+(x+1));
+					model.setValueAt(hfSurr.get(x),  0, numColumns + x);
+				}
+				numColumns = model.getColumnCount();
+				for (int x=0; x < nSurr; x++){
+					model.addColumn("LFnorm-Surr"+(x+1));
+					model.setValueAt(lfnSurr.get(x),  0, numColumns + x);
+				}
+				numColumns = model.getColumnCount();
+				for (int x=0; x < nSurr; x++){
+					model.addColumn("HFnorm-Surr"+(x+1));
+					model.setValueAt(hfnSurr.get(x),  0, numColumns + x);
+				}
+				numColumns = model.getColumnCount();
+				for (int x=0; x < nSurr; x++){
+					model.addColumn("LF/HF-Surr"+(x+1));
+					model.setValueAt(lfhfSurr.get(x),  0, numColumns + x);
+				}
+				numColumns = model.getColumnCount();
+				for (int x=0; x < nSurr; x++){
+					model.addColumn("TP-Surr [%]"+(x+1));
+					model.setValueAt(tpSurr.get(x),  0, numColumns + x);
+				}
 			}
 		}
 		if (method == 1) { // gliding values
@@ -848,6 +1083,13 @@ public class PlotOpHRV extends AbstractOperator {
 					model.addColumn("PNN50 [%]");
 					model.addColumn("NN20 [#]");
 					model.addColumn("PNN20 [%]");
+					model.addColumn("VLF [%]");
+					model.addColumn("LF [%]");
+					model.addColumn("HF [%]");
+					model.addColumn("LFnorm");
+					model.addColumn("HFnorm");
+					model.addColumn("LF/HF");
+					model.addColumn("TP [%]");
 				}
 				else {
 					model.addColumn("Beats-Surr [#]");
@@ -863,6 +1105,13 @@ public class PlotOpHRV extends AbstractOperator {
 					model.addColumn("PNN50-Surr [%]");
 					model.addColumn("NN20-Surr [#]");
 					model.addColumn("PNN20-Surr [%]");
+					model.addColumn("VLF-Surr [%]");
+					model.addColumn("LF-Surr [%]");
+					model.addColumn("HF-Surr [%]");
+					model.addColumn("LFnorm-Surr");
+					model.addColumn("HFnorm-Surr");
+					model.addColumn("LF/HF-Surr");
+					model.addColumn("TP-Surr [%]");
 				}		
 				for (int i = 0; i < numValues; i++) {		
 					model.setValueAt(numbnn[i], i, numColumns);
@@ -878,6 +1127,13 @@ public class PlotOpHRV extends AbstractOperator {
 					model.setValueAt(pnn50[i], i, numColumns+10);
 					model.setValueAt(nn20[i],  i, numColumns+11);
 					model.setValueAt(pnn20[i], i, numColumns+12);
+					model.setValueAt(vlf[i],   i, numColumns+13);
+					model.setValueAt(lf[i],    i, numColumns+14);
+					model.setValueAt(hf[i],    i, numColumns+15);
+					model.setValueAt(lfn[i],   i, numColumns+16);
+					model.setValueAt(hfn[i],   i, numColumns+17);
+					model.setValueAt(lfhf[i],  i, numColumns+18);
+					model.setValueAt(tp[i],    i, numColumns+19);
 					
 				}
 			}

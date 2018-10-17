@@ -106,7 +106,8 @@ public class PlotOpFFT extends AbstractOperator {
 			ft.setGaussian();
 		}
 
-		// //data length must have a power of 2
+		//not necessary because .powerSpectrum() does extend to power of 2 by itself!
+		// //data length must have a power of 2 because .powerSpectrum() truncates the signal
 		// int powerSize = 1;
 		// while (signal.size() > powerSize){
 		// powerSize = powerSize*2;
@@ -122,13 +123,12 @@ public class PlotOpFFT extends AbstractOperator {
 		// for (int i = 0; i < signal.size(); i++){
 		// data[i] = signal.get(i);
 		// }
-		// for (int i = signal.size()-1; i < powerSize; i++){
+		// for (int i = signal.size(); i < powerSize; i++){
 		// data[i] =0.0d;
 		// }
 		// }
 
-		// data length must not have a power of 2 because .powerSpectrum() truncates the signal
-		// to the next smaller power of 2 value
+		
 		double[] data = new double[signal.size()];
 		// set data
 		for (int i = 0; i < signal.size(); i++) {
@@ -136,7 +136,9 @@ public class PlotOpFFT extends AbstractOperator {
 		}
 
 		ft.setData(data);
-		// ft.transform();
+		ft.setDeltaT(1.0/sampleRate);
+		//ft.transform();
+		//ft.plotPowerSpectrum(); //Flanagan plot window
 		
 		this.fireProgressChanged(20);
 		if (this.isCancelled(this.getParentTask())) return null;
@@ -158,7 +160,9 @@ public class PlotOpFFT extends AbstractOperator {
 			//rangePS.add( (double)i + 1.0d);   //frequencies
 
 			//if sample frequency is known:	
-			rangePS.add((((double)i +1.0) /ps[0].length) * (double)(sampleRate)/2.0);
+			//rangePS.add((((double)i + 0.0) /(ps[0].length)) * (double)(sampleRate)/2.0);  //works too
+			//rangePS.add(ps[0][i] * sampleRate); // max of ps[0][i] = 0.5
+			rangePS.add(ps[0][i]); //if ft.setDeltaT(1/samplerate) is correctly set
 
 		}
 
