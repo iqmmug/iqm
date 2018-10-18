@@ -4,7 +4,7 @@
 ::call mvn install:install-file -Dfile=./lib/bioformats/loci_tools-5.9.1.jar -DgroupId=bioformats -DartifactId=loci_tools -Dversion=5.9.1 -Dpackaging=jar
 
 ::FLANAGAN
-call mvn install:install-file -Dfile=./lib/flanagan/flanagan-1.0.jar -DgroupId=flanagan -DartifactId=flanagan -Dversion=1.0 -Dpackaging=jar
+call mvn install:install-file -Dfile=./lib/flanagan/flanagan-jdk1.8.0-version.jar -DgroupId=flanagan -DartifactId=flanagan -Dversion=jdk1.8.0 -Dpackaging=jar
 
 ::JAI-CORE & JAI-CODEC
 call mvn install:install-file -Dfile=./lib/JAI/jai_core-1.1.3.jar -DgroupId=javax.media.jai -DartifactId=jai_core -Dversion=1.1.3 -Dpackaging=jar
