@@ -34,6 +34,7 @@ package at.mug.iqm.commons.util;
  * by Michael Thomas Flanagan's Java Scientific Library
  * http://www.ee.ucl.ac.uk/~mflanaga/java/index.html
  * @author Helmut Ahammer
+ * @update 2018-10-18 (bugfix) linear regression getters adapted to new flanagan-jdk1.8.0.java version
  *
  */
 public class LinearRegression {
@@ -66,12 +67,11 @@ public class LinearRegression {
 		//reg.linearPlot();
 		double[] coef    = reg.getCoeff();
 		double[] coefSd  = reg.getCoeffSd();
-		double[] coefVar = reg.getCoeffVar();
-		double adjR   = reg.getAdjustedR();
-		double adjR2  = reg.getAdjustedR2();
-		double sampR  = reg.getSampleR();
-		double sampR2 = reg.getSampleR2();
-		double chi2   = reg.getChiSquare(); 
+		double[] coefVar = reg.getCoeffVar();	
+		double R2     = reg.getCoefficientOfDetermination(); //R^2
+		double adjR2  = reg.getAdjustedCoefficientOfDetermination(); //adjusted R^2
+		double chi2   = reg.getChiSquare();
+				
 		//		double[] bestEst = reg.getBestEstimates();
 		//		double[] bestEstErr = reg.getBestEstimatesErrors();
 		//		double[] bestEstSd  = reg.getBestEstimatesStandardDeviations();
@@ -88,7 +88,7 @@ public class LinearRegression {
 		parameters[1] = coef[1];
 		parameters[2] = coefSd[0];
 		parameters[3] = coefSd[1];
-		parameters[4] = sampR2;    //Bestimmheitsmaß
+		parameters[4] = R2;        //R^2 Bestimmheitsmaß
 		parameters[5] = adjR2;     //adjustiertes, bereinigtes Bestimmheitsmaß für große Zahlen
 
 		return parameters;
