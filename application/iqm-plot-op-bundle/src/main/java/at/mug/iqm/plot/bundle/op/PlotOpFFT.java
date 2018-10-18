@@ -148,28 +148,47 @@ public class PlotOpFFT extends AbstractOperator {
 		this.fireProgressChanged(60);
 		if (this.isCancelled(this.getParentTask())) return null;
 		
-		for (int i = 0; i < ps[0].length; i++){
-			if(resultLogLin == PlotOpFFTDescriptor.RESULT_LOG){
-				signalPS.add(Math.log(ps[1][i]));  //log Power Spectrum
+		String dataHeader = " ";		
+		if(resultLogLin == PlotOpFFTDescriptor.RESULT_LOG){
+			dataHeader = "Log(Power)";
+			for (int i = 0; i < ps[0].length; i++){	
+				signalPS.add(Math.log10(ps[1][i]));  //log Power Spectrum
+				
+				//rangePS.add(ps[0][i]);   //frequencies
+				//if sample frequency is not known:
+				//rangePS.add( (double)i + 1.0d);   //frequencies
+				//if sample frequency is known:	
+				//rangePS.add((((double)i +1.0) /ps[0].length) * (double)(sampleRate)/2.0);
+				rangePS.add(ps[0][i]); //if ft.setDeltaT(1/samplerate) is correctly set
 			}
-			if(resultLogLin == PlotOpFFTDescriptor.RESULT_LIN){
-				signalPS.add(ps[1][i]);  //Power Spectrum
-			}
-			//rangePS.add(ps[0][i]);   //frequencies
-			//if sample frequency is not known:
-			//rangePS.add( (double)i + 1.0d);   //frequencies
-
-			//if sample frequency is known:	
-			//rangePS.add((((double)i + 0.0) /(ps[0].length)) * (double)(sampleRate)/2.0);  //works too
-			//rangePS.add(ps[0][i] * sampleRate); // max of ps[0][i] = 0.5
-			rangePS.add(ps[0][i]); //if ft.setDeltaT(1/samplerate) is correctly set
-
 		}
+		if(resultLogLin == PlotOpFFTDescriptor.RESULT_LIN){
+			dataHeader = "Power";
+			for (int i = 0; i < ps[0].length; i++){
 
+				signalPS.add(ps[1][i]);  //Power Spectrum
+				//signalPS.add(Math.log10(ps[1][i]));  //log Power Spectrum
+				
+				//rangePS.add(ps[0][i]);   //frequencies
+				//if sample frequency is not known:
+				//rangePS.add( (double)i + 1.0d);   //frequencies
+				//if sample frequency is known:	
+				//rangePS.add((((double)i +1.0) /ps[0].length) * (double)(sampleRate)/2.0);
+				rangePS.add(ps[0][i]); //if ft.setDeltaT(1/samplerate) is correctly set
+			}
+		}
+		
+		
+		
+		
+
+//		// it is necessary to generate a new instance of PlotModel
+//		PlotModel plotModelNew = new PlotModel(plotModel.getDomainHeader(),
+//				plotModel.getDomainUnit(), plotModel.getDataHeader(),
+//				plotModel.getDataUnit(), rangePS, signalPS);
+		
 		// it is necessary to generate a new instance of PlotModel
-		PlotModel plotModelNew = new PlotModel(plotModel.getDomainHeader(),
-				plotModel.getDomainUnit(), plotModel.getDataHeader(),
-				plotModel.getDataUnit(), rangePS, signalPS);
+		PlotModel plotModelNew = new PlotModel("Frequency", "Hz", dataHeader, "a.u.", rangePS, signalPS);
 		
 		if (this.isCancelled(this.getParentTask())) return null;
 		return new Result(plotModelNew);

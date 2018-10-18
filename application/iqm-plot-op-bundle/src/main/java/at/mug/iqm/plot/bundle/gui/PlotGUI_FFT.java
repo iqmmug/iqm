@@ -187,7 +187,7 @@ public class PlotGUI_FFT extends AbstractPlotOperatorGUI implements ChangeListen
 		if (buttWithout == null) {
 			buttWithout = new JRadioButton();
 			buttWithout.setText("Without");
-			buttWithout.setToolTipText("calculates FFT without windowing");
+			buttWithout.setToolTipText("computes FFT without windowing");
 			buttWithout.addActionListener(this);
 			buttWithout.setActionCommand("parameter");
 		}
@@ -203,7 +203,7 @@ public class PlotGUI_FFT extends AbstractPlotOperatorGUI implements ChangeListen
 		if (buttRectangular == null) {
 			buttRectangular = new JRadioButton();
 			buttRectangular.setText("Rectangular");
-			buttRectangular.setToolTipText("calculates FFT using rectangular windowing");
+			buttRectangular.setToolTipText("computes FFT using rectangular windowing");
 			buttRectangular.addActionListener(this);
 			buttRectangular.setActionCommand("parameter");
 		}
@@ -219,7 +219,7 @@ public class PlotGUI_FFT extends AbstractPlotOperatorGUI implements ChangeListen
 		if (buttBartlett == null) {
 			buttBartlett = new JRadioButton();
 			buttBartlett.setText("Bartlett");
-			buttBartlett.setToolTipText("calculates FFT using Bartlett windowing");
+			buttBartlett.setToolTipText("computes FFT using Bartlett windowing");
 			buttBartlett.addActionListener(this);
 			buttBartlett.setActionCommand("parameter");
 			buttBartlett.setEnabled(true);
@@ -237,7 +237,7 @@ public class PlotGUI_FFT extends AbstractPlotOperatorGUI implements ChangeListen
 		if (buttWelch == null) {
 			buttWelch = new JRadioButton();
 			buttWelch.setText("Welch");
-			buttWelch.setToolTipText("calculates FFT using Welch windowing");
+			buttWelch.setToolTipText("computes FFT using Welch windowing");
 			buttWelch.addActionListener(this);
 			buttWelch.setActionCommand("parameter");
 			buttWelch.setEnabled(true);
@@ -255,7 +255,7 @@ public class PlotGUI_FFT extends AbstractPlotOperatorGUI implements ChangeListen
 		if (buttHann == null) {
 			buttHann = new JRadioButton();
 			buttHann.setText("Hann");
-			buttHann.setToolTipText("calculates FFT using Hann windowing");
+			buttHann.setToolTipText("computes FFT using Hann windowing");
 			buttHann.addActionListener(this);
 			buttHann.setActionCommand("parameter");
 			buttHann.setEnabled(true);
@@ -273,7 +273,7 @@ public class PlotGUI_FFT extends AbstractPlotOperatorGUI implements ChangeListen
 		if (buttHamming == null) {
 			buttHamming = new JRadioButton();
 			buttHamming.setText("Hamming");
-			buttHamming.setToolTipText("calculates FFT using Hamming windowing");
+			buttHamming.setToolTipText("computes FFT using Hamming windowing");
 			buttHamming.addActionListener(this);
 			buttHamming.setActionCommand("parameter");
 			buttHamming.setEnabled(true);
@@ -291,7 +291,7 @@ public class PlotGUI_FFT extends AbstractPlotOperatorGUI implements ChangeListen
 		if (buttKaiser == null) {
 			buttKaiser = new JRadioButton();
 			buttKaiser.setText("Kaiser");
-			buttKaiser.setToolTipText("calculates FFT using Kaiser windowing");
+			buttKaiser.setToolTipText("computes FFT using Kaiser windowing");
 			buttKaiser.addActionListener(this);
 			buttKaiser.setActionCommand("parameter");
 			buttKaiser.setEnabled(true);
@@ -309,7 +309,7 @@ public class PlotGUI_FFT extends AbstractPlotOperatorGUI implements ChangeListen
 		if (buttGaussian == null) {
 			buttGaussian = new JRadioButton();
 			buttGaussian.setText("Gaussian");
-			buttGaussian.setToolTipText("calculates FFT using Gaussian windowing");
+			buttGaussian.setToolTipText("computes FFT using Gaussian windowing");
 			buttGaussian.addActionListener(this);
 			buttGaussian.setActionCommand("parameter");
 			buttGaussian.setEnabled(true);
@@ -398,7 +398,7 @@ public class PlotGUI_FFT extends AbstractPlotOperatorGUI implements ChangeListen
 		if (buttResultLog == null) {
 			buttResultLog = new JRadioButton();
 			buttResultLog.setText("Log");
-			buttResultLog.setToolTipText("calculates logarithmic result values");
+			buttResultLog.setToolTipText("computes logarithmic result values");
 			buttResultLog.addActionListener(this);
 			buttResultLog.setActionCommand("parameter");
 			buttResultLog.setSelected(true);
@@ -415,7 +415,7 @@ public class PlotGUI_FFT extends AbstractPlotOperatorGUI implements ChangeListen
 		if (buttResultLin == null) {
 			buttResultLin = new JRadioButton();
 			buttResultLin.setText("Lin");
-			buttResultLin.setToolTipText("calculates linear result values");
+			buttResultLin.setToolTipText("computes linear result values");
 			buttResultLin.addActionListener(this);
 			buttResultLin.setActionCommand("parameter");
 		}
