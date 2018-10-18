@@ -95,7 +95,7 @@
 		<dependency>
 			<groupId>flanagan</groupId>
 			<artifactId>flanagan</artifactId>
-			<version>1.0</version>
+			<version>jdk1.8.0</version>
 			<type>jar</type>
 		</dependency>
 		<dependency>
