@@ -163,6 +163,8 @@ public abstract class AbstractTableSavingDialog extends JFileChooser implements
 				extension = IQMConstants.DAT_EXTENSION;
 			} else if (this.getFileFilter().getDescription().equals(IQMConstants.WAV_FILTER_DESCRIPTION)) {
 				extension = IQMConstants.WAV_EXTENSION;
+			} else if (this.getFileFilter().getDescription().equals(IQMConstants.ECG_FILTER_DESCRIPTION)) {
+				extension = IQMConstants.ECG_EXTENSION;
 			} else {
 				extension = "txt";
 			}

@@ -74,6 +74,7 @@ public final class IQMConstants {
 	public static final String GSH_EXTENSION = "gsh";
 	
 	public static final String WAV_EXTENSION = "wav";
+	public static final String ECG_EXTENSION = "ecg";
 
 	/**
 	 * The extension for a serialized {@link IVirtualizable} object:<br>
@@ -123,6 +124,8 @@ public final class IQMConstants {
 	
 	public final static String WAV_FILTER_DESCRIPTION = "WAV (*."
 			+ WAV_EXTENSION + ")";
+	public final static String ECG_FILTER_DESCRIPTION = "ECG (*."
+			+ ECG_EXTENSION + ")";
 
 	/**
      * 
