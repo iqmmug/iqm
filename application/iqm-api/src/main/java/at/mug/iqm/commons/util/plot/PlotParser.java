@@ -1,5 +1,7 @@
 package at.mug.iqm.commons.util.plot;
 
+import java.io.BufferedInputStream;
+
 /*
  * #%L
  * Project: IQM - API
@@ -35,6 +37,9 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.nio.ByteBuffer;
+import java.nio.ByteOrder;
+import java.nio.channels.FileChannel;
 import java.util.Vector;
 import java.util.concurrent.ExecutionException;
 
@@ -408,6 +413,91 @@ public class PlotParser extends SwingWorker<Vector<Vector<String>>, Void> {
 
 		return this.dataString;
 	}
+	/**
+	 * Parse the file's content into a 2D-Vector array: {@link Vector}&lt;
+	 * {@link Vector}&lt;{@link String}&gt;&gt;. In the end, pass the parsed
+	 * content on to the {@link PlotSelectionFrame} instance in order to enable
+	 * the user to choose the data.
+	 */
+	public Vector<Vector<String>> parseContentECG() {
+		try {
+			this.setProgress(5);
+			// Prepare vector
+			dataString = new Vector<Vector<String>>();
+			
+			   
+	         //A single line (row) of data columns
+	         Vector<String> line = new Vector<String>();
+	
+			// first read the file
+			// Open the ecg file specified as the first argument
+			
+			
+			
+			//BufferedInputStream in = new BufferedInputStream (new FileInputStream(this.file.toString()));
+			FileInputStream fis = new FileInputStream(this.file);
+			byte[] bytes = fis.readNBytes(1000);
+			
+			for (int i=0; i < bytes.length; i = i + 2) {
+				//System.out.println("Plotparser: ecg data: byte #: " + i + "    :" + bytes[i] );
+	
+				
+				//line.add(String.valueOf(ByteBuffer.wrap(byteArr).order(ByteOrder.LITTLE_ENDIAN).getInt()));
+				//line.add(String.valueOf((byteArr[2] << 8) + byteArr[3]));
+				int val = ((bytes[i+1] & 0xff) << 8) + (bytes[i] & 0xff);	
+				//int val = (bytes[i] << 8) | (bytes[i+1]);
+				
+				System.out.println("Plotparser: "+val);
+				line = new Vector<String>();
+				line.add(String.valueOf(val));
+				
+				//set data string
+				dataString.add(new Vector<String>(line));
+					
+			}
+			
+			
+		
+					
+			
+			 this.setProgress(90);
+			 fis.close();
+	
+
+		} catch (FileNotFoundException e) {
+			logger.error("An error occurred: ", e);
+			DialogUtil.getInstance().showErrorMessage(
+					I18N.getMessage("application.error.generic"), e, true);
+			this.dataString = null;
+		} catch (IOException e) {
+			logger.error("An error occurred: ", e);
+			DialogUtil.getInstance().showErrorMessage(
+					I18N.getMessage("application.error.generic"), e, true);
+			this.dataString = null;
+		} catch (Exception e) {
+			logger.error("An error occurred: ", e);
+			DialogUtil.getInstance().showErrorMessage(
+					I18N.getMessage("application.error.generic"), e, true);
+			this.dataString = null;
+		} finally {
+			if (buf != null) {
+				try {
+					buf.close();
+				} catch (IOException e) {
+					// do nothing
+				}
+			}
+			if (fin != null) {
+				try {
+					fin.close();
+				} catch (IOException e) {
+					// do nothing
+				}
+			}
+		}
+
+		return this.dataString;
+	}
 
 	/**
 	 * @return the data of one column (int), all rows Vector&lt;Double&gt;
@@ -525,6 +615,9 @@ public class PlotParser extends SwingWorker<Vector<Vector<String>>, Void> {
 		}
 		if (fileName.endsWith(IQMConstants.WAV_EXTENSION)) {
 			this.dataString = parseContentWAV();
+		}
+		if (fileName.endsWith(IQMConstants.ECG_EXTENSION)) {
+			this.dataString = parseContentECG();
 		}
 		return dataString ;
 	}
