@@ -40,6 +40,8 @@ import java.io.InputStreamReader;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.channels.FileChannel;
+import java.text.SimpleDateFormat;
+import java.util.TimeZone;
 import java.util.Vector;
 import java.util.concurrent.ExecutionException;
 
@@ -49,6 +51,7 @@ import org.apache.log4j.Logger;
 
 import at.mug.iqm.api.I18N;
 import at.mug.iqm.api.IQMConstants;
+import at.mug.iqm.api.gui.BoardPanel;
 import at.mug.iqm.api.gui.PlotSelectionFrame;
 import at.mug.iqm.commons.util.DialogUtil;
 
@@ -79,8 +82,9 @@ public class PlotParser extends SwingWorker<Vector<Vector<String>>, Void> {
 	private int numColumns; // number of columns
 	private int numRows; // number of rows
 
-	private FileInputStream fin = null;
+	private FileInputStream fis = null;
 	private BufferedReader buf = null;
+	private WavFile wavFile = null;
 
 	private String[] headers;
 	private String[] units;
@@ -246,8 +250,8 @@ public class PlotParser extends SwingWorker<Vector<Vector<String>>, Void> {
 			dataString = new Vector<Vector<String>>();
 
 			// first read the file
-			fin = new FileInputStream(this.file);
-			buf = new BufferedReader(new InputStreamReader(fin));
+			fis = new FileInputStream(this.file);
+			buf = new BufferedReader(new InputStreamReader(fis));
 			
 			// search for number of columns, e.g. the first line may be only one
 			// string
@@ -261,8 +265,8 @@ public class PlotParser extends SwingWorker<Vector<Vector<String>>, Void> {
 			this.setProgress(25);
 			
 			// reload data - now to get whole data out of file
-			fin = new FileInputStream(this.file);
-			buf = new BufferedReader(new InputStreamReader(fin));
+			fis = new FileInputStream(this.file);
+			buf = new BufferedReader(new InputStreamReader(fis));
 
 			String bufLine;
 
@@ -278,7 +282,7 @@ public class PlotParser extends SwingWorker<Vector<Vector<String>>, Void> {
 				numRows++;
 			}
 			this.setProgress(90);
-			fin.close();
+			fis.close();
 
 		} catch (FileNotFoundException e) {
 			logger.error("An error occurred: ", e);
@@ -303,9 +307,9 @@ public class PlotParser extends SwingWorker<Vector<Vector<String>>, Void> {
 					// do nothing
 				}
 			}
-			if (fin != null) {
+			if (fis != null) {
 				try {
-					fin.close();
+					fis.close();
 				} catch (IOException e) {
 					// do nothing
 				}
@@ -329,7 +333,7 @@ public class PlotParser extends SwingWorker<Vector<Vector<String>>, Void> {
 	
 			// first read the file
 			// Open the wav file specified as the first argument
-	         WavFile wavFile = WavFile.openWavFile(this.file);
+	         wavFile = WavFile.openWavFile(this.file);
 	         
 	         // Display information about the wav file to System.out
 	         wavFile.display();
@@ -402,9 +406,16 @@ public class PlotParser extends SwingWorker<Vector<Vector<String>>, Void> {
 					// do nothing
 				}
 			}
-			if (fin != null) {
+			if (fis != null) {
 				try {
-					fin.close();
+					fis.close();
+				} catch (IOException e) {
+					// do nothing
+				}
+			}
+			if (wavFile != null) {
+				try {
+					fis.close();
 				} catch (IOException e) {
 					// do nothing
 				}
@@ -414,56 +425,48 @@ public class PlotParser extends SwingWorker<Vector<Vector<String>>, Void> {
 		return this.dataString;
 	}
 	/**
-	 * Parse the file's content into a 2D-Vector array: {@link Vector}&lt;
+	 * Parse the file's content (16bit one channel) into a 2D-Vector array: {@link Vector}&lt;
 	 * {@link Vector}&lt;{@link String}&gt;&gt;. In the end, pass the parsed
 	 * content on to the {@link PlotSelectionFrame} instance in order to enable
 	 * the user to choose the data.
 	 */
-	public Vector<Vector<String>> parseContentECG() {
+	public Vector<Vector<String>> parseContentB16() {
 		try {
 			this.setProgress(5);
 			// Prepare vector
 			dataString = new Vector<Vector<String>>();
-			
-			   
+					   
 	         //A single line (row) of data columns
 	         Vector<String> line = new Vector<String>();
 	
 			// first read the file
-			// Open the ecg file specified as the first argument
+			// Open the 16bit file				
+	        fis = new FileInputStream(this.file);
+	        int numBytes = fis.available();
+
+			//byte[] bytes = fis.readNBytes(100000);
+	        byte[] bytes = new byte[2];
+	        int numbOfReadBytes = fis.read(bytes);
 			
+			while (numbOfReadBytes != -1) {
 			
-			
-			//BufferedInputStream in = new BufferedInputStream (new FileInputStream(this.file.toString()));
-			FileInputStream fis = new FileInputStream(this.file);
-			byte[] bytes = fis.readNBytes(1000);
-			
-			for (int i=0; i < bytes.length; i = i + 2) {
-				//System.out.println("Plotparser: ecg data: byte #: " + i + "    :" + bytes[i] );
-	
+				for (int i=0; i < bytes.length; i = i + 2) {
+					//System.out.println("Plotparser: 16bit data: byte #: " + i + "    :" + bytes[i] );
+					int val = ((bytes[i+1] & 0xff) << 8) + (bytes[i] & 0xff);	
 				
-				//line.add(String.valueOf(ByteBuffer.wrap(byteArr).order(ByteOrder.LITTLE_ENDIAN).getInt()));
-				//line.add(String.valueOf((byteArr[2] << 8) + byteArr[3]));
-				int val = ((bytes[i+1] & 0xff) << 8) + (bytes[i] & 0xff);	
-				//int val = (bytes[i] << 8) | (bytes[i+1]);
-				
-				System.out.println("Plotparser: "+val);
-				line = new Vector<String>();
-				line.add(String.valueOf(val));
-				
-				//set data string
-				dataString.add(new Vector<String>(line));
+					//System.out.println("Plotparser: "+val);
+					line = new Vector<String>();
+					line.add(String.valueOf(val));
 					
-			}
-			
-			
-		
-					
+					//set data string
+					dataString.add(new Vector<String>(line));				
+				}
+				numbOfReadBytes = fis.read(bytes);	
+			}				
 			
 			 this.setProgress(90);
 			 fis.close();
 	
-
 		} catch (FileNotFoundException e) {
 			logger.error("An error occurred: ", e);
 			DialogUtil.getInstance().showErrorMessage(
@@ -487,9 +490,9 @@ public class PlotParser extends SwingWorker<Vector<Vector<String>>, Void> {
 					// do nothing
 				}
 			}
-			if (fin != null) {
+			if (fis != null) {
 				try {
-					fin.close();
+					fis.close();
 				} catch (IOException e) {
 					// do nothing
 				}
@@ -608,7 +611,7 @@ public class PlotParser extends SwingWorker<Vector<Vector<String>>, Void> {
 		int length = fileName.length();
 		String extension =  this.getFile().getAbsolutePath().substring(length-3, length);
 		logger.info("Detected file extension: " + extension);
-		
+		long startTime = System.currentTimeMillis();
 		
 		if (fileName.endsWith(IQMConstants.TXT_EXTENSION)) {
 			this.dataString = parseContentTXT();
@@ -616,9 +619,17 @@ public class PlotParser extends SwingWorker<Vector<Vector<String>>, Void> {
 		if (fileName.endsWith(IQMConstants.WAV_EXTENSION)) {
 			this.dataString = parseContentWAV();
 		}
-		if (fileName.endsWith(IQMConstants.ECG_EXTENSION)) {
-			this.dataString = parseContentECG();
+		if (fileName.endsWith(IQMConstants.B16_EXTENSION)) {
+			this.dataString = parseContentB16();
 		}
+		
+		
+		long duration = System.currentTimeMillis() - startTime;
+		TimeZone.setDefault(TimeZone.getTimeZone("GMT"));
+		SimpleDateFormat sdf = new SimpleDateFormat();
+		sdf.applyPattern("HHH:mm:ss:SSS");
+		BoardPanel.appendTextln("PlotParser reading time: "+ sdf.format(duration));
+		
 		return dataString ;
 	}
 

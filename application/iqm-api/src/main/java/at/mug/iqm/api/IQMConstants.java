@@ -74,7 +74,7 @@ public final class IQMConstants {
 	public static final String GSH_EXTENSION = "gsh";
 	
 	public static final String WAV_EXTENSION = "wav";
-	public static final String ECG_EXTENSION = "ecg";
+	public static final String B16_EXTENSION = "b16";
 
 	/**
 	 * The extension for a serialized {@link IVirtualizable} object:<br>
@@ -85,47 +85,30 @@ public final class IQMConstants {
 	/*
 	 * declare constants for the file type descriptions used in file filters
 	 */
-	public final static String JPEG_FILTER_DESCRIPTION = "JPEG (*."
-			+ JPG_EXTENSION + ", *." + JPEG_EXTENSION + ")";
+	public final static String JPEG_FILTER_DESCRIPTION = "JPEG (*." + JPG_EXTENSION + ", *." + JPEG_EXTENSION + ")";
 	public final static String JPG_FILTER_DESCRIPTION = JPEG_FILTER_DESCRIPTION;
-	public final static String GIF_FILTER_DESCRIPTION = "GIF (*."
-			+ GIF_EXTENSION + ")";
-	public final static String TIFF_FILTER_DESCRIPTION = "TIFF (*."
-			+ TIF_EXTENSION + ", *." + TIFF_EXTENSION + ")";
+	public final static String GIF_FILTER_DESCRIPTION = "GIF (*." + GIF_EXTENSION + ")";
+	public final static String TIFF_FILTER_DESCRIPTION = "TIFF (*." + TIF_EXTENSION + ", *." + TIFF_EXTENSION + ")";
 	public final static String TIF_FILTER_DESCRIPTION = TIFF_FILTER_DESCRIPTION;
-	public final static String PNG_FILTER_DESCRIPTION = "PNG (*."
-			+ PNG_EXTENSION + ")";
-	public final static String BMP_FILTER_DESCRIPTION = "BMP (*."
-			+ BMP_EXTENSION + ")";
-	public final static String DCM_FILTER_DESCRIPTION = "DICOM (*."
-			+ DCM_EXTENSION + ")";
-	public final static String FITS_FILTER_DESCRIPTION = "FITS (*."
-			+ FITS_EXTENSION + ")";
-	public final static String SVS_FILTER_DESCRIPTION = "SVS (*."
-			+ SVS_EXTENSION + ")";
+	public final static String PNG_FILTER_DESCRIPTION = "PNG (*." + PNG_EXTENSION + ")";
+	public final static String BMP_FILTER_DESCRIPTION = "BMP (*." + BMP_EXTENSION + ")";
+	public final static String DCM_FILTER_DESCRIPTION = "DICOM (*." + DCM_EXTENSION + ")";
+	public final static String FITS_FILTER_DESCRIPTION = "FITS (*." + FITS_EXTENSION + ")";
+	public final static String SVS_FILTER_DESCRIPTION = "SVS (*." + SVS_EXTENSION + ")";
 
-	public final static String TXT_FILTER_DESCRIPTION = "Text (*."
-			+ TXT_EXTENSION + ")";
+	public final static String TXT_FILTER_DESCRIPTION = "Text (*." + TXT_EXTENSION + ")";
 
-	public final static String JTB_FILTER_DESCRIPTION = "Java Table (*."
-			+ JTB_EXTENSION + ")";
-	public final static String DAT_FILTER_DESCRIPTION = "DAT (*."
-			+ DAT_EXTENSION + ")";
-	public final static String CSV_FILTER_DESCRIPTION = "CSV (*."
-			+ CSV_EXTENSION + ")";
+	public final static String JTB_FILTER_DESCRIPTION = "Java Table (*." + JTB_EXTENSION + ")";
+	public final static String DAT_FILTER_DESCRIPTION = "DAT (*." + DAT_EXTENSION + ")";
+	public final static String CSV_FILTER_DESCRIPTION = "CSV (*." + CSV_EXTENSION + ")";
 
 	public final static String GROOVY_FILTER_DESCRIPTION = "Groovy Source Files (*."
-			+ GY_EXTENSION
-			+ ", *."
-			+ GVY_EXTENSION
-			+ ", *."
-			+ GROOVY_EXTENSION
-			+ ", *." + GSH_EXTENSION + ", *." + TXT_EXTENSION + ")";
+			+ GY_EXTENSION + ", *."
+			+ GVY_EXTENSION + ", *."
+			+ GROOVY_EXTENSION + ", *." + GSH_EXTENSION + ", *." + TXT_EXTENSION + ")";
 	
-	public final static String WAV_FILTER_DESCRIPTION = "WAV (*."
-			+ WAV_EXTENSION + ")";
-	public final static String ECG_FILTER_DESCRIPTION = "ECG (*."
-			+ ECG_EXTENSION + ")";
+	public final static String WAV_FILTER_DESCRIPTION = "WAV (*." + WAV_EXTENSION + ")";
+	public final static String B16_FILTER_DESCRIPTION = "B16 (*." + B16_EXTENSION + ")";
 
 	/**
      * 
