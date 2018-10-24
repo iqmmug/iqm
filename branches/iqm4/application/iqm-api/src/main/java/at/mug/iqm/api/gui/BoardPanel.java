@@ -88,6 +88,7 @@ public class BoardPanel extends JPanel implements ActionListener {
     public static synchronized void appendTextln (String arg) {
     	textArea.append(arg + newline);
     	logger.debug(arg);
+    	System.out.println(arg);
     	
         //Make sure the new text is visible, even if there
         //was a selection in the text area.
@@ -102,6 +103,7 @@ public class BoardPanel extends JPanel implements ActionListener {
     	String clsName = caller.getName();
     	textArea.append(clsName.substring(clsName.lastIndexOf('.')+1) + ": " + arg + newline);
     	logger.debug(clsName.substring(clsName.lastIndexOf('.')+1) + ": " + arg);
+    	System.out.println(arg);
     	
         //Make sure the new text is visible, even if there
         //was a selection in the text area.
@@ -115,6 +117,7 @@ public class BoardPanel extends JPanel implements ActionListener {
     public static synchronized void appendText(String arg) {
     	textArea.append(arg);
     	logger.debug(arg);
+    	System.out.print(arg);
     	
         //Make sure the new text is visible, even if there
         //was a selection in the text area.
@@ -129,6 +132,7 @@ public class BoardPanel extends JPanel implements ActionListener {
     	String clsName = caller.getName();
     	textArea.append(clsName.substring(clsName.lastIndexOf('.')+1) + ": " + arg);
     	logger.debug(clsName.substring(clsName.lastIndexOf('.')+1) + ": " + arg);
+    	System.out.print(arg);
     	
         //Make sure the new text is visible, even if there
         //was a selection in the text area.
