@@ -699,8 +699,9 @@ public final class PlotTools {
 		Vector<PlotModel> v = new Vector<PlotModel>(1);
 		v.add(0, plotModel);
 
-		BufferedImage bi = PlotFactory.createThumbNailPlot(v, showAxes).createBufferedImage(150, 100,
-				BufferedImage.TYPE_3BYTE_BGR, info);
+		BufferedImage bi = PlotFactory.createThumbNailPlot(v, showAxes).createBufferedImage(150, 100, BufferedImage.TYPE_3BYTE_BGR, info);
+		//Black Image to save time
+		//BufferedImage bi = new BufferedImage(150, 100, BufferedImage.TYPE_3BYTE_BGR);
 
 		pi = PlanarImage.wrapRenderedImage(bi);
 

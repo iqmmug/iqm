@@ -29,8 +29,10 @@ package at.mug.iqm.core.processing.loader;
  */
 
 import java.io.File;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.TimeZone;
 import java.util.concurrent.ExecutionException;
 
 import javax.swing.DefaultListModel;
@@ -39,6 +41,7 @@ import javax.swing.JList;
 import org.apache.log4j.Logger;
 
 import at.mug.iqm.api.Application;
+import at.mug.iqm.api.gui.BoardPanel;
 import at.mug.iqm.api.model.IqmDataBox;
 import at.mug.iqm.api.model.VirtualDataBox;
 import at.mug.iqm.api.operator.DataType;
@@ -100,8 +103,8 @@ public class TankItemLoader extends AbstractProcessingTask {
 	 * 
 	 * @param list
 	 */
-	public TankItemLoader(List<IqmDataBox> list, boolean replaceItem,
-			int replaceIndex) {
+	public TankItemLoader(List<IqmDataBox> list, boolean replaceItem, int replaceIndex) {
+		
 		this.setList(list);
 		this.replaceItem = replaceItem;
 		this.replaceIndex = replaceIndex;
@@ -124,6 +127,7 @@ public class TankItemLoader extends AbstractProcessingTask {
 					I18N.getMessage("application.tank.error.content"));
 			return;
 		}
+			
 	}
 
 	@Override
@@ -150,14 +154,18 @@ public class TankItemLoader extends AbstractProcessingTask {
 				return null;
 			}
 		}
-		List<IqmDataBox> result = this.addNewItems(this.getList(), isVirtual,
-				virtDir);
+		List<IqmDataBox> result = this.addNewItems(this.getList(), isVirtual, virtDir);
 
 		this.duration = System.currentTimeMillis() - this.startTime;
-		logger.debug("Processed " + result.size() + " item"
-				+ (result.size() > 1 ? "s" : "") + " in " + this.duration
-				/ 1000.0F + " seconds.");
+		logger.info("Processed " + result.size() + " item" + (result.size() > 1 ? "s" : "") + " in " + this.duration/ 1000.0F + " seconds.");
+		//logger.debug("Processed " + result.size() + " item" + (result.size() > 1 ? "s" : "") + " in " + this.duration/ 1000.0F + " seconds.");
 
+		
+		//TimeZone.setDefault(TimeZone.getTimeZone("GMT"));
+		//SimpleDateFormat sdf = new SimpleDateFormat();
+		//sdf.applyPattern("HHH:mm:ss:SSS");
+		//BoardPanel.appendTextln("TankItemLoader: Time for doInBackground(): "+ sdf.format(duration));
+		
 		return result;
 	}
 
@@ -182,6 +190,7 @@ public class TankItemLoader extends AbstractProcessingTask {
 		} finally {
 			GUITools.getStatusPanel().resetProgressBarValueStack();
 		}
+		
 	}
 
 	/**
