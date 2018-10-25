@@ -58,9 +58,10 @@ public class PlotOpPointFinderDescriptor extends AbstractOperatorDescriptor {
 
 	public static final OperatorType TYPE = OperatorType.PLOT;
 	
-	public static final int METHOD_SLOPE   = 0;
-	public static final int METHOD_PEAKS   = 1;
-	public static final int METHOD_VALLEYS = 2;
+	public static final int METHOD_SLOPE    = 0;
+	public static final int METHOD_PEAKS    = 1;
+	public static final int METHOD_VALLEYS  = 2;
+	public static final int METHOD_QRSPEAKS = 3;
 	
 	public static final int OPTION_THRES = 3;
 	public static final int OPTION_MAC   = 4;
@@ -97,7 +98,7 @@ public class PlotOpPointFinderDescriptor extends AbstractOperatorDescriptor {
 	private static final Class[] paramClasses = { Integer.class, Integer.class, Integer.class, Integer.class, Integer.class,  Integer.class, Integer.class, Integer.class };
 	private static final Object[] paramDefaults = { METHOD_SLOPE, OPTION_THRES, 1, 1, 1, 0, SLOPE_POSITIVE, OUTPUTOPTION_INTERVALS};
 	private static final Range[] validParamValues = {
-			new Range(Integer.class, METHOD_SLOPE, METHOD_VALLEYS),
+			new Range(Integer.class, METHOD_SLOPE, METHOD_QRSPEAKS),
 			new Range(Integer.class, OPTION_THRES, OPTION_MAC),
 			new Range(Integer.class, Integer.MIN_VALUE, Integer.MAX_VALUE),
 			new Range(Integer.class, 1, Integer.MAX_VALUE),

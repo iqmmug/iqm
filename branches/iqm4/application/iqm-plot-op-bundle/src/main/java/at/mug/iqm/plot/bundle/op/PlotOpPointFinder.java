@@ -68,8 +68,8 @@ public class PlotOpPointFinder extends AbstractOperator {
 	Vector<Double> heights       = new Vector<Double>();
 	Vector<Double> deltaHeights  = new Vector<Double>();
 	Vector<Double> energies      = new Vector<Double>();
-	Vector<Double> dataX2        = new Vector<Double>(); //for displaying found points in extra frame
-	Vector<Double> dataY2        = new Vector<Double>(); //for displaying found points in extra frame
+	Vector<Double> dataX2        = new Vector<Double>(); //for displaying points in extra frame
+	Vector<Double> dataY2        = new Vector<Double>(); //for displaying points in extra frame
 	
 	private void lookingForSlopePointsUsingThresholding(float threshold, int slope, int outputoptions, Vector<Double> rangeOld, Vector<Double> signal ){
 		
@@ -682,6 +682,222 @@ public class PlotOpPointFinder extends AbstractOperator {
 			dataY2.remove(0);
 		}	
 	}
+	//------------------------------------------------------------------------------------------------------------------------
+	/**
+	 * Looking for QRS Peaks
+	 * 2018-10 HA according to Chen, H.C., Chen, S.W., 2003. A moving average based filtering system with its application to real-time QRS detection, in: Computers in Cardiology, 2003. Presented at the Computers in Cardiology, 
+	 * 													2003, pp. 585–588. https://doi.org/10.1109/CIC.2003.1291223
+	 *
+	 * adapted  float[] to vectors and floats doubles
+	 */
+	private void lookingForQRSPeakPoints(int outputoptions, Vector<Double> rangeOld, Vector<Double> signal ) {
+	
+		double timeStamp1 = 0.0;
+		double timeStamp2 = 0.0;
+			
+	    int M = 5; //default 5 for highPass should be 3,5,7
+	    int sumInterval = 30; //default 30 for lowPass should be about 150ms (15 points for 100Hz, 30 points for 200Hz) 
+	    int peakFrame = 250; //default 250
+	    
+		Vector<Double> highPass = highPass(signal,  M);
+		Vector<Double> lowPass = lowPass(highPass, sumInterval);
+		int[] QRSpeaks = QRS(lowPass, peakFrame); //gives back 1 for a peak, otherwise zero. 
+		
+		
+//		dataX2 = rangeOld;
+//		dataY2 = highPass;
+//		this.rangeNew = dataX2;
+//		this.coordinateY = dataY2;
+
+		
+		int numberOfFoundPoints = 0;
+		for (int i=0; i < signal.size(); i++) {
+			if (QRSpeaks[i]	== 1) {	
+				numberOfFoundPoints = numberOfFoundPoints +1;
+				timeStamp2 = rangeOld.get(i);
+				if (outputoptions == PlotOpPointFinderDescriptor.OUTPUTOPTION_COORDINATES) {
+					rangeNew.add(timeStamp2);
+					coordinateY.add(signal.get(i));
+				}
+				
+				if (outputoptions == PlotOpPointFinderDescriptor.OUTPUTOPTION_INTERVALS) {
+					rangeNew.add((double) numberOfFoundPoints);
+					//intervals.add((stamp2 - stamp1) * samplingInterval);
+					intervals.add(timeStamp2 -timeStamp1);
+				}
+						
+				dataX2.add(timeStamp2);
+				dataY2.add(signal.get(i));
+			}
+			timeStamp1 = timeStamp2;
+			timeStamp2 = 0.0;
+			this.fireProgressChanged((int) (i) * 95 / (signal.size()));
+			if (this.isCancelled(this.getParentTask())){
+				rangeNew         = null;
+				coordinateY      = null;
+				intervals        = null;
+				heights      = null;
+				deltaHeights = null;
+				energies     = null;
+				break;
+			}
+		}				
+		
+		if (!coordinateY.isEmpty()) {
+			//rangeNew.remove(0);
+			//coordinateY.remove(0);
+			//dataX2.remove(0);
+			//dataY2.remove(0);
+		}
+		if (!intervals.isEmpty()) {// eliminate first element because it is almost always too short
+			rangeNew.remove(rangeNew.size()-1);
+			intervals.remove(0);
+			dataX2.remove(0);
+			dataY2.remove(0);
+		}
+		if (!heights.isEmpty()) {
+//			rangeNew.remove(rangeNew.size()-1);
+//			heights.remove(0);
+//			dataX2.remove(0);
+//			dataY2.remove(0);
+		}
+		if (!deltaHeights.isEmpty()) { //eliminate first entry because it is wrong (delta of the first point in the signal)
+			rangeNew.remove(rangeNew.size()-1);
+			deltaHeights.remove(0);
+			dataX2.remove(0);
+			dataY2.remove(0);
+		}
+		if (!energies.isEmpty()) {
+			rangeNew.remove(rangeNew.size()-1);
+			energies.remove(0);
+			dataX2.remove(0);
+			dataY2.remove(0);
+		}	
+	}
+	//-------------------------------------------------------------------------------------------------------------
+	 //===============High Pass Filter================================
+	 // M Window size， 5 or 7
+	 // y1: M
+	 // y2:Group delay (M+1/2)
+	 //HA adapted float[] to Vector
+	 
+	 public Vector<Double> highPass(Vector<Double> sig, int M) { //nsamp: data
+	        Vector<Double> highPass = new Vector<Double>();
+	        int nsamp = sig.size();
+	        float constant = (float) 1/M;
+	 
+	        for(int i=0; i<sig.size(); i++) { //sig: input data array
+	            double y1 = 0;
+	            double y2 = 0;
+	 
+	            int y2_index = i-((M+1)/2);
+	            if(y2_index < 0) { //array
+	                y2_index = nsamp + y2_index;
+	            }
+	            y2 = sig.get(y2_index);
+	 
+	            float y1_sum = 0;
+	            for(int j=i; j>i-M; j--) {
+	                int x_index = i - (i-j);
+	                if(x_index < 0) {
+	                    x_index = nsamp + x_index;
+	                }
+	                y1_sum += sig.get(x_index);
+	            }
+	 
+	            y1 = constant * y1_sum; //constant = 1/M
+	            //highPass.set(i, y2 - y1); 
+	            highPass.add(i, y2 - y1); 
+	        }         
+	        return highPass;
+	    }
+	
+	 //============Low pass filter==================
+	 //Non Linear
+	 public static Vector<Double> lowPass(Vector<Double> sig, int sumInterval) {
+		  	int nsamp = sig.size();
+		 	Vector<Double> lowPass = new Vector<Double>();
+	        for(int i=0; i<sig.size(); i++) {
+	            double sum = 0.0;
+	            if(i+sumInterval < sig.size()) {
+	                for(int j=i; j<i+sumInterval; j++) {
+	                    double current = sig.get(j) * sig.get(j); //
+	                    sum += current; //
+	                }
+	            }
+	            else if(i+sumInterval >= sig.size()) { //array
+	                int over = i+sumInterval - sig.size(); 
+	                for(int j=i; j<sig.size(); j++) {
+	                    double current = sig.get(j) * sig.get(j);
+	                    sum += current;
+	                }
+	                //?? over<0
+	                for(int j=0; j<over; j++) {
+	                    double current = sig.get(j) * sig.get(j);
+	                    sum += current;
+	                }
+	            }
+	 
+	            lowPass.add(i, sum);
+	        }
+	 
+	        return lowPass;
+	 
+	    }
+	 
+	 //=================QRS Detection================
+	 //beat seeker
+	 //alpha: forgetting factor 0.001 - 0.1
+	 //Gama: weighting factor 0.15 - 0.2 
+	 
+	 public static int[] QRS(Vector<Double> lowPass, int peakFrame) {
+	        int[] QRS = new int[lowPass.size()];
+	 
+	        double treshold = 0;
+	 
+	        //Threshold
+	        for(int i=0; i<peakFrame; i++) {
+	            if(lowPass.get(i) > treshold) {
+	                treshold = lowPass.get(i);
+	            }
+	        }
+	 
+	        //int frame = 250; //window size 250 PEAK
+	        int frame = peakFrame;
+	    		        
+	        for(int i=0; i<lowPass.size(); i+=frame) { //250
+	            double max = 0;
+	            int index = 0;
+	            if(i + frame > lowPass.size()) { //
+	                index = lowPass.size();
+	            }
+	            else {
+	                index = i + frame;
+	            }
+	            for(int j=i; j<index; j++) {
+	                if(lowPass.get(j) > max) max = lowPass.get(j); //250data
+	            }
+	            boolean added = false;
+	            for(int j=i; j<index; j++) {
+	                if(lowPass.get(j) > treshold && !added) {
+	                    QRS[j] = 1; //250 (0.5)
+	                    			//real time frame1
+	                    added = true;
+	                }
+	                else {
+	                    QRS[j] = 0;
+	                }
+	            }	 
+	            double gama = (Math.random() > 0.5) ? 0.15 : 0.20;
+	            double alpha = 0.01 + (Math.random() * ((0.1 - 0.01)));
+	 
+	            treshold = alpha * gama * max + (1 - alpha) * treshold;	 
+	        }
+	 
+	        return QRS;
+	    }
+	
+	//-------------------------------------------------------------------------------------------------------------
 
 	@SuppressWarnings("null")
 	@Override
@@ -739,6 +955,9 @@ public class PlotOpPointFinder extends AbstractOperator {
 		}	
 		if (method == PlotOpPointFinderDescriptor.METHOD_VALLEYS) {		
 			this.lookingForValleyPoints(threshold, outputoptions, rangeOld, signal);			
+		}
+		if (method == PlotOpPointFinderDescriptor.METHOD_QRSPEAKS) {		
+			this.lookingForQRSPeakPoints(outputoptions, rangeOld, signal);			
 		}
 		
 		//Output options
