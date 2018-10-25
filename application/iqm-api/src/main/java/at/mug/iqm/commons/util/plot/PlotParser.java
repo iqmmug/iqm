@@ -628,7 +628,8 @@ public class PlotParser extends SwingWorker<Vector<Vector<String>>, Void> {
 		TimeZone.setDefault(TimeZone.getTimeZone("GMT"));
 		SimpleDateFormat sdf = new SimpleDateFormat();
 		sdf.applyPattern("HHH:mm:ss:SSS");
-		BoardPanel.appendTextln("PlotParser reading time: "+ sdf.format(duration));
+		logger.info("PlotParser: Time for reading plot file: "+ sdf.format(duration));
+		//BoardPanel.appendTextln("PlotParser: Time for reading plot file: "+ sdf.format(duration));
 		
 		return dataString ;
 	}
