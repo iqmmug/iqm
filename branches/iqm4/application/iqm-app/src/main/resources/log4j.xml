@@ -55,7 +55,7 @@
 		 Set log level to 'info' or lower during development.
 		 All loggers inherit from the <root> element in this document-->
 	<logger name="at.mug.iqm">
-		<level value="info" /> <!-- TODO set log level down for releasing stable version -->
+		<level value="debug" /> <!-- TODO set log level down for releasing stable version -->
 	</logger>
 	
 	<!--fatal-logger as root logger for the whole application (including libraries) -->
