@@ -67,6 +67,7 @@ import flanagan.math.FourierTransform;
  * @since 2012 11
  * @update 2014 12 changed buttons to JRadioButtons and added some TitledBorders
  * @update 2017 Adam Dolgos added several options 
+ * @update 2018-10 HA added QRS peak detection options
  */
 public class PlotGUI_PointFinder extends AbstractPlotOperatorGUI implements ChangeListener {
 
@@ -84,7 +85,8 @@ public class PlotGUI_PointFinder extends AbstractPlotOperatorGUI implements Chan
 	private JRadioButton buttSlope        = null;
 	private JRadioButton buttPeaks        = null;
 	private JRadioButton buttValleys      = null;
-	private JRadioButton buttQRSPeaks     = null;
+	private JRadioButton buttQRSPeaksChen = null;
+	private JRadioButton buttQRSPeaksOsea = null;
 	
 	private JPanel       jPanelOptions         = null;
 	
@@ -175,7 +177,9 @@ public class PlotGUI_PointFinder extends AbstractPlotOperatorGUI implements Chan
 			break;
 		case PlotOpPointFinderDescriptor.METHOD_VALLEYS:this.buttValleys.setSelected(true);
 			break;
-		case PlotOpPointFinderDescriptor.METHOD_QRSPEAKS:this.buttQRSPeaks.setSelected(true);
+		case PlotOpPointFinderDescriptor.METHOD_QRSPEAKS_CHENCHEN:this.buttQRSPeaksChen.setSelected(true);
+			break;
+		case PlotOpPointFinderDescriptor.METHOD_QRSPEAKS_OSEA:this.buttQRSPeaksOsea.setSelected(true);
 			break;
 		default:
 			break;
@@ -237,7 +241,8 @@ public class PlotGUI_PointFinder extends AbstractPlotOperatorGUI implements Chan
 		if (this.buttSlope.isSelected())      pb.setParameter("method", PlotOpPointFinderDescriptor.METHOD_SLOPE);
 		if (this.buttPeaks.isSelected())      pb.setParameter("method", PlotOpPointFinderDescriptor.METHOD_PEAKS);
 		if (this.buttValleys.isSelected())    pb.setParameter("method", PlotOpPointFinderDescriptor.METHOD_VALLEYS);
-		if (this.buttQRSPeaks.isSelected())   pb.setParameter("method", PlotOpPointFinderDescriptor.METHOD_QRSPEAKS);
+		if (this.buttQRSPeaksChen.isSelected())   pb.setParameter("method", PlotOpPointFinderDescriptor.METHOD_QRSPEAKS_CHENCHEN);
+		if (this.buttQRSPeaksOsea.isSelected())   pb.setParameter("method", PlotOpPointFinderDescriptor.METHOD_QRSPEAKS_OSEA);
 		
 		
 		if (this.buttThreshold.isSelected())  pb.setParameter("options", PlotOpPointFinderDescriptor.OPTION_THRES);
@@ -311,20 +316,37 @@ public class PlotGUI_PointFinder extends AbstractPlotOperatorGUI implements Chan
 	}
 	
 	/**
-	 * This method initializes the Option: QRSPeaks
+	 * This method initializes the Option: QRSPeaksChen
 	 * 
 	 * @return javax.swing.JRadioButton
 	 */
-	private JRadioButton getJRadioButtonQRSPeaks() {
-		if (buttQRSPeaks == null) {
-			buttQRSPeaks = new JRadioButton();
-			buttQRSPeaks.setText("QRSPeaks");
+	private JRadioButton getJRadioButtonQRSPeaksChen() {
+		if (buttQRSPeaksChen == null) {
+			buttQRSPeaksChen = new JRadioButton();
+			buttQRSPeaksChen.setText("QRSPeaks-ChenChen");
 			// buttQRSPeaks.setPreferredSize(new Dimension(95,10));
-			buttQRSPeaks.setToolTipText("QRS peaks are tetermined in a signal");
-			buttQRSPeaks.addActionListener(this);
-			buttQRSPeaks.setActionCommand("parameter");
+			buttQRSPeaksChen.setToolTipText("QRS peaks detection according to Chen&Chen etal.");
+			buttQRSPeaksChen.addActionListener(this);
+			buttQRSPeaksChen.setActionCommand("parameter");
 		}
-		return buttQRSPeaks;
+		return buttQRSPeaksChen;
+	}
+	
+	/**
+	 * This method initializes the Option: QRSPeaksOsea
+	 * 
+	 * @return javax.swing.JRadioButton
+	 */
+	private JRadioButton getJRadioButtonQRSPeaksOsea() {
+		if (buttQRSPeaksOsea == null) {
+			buttQRSPeaksOsea = new JRadioButton();
+			buttQRSPeaksOsea.setText("QRSPeaks-OSEA");
+			// buttQRSPeaksOsea.setPreferredSize(new Dimension(95,10));
+			buttQRSPeaksOsea.setToolTipText("QRS peaks detection according to OSEA");
+			buttQRSPeaksOsea.addActionListener(this);
+			buttQRSPeaksOsea.setActionCommand("parameter");
+		}
+		return buttQRSPeaksOsea;
 	}
 	
 	/**
@@ -341,7 +363,8 @@ public class PlotGUI_PointFinder extends AbstractPlotOperatorGUI implements Chan
 			jPanelMethod.add(getJRadioButtonSlope());
 			jPanelMethod.add(getJRadioButtonPeaks());
 			jPanelMethod.add(getJRadioButtonValleys());
-			jPanelMethod.add(getJRadioButtonQRSPeaks());
+			jPanelMethod.add(getJRadioButtonQRSPeaksChen());
+			jPanelMethod.add(getJRadioButtonQRSPeaksOsea());
 
 			// jPanelMethod.addSeparator();
 			this.setButtonGroupMethod(); // Grouping of JRadioButtons
@@ -355,7 +378,8 @@ public class PlotGUI_PointFinder extends AbstractPlotOperatorGUI implements Chan
 			buttGroupMethod.add(buttSlope);
 			buttGroupMethod.add(buttPeaks);
 			buttGroupMethod.add(buttValleys);
-			buttGroupMethod.add(buttQRSPeaks);
+			buttGroupMethod.add(buttQRSPeaksChen);
+			buttGroupMethod.add(buttQRSPeaksOsea);
 		}
 	}
 
@@ -964,7 +988,34 @@ public class PlotGUI_PointFinder extends AbstractPlotOperatorGUI implements Chan
 			buttDeltaHeights.setEnabled(true);
 			buttEnergies.setEnabled(true);
 		}
-		if (buttQRSPeaks.isSelected()){
+		if (buttQRSPeaksChen.isSelected()){
+			buttThreshold.setEnabled(false);
+			buttThreshold.setSelected(false);
+			buttMAC.setEnabled(false);
+		
+			
+			jLabelThres.setEnabled(false);
+			jSpinnerThres.setEnabled(false);
+						
+			jLabelTau.setEnabled(false);
+			jSpinnerTau.setEnabled(false);
+	
+			jLabelOffset.setEnabled(false);
+			jSpinnerOffset.setEnabled(false);
+			
+			jLabelScaleDown.setEnabled(false);
+			jSpinnerScaleDown.setEnabled(false);
+			
+			buttPositive.setEnabled(false);
+			buttNegative.setEnabled(false);
+			
+			buttCoordinates.setEnabled(true);
+			buttIntervals.setEnabled(true);
+			buttHeights.setEnabled(false);
+			buttDeltaHeights.setEnabled(false);
+			buttEnergies.setEnabled(false);
+		}
+		if (buttQRSPeaksOsea.isSelected()){
 			buttThreshold.setEnabled(false);
 			buttThreshold.setSelected(false);
 			buttMAC.setEnabled(false);
