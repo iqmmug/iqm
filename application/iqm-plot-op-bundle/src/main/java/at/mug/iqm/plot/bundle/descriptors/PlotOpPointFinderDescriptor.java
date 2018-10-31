@@ -70,11 +70,16 @@ public class PlotOpPointFinderDescriptor extends AbstractOperatorDescriptor {
 	public static final int SLOPE_POSITIVE = 5;
 	public static final int SLOPE_NEGATIVE = 6;
 	
-	public static final int OUTPUTOPTION_COORDINATES  = 7;
-	public static final int OUTPUTOPTION_INTERVALS    = 8;
-	public static final int OUTPUTOPTION_HEIGHTS      = 9;
-	public static final int OUTPUTOPTION_DELTAHEIGHTS = 10;
-	public static final int OUTPUTOPTION_ENERGIES     = 11;
+	public static final int OSEA_QRSDETECTION  = 7;
+	public static final int OSEA_QRSDETECTION2 = 8;
+	public static final int OSEA_QRSBEATDETECTIONANDCLASSIFY = 9;
+	
+	
+	public static final int OUTPUTOPTION_COORDINATES  = 10;
+	public static final int OUTPUTOPTION_INTERVALS    = 11;
+	public static final int OUTPUTOPTION_HEIGHTS      = 12;
+	public static final int OUTPUTOPTION_DELTAHEIGHTS = 13;
+	public static final int OUTPUTOPTION_ENERGIES     = 14;
 	
 	private static final DataType[] OUTPUT_TYPES = new DataType[] { DataType.PLOT };
 
@@ -91,13 +96,21 @@ public class PlotOpPointFinderDescriptor extends AbstractOperatorDescriptor {
 			{ "arg4Desc", "Tau" },    //for MAC
 			{ "arg5Desc", "Offset" }, //for MAC	
 			{ "arg6Desc", "The slope value" },
-			{ "arg7Desc", "Output Options"}}; //Coordinates, Intervals, Heights, DeltaHeights, Energies
+			{ "arg7Desc", "Chen M value" }, //Chen&Chen QRS peak detection high pass filter parameter
+			{ "arg8Desc", "sumInterval" },  //Chen&Chen QRS peak detection low pass filter parameter
+			{ "arg9Desc", "peakFrame" },    //Chen&Chen QRS peak detection peak frame parameter
+			{ "arg10Desc", "oseaMethod" },  //QRSDetect, QRSDetect2, BeatDetectionAndClassify
+			{ "arg11Desc", "sampleRate" },  //for osea		
+			{ "arg12Desc", "Output Options"}}; //Coordinates, Intervals, Heights, DeltaHeights, Energies
 
 	private static final int numSources = 1;
-	private static final String[] paramNames = { "method", "options", "threshold", "scaledown", "tau", "offset", "slope", "outputoptions" };
+	private static final String[] paramNames = { "method", "options", "threshold", "scaledown", "tau", "offset", "slope", 
+												 "chenm", "suminterval", "peakframe", "oseamethod", "samplerate", "outputoptions" };
 
-	private static final Class[] paramClasses = { Integer.class, Integer.class, Integer.class, Integer.class, Integer.class,  Integer.class, Integer.class, Integer.class };
-	private static final Object[] paramDefaults = { METHOD_SLOPE, OPTION_THRES, 1, 1, 1, 0, SLOPE_POSITIVE, OUTPUTOPTION_INTERVALS};
+	private static final Class[] paramClasses = { Integer.class, Integer.class, Integer.class, Integer.class, Integer.class,  Integer.class, Integer.class, 
+			Integer.class, Integer.class, Integer.class, Integer.class, Integer.class, Integer.class };
+	private static final Object[] paramDefaults = { METHOD_SLOPE, OPTION_THRES, 1, 1, 1, 0, SLOPE_POSITIVE, 
+													5, 30, 250, OSEA_QRSDETECTION, 125, OUTPUTOPTION_INTERVALS};
 	private static final Range[] validParamValues = {
 			new Range(Integer.class, METHOD_SLOPE, METHOD_QRSPEAKS_OSEA),
 			new Range(Integer.class, OPTION_THRES, OPTION_MAC),
@@ -106,6 +119,11 @@ public class PlotOpPointFinderDescriptor extends AbstractOperatorDescriptor {
 			new Range(Integer.class, 1, Integer.MAX_VALUE),
 			new Range(Integer.class, 0, Integer.MAX_VALUE),
 			new Range(Integer.class, SLOPE_POSITIVE, SLOPE_NEGATIVE),
+			new Range(Integer.class, 1, Integer.MAX_VALUE),
+			new Range(Integer.class, 1, Integer.MAX_VALUE),
+			new Range(Integer.class, 1, Integer.MAX_VALUE),
+			new Range(Integer.class, OSEA_QRSDETECTION, OSEA_QRSBEATDETECTIONANDCLASSIFY),
+			new Range(Integer.class, 1, Integer.MAX_VALUE),	
 			new Range(Integer.class, OUTPUTOPTION_COORDINATES, OUTPUTOPTION_ENERGIES)};
 
 	/**
