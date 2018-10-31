@@ -67,7 +67,7 @@ import flanagan.math.FourierTransform;
  * @since 2012 11
  * @update 2014 12 changed buttons to JRadioButtons and added some TitledBorders
  * @update 2017 Adam Dolgos added several options 
- * @update 2018-10 HA added QRS peak detection options
+ * @update 2018-10 HA added QRS peak detection options Chen&Chen and osea
  */
 public class PlotGUI_PointFinder extends AbstractPlotOperatorGUI implements ChangeListener {
 
@@ -115,6 +115,28 @@ public class PlotGUI_PointFinder extends AbstractPlotOperatorGUI implements Chan
 	private ButtonGroup  buttGroupSlope = null;
 	private JRadioButton buttPositive   = null;
 	private JRadioButton buttNegative   = null;
+		
+	private JPanel   jPanelChenM   = null;
+	private JLabel   jLabelChenM   = null;
+	private JSpinner jSpinnerChenM = null;
+
+	private JPanel   jPanelSumInterval   = null;
+	private JLabel   jLabelSumInterval   = null;
+	private JSpinner jSpinnerSumInterval = null;
+
+	private JPanel   jPanelPeakFrame   = null;
+	private JLabel   jLabelPeakFrame   = null;
+	private JSpinner jSpinnerPeakFrame = null;
+	
+	private JPanel       jPanelOseaMethods       = null;
+	private ButtonGroup  buttGroupOseaMethods    = null;
+	private JRadioButton buttQRSDetect           = null;
+	private JRadioButton buttQRSDetect2          = null;
+	private JRadioButton buttQRSBeatDetectClass  = null;
+		
+	private JPanel   jPanelSampleRate   = null;
+	private JLabel   jLabelSampleRate   = null;
+	private JSpinner jSpinnerSampleRate = null;
 
 	private JPanel       jPanelOutputOptions    = null;
 	private ButtonGroup  buttGroupOutputOptions = null;
@@ -193,6 +215,15 @@ public class PlotGUI_PointFinder extends AbstractPlotOperatorGUI implements Chan
 		default:
 			break;
 		}
+		
+		switch (pb.getIntParameter("slope")) {
+		case PlotOpPointFinderDescriptor.SLOPE_POSITIVE: buttPositive.setSelected(true);
+			break;
+		case PlotOpPointFinderDescriptor.SLOPE_NEGATIVE: buttNegative.setSelected(true);
+			break;
+		default:
+			break;
+		}
 
 		jSpinnerThres.removeChangeListener(this);
 		jSpinnerThres.setValue(pb.getIntParameter("threshold"));
@@ -209,16 +240,35 @@ public class PlotGUI_PointFinder extends AbstractPlotOperatorGUI implements Chan
 		jSpinnerScaleDown.removeChangeListener(this);
 		jSpinnerScaleDown.setValue(pb.getIntParameter("scaledown"));
 		jSpinnerScaleDown.addChangeListener(this);
-
-		switch (pb.getIntParameter("slope")) {
-		case PlotOpPointFinderDescriptor.SLOPE_POSITIVE: buttPositive.setSelected(true);
+	
+		jSpinnerChenM.removeChangeListener(this);
+		jSpinnerChenM.setValue(pb.getIntParameter("chenm"));
+		jSpinnerChenM.addChangeListener(this);
+		
+		jSpinnerSumInterval.removeChangeListener(this);
+		jSpinnerSumInterval.setValue(pb.getIntParameter("suminterval"));
+		jSpinnerSumInterval.addChangeListener(this);
+		
+		jSpinnerPeakFrame.removeChangeListener(this);
+		jSpinnerPeakFrame.setValue(pb.getIntParameter("peakframe"));
+		jSpinnerPeakFrame.addChangeListener(this);
+		
+		switch (pb.getIntParameter("oseamethod")) {
+		case PlotOpPointFinderDescriptor.OSEA_QRSDETECTION: buttQRSDetect.setSelected(true);
 			break;
-		case PlotOpPointFinderDescriptor.SLOPE_NEGATIVE: buttNegative.setSelected(true);
+		case PlotOpPointFinderDescriptor.OSEA_QRSDETECTION2: buttQRSDetect2.setSelected(true);
+			break;
+		case PlotOpPointFinderDescriptor.OSEA_QRSBEATDETECTIONANDCLASSIFY: buttQRSBeatDetectClass.setSelected(true);
 			break;
 		default:
 			break;
 		}
-
+		
+		jSpinnerSampleRate.removeChangeListener(this);
+		jSpinnerSampleRate.setValue(pb.getIntParameter("samplerate"));
+		jSpinnerSampleRate.addChangeListener(this);
+		
+		
 		switch (pb.getIntParameter("outputoptions")) {
 		case PlotOpPointFinderDescriptor.OUTPUTOPTION_COORDINATES:buttCoordinates.setSelected(true);
 			break;
@@ -243,18 +293,26 @@ public class PlotGUI_PointFinder extends AbstractPlotOperatorGUI implements Chan
 		if (this.buttValleys.isSelected())    pb.setParameter("method", PlotOpPointFinderDescriptor.METHOD_VALLEYS);
 		if (this.buttQRSPeaksChen.isSelected())   pb.setParameter("method", PlotOpPointFinderDescriptor.METHOD_QRSPEAKS_CHENCHEN);
 		if (this.buttQRSPeaksOsea.isSelected())   pb.setParameter("method", PlotOpPointFinderDescriptor.METHOD_QRSPEAKS_OSEA);
-		
-		
+			
 		if (this.buttThreshold.isSelected())  pb.setParameter("options", PlotOpPointFinderDescriptor.OPTION_THRES);
 		if (this.buttMAC.isSelected())        pb.setParameter("options", PlotOpPointFinderDescriptor.OPTION_MAC);
+		
+		if (this.buttPositive.isSelected())    pb.setParameter("slope", PlotOpPointFinderDescriptor.SLOPE_POSITIVE);
+		if (this.buttNegative.isSelected())    pb.setParameter("slope", PlotOpPointFinderDescriptor.SLOPE_NEGATIVE);
 
 		pb.setParameter("threshold",          ((Number) jSpinnerThres.    getValue()).intValue());
 		pb.setParameter("tau",                ((Number) jSpinnerTau.      getValue()).intValue());
 		pb.setParameter("offset",             ((Number) jSpinnerOffset.   getValue()).intValue());
 		pb.setParameter("scaledown",          ((Number) jSpinnerScaleDown.getValue()).intValue());
-
-		if (this.buttPositive.isSelected())    pb.setParameter("slope", PlotOpPointFinderDescriptor.SLOPE_POSITIVE);
-		if (this.buttNegative.isSelected())    pb.setParameter("slope", PlotOpPointFinderDescriptor.SLOPE_NEGATIVE);
+		pb.setParameter("chenm",              ((Number) this.jSpinnerChenM.      getValue()).intValue());
+		pb.setParameter("suminterval",        ((Number) this.jSpinnerSumInterval.getValue()).intValue());
+		pb.setParameter("peakframe",          ((Number) this.jSpinnerPeakFrame.  getValue()).intValue());
+		
+		if (this.buttQRSDetect.isSelected())          pb.setParameter("oseamethod", PlotOpPointFinderDescriptor.OSEA_QRSDETECTION);
+		if (this.buttQRSDetect2.isSelected())         pb.setParameter("oseamethod", PlotOpPointFinderDescriptor.OSEA_QRSDETECTION2);
+		if (this.buttQRSBeatDetectClass.isSelected()) pb.setParameter("oseamethod", PlotOpPointFinderDescriptor.OSEA_QRSBEATDETECTIONANDCLASSIFY);
+		
+		pb.setParameter("samplerate",          ((Number) this.jSpinnerSampleRate.getValue()).intValue());
 		
 		if (this.buttCoordinates.isSelected())  pb.setParameter("outputoptions", PlotOpPointFinderDescriptor.OUTPUTOPTION_COORDINATES);
 		if (this.buttIntervals.isSelected())    pb.setParameter("outputoptions", PlotOpPointFinderDescriptor.OUTPUTOPTION_INTERVALS);
@@ -357,8 +415,8 @@ public class PlotGUI_PointFinder extends AbstractPlotOperatorGUI implements Chan
 	private JPanel getJPanelMethod() {
 		if (jPanelMethod == null) {
 			jPanelMethod = new JPanel();
-			//jPanelMethod.setLayout(new BoxLayout(jPanelMethod, BoxLayout.X_AXIS));
-			jPanelMethod.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
+			jPanelMethod.setLayout(new BoxLayout(jPanelMethod, BoxLayout.Y_AXIS));
+			//jPanelMethod.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 			jPanelMethod.setBorder(new TitledBorder(null, "Method", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 			jPanelMethod.add(getJRadioButtonSlope());
 			jPanelMethod.add(getJRadioButtonPeaks());
@@ -446,6 +504,71 @@ public class PlotGUI_PointFinder extends AbstractPlotOperatorGUI implements Chan
 			buttGroupThresholdMAC.add(buttThreshold);
 			buttGroupThresholdMAC.add(buttMAC);		
 		}
+	}
+	
+	/**
+	 * This method initializes the Option: Positive
+	 * 
+	 * @return javax.swing.JRadioButton
+	 */
+	private JRadioButton getJRadioButtonPositive() {
+		if (buttPositive == null) {
+			buttPositive = new JRadioButton();
+			buttPositive.setText("Positive slope");
+			// buttPositive.setPreferredSize(new Dimension(105,10));
+			buttPositive.setToolTipText("threshold on positve slope");
+			buttPositive.addActionListener(this);
+			buttPositive.setActionCommand("parameter");
+			buttPositive.setSelected(true);
+		}
+		return buttPositive;
+	}
+
+	/**
+	 * This method initializes the Option: Negative
+	 * 
+	 * @return javax.swing.JRadioButton
+	 */
+	private JRadioButton getJRadioButtonNegative() {
+		if (buttNegative == null) {
+			buttNegative = new JRadioButton();
+			buttNegative.setText("Negative slope");
+			// buttNegative.setPreferredSize(new Dimension(95,10));
+			buttNegative.setToolTipText("threshold on negative slope");
+			buttNegative.addActionListener(this);
+			buttNegative.setActionCommand("parameter");
+		}
+		return buttNegative;
+	}
+	
+	/**
+	 * This method initializes JPanel
+	 * 
+	 * @return javax.swing.JPanel
+	 */
+	private JPanel getJPanelSlope() {
+		jPanelOutputOptions = new JPanel();
+		//jPanelOutputOptions.setLayout(new BoxLayout(jPanelOutputOptions, BoxLayout.Y_AXIS));
+		jPanelOutputOptions.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 0));
+		//jPanelOutputOptions.setBorder(new TitledBorder(null, "Slope", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		jPanelOutputOptions.add(getJPanelSlopeOptions());
+		//		this.setButtonGroupSlope(); // Grouping of JRadioButtons
+		return jPanelOutputOptions;
+	}
+
+	private JPanel getJPanelSlopeOptions() {
+		jPanelSlopeOptions = new JPanel();
+		//jPanelSlope.setLayout(new BoxLayout(jPanelSlope, BoxLayout.Y_AXIS));
+		jPanelSlopeOptions.setLayout(new FlowLayout(FlowLayout.CENTER, 0, 0));
+		jPanelSlopeOptions.add(getJRadioButtonPositive());
+		jPanelSlopeOptions.add(getJRadioButtonNegative());
+		this.setButtonGroupSlope(); // Grouping of JRadioButtons
+		return jPanelSlopeOptions;
+	}
+	private void setButtonGroupSlope() {
+		buttGroupSlope = new ButtonGroup();
+		buttGroupSlope.add(buttPositive);
+		buttGroupSlope.add(buttNegative);
 	}
 			
 	/**
@@ -558,38 +681,138 @@ public class PlotGUI_PointFinder extends AbstractPlotOperatorGUI implements Chan
 	}
 	
 	/**
-	 * This method initializes the Option: Positive
+	 * This method initializes jJPanel
+	 * 
+	 * @return javax.swing.JPanel
+	 */
+	private JPanel getJPanelChenM() {
+		if (jPanelChenM == null) {
+			jPanelChenM = new JPanel();
+			jPanelChenM.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 0));
+			jLabelChenM = new JLabel("M: ");
+			jLabelChenM.setToolTipText("Chen&Chen highpass filter parameter, usually set to 3,5,7,9...");
+			jLabelChenM.setHorizontalAlignment(SwingConstants.RIGHT);
+			SpinnerModel sModel = new SpinnerNumberModel(5, 1, Integer.MAX_VALUE, 1); // init, min, max, step
+			jSpinnerChenM = new JSpinner(sModel);
+			jSpinnerChenM.addChangeListener(this);
+			jSpinnerChenM.setToolTipText("Chen&Chen highpass filter parameter, usually set to 3,5,7,9...");
+			JSpinner.DefaultEditor defEditor = (JSpinner.DefaultEditor) jSpinnerChenM.getEditor();
+			JFormattedTextField ftf = defEditor.getTextField();
+			ftf.setColumns(5);
+			InternationalFormatter intFormatter = (InternationalFormatter) ftf.getFormatter();
+			DecimalFormat decimalFormat = (DecimalFormat) intFormatter.getFormat();
+			decimalFormat.applyPattern("#"); // decimalFormat.applyPattern("#,##0.0");
+			jPanelChenM.add(jLabelChenM);
+			jPanelChenM.add(jSpinnerChenM);
+		}
+		return jPanelChenM;
+	}
+	
+	/**
+	 * This method initializes jJPanel
+	 * 
+	 * @return javax.swing.JPanel
+	 */
+	private JPanel getJPanelSumInterval() {
+		if (jPanelSumInterval == null) {
+			jPanelSumInterval = new JPanel();
+			jPanelSumInterval.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 0));
+			jLabelSumInterval = new JLabel("SumInterval: ");
+			jLabelSumInterval.setToolTipText("Chen&Chen lowpass filter parameter, usually set to 10,20,30,40,50...");
+			jLabelSumInterval.setHorizontalAlignment(SwingConstants.RIGHT);
+			SpinnerModel sModel = new SpinnerNumberModel(30, 1, Integer.MAX_VALUE, 1); // init, min, max, step
+			jSpinnerSumInterval = new JSpinner(sModel);
+			jSpinnerSumInterval.addChangeListener(this);
+			jSpinnerSumInterval.setToolTipText("Chen&Chen lowpass filter parameter, usually set to 10,20,30,40,50...");
+			JSpinner.DefaultEditor defEditor = (JSpinner.DefaultEditor) jSpinnerSumInterval.getEditor();
+			JFormattedTextField ftf = defEditor.getTextField();
+			ftf.setColumns(5);
+			InternationalFormatter intFormatter = (InternationalFormatter) ftf.getFormatter();
+			DecimalFormat decimalFormat = (DecimalFormat) intFormatter.getFormat();
+			decimalFormat.applyPattern("#"); // decimalFormat.applyPattern("#,##0.0");
+			jPanelSumInterval.add(jLabelSumInterval);
+			jPanelSumInterval.add(jSpinnerSumInterval);
+		}
+		return jPanelSumInterval;
+	}
+	
+	/**
+	 * This method initiaSumInterval jJPanel
+	 * 
+	 * @return javax.swing.JPanel
+	 */
+	private JPanel getJPanelPeakFrame() {
+		if (jPanelPeakFrame == null) {
+			jPanelPeakFrame = new JPanel();
+			jPanelPeakFrame.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 0));
+			jLabelPeakFrame = new JLabel("PeakFrame: ");
+			jLabelPeakFrame.setToolTipText("Chen&Chen frame for peak parameter, usually set to 100, 150, 200, 250, 300,...");
+			jLabelPeakFrame.setHorizontalAlignment(SwingConstants.RIGHT);
+			SpinnerModel sModel = new SpinnerNumberModel(250, 1, Integer.MAX_VALUE, 1); // init, min, max, step
+			jSpinnerPeakFrame = new JSpinner(sModel);
+			jSpinnerPeakFrame.addChangeListener(this);
+			jSpinnerPeakFrame.setToolTipText("Chen&Chen frame for peak parameter, usually set to 100, 150, 200, 250, 300,...");
+			JSpinner.DefaultEditor defEditor = (JSpinner.DefaultEditor) jSpinnerPeakFrame.getEditor();
+			JFormattedTextField ftf = defEditor.getTextField();
+			ftf.setColumns(5);
+			InternationalFormatter intFormatter = (InternationalFormatter) ftf.getFormatter();
+			DecimalFormat decimalFormat = (DecimalFormat) intFormatter.getFormat();
+			decimalFormat.applyPattern("#"); // decimalFormat.applyPattern("#,##0.0");
+			jPanelPeakFrame.add(jLabelPeakFrame);
+			jPanelPeakFrame.add(jSpinnerPeakFrame);
+		}
+		return jPanelPeakFrame;
+	}
+	
+	/**
+	 * This method initializes the Option: QRSDetect 
 	 * 
 	 * @return javax.swing.JRadioButton
 	 */
-	private JRadioButton getJRadioButtonPositive() {
-		if (buttPositive == null) {
-			buttPositive = new JRadioButton();
-			buttPositive.setText("Positive slope");
-			// buttPositive.setPreferredSize(new Dimension(105,10));
-			buttPositive.setToolTipText("threshold on positve slope");
-			buttPositive.addActionListener(this);
-			buttPositive.setActionCommand("parameter");
-			buttPositive.setSelected(true);
+	private JRadioButton getJRadioButtonQRSDetect() {
+		if (buttQRSDetect == null) {
+			buttQRSDetect = new JRadioButton();
+			buttQRSDetect.setText("QRSDetect");
+			// buttQRSDetect.setPreferredSize(new Dimension(95,10));
+			buttQRSDetect.setToolTipText("osea QRSDetect option");
+			buttQRSDetect.addActionListener(this);
+			buttQRSDetect.setActionCommand("parameter");
 		}
-		return buttPositive;
+		return buttQRSDetect;
 	}
 
 	/**
-	 * This method initializes the Option: Negative
+	 * This method initializes the Option: QRSDetect2 
 	 * 
 	 * @return javax.swing.JRadioButton
 	 */
-	private JRadioButton getJRadioButtonNegative() {
-		if (buttNegative == null) {
-			buttNegative = new JRadioButton();
-			buttNegative.setText("Negative slope");
-			// buttNegative.setPreferredSize(new Dimension(95,10));
-			buttNegative.setToolTipText("threshold on negative slope");
-			buttNegative.addActionListener(this);
-			buttNegative.setActionCommand("parameter");
+	private JRadioButton getJRadioButtonQRSDetect2() {
+		if (buttQRSDetect2 == null) {
+			buttQRSDetect2 = new JRadioButton();
+			buttQRSDetect2.setText("QRSDetect2");
+			// buttQRSDetect2.setPreferredSize(new Dimension(95,10));
+			buttQRSDetect2.setToolTipText("osea QRSDetect2 option");
+			buttQRSDetect2.addActionListener(this);
+			buttQRSDetect2.setActionCommand("parameter");
 		}
-		return buttNegative;
+		return buttQRSDetect2;
+	}
+	
+	/**
+	 * This method initializes the Option: QRSBeatDetectClass 
+	 * 
+	 * @return javax.swing.JRadioButton
+	 */
+	private JRadioButton getJRadioButtonQRSBeatDetectClass() {
+		if (buttQRSBeatDetectClass == null) {
+			buttQRSBeatDetectClass = new JRadioButton();
+			buttQRSBeatDetectClass.setText("BeatDetectionAndClassify");
+			// buttQRSBeatDetectClass.setPreferredSize(new Dimension(95,10));
+			buttQRSBeatDetectClass.setToolTipText("osea BeatDetectionAndClassify option");
+			buttQRSBeatDetectClass.addActionListener(this);
+			buttQRSBeatDetectClass.setActionCommand("parameter");
+		}
+		return buttQRSBeatDetectClass;
 	}
 	
 	/**
@@ -597,31 +820,54 @@ public class PlotGUI_PointFinder extends AbstractPlotOperatorGUI implements Chan
 	 * 
 	 * @return javax.swing.JPanel
 	 */
-	private JPanel getJPanelSlope() {
-		jPanelOutputOptions = new JPanel();
-		jPanelOutputOptions.setLayout(new BoxLayout(jPanelOutputOptions, BoxLayout.Y_AXIS));
-		//jPanelSlope.setLayout(new FlowLayout(FlowLayout.CENTER, 0, 0));
-		//jPanelOutputOptions.setBorder(new TitledBorder(null, "Slope", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		jPanelOutputOptions.add(getJPanelSlopeOptions());
-		//		this.setButtonGroupSlope(); // Grouping of JRadioButtons
-		return jPanelOutputOptions;
+	private JPanel getJPanelOseaMethods() {
+		jPanelOseaMethods = new JPanel();
+		//jPanelOseaMethods.setLayout(new BoxLayout(jPanelOseaMethods, BoxLayout.Y_AXIS));
+		jPanelOseaMethods.setLayout(new FlowLayout(FlowLayout.CENTER, 0, 0));
+		//jPanelOseaMethods.setBorder(new TitledBorder(null, "Slope", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		jPanelOseaMethods.add(getJRadioButtonQRSDetect());
+		jPanelOseaMethods.add(getJRadioButtonQRSDetect2());
+		jPanelOseaMethods.add(getJRadioButtonQRSBeatDetectClass());
+		setButtonGroupOseaMethods(); // Grouping of JRadioButtons
+		return jPanelOseaMethods;
 	}
 
-	private JPanel getJPanelSlopeOptions() {
-		jPanelSlopeOptions = new JPanel();
-		//jPanelSlope.setLayout(new BoxLayout(jPanelSlope, BoxLayout.Y_AXIS));
-		jPanelSlopeOptions.setLayout(new FlowLayout(FlowLayout.CENTER, 0, 0));
-		jPanelSlopeOptions.add(getJRadioButtonPositive());
-		jPanelSlopeOptions.add(getJRadioButtonNegative());
-		this.setButtonGroupSlope(); // Grouping of JRadioButtons
-		return jPanelSlopeOptions;
-	}
-	private void setButtonGroupSlope() {
-		buttGroupSlope = new ButtonGroup();
-		buttGroupSlope.add(buttPositive);
-		buttGroupSlope.add(buttNegative);
-	}
 
+	private void setButtonGroupOseaMethods() {
+		buttGroupOseaMethods = new ButtonGroup();
+		buttGroupOseaMethods.add(buttQRSDetect);
+		buttGroupOseaMethods.add(buttQRSDetect2);
+		buttGroupOseaMethods.add(buttQRSBeatDetectClass);
+	}
+	
+	/**
+	 * This method initializes jJPanel
+	 * 
+	 * @return javax.swing.JPanel
+	 */
+	private JPanel getJPanelSampleRate() {
+		if (jPanelSampleRate == null) {
+			jPanelSampleRate = new JPanel();
+			jPanelSampleRate.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 0));
+			jLabelSampleRate = new JLabel("Sample rate [Hz]: ");
+			jLabelSampleRate.setToolTipText("Sample rate of signal in Hz");
+			jLabelSampleRate.setHorizontalAlignment(SwingConstants.RIGHT);
+			SpinnerModel sModel = new SpinnerNumberModel(1, Integer.MIN_VALUE, Integer.MAX_VALUE, 1); // init, min, max, step
+			jSpinnerSampleRate = new JSpinner(sModel);
+			jSpinnerSampleRate.addChangeListener(this);
+			jSpinnerSampleRate.setToolTipText("Sample rate of signal  in Hz");
+			JSpinner.DefaultEditor defEditor = (JSpinner.DefaultEditor) jSpinnerSampleRate.getEditor();
+			JFormattedTextField ftf = defEditor.getTextField();
+			ftf.setColumns(5);
+			InternationalFormatter intFormatter = (InternationalFormatter) ftf.getFormatter();
+			DecimalFormat decimalFormat = (DecimalFormat) intFormatter.getFormat();
+			decimalFormat.applyPattern("#"); // decimalFormat.applyPattern("#,##0.0");
+			jPanelSampleRate.add(jLabelSampleRate);
+			jPanelSampleRate.add(jSpinnerSampleRate);
+		}
+		return jPanelSampleRate;
+	}
+	
 	/**
 	 * This method initializes JPanel
 	 * 
@@ -670,12 +916,42 @@ public class PlotGUI_PointFinder extends AbstractPlotOperatorGUI implements Chan
 			gbc_5.insets = new Insets(10, 0, 0, 0);
 			gbc_5.gridx = 0;
 			gbc_5.gridy = 4;
-
+			
 			GridBagConstraints gbc_6 = new GridBagConstraints();
 			gbc_6.anchor = GridBagConstraints.EAST;
+			gbc_6.insets = new Insets(10, 0, 0, 0);
 			gbc_6.gridx = 0;
 			gbc_6.gridy = 5;
-			gbc_6.insets = new Insets(5, 0, 5, 0);
+			
+			GridBagConstraints gbc_7 = new GridBagConstraints();
+			gbc_7.anchor = GridBagConstraints.EAST;
+			gbc_7.insets = new Insets(10, 0, 0, 0);
+			gbc_7.gridx = 0;
+			gbc_7.gridy = 6;
+			
+			GridBagConstraints gbc_8 = new GridBagConstraints();
+			gbc_8.anchor = GridBagConstraints.EAST;
+			gbc_8.insets = new Insets(10, 0, 0, 0);
+			gbc_8.gridx = 0;
+			gbc_8.gridy = 7;
+			
+			GridBagConstraints gbc_9 = new GridBagConstraints();
+			gbc_9.anchor = GridBagConstraints.EAST;
+			gbc_9.insets = new Insets(10, 0, 0, 0);
+			gbc_9.gridx = 0;
+			gbc_9.gridy = 8;
+			
+			GridBagConstraints gbc_10 = new GridBagConstraints();
+			gbc_10.anchor = GridBagConstraints.EAST;
+			gbc_10.insets = new Insets(10, 0, 0, 0);
+			gbc_10.gridx = 0;
+			gbc_10.gridy = 9;
+		
+			GridBagConstraints gbc_11 = new GridBagConstraints();
+			gbc_11.anchor = GridBagConstraints.EAST;
+			gbc_11.gridx = 0;
+			gbc_11.gridy = 10;
+			gbc_11.insets = new Insets(5, 0, 5, 0);
 
 			jPanelOptions.add(getJPanelThresholdMAC(), gbc_1);
 			jPanelOptions.add(getJPanelSlope(),        gbc_2);
@@ -683,6 +959,11 @@ public class PlotGUI_PointFinder extends AbstractPlotOperatorGUI implements Chan
 			jPanelOptions.add(getJPanelTau(),          gbc_4);
 			jPanelOptions.add(getJPanelOffset(),       gbc_5);
 			jPanelOptions.add(getJPanelScaleDown(),    gbc_6);
+			jPanelOptions.add(getJPanelChenM(),        gbc_7);
+			jPanelOptions.add(getJPanelSumInterval(),  gbc_8);
+			jPanelOptions.add(getJPanelPeakFrame(),    gbc_9);
+			jPanelOptions.add(getJPanelOseaMethods(),  gbc_10);
+			jPanelOptions.add(getJPanelSampleRate(),   gbc_11);		
 		}
 		return jPanelOptions;
 	}
@@ -949,7 +1230,29 @@ public class PlotGUI_PointFinder extends AbstractPlotOperatorGUI implements Chan
 			buttHeights.setEnabled(false);
 			buttDeltaHeights.setEnabled(false);
 			buttEnergies.setEnabled(false);
+			
+			jLabelChenM.setEnabled(false);
+			jSpinnerChenM.setEnabled(false);
 
+			jLabelSumInterval.setEnabled(false);
+			jSpinnerSumInterval.setEnabled(false);
+			
+			jLabelPeakFrame.setEnabled(false);
+			jSpinnerPeakFrame.setEnabled(false);
+			
+			buttQRSDetect.setEnabled(false);
+			buttQRSDetect.setEnabled(false);
+			
+			buttQRSDetect2.setEnabled(false);
+			buttQRSDetect2.setEnabled(false);
+			
+			buttQRSBeatDetectClass.setEnabled(false);
+			buttQRSBeatDetectClass.setEnabled(false);
+			
+			jLabelSampleRate.setEnabled(false);;
+			jSpinnerSampleRate.setEnabled(false);;
+			
+			
 		}
 		if (buttPeaks.isSelected() || this.buttValleys.isSelected()){
 			buttThreshold.setEnabled(true);
@@ -987,7 +1290,29 @@ public class PlotGUI_PointFinder extends AbstractPlotOperatorGUI implements Chan
 			buttHeights.setEnabled(true);
 			buttDeltaHeights.setEnabled(true);
 			buttEnergies.setEnabled(true);
+			
+			jLabelChenM.setEnabled(false);
+			jSpinnerChenM.setEnabled(false);
+
+			jLabelSumInterval.setEnabled(false);
+			jSpinnerSumInterval.setEnabled(false);
+			
+			jLabelPeakFrame.setEnabled(false);
+			jSpinnerPeakFrame.setEnabled(false);
+			
+			buttQRSDetect.setEnabled(false);
+			buttQRSDetect.setEnabled(false);
+			
+			buttQRSDetect2.setEnabled(false);
+			buttQRSDetect2.setEnabled(false);
+			
+			buttQRSBeatDetectClass.setEnabled(false);
+			buttQRSBeatDetectClass.setEnabled(false);
+			
+			jLabelSampleRate.setEnabled(false);;
+			jSpinnerSampleRate.setEnabled(false);
 		}
+		
 		if (buttQRSPeaksChen.isSelected()){
 			buttThreshold.setEnabled(false);
 			buttThreshold.setSelected(false);
@@ -1014,6 +1339,27 @@ public class PlotGUI_PointFinder extends AbstractPlotOperatorGUI implements Chan
 			buttHeights.setEnabled(false);
 			buttDeltaHeights.setEnabled(false);
 			buttEnergies.setEnabled(false);
+			
+			jLabelChenM.setEnabled(true);
+			jSpinnerChenM.setEnabled(true);
+
+			jLabelSumInterval.setEnabled(true);
+			jSpinnerSumInterval.setEnabled(true);
+			
+			jLabelPeakFrame.setEnabled(true);
+			jSpinnerPeakFrame.setEnabled(true);
+			
+			buttQRSDetect.setEnabled(false);
+			buttQRSDetect.setEnabled(false);
+			
+			buttQRSDetect2.setEnabled(false);
+			buttQRSDetect2.setEnabled(false);
+			
+			buttQRSBeatDetectClass.setEnabled(false);
+			buttQRSBeatDetectClass.setEnabled(false);
+			
+			jLabelSampleRate.setEnabled(false);;
+			jSpinnerSampleRate.setEnabled(false);;
 		}
 		if (buttQRSPeaksOsea.isSelected()){
 			buttThreshold.setEnabled(false);
@@ -1041,6 +1387,27 @@ public class PlotGUI_PointFinder extends AbstractPlotOperatorGUI implements Chan
 			buttHeights.setEnabled(false);
 			buttDeltaHeights.setEnabled(false);
 			buttEnergies.setEnabled(false);
+			
+			jLabelChenM.setEnabled(false);
+			jSpinnerChenM.setEnabled(false);
+
+			jLabelSumInterval.setEnabled(false);
+			jSpinnerSumInterval.setEnabled(false);
+			
+			jLabelPeakFrame.setEnabled(false);
+			jSpinnerPeakFrame.setEnabled(false);
+			
+			buttQRSDetect.setEnabled(true);
+			buttQRSDetect.setEnabled(true);
+			
+			buttQRSDetect2.setEnabled(true);
+			buttQRSDetect2.setEnabled(true);
+			
+			buttQRSBeatDetectClass.setEnabled(true);
+			buttQRSBeatDetectClass.setEnabled(true);
+			
+			jLabelSampleRate.setEnabled(true);;
+			jSpinnerSampleRate.setEnabled(true);;
 		}
 		this.updateParameterBlock();
 	}

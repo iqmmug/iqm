@@ -32,9 +32,6 @@ import java.util.Collections;
  */
 
 import java.util.Vector;
-
-//import flanagan.math.FourierTransform;
-
 import at.mug.iqm.api.gui.BoardPanel;
 import at.mug.iqm.api.model.IqmDataBox;
 import at.mug.iqm.api.model.PlotModel;
@@ -47,13 +44,13 @@ import at.mug.iqm.api.operator.ParameterBlockPlot;
 import at.mug.iqm.api.operator.Result;
 import at.mug.iqm.commons.util.DialogUtil;
 import at.mug.iqm.commons.util.plot.PlotTools;
-//import at.mug.iqm.plot.bundle.descriptors.PlotOpFFTDescriptor;
 import at.mug.iqm.plot.bundle.descriptors.PlotOpPointFinderDescriptor;
-import at.mug.iqm.plot.bundle.osea.OSEAFactory;
-import at.mug.iqm.plot.bundle.osea.classification.BeatDetectionAndClassification;
-import at.mug.iqm.plot.bundle.osea.classification.BeatDetectionAndClassification.BeatDetectAndClassifyResult;
-import at.mug.iqm.plot.bundle.osea.classification.ECGCODES;
-import at.mug.iqm.plot.bundle.osea.detection.QRSDetector2;
+import at.mug.iqm.plot.bundle.util.osea4java.classification.BeatDetectionAndClassification;
+import at.mug.iqm.plot.bundle.util.osea4java.classification.BeatDetectionAndClassification.BeatDetectAndClassifyResult;
+import at.mug.iqm.plot.bundle.util.osea4java.classification.ECGCODES;
+import at.mug.iqm.plot.bundle.util.osea4java.detection.QRSDetector;
+import at.mug.iqm.plot.bundle.util.osea4java.detection.QRSDetector2;
+import at.mug.iqm.plot.bundle.util.osea4java.OSEAFactory;
 
 /**
  * @author Ahammer
@@ -491,9 +488,7 @@ public class PlotOpPointFinder extends AbstractOperator {
 					energies     = null;
 					break;
 				}
-
-			}
-			
+			}		
 			if (!coordinateY.isEmpty()) {
 				//rangeNew.remove(0);
 				//coordinateY.remove(0);
@@ -523,8 +518,7 @@ public class PlotOpPointFinder extends AbstractOperator {
 				energies.remove(0);
 				dataX2.remove(0);
 				dataY2.remove(0);
-			}
-		
+			}	
 	}
 	// ------------------------------------------------------------------------------
 	/**
@@ -655,8 +649,7 @@ public class PlotOpPointFinder extends AbstractOperator {
 			    energies     = null;
 				break;
 			}
-		}
-		
+		}	
 		if (!coordinateY.isEmpty()) {
 			//rangeNew.remove(0);	
 			//coordinateY.remove(0);
@@ -696,14 +689,14 @@ public class PlotOpPointFinder extends AbstractOperator {
 	 *
 	 * adapted  float[] to vectors and floats doubles
 	 */
-	private void lookingForQRSPeakPointsChen(int outputoptions, Vector<Double> rangeOld, Vector<Double> signal ) {
+	private void lookingForQRSPointsChen(int M, int sumInterval, int peakFrame, int outputoptions, Vector<Double> rangeOld, Vector<Double> signal ) {
 	
 		double timeStamp1 = 0.0;
 		double timeStamp2 = 0.0;
 			
-	    int M = 5; //default 5 for highPass should be 3,5,7
-	    int sumInterval = 19; //default 30 for lowPass should be about 150ms (15 points for 100Hz, 30 points for 200Hz) 
-	    int peakFrame = 150; //default 250
+	    //int M = 5; //default 5 for highPass should be 3,5,7
+	    //int sumInterval = 19; //default 30 for lowPass should be about 150ms (15 points for 100Hz, 30 points for 200Hz) 
+	    //int peakFrame = 150; //default 250
 	    
 		Vector<Double> highPass = highPass(signal,  M);
 		Vector<Double> lowPass = lowPass(highPass, sumInterval);
@@ -729,13 +722,13 @@ public class PlotOpPointFinder extends AbstractOperator {
 				if (outputoptions == PlotOpPointFinderDescriptor.OUTPUTOPTION_INTERVALS) {
 					rangeNew.add((double) numberOfFoundPoints);
 					intervals.add(timeStamp2 -timeStamp1);
-				}
-						
+				}						
 				dataX2.add(timeStamp2);
 				dataY2.add(signal.get(i));
+				timeStamp1 = timeStamp2;
+				timeStamp2 = 0.0;
 			}
-			timeStamp1 = timeStamp2;
-			timeStamp2 = 0.0;
+		
 			this.fireProgressChanged((int) (i) * 95 / (signal.size()));
 			if (this.isCancelled(this.getParentTask())){
 				rangeNew         = null;
@@ -754,7 +747,7 @@ public class PlotOpPointFinder extends AbstractOperator {
 			//dataX2.remove(0);
 			//dataY2.remove(0);
 		}
-		if (!intervals.isEmpty()) {// eliminate first element because it is almost always too short
+		if (!intervals.isEmpty()) {// eliminate first element because it is almost always too long
 			rangeNew.remove(rangeNew.size()-1);
 			intervals.remove(0);
 			dataX2.remove(0);
@@ -909,89 +902,43 @@ public class PlotOpPointFinder extends AbstractOperator {
 		 * 2018-10 HA according OSEA
 		 *
 		 */
-		private void lookingForQRSPeakPointsOsea(int outputoptions, Vector<Double> rangeOld, Vector<Double> signal ) {
+		private void lookingForQRSPointsOsea(int oseaMethod, int sampleRate, int outputoptions, Vector<Double> rangeOld, Vector<Double> signal ) {
 		
 			double timeStamp1 = 0.0;
 			double timeStamp2 = 0.0;
 				
 			//QRS-Detection
 			int numberOfFoundPoints = 0;
-			int sampleRate = 125; //
 			
-			//Method1-only detection----------------------------------------------------------------------------
-//			QRSDetector2 qrsDetector = OSEAFactory.createQRSDetector2(sampleRate);	
-//			for (int i = 0; i < signal.size(); i++) {
-//				int result = qrsDetector.QRSDet(signal.get(i).intValue());
-//				
-//				if (result != 0) {
-//				    System.out.println("A QRS-Complex was detected at sample: " + (i-result));
-//					numberOfFoundPoints = numberOfFoundPoints +1;
-//					timeStamp2 = rangeOld.get(i-result);
-//					if (outputoptions == PlotOpPointFinderDescriptor.OUTPUTOPTION_COORDINATES) {
-//						rangeNew.add(timeStamp2);
-//						coordinateY.add(signal.get(i-result));
-//					}
-//					if (outputoptions == PlotOpPointFinderDescriptor.OUTPUTOPTION_INTERVALS) {
-//						rangeNew.add((double) numberOfFoundPoints);
-//						intervals.add(timeStamp2 -timeStamp1);
-//					}
-//								
-//					dataX2.add(timeStamp2);
-//					dataY2.add(signal.get(i-result));
-//						
-//				}
-//				timeStamp1 = timeStamp2;
-//				timeStamp2 = 0.0;
-//				//this.fireProgressChanged((int) (i) * 95 / (signal.size()));
-//				if (this.isCancelled(this.getParentTask())){
-//					rangeNew         = null;
-//					coordinateY      = null;
-//					intervals        = null;
-//					heights      = null;
-//					deltaHeights = null;
-//					energies     = null;
-//					break;
-//				}
-//	    	}
-
-				
-			//Method2-detection and classification--------------------------------------------------------------------
-			//detection yields slightly different points compared to Method1!? 
-			BeatDetectionAndClassification bdac = OSEAFactory.createBDAC(sampleRate, sampleRate/2);		
-			for (int i = 0; i < signal.size(); i++) {
-				BeatDetectAndClassifyResult result = bdac.BeatDetectAndClassify(signal.get(i).intValue());
+			//int sampleRate = 125; //
+			//int oseaMethod = 2;  //0...QRSDetector, 1...QRSDetector2,  2....BeatDetectionAndClassify
+			
+			//Method1-QRSDetector----------------------------------------------------------------------------
+			if (oseaMethod == PlotOpPointFinderDescriptor.OSEA_QRSDETECTION){
+				QRSDetector qrsDetector = OSEAFactory.createQRSDetector(sampleRate);	
+				for (int i = 0; i < signal.size(); i++) {
+					int result = qrsDetector.QRSDet(signal.get(i).intValue());
 					
-				if (result.samplesSinceRWaveIfSuccess != 0) {
-						int qrsPosition =  i - result.samplesSinceRWaveIfSuccess;
-
-					if (result.beatType == ECGCODES.UNKNOWN) {
-							System.out.println("A unknown beat type was detected at sample: " + qrsPosition);
-					} else if (result.beatType == ECGCODES.NORMAL) {
-							System.out.println("A normal beat type was detected at sample: " + qrsPosition);
-					} else if (result.beatType == ECGCODES.PVC) {
-							System.out.println("A premature ventricular contraction was detected at sample: " + qrsPosition);		      
-					}
-					numberOfFoundPoints = numberOfFoundPoints +1;
-					timeStamp2 = rangeOld.get(qrsPosition);
-					System.out.println("qrsPosition: " +qrsPosition);
-					System.out.println("timeStamp2: "  +timeStamp2);
-					System.out.println("timeStamp1: "  +timeStamp1);
-					if (outputoptions == PlotOpPointFinderDescriptor.OUTPUTOPTION_COORDINATES) {
+					if (result != 0) {
+					    System.out.println("A QRS-Complex was detected at sample: " + (i-result));
+						numberOfFoundPoints = numberOfFoundPoints +1;
+						timeStamp2 = rangeOld.get(i-result);
+						if (outputoptions == PlotOpPointFinderDescriptor.OUTPUTOPTION_COORDINATES) {
 							rangeNew.add(timeStamp2);
-							coordinateY.add(signal.get(qrsPosition));
-					}
-					if (outputoptions == PlotOpPointFinderDescriptor.OUTPUTOPTION_INTERVALS) {
+							coordinateY.add(signal.get(i-result));
+						}
+						if (outputoptions == PlotOpPointFinderDescriptor.OUTPUTOPTION_INTERVALS) {
 							rangeNew.add((double) numberOfFoundPoints);
 							intervals.add(timeStamp2 -timeStamp1);
-					}
-									
+						}				
 						dataX2.add(timeStamp2);
-						dataY2.add(signal.get(qrsPosition));					
-				}
-				timeStamp1 = timeStamp2;
-				timeStamp2 = 0.0;
+						dataY2.add(signal.get(i-result));
+						timeStamp1 = timeStamp2;
+						timeStamp2 = 0.0;				
+					}
+			
 					//this.fireProgressChanged((int) (i) * 95 / (signal.size()));
-				if (this.isCancelled(this.getParentTask())){
+					if (this.isCancelled(this.getParentTask())){
 						rangeNew         = null;
 						coordinateY      = null;
 						intervals        = null;
@@ -999,21 +946,105 @@ public class PlotOpPointFinder extends AbstractOperator {
 						deltaHeights = null;
 						energies     = null;
 						break;
-				}
-				//--------------------------------------------------------------------------------------
-			}		
+					}
+		    	}
+			}//-----------------------------------------------------------------------------------------------
+			//Method2-QRSDetector2----------------------------------------------------------------------------
+			if (oseaMethod == PlotOpPointFinderDescriptor.OSEA_QRSDETECTION2){
+				QRSDetector2 qrsDetector = OSEAFactory.createQRSDetector2(sampleRate);	
+				for (int i = 0; i < signal.size(); i++) {
+					int result = qrsDetector.QRSDet(signal.get(i).intValue());
+					
+					if (result != 0) {
+					    System.out.println("A QRS-Complex was detected at sample: " + (i-result));
+						numberOfFoundPoints = numberOfFoundPoints +1;
+						timeStamp2 = rangeOld.get(i-result);
+						if (outputoptions == PlotOpPointFinderDescriptor.OUTPUTOPTION_COORDINATES) {
+							rangeNew.add(timeStamp2);
+							coordinateY.add(signal.get(i-result));
+						}
+						if (outputoptions == PlotOpPointFinderDescriptor.OUTPUTOPTION_INTERVALS) {
+							rangeNew.add((double) numberOfFoundPoints);
+							intervals.add(timeStamp2 -timeStamp1);
+						}					
+						dataX2.add(timeStamp2);
+						dataY2.add(signal.get(i-result));
+						timeStamp1 = timeStamp2;
+						timeStamp2 = 0.0;				
+					}
+				
+					//this.fireProgressChanged((int) (i) * 95 / (signal.size()));
+					if (this.isCancelled(this.getParentTask())){
+						rangeNew         = null;
+						coordinateY      = null;
+						intervals        = null;
+						heights      = null;
+						deltaHeights = null;
+						energies     = null;
+						break;
+					}
+		    	}
+			}//------------------------------------------------------------------------------------------------------
+			
+			//Method3-detection and classification--------------------------------------------------------------------
+			//detection yields slightly different points compared to Method1!? 
+			if (oseaMethod == PlotOpPointFinderDescriptor.OSEA_QRSBEATDETECTIONANDCLASSIFY){
+				BeatDetectionAndClassification bdac = OSEAFactory.createBDAC(sampleRate, sampleRate/2);		
+				for (int i = 0; i < signal.size(); i++) {
+					BeatDetectAndClassifyResult result = bdac.BeatDetectAndClassify(signal.get(i).intValue());
+						
+					if (result.samplesSinceRWaveIfSuccess != 0) {
+							int qrsPosition =  i - result.samplesSinceRWaveIfSuccess;
 	
+						if (result.beatType == ECGCODES.UNKNOWN) {
+								System.out.println("A unknown beat type was detected at sample: " + qrsPosition);
+						} else if (result.beatType == ECGCODES.NORMAL) {
+								System.out.println("A normal beat type was detected at sample: " + qrsPosition);
+						} else if (result.beatType == ECGCODES.PVC) {
+								System.out.println("A premature ventricular contraction was detected at sample: " + qrsPosition);		      
+						}
+						numberOfFoundPoints = numberOfFoundPoints +1;
+						timeStamp2 = rangeOld.get(qrsPosition);
+						System.out.println("qrsPosition: " +qrsPosition);
+						System.out.println("timeStamp2: "  +timeStamp2);
+						System.out.println("timeStamp1: "  +timeStamp1);
+						if (outputoptions == PlotOpPointFinderDescriptor.OUTPUTOPTION_COORDINATES) {
+								rangeNew.add(timeStamp2);
+								coordinateY.add(signal.get(qrsPosition));
+						}
+						if (outputoptions == PlotOpPointFinderDescriptor.OUTPUTOPTION_INTERVALS) {
+								rangeNew.add((double) numberOfFoundPoints);
+								intervals.add(timeStamp2 -timeStamp1);
+						}							
+						dataX2.add(timeStamp2);
+						dataY2.add(signal.get(qrsPosition));	
+						timeStamp1 = timeStamp2;
+						timeStamp2 = 0.0;
+					}			
+						//this.fireProgressChanged((int) (i) * 95 / (signal.size()));
+					if (this.isCancelled(this.getParentTask())){
+							rangeNew         = null;
+							coordinateY      = null;
+							intervals        = null;
+							heights      = null;
+							deltaHeights = null;
+							energies     = null;
+							break;
+					}
+					//--------------------------------------------------------------------------------------
+				}					
+			}
 			if (!coordinateY.isEmpty()) {
 				//rangeNew.remove(0);
 				//coordinateY.remove(0);
 				//dataX2.remove(0);
 				//dataY2.remove(0);
 			}
-			if (!intervals.isEmpty()) {// eliminate first element because it is almost always too short
-				//rangeNew.remove(rangeNew.size()-1);
-				//intervals.remove(0);
-				//dataX2.remove(0);
-				//dataY2.remove(0);
+			if (!intervals.isEmpty()) {// eliminate first element because it is too long (osea skips first 8 beats)
+				rangeNew.remove(rangeNew.size()-1);
+				intervals.remove(0);
+				dataX2.remove(0);
+				dataY2.remove(0);
 			}
 			if (!heights.isEmpty()) {
 //				rangeNew.remove(rangeNew.size()-1);
@@ -1051,21 +1082,25 @@ public class PlotOpPointFinder extends AbstractOperator {
 		}
 
 		PlotModel plotModel = ((IqmDataBox) pb.getSource(0)).getPlotModel();
-		int method        = pb.getIntParameter("method");    //Slope  Peaks  Valleys
-		int options       = pb.getIntParameter("options");   //Threshold  MAC
-		int thres         = pb.getIntParameter("threshold"); //Threshold value
-		int tau           = pb.getIntParameter("tau");       //tau value for MAC
-		int offS          = pb.getIntParameter("offset");    //offset value for MAC
-		int scaledown     = pb.getIntParameter("scaledown"); //for threshold or MAC
-		int slope         = pb.getIntParameter("slope");
-		int outputoptions = pb.getIntParameter("outputoptions");
-
+		int method         = pb.getIntParameter("method");    //Slope  Peaks  Valleys
+		int options        = pb.getIntParameter("options");   //Threshold  MAC
+		int thres          = pb.getIntParameter("threshold"); //Threshold value
+		int tau            = pb.getIntParameter("tau");       //tau value for MAC
+		int offS           = pb.getIntParameter("offset");    //offset value for MAC
+		int scaledown      = pb.getIntParameter("scaledown"); //for threshold or MAC
+		int slope          = pb.getIntParameter("slope");
+		int m              = pb.getIntParameter("chenm");       //QRSPeaks Chen&Chen highpass filter parameter
+		int sumInterval    = pb.getIntParameter("suminterval"); //QRSPeaks Chen&Chen lowpass filter parameter
+		int peakFrame      = pb.getIntParameter("peakframe");   //QRSPeaks Chen&Chen frame of QRS event parameter
+		int oseaMethod     = pb.getIntParameter("oseamethod");  //QRSDetect, QRSDetect2, BeatDetectionAndClassify
+		int sampleRate     = pb.getIntParameter("samplerate");  //for osea
+		int outputoptions  = pb.getIntParameter("outputoptions");
+		
 		int intersections = 1; // TODO: GUI; for MAC: 1=intervals between intersections of signal and MAC, 0=intervals between maxima/minima
 
 		float threshold = (float) thres / (float) scaledown;
 		float offset   = (float) offS / (float) scaledown;
-
-		
+	
 		String plotModelName            = plotModel.getModelName();
 		Vector<Double> signal           = plotModel.getData();
 		Vector<Double> rangeOld         = plotModel.getDomain();
@@ -1097,10 +1132,10 @@ public class PlotOpPointFinder extends AbstractOperator {
 			this.lookingForValleyPoints(threshold, outputoptions, rangeOld, signal);			
 		}
 		if (method == PlotOpPointFinderDescriptor.METHOD_QRSPEAKS_CHENCHEN) {		
-			this.lookingForQRSPeakPointsChen(outputoptions, rangeOld, signal);			
+			this.lookingForQRSPointsChen(m, sumInterval, peakFrame, outputoptions, rangeOld, signal);			
 		}
 		if (method == PlotOpPointFinderDescriptor.METHOD_QRSPEAKS_OSEA) {		
-			this.lookingForQRSPeakPointsOsea(outputoptions, rangeOld, signal);			
+			this.lookingForQRSPointsOsea(oseaMethod, sampleRate, outputoptions, rangeOld, signal);			
 		}
 		
 		//Output options
