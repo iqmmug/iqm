@@ -331,6 +331,7 @@ public class PlotGUI_PointFinder extends AbstractPlotOperatorGUI implements Chan
 	private JRadioButton getJRadioButtonSlope() {
 		if (buttSlope == null) {
 			buttSlope = new JRadioButton();
+			buttSlope.setMargin(new Insets(5, 50, 0, 0));   //top, left, bottom, right
 			buttSlope.setText("Slope");
 			buttSlope.setToolTipText("Slopes are used to find points in a signal");
 			buttSlope.addActionListener(this);
@@ -347,6 +348,7 @@ public class PlotGUI_PointFinder extends AbstractPlotOperatorGUI implements Chan
 	private JRadioButton getJRadioButtonPeaks() {
 		if (buttPeaks == null) {
 			buttPeaks = new JRadioButton();
+			buttPeaks.setMargin(new Insets(4, 50, 0, 0));   //top, left, bottom, right
 			buttPeaks.setText("Peaks");
 			// buttPeaks.setPreferredSize(new Dimension(95,10));
 			buttPeaks.setToolTipText("Peaks are used to find points in a signal");
@@ -364,6 +366,7 @@ public class PlotGUI_PointFinder extends AbstractPlotOperatorGUI implements Chan
 	private JRadioButton getJRadioButtonValleys() {
 		if (buttValleys == null) {
 			buttValleys = new JRadioButton();
+			buttValleys.setMargin(new Insets(4, 50, 0, 0));   //top, left, bottom, right
 			buttValleys.setText("Valleys");
 			// buttValleys.setPreferredSize(new Dimension(95,10));
 			buttValleys.setToolTipText("Valleys are used to find points in a signal");
@@ -381,8 +384,9 @@ public class PlotGUI_PointFinder extends AbstractPlotOperatorGUI implements Chan
 	private JRadioButton getJRadioButtonQRSPeaksChen() {
 		if (buttQRSPeaksChen == null) {
 			buttQRSPeaksChen = new JRadioButton();
+			buttQRSPeaksChen.setMargin(new Insets(4, 50, 0, 0));   //top, left, bottom, right
 			buttQRSPeaksChen.setText("QRSPeaks-ChenChen");
-			// buttQRSPeaks.setPreferredSize(new Dimension(95,10));
+			//buttQRSPeaksChen.setPreferredSize(new Dimension(95,10));
 			buttQRSPeaksChen.setToolTipText("QRS peaks detection according to Chen&Chen etal.");
 			buttQRSPeaksChen.addActionListener(this);
 			buttQRSPeaksChen.setActionCommand("parameter");
@@ -398,6 +402,7 @@ public class PlotGUI_PointFinder extends AbstractPlotOperatorGUI implements Chan
 	private JRadioButton getJRadioButtonQRSPeaksOsea() {
 		if (buttQRSPeaksOsea == null) {
 			buttQRSPeaksOsea = new JRadioButton();
+			buttQRSPeaksOsea.setMargin(new Insets(4, 50, 5, 0));   //top, left, bottom, right
 			buttQRSPeaksOsea.setText("QRSPeaks-OSEA");
 			// buttQRSPeaksOsea.setPreferredSize(new Dimension(95,10));
 			buttQRSPeaksOsea.setToolTipText("QRS peaks detection according to OSEA");
