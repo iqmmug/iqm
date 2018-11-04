@@ -44,7 +44,7 @@ import javax.swing.JFormattedTextField;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JRadioButtonMenuItem;
+import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
 import javax.swing.JSpinner;
 import javax.swing.JTable;
@@ -98,17 +98,17 @@ public class SVSImageExtractorFrame extends JFrame implements ActionListener,
 	private int interP = 1;
 	private int extension = 0; // tif output image
 
-	private JRadioButtonMenuItem buttNN = null; // nearest neighbor
-	private JRadioButtonMenuItem buttBL = null; // bilinear
-	private JRadioButtonMenuItem buttBC = null; // bicubic
-	private JRadioButtonMenuItem buttBC2 = null; // bicubic2
+	private JRadioButton buttNN = null; // nearest neighbor
+	private JRadioButton buttBL = null; // bilinear
+	private JRadioButton buttBC = null; // bicubic
+	private JRadioButton buttBC2 = null; // bicubic2
 	private JToolBar jToolBarIntP = null;
 	private ButtonGroup buttGroupIntP = null;
 
-	private JRadioButtonMenuItem buttTif = null; // output image
-	private JRadioButtonMenuItem buttJpg = null; //
-	private JRadioButtonMenuItem buttPng = null; //
-	private JRadioButtonMenuItem buttBmp = null; //
+	private JRadioButton buttTif = null; // output image
+	private JRadioButton buttJpg = null; //
+	private JRadioButton buttPng = null; //
+	private JRadioButton buttBmp = null; //
 	private JToolBar jToolBarExt = null;
 	private ButtonGroup buttGroupExt = null;
 
@@ -351,10 +351,10 @@ public class SVSImageExtractorFrame extends JFrame implements ActionListener,
 	/**
 	 * This method initializes the Option: Nearest Neighbor
 	 * 
-	 * @return javax.swing.JRadioButtonMenuItem
+	 * @return javax.swing.JRadioButton
 	 */
-	private JRadioButtonMenuItem createJRadioButtonMenuButtNN() {
-		buttNN = new JRadioButtonMenuItem();
+	private JRadioButton createJRadioButtonMenuButtNN() {
+		buttNN = new JRadioButton();
 		buttNN.setText("Nearest Neighbor");
 		buttNN.setToolTipText("uses Nearest Neighbor resampling for resizing");
 		buttNN.addActionListener(this);
@@ -365,10 +365,10 @@ public class SVSImageExtractorFrame extends JFrame implements ActionListener,
 	/**
 	 * This method initializes the Option: Bilinear interpolation
 	 * 
-	 * @return javax.swing.JRadioButtonMenuItem
+	 * @return javax.swing.JRadioButton
 	 */
-	private JRadioButtonMenuItem createJRadioButtonMenuButtBL() {
-		buttBL = new JRadioButtonMenuItem();
+	private JRadioButton createJRadioButtonMenuButtBL() {
+		buttBL = new JRadioButton();
 		buttBL.setText("Bilinear");
 		buttBL.setToolTipText("uses Bilinear interpolation for resizing");
 		buttBL.addActionListener(this);
@@ -379,10 +379,10 @@ public class SVSImageExtractorFrame extends JFrame implements ActionListener,
 	/**
 	 * This method initializes the Option: Bicubic interpolation
 	 * 
-	 * @return javax.swing.JRadioButtonMenuItem
+	 * @return javax.swing.JRadioButton
 	 */
-	private JRadioButtonMenuItem createJRadioButtonMenuButtBC() {
-		buttBC = new JRadioButtonMenuItem();
+	private JRadioButton createJRadioButtonMenuButtBC() {
+		buttBC = new JRadioButton();
 		buttBC.setText("Bicubic");
 		buttBC.setToolTipText("uses Bicubic interpoolation for resizing");
 		buttBC.addActionListener(this);
@@ -393,10 +393,10 @@ public class SVSImageExtractorFrame extends JFrame implements ActionListener,
 	/**
 	 * This method initializes the Option: Bicubic2 interpolation
 	 * 
-	 * @return javax.swing.JRadioButtonMenuItem
+	 * @return javax.swing.JRadioButton
 	 */
-	private JRadioButtonMenuItem createJRadioButtonMenuButtBC2() {
-		buttBC2 = new JRadioButtonMenuItem();
+	private JRadioButton createJRadioButtonMenuButtBC2() {
+		buttBC2 = new JRadioButton();
 		buttBC2.setText("Bicubic2");
 		buttBC2.setToolTipText("uses Bicubic2 interpolation for resizing");
 		buttBC2.addActionListener(this);
@@ -430,10 +430,10 @@ public class SVSImageExtractorFrame extends JFrame implements ActionListener,
 	/**
 	 * This method initializes the Option:
 	 * 
-	 * @return javax.swing.JRadioButtonMenuItem
+	 * @return javax.swing.JRadioButton
 	 */
-	private JRadioButtonMenuItem createJRadioButtonMenuButtTif() {
-		buttTif = new JRadioButtonMenuItem();
+	private JRadioButton createJRadioButtonMenuButtTif() {
+		buttTif = new JRadioButton();
 		buttTif.setText(IQMConstants.TIF_EXTENSION);
 		buttTif.setToolTipText("TIF/TIFF output image");
 		buttTif.addActionListener(this);
@@ -444,10 +444,10 @@ public class SVSImageExtractorFrame extends JFrame implements ActionListener,
 	/**
 	 * This method initializes the Option:
 	 * 
-	 * @return javax.swing.JRadioButtonMenuItem
+	 * @return javax.swing.JRadioButton
 	 */
-	private JRadioButtonMenuItem createJRadioButtonMenuButtJpg() {
-		buttJpg = new JRadioButtonMenuItem();
+	private JRadioButton createJRadioButtonMenuButtJpg() {
+		buttJpg = new JRadioButton();
 		buttJpg.setText(IQMConstants.JPG_EXTENSION);
 		buttJpg.setToolTipText("JPEG output image");
 		buttJpg.addActionListener(this);
@@ -458,10 +458,10 @@ public class SVSImageExtractorFrame extends JFrame implements ActionListener,
 	/**
 	 * This method initializes the Option:
 	 * 
-	 * @return javax.swing.JRadioButtonMenuItem
+	 * @return javax.swing.JRadioButton
 	 */
-	private JRadioButtonMenuItem createJRadioButtonMenuButtPng() {
-		buttPng = new JRadioButtonMenuItem();
+	private JRadioButton createJRadioButtonMenuButtPng() {
+		buttPng = new JRadioButton();
 		buttPng.setText(IQMConstants.PNG_EXTENSION);
 		buttPng.setToolTipText("PNG output image");
 		buttPng.addActionListener(this);
@@ -472,10 +472,10 @@ public class SVSImageExtractorFrame extends JFrame implements ActionListener,
 	/**
 	 * This method initializes the Option:
 	 * 
-	 * @return javax.swing.JRadioButtonMenuItem
+	 * @return javax.swing.JRadioButton
 	 */
-	private JRadioButtonMenuItem createJRadioButtonMenuButtBmp() {
-		buttBmp = new JRadioButtonMenuItem();
+	private JRadioButton createJRadioButtonMenuButtBmp() {
+		buttBmp = new JRadioButton();
 		buttBmp.setText(IQMConstants.BMP_EXTENSION);
 		buttBmp.setToolTipText("BMP output image");
 		buttBmp.addActionListener(this);

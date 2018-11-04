@@ -17,7 +17,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package at.mug.iqm.plot.bundle.util.osea4java.detection;
+package at.mug.iqm.commons.util.osea4java.detection;
 
 /*-
  * #%L

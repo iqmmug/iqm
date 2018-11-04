@@ -17,36 +17,9 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package at.mug.iqm.plot.bundle.util.osea4java.detection;
+package at.mug.iqm.commons.util.osea4java.detection;
 
-/*-
- * #%L
- * Project: IQM - Standard Plot Operator Bundle
- * File: QRSDetector2.java
- * 
- * $Id$
- * $HeadURL$
- * 
- * This file is part of IQM, hereinafter referred to as "this program".
- * %%
- * Copyright (C) 2009 - 2018 Helmut Ahammer, Philipp Kainz
- * %%
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- * 
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- * 
- * You should have received a copy of the GNU General Public
- * License along with this program.  If not, see
- * <http://www.gnu.org/licenses/gpl-3.0.html>.
- * #L%
- */
-import at.mug.iqm.plot.bundle.util.osea4java.detection.QRSDetectorParameters.PreBlankParameters;
+import at.mug.iqm.commons.util.osea4java.detection.QRSDetectorParameters.PreBlankParameters;
 
 /**
  * This file contains functions for detecting QRS complexes in an ECG.
@@ -63,7 +36,7 @@ import at.mug.iqm.plot.bundle.util.osea4java.detection.QRSDetectorParameters.Pre
  * of variables that it uses to adapt to different ECG
  * signals. These variables can be reset by creating a new object.
  */
-public class QRSDetector2 
+public class QRSDetector 
 	{
 
 	private QRSDetectorParameters qrsDetParas ;
@@ -77,9 +50,9 @@ public class QRSDetector2
 	private int[] rrbuf = new int[8] ;
 	private int[] rsetBuff = new int[8] ;
 	private int rsetCount = 0 ;
-	private int nmean ;
-	private int qmean ;
-	private int rrmean ;
+	private int nmedian ;
+	private int qmedian ;
+	private int rrmedian ;
 	private int count = 0 ;
 	private int sbpeak = 0 ;
 	private int sbloc ;
@@ -92,10 +65,8 @@ public class QRSDetector2
 	/** Buffer holding derivative data. */
 	private int[] DDBuffer ;
 	private int DDPtr = 0 ;
-	private double TH = 0.3125 ;
+	private double TH = 0.475 ;
 	private int MEMMOVELEN = 7;
-	/** Prevents detections of peaks smaller than 150 uV. */
-	private int MIN_PEAK_AMP = 7;
 	
 	private int Peak_max = 0 ;
 	private int Peak_timeSinceMax = 0 ;
@@ -105,10 +76,11 @@ public class QRSDetector2
 	 * Create a new detector with the given parameters.
 	 * @param qrsDetectorParameters The sampleRate-dependent parameters
 	 */
-	public QRSDetector2(QRSDetectorParameters qrsDetectorParameters) 
+	public QRSDetector(QRSDetectorParameters qrsDetectorParameters) 
 		{
 		qrsDetParas = qrsDetectorParameters;
-		preBlankParas = new PreBlankParameters(qrsDetectorParameters, qrsDetectorParameters.MS195) ;
+		preBlankParas = new PreBlankParameters(qrsDetectorParameters, qrsDetectorParameters.MS200) ;
+		
 		sbcount = qrsDetectorParameters.MS1500 ;
 		DDBuffer = new int[preBlankParas.DER_DELAY] ;
 		for(int i = 0; i < 8; ++i)
@@ -145,9 +117,7 @@ public class QRSDetector2
 		/* Wait until normal detector is ready before calling early detections. */
 
 		aPeak = Peak(fdatum) ;
-		if(aPeak < MIN_PEAK_AMP)
-			aPeak = 0 ;
-	
+
 		// Hold any peak that is detected for 200 ms
 		// in case a bigger one comes along.  There
 		// can only be one QRS complex in any 200 ms window.
@@ -198,11 +168,11 @@ public class QRSDetector2
 				++qpkcnt ;
 				if(qpkcnt == 8)
 					{
-					qmean = mean( qrsbuf, 8 ) ;
-					nmean = 0 ;
-					rrmean = qrsDetParas.MS1000 ;
+					qmedian = median( qrsbuf, 8 ) ;
+					nmedian = 0 ;
+					rrmedian = qrsDetParas.MS1000 ;
 					sbcount = qrsDetParas.MS1500+qrsDetParas.MS150 ;
-					det_thresh = thresh(qmean,nmean) ;
+					det_thresh = thresh(qmedian,nmedian) ;
 					}
 				}
 			if( newPeak > initMax )
@@ -232,12 +202,12 @@ public class QRSDetector2
 						{
 						System.arraycopy(qrsbuf, 0, qrsbuf, 1, MEMMOVELEN) ;
 						qrsbuf[0] = newPeak ;
-						qmean = mean(qrsbuf,8) ;
-						det_thresh = thresh(qmean,nmean) ;
+						qmedian = median(qrsbuf,8) ;
+						det_thresh = thresh(qmedian,nmedian) ;
 						System.arraycopy(rrbuf, 0, rrbuf, 1, MEMMOVELEN) ;
 						rrbuf[0] = count - qrsDetParas.WINDOW_WIDTH ;
-						rrmean = mean(rrbuf,8) ;
-						sbcount = rrmean + (rrmean >> 1) + qrsDetParas.WINDOW_WIDTH ;
+						rrmedian = median(rrbuf,8) ;
+						sbcount = rrmedian + (rrmedian >> 1) + qrsDetParas.WINDOW_WIDTH ;
 						count = qrsDetParas.WINDOW_WIDTH ;
 
 						sbpeak = 0 ;
@@ -253,8 +223,8 @@ public class QRSDetector2
 						{
 						System.arraycopy(noise, 0, noise, 1, MEMMOVELEN) ;
 						noise[0] = newPeak ;
-						nmean = mean(noise,8) ;
-						det_thresh = thresh(qmean,nmean) ;
+						nmedian = median(noise,8) ;
+						det_thresh = thresh(qmedian,nmedian) ;
 
 						// Don't include early peaks (which might be T-waves)
 						// in the search back process.  A T-wave can mask
@@ -276,12 +246,12 @@ public class QRSDetector2
 				{
 				System.arraycopy(qrsbuf, 0, qrsbuf, 1, MEMMOVELEN);
 				qrsbuf[0] = sbpeak ;
-				qmean = mean(qrsbuf,8) ;
-				det_thresh = thresh(qmean,nmean) ;
+				qmedian = median(qrsbuf,8) ;
+				det_thresh = thresh(qmedian,nmedian) ;
 				System.arraycopy(rrbuf, 0, rrbuf, 1, MEMMOVELEN);
 				rrbuf[0] = sbloc ;
-				rrmean = mean(rrbuf,8) ;
-				sbcount = rrmean + (rrmean >> 1) + qrsDetParas.WINDOW_WIDTH ;
+				rrmedian = median(rrbuf,8) ;
+				sbcount = rrmedian + (rrmedian >> 1) + qrsDetParas.WINDOW_WIDTH ;
 				QrsDelay = count = count - sbloc ;
 				QrsDelay += preBlankParas.FILTER_DELAY ;
 				sbpeak = 0 ;
@@ -312,12 +282,13 @@ public class QRSDetector2
 						qrsbuf[i] = rsetBuff[i] ;
 						noise[i] = 0 ;
 						}
-					qmean = mean( rsetBuff, 8 ) ;
-					nmean = 0 ;
-					rrmean = qrsDetParas.MS1000 ;
+					qmedian = median( rsetBuff, 8 ) ;
+					nmedian = 0 ;
+					rrmedian = qrsDetParas.MS1000 ;
 					sbcount = qrsDetParas.MS1500+qrsDetParas.MS150 ;
-					det_thresh = thresh(qmean,nmean) ;
+					det_thresh = thresh(qmedian,nmedian) ;
 					initBlank = initMax = rsetCount = 0 ;
+					sbpeak = 0 ;
 					}
 				}
 			if( newPeak > initMax )
@@ -366,22 +337,28 @@ public class QRSDetector2
 		}
 
 	/**
-	 * mean returns the mean of an array of integers.  It uses a slow
+	 * median returns the median of an array of integers.  It uses a slow
 	 * sort algorithm, but these arrays are small, so it hardly matters.
 	 * 
 	 * @param array
 	 * @param datnum
-	 * @return The mean
+	 * @return The median
 	 */
-	private int mean(int[] array, int datnum)
+	private int median(int[] array, int datnum)
 		{
-		long sum ;
-		int i ;
-	
-		for(i = 0, sum = 0; i < datnum; ++i)
-			sum += array[i] ;
-		sum /= datnum ;
-		return (int) (sum) ;
+		int i, j, k, temp;
+		int[] sort = new int[20] ;
+		for(i = 0; i < datnum; ++i)
+			sort[i] = array[i] ;
+		for(i = 0; i < datnum; ++i)
+			{
+			temp = sort[i] ;
+			for(j = 0; (temp < sort[j]) && (j < i) ; ++j) ;
+			for(k = i - 1 ; k >= j ; --k)
+				sort[k+1] = sort[k] ;
+			sort[j] = temp ;
+			}
+		return(sort[datnum>>1]) ;
 		}
 
 	/**
@@ -392,15 +369,15 @@ public class QRSDetector2
 	 * @param nmedian
 	 * @return The detection threshold
 	 */
-	private int thresh(int qmean, int nmean)
+	private int thresh(int qmedian, int nmedian)
 		{
 		int thrsh, dmed ;
 		double temp ;
-		dmed = qmean - nmean ;
+		dmed = qmedian - nmedian ;
 		temp = dmed ;
 		temp *= TH ;
 		dmed = (int) temp ;
-		thrsh = nmean + dmed ; /* dmed * THRESHOLD */
+		thrsh = nmedian + dmed ; /* dmed * THRESHOLD */
 		return(thrsh) ;
 		}
 
@@ -414,39 +391,8 @@ public class QRSDetector2
 	 * @param maxder
 	 * @return If a baseline shift occured
 	 */
-	private boolean BLSCheck(int[] dBuf, int dbPtr, int[] maxder)
+	private boolean BLSCheck(int[] dBuf,int dbPtr, int[] maxder)
 		{
-		int max, min, maxt = 0, mint = 0, t, x ;
-		max = min = 0 ;
-	
-		for(t = 0; t < qrsDetParas.MS220; ++t)
-			{
-			x = dBuf[dbPtr] ;
-			if(x > max)
-				{
-				maxt = t ;
-				max = x ;
-				}
-			else if(x < min)
-				{
-				mint = t ;
-				min = x;
-				}
-			if(++dbPtr == preBlankParas.DER_DELAY)
-				dbPtr = 0 ;
-			}
-	
-		maxder[0] = max ;
-		min = -min ;
-		
-		/* Possible beat if a maximum and minimum pair are found
-			where the interval between them is less than 150 ms. */
-		   
-		if((max > (min>>3)) && (min > (max>>3)) &&
-			(Math.abs(maxt - mint) < qrsDetParas.MS150))
-			return (false) ;
-			
-		else
-			return (true) ;
+		return(false) ;
 		}
 	}

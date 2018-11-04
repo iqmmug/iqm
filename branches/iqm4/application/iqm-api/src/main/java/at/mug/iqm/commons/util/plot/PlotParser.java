@@ -449,18 +449,17 @@ public class PlotParser extends SwingWorker<Vector<Vector<String>>, Void> {
 	        int numbOfReadBytes = fis.read(bytes);
 			
 			while (numbOfReadBytes != -1) {
-			
-				for (int i=0; i < bytes.length; i = i + 2) {
-					//System.out.println("Plotparser: 16bit data: byte #: " + i + "    :" + bytes[i] );
-					int val = ((bytes[i+1] & 0xff) << 8) + (bytes[i] & 0xff);	
-				
-					//System.out.println("Plotparser: "+val);
-					line = new Vector<String>();
-					line.add(String.valueOf(val));
 					
-					//set data string
-					dataString.add(new Vector<String>(line));				
-				}
+				//System.out.println("Plotparser: 16bit data: byte #: " + i + "    :" + bytes[i] );
+				int val = ((bytes[1] & 0xff) << 8) + (bytes[0] & 0xff);	
+				
+				//System.out.println("Plotparser: "+val);
+				line = new Vector<String>();
+				line.add(String.valueOf(val));
+					
+				//set data string
+				dataString.add(new Vector<String>(line));				
+				
 				numbOfReadBytes = fis.read(bytes);	
 			}				
 			

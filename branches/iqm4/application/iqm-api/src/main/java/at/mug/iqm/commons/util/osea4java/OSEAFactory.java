@@ -17,7 +17,20 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package at.mug.iqm.plot.bundle.util.osea4java;
+package at.mug.iqm.commons.util.osea4java;
+
+import at.mug.iqm.commons.util.osea4java.classification.BDACParameters;
+import at.mug.iqm.commons.util.osea4java.classification.BeatAnalyzer;
+import at.mug.iqm.commons.util.osea4java.classification.BeatDetectionAndClassification;
+import at.mug.iqm.commons.util.osea4java.classification.Classifier;
+import at.mug.iqm.commons.util.osea4java.classification.Matcher;
+import at.mug.iqm.commons.util.osea4java.classification.NoiseChecker;
+import at.mug.iqm.commons.util.osea4java.classification.PostClassifier;
+import at.mug.iqm.commons.util.osea4java.classification.RythmChecker;
+import at.mug.iqm.commons.util.osea4java.detection.QRSDetector;
+import at.mug.iqm.commons.util.osea4java.detection.QRSDetector2;
+import at.mug.iqm.commons.util.osea4java.detection.QRSDetectorParameters;
+import at.mug.iqm.commons.util.osea4java.detection.QRSFilterer;
 
 /*-
  * #%L
@@ -46,18 +59,7 @@ package at.mug.iqm.plot.bundle.util.osea4java;
  * <http://www.gnu.org/licenses/gpl-3.0.html>.
  * #L%
  */
-import at.mug.iqm.plot.bundle.util.osea4java.classification.BDACParameters;
-import at.mug.iqm.plot.bundle.util.osea4java.classification.BeatAnalyzer;
-import at.mug.iqm.plot.bundle.util.osea4java.classification.BeatDetectionAndClassification;
-import at.mug.iqm.plot.bundle.util.osea4java.classification.Classifier;
-import at.mug.iqm.plot.bundle.util.osea4java.classification.Matcher;
-import at.mug.iqm.plot.bundle.util.osea4java.classification.NoiseChecker;
-import at.mug.iqm.plot.bundle.util.osea4java.classification.PostClassifier;
-import at.mug.iqm.plot.bundle.util.osea4java.classification.RythmChecker;
-import at.mug.iqm.plot.bundle.util.osea4java.detection.QRSDetector;
-import at.mug.iqm.plot.bundle.util.osea4java.detection.QRSDetector2;
-import at.mug.iqm.plot.bundle.util.osea4java.detection.QRSDetectorParameters;
-import at.mug.iqm.plot.bundle.util.osea4java.detection.QRSFilterer;
+
 
 /**
  * A factory to create detection of classification objects.
