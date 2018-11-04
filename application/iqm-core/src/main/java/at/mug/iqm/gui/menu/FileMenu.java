@@ -63,6 +63,7 @@ import at.mug.iqm.api.model.IqmDataBox;
 import at.mug.iqm.commons.gui.OpenImageDialog;
 import at.mug.iqm.commons.gui.OpenPlotDialog;
 import at.mug.iqm.commons.gui.OpenTableDialog;
+import at.mug.iqm.commons.gui.QRSPeaksExtractorOpenDialog;
 import at.mug.iqm.commons.gui.SVSImageExtractorOpenDialog;
 import at.mug.iqm.commons.gui.SaveImageSequenceDialog;
 import at.mug.iqm.commons.gui.SaveImageStackDialog;
@@ -109,6 +110,7 @@ public class FileMenu extends DeactivatableMenu implements ActionListener {
 	private JMenuItem saveStackMenuItem;
 	private JMenuItem openHeaderMenuItem;
 	private JMenuItem extractSVSMenuItem;
+	private JMenuItem extractQRSPeaksMenuItem;
 	private JMenuItem openPlotMenuItem;
 	private JMenuItem openTableMenuItem;
 	private JMenuItem savePlotDataMenuItem;
@@ -139,6 +141,7 @@ public class FileMenu extends DeactivatableMenu implements ActionListener {
 		this.saveStackMenuItem = new JMenuItem();
 		this.openHeaderMenuItem = new JMenuItem();
 		this.extractSVSMenuItem = new JMenuItem();
+		this.extractQRSPeaksMenuItem = new JMenuItem();
 		this.openPlotMenuItem = new JMenuItem();
 		this.openTableMenuItem = new JMenuItem();
 		this.saveTableMenuItem = new JMenuItem();
@@ -180,6 +183,7 @@ public class FileMenu extends DeactivatableMenu implements ActionListener {
 		this.add(this.createOpenSamplesMenu());
 		this.addSeparator();
 		this.add(this.createExtractSVSMenuItem());
+		this.add(this.createExtractQRSPeaksMenuItem());
 		this.addSeparator();
 		this.add(this.createSaveSingleMenuItem());
 		this.add(this.createSaveSequMenuItem());
@@ -298,6 +302,20 @@ public class FileMenu extends DeactivatableMenu implements ActionListener {
 		this.extractSVSMenuItem.addActionListener(this);
 		this.extractSVSMenuItem.setActionCommand("extractsvs");
 		return this.extractSVSMenuItem;
+	}
+	
+	/**
+	 * This method initializes ExtractQRSPeaksMenuItem
+	 * 
+	 * @return javax.swing.JMenuItem
+	 */
+	private JMenuItem createExtractQRSPeaksMenuItem() {
+		this.extractQRSPeaksMenuItem.setText(I18N.getGUILabelText("menu.file.extractQRSPeaks.text"));
+		this.extractQRSPeaksMenuItem.setToolTipText(I18N.getGUILabelText("menu.file.extractQRSPeaks.ttp"));
+		this.extractQRSPeaksMenuItem.setIcon(new ImageIcon(Resources.getImageURL("icon.menu.file.extractSVS")));
+		this.extractQRSPeaksMenuItem.addActionListener(this);
+		this.extractQRSPeaksMenuItem.setActionCommand("extractqrspeaks");
+		return this.extractQRSPeaksMenuItem;
 	}
 
 	/**
@@ -766,6 +784,17 @@ public class FileMenu extends DeactivatableMenu implements ActionListener {
 				@Override
 				public void run() {
 					new SVSImageExtractorOpenDialog().run();
+				}
+			});
+
+		}
+		if ("extractqrspeaks".equals(e.getActionCommand())) {
+			logger.debug("Extract QRS peaks of a file");
+			SwingUtilities.invokeLater(new Runnable() {
+
+				@Override
+				public void run() {
+					new QRSPeaksExtractorOpenDialog().run();
 				}
 			});
 

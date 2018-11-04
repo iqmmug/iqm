@@ -1,4 +1,4 @@
-package at.mug.iqm.plot.bundle.util.osea4java.classification;
+package at.mug.iqm.commons.util.osea4java.classification;
 
 /*-
  * #%L

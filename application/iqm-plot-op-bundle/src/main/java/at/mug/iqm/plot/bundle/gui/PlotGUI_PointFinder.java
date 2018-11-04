@@ -779,7 +779,7 @@ public class PlotGUI_PointFinder extends AbstractPlotOperatorGUI implements Chan
 			buttQRSDetect = new JRadioButton();
 			buttQRSDetect.setText("QRSDetect");
 			// buttQRSDetect.setPreferredSize(new Dimension(95,10));
-			buttQRSDetect.setToolTipText("osea QRSDetect option");
+			buttQRSDetect.setToolTipText("osea QRSDetect option using medians");
 			buttQRSDetect.addActionListener(this);
 			buttQRSDetect.setActionCommand("parameter");
 		}
@@ -796,7 +796,7 @@ public class PlotGUI_PointFinder extends AbstractPlotOperatorGUI implements Chan
 			buttQRSDetect2 = new JRadioButton();
 			buttQRSDetect2.setText("QRSDetect2");
 			// buttQRSDetect2.setPreferredSize(new Dimension(95,10));
-			buttQRSDetect2.setToolTipText("osea QRSDetect2 option");
+			buttQRSDetect2.setToolTipText("osea QRSDetect2 option using means");
 			buttQRSDetect2.addActionListener(this);
 			buttQRSDetect2.setActionCommand("parameter");
 		}
@@ -813,7 +813,7 @@ public class PlotGUI_PointFinder extends AbstractPlotOperatorGUI implements Chan
 			buttQRSBeatDetectClass = new JRadioButton();
 			buttQRSBeatDetectClass.setText("BeatDetectionAndClassify");
 			// buttQRSBeatDetectClass.setPreferredSize(new Dimension(95,10));
-			buttQRSBeatDetectClass.setToolTipText("osea BeatDetectionAndClassify option");
+			buttQRSBeatDetectClass.setToolTipText("osea BeatDetectionAndClassify option using QRSDetect2 for detection");
 			buttQRSBeatDetectClass.addActionListener(this);
 			buttQRSBeatDetectClass.setActionCommand("parameter");
 		}
@@ -1002,7 +1002,7 @@ public class PlotGUI_PointFinder extends AbstractPlotOperatorGUI implements Chan
 		if (buttIntervals == null) {
 			buttIntervals = new JRadioButton();
 			buttIntervals.setText("Intervals");
-			buttIntervals.setToolTipText("Interval between two points (slope points, peaks or valleys)");
+			buttIntervals.setToolTipText("Intervals between points (slope points, peaks or valleys)");
 			// buttIntervals.setPreferredSize(new Dimension(95,10));
 	//		buttIntervals.setToolTipText("threshold on slope");
 			buttIntervals.addActionListener(this);
@@ -1097,6 +1097,7 @@ public class PlotGUI_PointFinder extends AbstractPlotOperatorGUI implements Chan
 		Vector<Double> signal = new Vector<Double>(plotModel.getData());
 		int size = signal.size();
 
+		//estimation of Tau
 		//eliminate mean value in order to suppress the DC component in the power spectrum
 		double sum = 0.0;
 		for (int i = 0; i < size; i++) {
@@ -1104,10 +1105,10 @@ public class PlotGUI_PointFinder extends AbstractPlotOperatorGUI implements Chan
 		}
 		double mean = sum / size;
 		for (int i = 0; i < size; i++) {
-			signal.set(i, signal.get(i) / mean);
+			signal.set(i, signal.get(i) - mean);
 		}
 		BoardPanel.appendTextln("PlotGUI_PointFinder: Mean value of signal: " + mean);
-		BoardPanel.appendTextln("PlotGUI_PointFinder: Mean value subtracted from signal");
+		BoardPanel.appendTextln("PlotGUI_PointFinder: Mean value subtracted from signal in order to computer Tau");
 
 		//estimate Tau with FFT
 		//-----------------------------------------------------------------------------------------

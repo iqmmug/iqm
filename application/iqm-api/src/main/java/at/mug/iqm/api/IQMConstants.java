@@ -109,6 +109,7 @@ public final class IQMConstants {
 	
 	public final static String WAV_FILTER_DESCRIPTION = "WAV (*." + WAV_EXTENSION + ")";
 	public final static String B16_FILTER_DESCRIPTION = "B16 (*." + B16_EXTENSION + ")";
+	
 
 	/**
      * 

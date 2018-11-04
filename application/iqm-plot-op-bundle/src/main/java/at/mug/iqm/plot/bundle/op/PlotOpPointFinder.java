@@ -43,14 +43,14 @@ import at.mug.iqm.api.operator.ParameterBlockIQM;
 import at.mug.iqm.api.operator.ParameterBlockPlot;
 import at.mug.iqm.api.operator.Result;
 import at.mug.iqm.commons.util.DialogUtil;
+import at.mug.iqm.commons.util.osea4java.OSEAFactory;
+import at.mug.iqm.commons.util.osea4java.classification.BeatDetectionAndClassification;
+import at.mug.iqm.commons.util.osea4java.classification.ECGCODES;
+import at.mug.iqm.commons.util.osea4java.classification.BeatDetectionAndClassification.BeatDetectAndClassifyResult;
+import at.mug.iqm.commons.util.osea4java.detection.QRSDetector;
+import at.mug.iqm.commons.util.osea4java.detection.QRSDetector2;
 import at.mug.iqm.commons.util.plot.PlotTools;
 import at.mug.iqm.plot.bundle.descriptors.PlotOpPointFinderDescriptor;
-import at.mug.iqm.plot.bundle.util.osea4java.classification.BeatDetectionAndClassification;
-import at.mug.iqm.plot.bundle.util.osea4java.classification.BeatDetectionAndClassification.BeatDetectAndClassifyResult;
-import at.mug.iqm.plot.bundle.util.osea4java.classification.ECGCODES;
-import at.mug.iqm.plot.bundle.util.osea4java.detection.QRSDetector;
-import at.mug.iqm.plot.bundle.util.osea4java.detection.QRSDetector2;
-import at.mug.iqm.plot.bundle.util.osea4java.OSEAFactory;
 
 /**
  * @author Ahammer
@@ -909,27 +909,31 @@ public class PlotOpPointFinder extends AbstractOperator {
 				
 			//QRS-Detection
 			int numberOfFoundPoints = 0;
+			double meanInterval = 0.0;
 			
 			//int sampleRate = 125; //
 			//int oseaMethod = 2;  //0...QRSDetector, 1...QRSDetector2,  2....BeatDetectionAndClassify
 			
 			//Method1-QRSDetector----------------------------------------------------------------------------
+			//Hamilton, Tompkins, W. J., "Quantitative investigation of QRS detection rules using the MIT/BIH arrhythmia database",IEEE Trans. Biomed. Eng., BME-33, pp. 1158-1165, 1987.
+			//using medians
 			if (oseaMethod == PlotOpPointFinderDescriptor.OSEA_QRSDETECTION){
 				QRSDetector qrsDetector = OSEAFactory.createQRSDetector(sampleRate);	
 				for (int i = 0; i < signal.size(); i++) {
 					int result = qrsDetector.QRSDet(signal.get(i).intValue());
 					
 					if (result != 0) {
-					    System.out.println("A QRS-Complex was detected at sample: " + (i-result));
+					    //System.out.println("A QRS-Complex was detected at sample: " + (i-result));
 						numberOfFoundPoints = numberOfFoundPoints +1;
 						timeStamp2 = rangeOld.get(i-result);
 						if (outputoptions == PlotOpPointFinderDescriptor.OUTPUTOPTION_COORDINATES) {
-							rangeNew.add(timeStamp2);
+							rangeNew.add(timeStamp2);//eventually divide by sample rate to get absolute times in s
 							coordinateY.add(signal.get(i-result));
 						}
 						if (outputoptions == PlotOpPointFinderDescriptor.OUTPUTOPTION_INTERVALS) {
 							rangeNew.add((double) numberOfFoundPoints);
-							intervals.add(timeStamp2 -timeStamp1);
+							intervals.add((timeStamp2 -timeStamp1)/sampleRate);
+							meanInterval += (timeStamp2 -timeStamp1)/sampleRate;
 						}				
 						dataX2.add(timeStamp2);
 						dataY2.add(signal.get(i-result));
@@ -948,24 +952,33 @@ public class PlotOpPointFinder extends AbstractOperator {
 						break;
 					}
 		    	}
+				BoardPanel.appendTextln("Number of detected QRS complexes using QRSDetect: "+ numberOfFoundPoints);
+				if (outputoptions == PlotOpPointFinderDescriptor.OUTPUTOPTION_INTERVALS) {
+					meanInterval = meanInterval/numberOfFoundPoints;
+					BoardPanel.appendTextln("Mean RR interval: "+ meanInterval*1000 + " [ms]");
+					BoardPanel.appendTextln("Mean HR: "+ 1.0/meanInterval*60 + " [1/min]");
+				}
 			}//-----------------------------------------------------------------------------------------------
 			//Method2-QRSDetector2----------------------------------------------------------------------------
+			//Hamilton, Tompkins, W. J., "Quantitative investigation of QRS detection rules using the MIT/BIH arrhythmia database",IEEE Trans. Biomed. Eng., BME-33, pp. 1158-1165, 1987.
+			//using means
 			if (oseaMethod == PlotOpPointFinderDescriptor.OSEA_QRSDETECTION2){
 				QRSDetector2 qrsDetector = OSEAFactory.createQRSDetector2(sampleRate);	
 				for (int i = 0; i < signal.size(); i++) {
 					int result = qrsDetector.QRSDet(signal.get(i).intValue());
 					
 					if (result != 0) {
-					    System.out.println("A QRS-Complex was detected at sample: " + (i-result));
+					    //System.out.println("A QRS-Complex was detected at sample: " + (i-result));
 						numberOfFoundPoints = numberOfFoundPoints +1;
 						timeStamp2 = rangeOld.get(i-result);
 						if (outputoptions == PlotOpPointFinderDescriptor.OUTPUTOPTION_COORDINATES) {
-							rangeNew.add(timeStamp2);
+							rangeNew.add(timeStamp2);//eventually divide by sample rate to get absolute times in s
 							coordinateY.add(signal.get(i-result));
 						}
 						if (outputoptions == PlotOpPointFinderDescriptor.OUTPUTOPTION_INTERVALS) {
 							rangeNew.add((double) numberOfFoundPoints);
-							intervals.add(timeStamp2 -timeStamp1);
+							intervals.add((timeStamp2 -timeStamp1)/sampleRate);
+							meanInterval += (timeStamp2 -timeStamp1)/sampleRate;
 						}					
 						dataX2.add(timeStamp2);
 						dataY2.add(signal.get(i-result));
@@ -984,11 +997,20 @@ public class PlotOpPointFinder extends AbstractOperator {
 						break;
 					}
 		    	}
+				BoardPanel.appendTextln("Number of detected QRS complexes using QRSDetect2: "+ numberOfFoundPoints);
+				if (outputoptions == PlotOpPointFinderDescriptor.OUTPUTOPTION_INTERVALS) {
+					meanInterval = meanInterval/numberOfFoundPoints;
+					BoardPanel.appendTextln("Mean RR interval: "+ meanInterval*1000 + " [ms]");
+					BoardPanel.appendTextln("Mean HR: "+ 1.0/meanInterval*60 + " [1/min]");
+				}
 			}//------------------------------------------------------------------------------------------------------
 			
 			//Method3-detection and classification--------------------------------------------------------------------
-			//detection yields slightly different points compared to Method1!? 
+			//QRSDetector2 for detection
 			if (oseaMethod == PlotOpPointFinderDescriptor.OSEA_QRSBEATDETECTIONANDCLASSIFY){
+				int numberOfNormalPeaks   = 0;
+				int numberOfPVCPeaks      = 0;
+				int numberOfUnknownPeaks  = 0;
 				BeatDetectionAndClassification bdac = OSEAFactory.createBDAC(sampleRate, sampleRate/2);		
 				for (int i = 0; i < signal.size(); i++) {
 					BeatDetectAndClassifyResult result = bdac.BeatDetectAndClassify(signal.get(i).intValue());
@@ -996,25 +1018,29 @@ public class PlotOpPointFinder extends AbstractOperator {
 					if (result.samplesSinceRWaveIfSuccess != 0) {
 							int qrsPosition =  i - result.samplesSinceRWaveIfSuccess;
 	
-						if (result.beatType == ECGCODES.UNKNOWN) {
-								System.out.println("A unknown beat type was detected at sample: " + qrsPosition);
-						} else if (result.beatType == ECGCODES.NORMAL) {
-								System.out.println("A normal beat type was detected at sample: " + qrsPosition);
-						} else if (result.beatType == ECGCODES.PVC) {
-								System.out.println("A premature ventricular contraction was detected at sample: " + qrsPosition);		      
-						}
+							if (result.beatType == ECGCODES.NORMAL) {
+								//BoardPanel.appendTextln("A normal beat type was detected at sample: " + qrsPosition);
+								numberOfNormalPeaks += 1; 
+							} else if (result.beatType == ECGCODES.PVC) {
+								//BoardPanel.appendTextln("A premature ventricular contraction was detected at sample: " + qrsPosition);
+								numberOfPVCPeaks += 1;
+							} else if (result.beatType == ECGCODES.UNKNOWN) {
+								//BoardPanel.appendTextln("An unknown beat type was detected at sample: " + qrsPosition);
+								numberOfUnknownPeaks +=1;
+							} 
 						numberOfFoundPoints = numberOfFoundPoints +1;
 						timeStamp2 = rangeOld.get(qrsPosition);
-						System.out.println("qrsPosition: " +qrsPosition);
-						System.out.println("timeStamp2: "  +timeStamp2);
-						System.out.println("timeStamp1: "  +timeStamp1);
+						//System.out.println("qrsPosition: " +qrsPosition);
+						//System.out.println("timeStamp2: "  +timeStamp2);
+						//System.out.println("timeStamp1: "  +timeStamp1);
 						if (outputoptions == PlotOpPointFinderDescriptor.OUTPUTOPTION_COORDINATES) {
-								rangeNew.add(timeStamp2);
-								coordinateY.add(signal.get(qrsPosition));
+							rangeNew.add(timeStamp2);//eventually divide by sample rate to get absolute times in s
+							coordinateY.add(signal.get(qrsPosition));
 						}
 						if (outputoptions == PlotOpPointFinderDescriptor.OUTPUTOPTION_INTERVALS) {
-								rangeNew.add((double) numberOfFoundPoints);
-								intervals.add(timeStamp2 -timeStamp1);
+							rangeNew.add((double) numberOfFoundPoints);
+							intervals.add((timeStamp2 -timeStamp1)/sampleRate);
+							meanInterval += (timeStamp2 -timeStamp1)/sampleRate;
 						}							
 						dataX2.add(timeStamp2);
 						dataY2.add(signal.get(qrsPosition));	
@@ -1023,17 +1049,27 @@ public class PlotOpPointFinder extends AbstractOperator {
 					}			
 						//this.fireProgressChanged((int) (i) * 95 / (signal.size()));
 					if (this.isCancelled(this.getParentTask())){
-							rangeNew         = null;
-							coordinateY      = null;
-							intervals        = null;
-							heights      = null;
-							deltaHeights = null;
-							energies     = null;
-							break;
+						rangeNew         = null;
+						coordinateY      = null;
+						intervals        = null;
+						heights      = null;
+						deltaHeights = null;
+						energies     = null;
+						break;
 					}
 					//--------------------------------------------------------------------------------------
-				}					
-			}
+				}
+				BoardPanel.appendTextln("Number of detected QRS complexes using BeatDetectAndClassify: "+ numberOfFoundPoints);
+				BoardPanel.appendTextln("Number of normal QRS peaks: "+ numberOfNormalPeaks);
+				BoardPanel.appendTextln("Number of premature ventricular contractions: "+ numberOfPVCPeaks);
+				BoardPanel.appendTextln("Number of unknown QRS peaks: "+ numberOfUnknownPeaks);
+				if (outputoptions == PlotOpPointFinderDescriptor.OUTPUTOPTION_INTERVALS) {
+					meanInterval = meanInterval/numberOfFoundPoints;
+					BoardPanel.appendTextln("Mean RR interval: "+ meanInterval*1000 + " [ms]");
+					BoardPanel.appendTextln("Mean HR: "+ 1.0/meanInterval*60 + " [1/min]");
+				}
+			}//Method 3-------------------------------------------------------------------------------------
+			
 			if (!coordinateY.isEmpty()) {
 				//rangeNew.remove(0);
 				//coordinateY.remove(0);

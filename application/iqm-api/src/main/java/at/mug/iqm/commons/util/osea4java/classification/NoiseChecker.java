@@ -17,7 +17,9 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package at.mug.iqm.plot.bundle.util.osea4java.classification;
+package at.mug.iqm.commons.util.osea4java.classification;
+
+import at.mug.iqm.commons.util.osea4java.detection.QRSDetectorParameters;
 
 /*-
  * #%L
@@ -46,7 +48,9 @@ package at.mug.iqm.plot.bundle.util.osea4java.classification;
  * <http://www.gnu.org/licenses/gpl-3.0.html>.
  * #L%
  */
-import at.mug.iqm.plot.bundle.util.osea4java.detection.QRSDetectorParameters;
+
+
+
 
 /**
  * This file contains functions for evaluating the noise content of a beat.
