@@ -488,6 +488,78 @@ public class PlotOpHRV extends AbstractOperator {
 		return psdParameters;
 	}
 	
+	/**
+	 * This method calculates the frequency components
+	 * VLF    very low frequency 0-0.04 Hz
+	 * LF     low frequency 0.04-0.15 Hz
+	 * HF     high frequency 0.15-0.4 Hz
+	 * TP     total power 0-1.5 Hz
+	 * LFn    LF norm = 100*LF/(TP-VLF)
+	 * HFn    HF norm = 100*HF/(TP-VLF)
+	 * LF/HF  ratio
+	 * 
+	 * @param XData1D, YData1D, timeBase
+	 * @return Double[7] (VLF, LF, HF, LFn, HFn, LF/HF, TP,)
+	 */
+	private double[] calcPSDParametersAccordingToKLAUS(Vector<Double> yData1D,  int timeBase) {
+		//xData1D are the absolute times tn of subsequent beats (the first beat is missing)
+		//yData1D are the corresponding beat to beat intervals in ms or seconds,  
+		
+		double vlf = 0.0;
+		double lf  = 0.0;
+		double hf  = 0.0;
+		double tp  = 0.0;
+		double[] psdParameters = new double[7];
+		
+		
+		// set data
+		for (int i = 0; i < yData1D.size(); i++) {
+			if (timeBase == 0) {//ms  convert to seconds because of FFT in Hz
+				yData1D.set(i, yData1D.get(i)/1000.0);
+			}
+			if (timeBase == 1) {//s do nothing
+			}
+	
+		}
+	
+		Vector<Double> inverseFunction = new Vector<Double>();
+	
+		for (int i = 0; i < yData1D.size(); i++) {
+			inverseFunction.add(1.0/yData1D.get(i));
+		}
+		
+		
+		//scroll through spectrum and sum up 
+		for (int f = 0; f < inverseFunction.size(); f++) {
+			if (inverseFunction.get(f) <= 0.04){ //VLF
+				vlf = vlf + 1;
+			}
+			if ((inverseFunction.get(f) > 0.04) && (inverseFunction.get(f) <= 0.15)){ //LF
+				lf = lf + 1;
+			}
+			if ((inverseFunction.get(f) > 0.15) && (inverseFunction.get(f) <= 0.4)){ //HF
+				hf = hf + 1;
+			}
+			if (inverseFunction.get(f) <= 0.15){ //TP
+				tp = tp + 1;
+			}	
+		}
+		vlf=vlf/inverseFunction.size()*100;
+		lf=lf/inverseFunction.size()*100;
+		hf=hf/inverseFunction.size()*100;
+		tp=tp/inverseFunction.size()*100;
+		
+		psdParameters[0] = vlf;
+		psdParameters[1] = lf;
+		psdParameters[2] = hf;
+		psdParameters[3] = 100.0*lf/(tp-vlf);
+		psdParameters[4] = 100.0*hf/(tp-vlf);
+		psdParameters[5] = lf/hf;
+		psdParameters[6] = tp;
+	
+		return psdParameters;
+	} //
+	
     //---------------------------------------------------------------------------------------------------------------
 	@Override
 	public IResult run(IWorkPackage wp) {
@@ -623,6 +695,7 @@ public class PlotOpHRV extends AbstractOperator {
 				pnn20[0]  = nn20[0]/numbnn[0];	
 			
 				double[] psdParameters = calcPSDParameters(domain, signal, timeBase);
+				//double[] psdParameters = calcPSDParametersAccordingToKLAUS(signal, timeBase);
 				vlf[0]  = psdParameters[0];
 				lf[0]   = psdParameters[1];
 				hf[0]   = psdParameters[2];
