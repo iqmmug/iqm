@@ -306,7 +306,8 @@ public class QRSPeaksExtractor extends SwingWorker<Boolean, Void> {
 								coordinateY.add((double) valueBuffer.get(delay));
 							}
 							if (outputOption == 1) { //intervals
-								domainX.add((double) numberOfFoundPoints);
+								//domainX.add((double) numberOfFoundPoints); //times of beats
+								domainX.add(timeStamp2/sampleRate); //eventually divide by sample rate to get absolute times in s
 								intervals.add((timeStamp2 -timeStamp1)/sampleRate); //correction with sample rate to get absolute times in s
 								meanInterval += (timeStamp2 -timeStamp1)/sampleRate;
 							}					
@@ -353,7 +354,8 @@ public class QRSPeaksExtractor extends SwingWorker<Boolean, Void> {
 								coordinateY.add((double) valueBuffer.get(delay));
 							}
 							if (outputOption == 1) { //intervals
-								domainX.add((double) numberOfFoundPoints);
+								//domainX.add((double) numberOfFoundPoints); //times of beats
+								domainX.add(timeStamp2/sampleRate); //eventually divide by sample rate to get absolute times in s
 								intervals.add((timeStamp2 -timeStamp1)/sampleRate); //correction with sample rate to get absolute times in s
 								meanInterval += (timeStamp2 -timeStamp1)/sampleRate;
 							}					
@@ -420,7 +422,8 @@ public class QRSPeaksExtractor extends SwingWorker<Boolean, Void> {
 								coordinateY.add((double) valueBuffer.get(delay));
 							}
 							if (outputOption == 1) { //intervals
-								domainX.add((double) numberOfFoundPoints);
+								//domainX.add((double) numberOfFoundPoints); //times of beats
+								domainX.add(timeStamp2/sampleRate); //eventually divide by sample rate to get absolute times in s
 								intervals.add((timeStamp2 -timeStamp1)/sampleRate); //correction with sample rate to get absolute times in s
 								meanInterval += (timeStamp2 -timeStamp1)/sampleRate;
 							}								
@@ -476,7 +479,7 @@ public class QRSPeaksExtractor extends SwingWorker<Boolean, Void> {
 				// it is necessary to clone output data for stack processing
 				
 				String domainHeader = "QRS event time";
-				String domainUnit = "s";	
+				String domainUnit = "";	
 				String dataHeader = "QRS event value";
 				String dataUnit = "";
 				String plotModelName = newFile.toString();
@@ -497,8 +500,8 @@ public class QRSPeaksExtractor extends SwingWorker<Boolean, Void> {
 				//PlotTools.displayPointFinderPlotXY(rangeOld, signal, dataX2, dataY2, false, "Point Finder", "Signal + Points", "Samples [a.u.]", "Values [a.u.]");
 				// it is necessary to generate a new instance of PlotModel
 				// it is necessary to clone output data for stack processing
-				String domainHeader = "QRS event #";
-				String domainUnit = "";	
+				String domainHeader = "QRS event time";
+				String domainUnit = "s";	
 				String dataHeader = "RR interval";
 				String dataUnit = "s";
 				String plotModelName = newFile.toString();
