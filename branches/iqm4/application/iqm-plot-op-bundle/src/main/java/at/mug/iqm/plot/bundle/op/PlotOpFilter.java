@@ -86,7 +86,7 @@ public class PlotOpFilter extends AbstractOperator {
 			
 			
 
-		if (method == PlotOpFilterDescriptor.METHOD_MEAN_MAC) { 
+		if (method == PlotOpFilterDescriptor.METHOD_MOVING_AVERAGE) { 
 
 			// ------------------------------------------------------------------------------
 			// calculate filtered signal (with moving mean / "moving average curve (MAC)"):
@@ -103,10 +103,10 @@ public class PlotOpFilter extends AbstractOperator {
 				filteredSignal.add(tempMean.evaluate(signalDbl, i - (range-1)/2, (size-i) + (range-1)/2 ));				
 			}
 
-			plotModelName += ": MAC filtered";
+			plotModelName += ": Moving average filtered";
 		} // end if (method == MAC)
 		
-		if (method == PlotOpFilterDescriptor.METHOD_MEDIAN) {
+		if (method == PlotOpFilterDescriptor.METHOD_MOVING_MEDIAN) {
 
 			// ------------------------------------------------------------------------------
 			//calculate filtered signal (with moving median)
@@ -125,7 +125,7 @@ public class PlotOpFilter extends AbstractOperator {
 			
 			
 			
-			plotModelName += ": MEDIAN filtered";
+			plotModelName += ": Moving median filtered";
 		}
 
 		// generate the new plot model

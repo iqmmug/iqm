@@ -58,8 +58,8 @@ public class PlotOpFilterDescriptor extends AbstractOperatorDescriptor {
 
 	public static final OperatorType TYPE = OperatorType.PLOT;
 	
-	public static final int METHOD_MEAN_MAC = 0;
-	public static final int METHOD_MEDIAN   = 1;
+	public static final int METHOD_MOVING_AVERAGE = 0;
+	public static final int METHOD_MOVING_MEDIAN   = 1;
 		
 	private static final DataType[] OUTPUT_TYPES = new DataType[] { DataType.PLOT };
 	
