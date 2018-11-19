@@ -63,6 +63,7 @@ import at.mug.iqm.plot.bundle.descriptors.PlotOpFractalGeneratorDescriptor;
 import at.mug.iqm.plot.bundle.descriptors.PlotOpHRVDescriptor;
 import at.mug.iqm.plot.bundle.descriptors.PlotOpMathDescriptor;
 import at.mug.iqm.plot.bundle.descriptors.PlotOpPointFinderDescriptor;
+import at.mug.iqm.plot.bundle.descriptors.PlotOpResampleDescriptor;
 import at.mug.iqm.plot.bundle.descriptors.PlotOpSignalGeneratorDescriptor;
 import at.mug.iqm.plot.bundle.descriptors.PlotOpStatisticsDescriptor;
 import at.mug.iqm.plot.bundle.descriptors.PlotOpSymbolicAggregationDescriptor;
@@ -104,6 +105,7 @@ public class PlotAnalysisMenu extends DeactivatableMenu implements
 	private OperatorMenuItem symbAggMenuItem;
 	private OperatorMenuItem surrogateMenuItem;
 	private OperatorMenuItem filterMenuItem;
+	private OperatorMenuItem resampleMenuItem;
 
 	/**
 	 * 
@@ -134,6 +136,7 @@ public class PlotAnalysisMenu extends DeactivatableMenu implements
 		this.symbAggMenuItem           = new OperatorMenuItem(OperatorType.PLOT);
 		this.surrogateMenuItem         = new OperatorMenuItem(OperatorType.PLOT);
 		this.filterMenuItem            = new OperatorMenuItem(OperatorType.PLOT);
+		this.resampleMenuItem          = new OperatorMenuItem(OperatorType.PLOT);
 
 		// assemble the gui elements to a JMenu
 		this.createAndAssembleMenu();
@@ -163,6 +166,7 @@ public class PlotAnalysisMenu extends DeactivatableMenu implements
 		this.add(this.createFFTMenuItem());
 		this.add(this.createMathMenuItem());
 		this.add(this.createFilterMenuItem());
+		this.add(this.createResampleMenuItem());
 		this.addSeparator();
 		this.add(this.createAllomScaleMenuItem());
 		this.add(this.createHRVMenuItem());
@@ -332,6 +336,20 @@ public class PlotAnalysisMenu extends DeactivatableMenu implements
 		this.filterMenuItem.addActionListener(this);
 		this.filterMenuItem.setActionCommand("filterplot");
 		return this.filterMenuItem;
+	}
+
+	/**
+	 * This method initializes resampleMenuItem
+	 * 
+	 * @return javax.swing.JMenuItem
+	 */
+	private JMenuItem createResampleMenuItem() {
+		this.resampleMenuItem.setText(I18N.getGUILabelText("menu.plotanalysis.resample.text"));
+		this.resampleMenuItem.setToolTipText(I18N.getGUILabelText("menu.plotanalysis.resample.ttp"));
+		//this.resampleMenuItem.setIcon(new ImageIcon(Resources.getImageURL("icon.menu.plotanalysis.resample")));
+		this.resampleMenuItem.addActionListener(this);
+		this.resampleMenuItem.setActionCommand("resampleplot");
+		return this.resampleMenuItem;
 	}
 
 	/**
@@ -507,6 +525,8 @@ public class PlotAnalysisMenu extends DeactivatableMenu implements
 			ExecutionProxy.launchInstance(new PlotOpFracSurrogateDescriptor());
 		} else if ("filterplot".equals(e.getActionCommand())) {
 			ExecutionProxy.launchInstance(new PlotOpFilterDescriptor());
+		} else if ("resampleplot".equals(e.getActionCommand())) {
+			ExecutionProxy.launchInstance(new PlotOpResampleDescriptor());
 		}
 	}
 }

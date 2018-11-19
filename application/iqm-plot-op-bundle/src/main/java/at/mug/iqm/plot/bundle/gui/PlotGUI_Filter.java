@@ -76,8 +76,8 @@ public class PlotGUI_Filter extends AbstractPlotOperatorGUI implements
 
 	private ParameterBlockIQM pb;
 
-	JRadioButton              rdbtnMean       = null;
-	JRadioButton              rdbtnMedian     = null;
+	JRadioButton              rdbtnMovingMean       = null;
+	JRadioButton              rdbtnMovingMedian     = null;
 	private final ButtonGroup btnGroupMethods = new ButtonGroup();
 
 	JSpinner spnRange = null;
@@ -97,17 +97,17 @@ public class PlotGUI_Filter extends AbstractPlotOperatorGUI implements
 		//pnlMethods.setLayout(new BoxLayout(pnlMethods, BoxLayout.X_AXIS));
 		pnlMethods.setLayout(new FlowLayout(FlowLayout.CENTER, 0, 0));
 		pnlMethods.setBorder(new TitledBorder(null, "Method", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		rdbtnMean = new JRadioButton("Mean");
-		rdbtnMean.setToolTipText("Mean of values in the range of (i-range/2) to (i+range/2)");
-		rdbtnMean.addActionListener(this);
-		rdbtnMean.setSelected(true);
-		rdbtnMedian = new JRadioButton("Median");
-		rdbtnMedian.setToolTipText("Median of values in the range of (i-range/2) to (i+range/2)");
-		rdbtnMedian.addActionListener(this);
-		btnGroupMethods.add(rdbtnMean);
-		btnGroupMethods.add(rdbtnMedian);
-		pnlMethods.add(rdbtnMean);
-		pnlMethods.add(rdbtnMedian);
+		rdbtnMovingMean = new JRadioButton("Moving average");
+		rdbtnMovingMean.setToolTipText("Mean of values in the range of (i-range/2) to (i+range/2)");
+		rdbtnMovingMean.addActionListener(this);
+		rdbtnMovingMean.setSelected(true);
+		rdbtnMovingMedian = new JRadioButton("Moving median");
+		rdbtnMovingMedian.setToolTipText("Median of values in the range of (i-range/2) to (i+range/2)");
+		rdbtnMovingMedian.addActionListener(this);
+		btnGroupMethods.add(rdbtnMovingMean);
+		btnGroupMethods.add(rdbtnMovingMedian);
+		pnlMethods.add(rdbtnMovingMean);
+		pnlMethods.add(rdbtnMovingMedian);
 
 		JPanel pnlSettings = new JPanel();
 		//pnlSettings.setLayout(new BoxLayout(pnlSettings, BoxLayout.X_AXIS));
@@ -190,8 +190,8 @@ public class PlotGUI_Filter extends AbstractPlotOperatorGUI implements
 	public void setParameterValuesToGUI() {
 		this.pb = this.workPackage.getParameters();
 		
-		if (pb.getIntParameter("method") == PlotOpFilterDescriptor.METHOD_MEAN_MAC) rdbtnMean.setSelected(true);
-		if (pb.getIntParameter("method") == PlotOpFilterDescriptor.METHOD_MEDIAN)   rdbtnMedian.setSelected(true);
+		if (pb.getIntParameter("method") == PlotOpFilterDescriptor.METHOD_MOVING_AVERAGE) rdbtnMovingMean.setSelected(true);
+		if (pb.getIntParameter("method") == PlotOpFilterDescriptor.METHOD_MOVING_MEDIAN)   rdbtnMovingMedian.setSelected(true);
 		
 		spnRange.removeChangeListener(this);
 		spnRange.setValue(pb.getIntParameter("range"));
@@ -201,8 +201,8 @@ public class PlotGUI_Filter extends AbstractPlotOperatorGUI implements
 	@Override
 	public void updateParameterBlock() {
 
-		if (this.rdbtnMean.isSelected())   pb.setParameter("method", PlotOpFilterDescriptor.METHOD_MEAN_MAC);
-		if (this.rdbtnMedian.isSelected()) pb.setParameter("method", PlotOpFilterDescriptor.METHOD_MEDIAN);
+		if (this.rdbtnMovingMean.isSelected())   pb.setParameter("method", PlotOpFilterDescriptor.METHOD_MOVING_AVERAGE);
+		if (this.rdbtnMovingMedian.isSelected()) pb.setParameter("method", PlotOpFilterDescriptor.METHOD_MOVING_MEDIAN);
 
 		// only odd numbers are allowed:
 		if (((Number)spnRange.getValue()).intValue() % 2 == 0) {

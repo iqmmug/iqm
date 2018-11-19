@@ -106,6 +106,7 @@ import at.mug.iqm.plot.bundle.descriptors.PlotOpFractalGeneratorDescriptor;
 import at.mug.iqm.plot.bundle.descriptors.PlotOpHRVDescriptor;
 import at.mug.iqm.plot.bundle.descriptors.PlotOpMathDescriptor;
 import at.mug.iqm.plot.bundle.descriptors.PlotOpPointFinderDescriptor;
+import at.mug.iqm.plot.bundle.descriptors.PlotOpResampleDescriptor;
 import at.mug.iqm.plot.bundle.descriptors.PlotOpSignalGeneratorDescriptor;
 import at.mug.iqm.plot.bundle.descriptors.PlotOpStatisticsDescriptor;
 import at.mug.iqm.plot.bundle.descriptors.PlotOpSymbolicAggregationDescriptor;
@@ -395,6 +396,9 @@ public final class OperatorRegistryHelper {
 		
 		IOperatorDescriptor plotFilterDesc = PlotOpFilterDescriptor.register(); //2014 10
 		updateWelcomeText(plotFilterDesc.getName());
+		
+		IOperatorDescriptor plotResampleDesc = PlotOpResampleDescriptor.register(); //2018-11
+		updateWelcomeText(plotResampleDesc.getName());
 
 		logger.debug("Done.");
 	}
