@@ -36,7 +36,7 @@ import at.mug.iqm.api.operator.DataType;
 import at.mug.iqm.api.operator.IOperatorDescriptor;
 import at.mug.iqm.api.operator.IOperatorRegistry;
 import at.mug.iqm.api.operator.OperatorType;
-import at.mug.iqm.plot.bundle.gui.OperatorGUI_Resample;
+import at.mug.iqm.plot.bundle.gui.PlotGUI_Resample;
 import at.mug.iqm.plot.bundle.op.PlotOpResample;
 import at.mug.iqm.plot.bundle.validators.PlotOpResampleValidator;
 
@@ -54,6 +54,8 @@ public class PlotOpResampleDescriptor extends AbstractOperatorDescriptor {
 	 */
 	private static final long serialVersionUID = 7921279526375089452L;
 	
+	public static final Integer DOWNSAMPLE = 0;
+	public static final Integer UPSAMPLE   = 1;
 	
 	public static final Integer INTERPOLATION_NONE     = 0;
 	public static final Integer INTERPOLATION_BILINEAR = 1;
@@ -71,17 +73,19 @@ public class PlotOpResampleDescriptor extends AbstractOperatorDescriptor {
 			{ "Description", "Resamples plots" },
 			{ "DocURL", "https://sourceforge.net/projects/iqm/" },
 			{ "Version", "1.0" },
-			{ "arg0Desc", "Resample Factor" },
-			{ "arg1Desc", "Interpolation" }, // None, Bilinear, Bicubic, Bicubic2
+			{ "arg0Desc", "Resample Option" }, //Down , Up
+			{ "arg1Desc", "Resample Factor" },
+			{ "arg2Desc", "Interpolation" }, // None, Bilinear, Bicubic, Bicubic2
 			};
 
 	private static final int numSources = 1;
-	private static final String[] paramNames = { "ResampleFactor", "Interpolation"};
+	private static final String[] paramNames = {"ResampleOption", "ResampleFactor", "Interpolation"};
 	
-	private static final Class[] paramClasses = { Float.class, Integer.class};
-	private static final Object[] paramDefaults = { 0.5f,  1};
+	private static final Class[] paramClasses = {Integer.class,  Integer.class, Integer.class};
+	private static final Object[] paramDefaults = {0, 2,  1};
 	private static final Range[] validParamValues = {
-			new Range(Float.class, Float.MIN_VALUE, Float.MAX_VALUE),
+			new Range(Integer.class, 0,  1),
+			new Range(Integer.class, 2,  Integer.MAX_VALUE),
 			new Range(Integer.class, 0, 3)
 	};
 
@@ -104,7 +108,7 @@ public class PlotOpResampleDescriptor extends AbstractOperatorDescriptor {
 
 		// register the operator
 		Application.getOperatorRegistry().register(odesc.getName(),
-				odesc.getClass(), PlotOpResample.class, OperatorGUI_Resample.class,
+				odesc.getClass(), PlotOpResample.class, PlotGUI_Resample.class,
 				PlotOpResampleValidator.class, odesc.getType(),
 				odesc.getStackProcessingType());
 
