@@ -1,5 +1,8 @@
 package at.mug.iqm.plot.bundle.gui;
 
+import java.awt.BorderLayout;
+import java.awt.FlowLayout;
+
 /*
  * #%L
  * Project: IQM - Standard Image Operator Bundle
@@ -35,13 +38,23 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.DecimalFormat;
+
 import javax.swing.BoxLayout;
 import javax.swing.ButtonGroup;
+import javax.swing.JFormattedTextField;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
+import javax.swing.JSpinner;
+import javax.swing.SpinnerModel;
+import javax.swing.SpinnerNumberModel;
+import javax.swing.SwingConstants;
 import javax.swing.border.TitledBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
+import javax.swing.text.InternationalFormatter;
+
 import org.apache.log4j.Logger;
 import at.mug.iqm.api.operator.AbstractPlotOperatorGUI;
 import at.mug.iqm.api.operator.ParameterBlockIQM;
@@ -52,7 +65,7 @@ import at.mug.iqm.plot.bundle.descriptors.PlotOpResampleDescriptor;
  * @since  2018-11
  * @update 
  */
-public class OperatorGUI_Resample extends AbstractPlotOperatorGUI implements
+public class PlotGUI_Resample extends AbstractPlotOperatorGUI implements
 		ActionListener, ChangeListener {
 	/**
 	 * 
@@ -60,21 +73,20 @@ public class OperatorGUI_Resample extends AbstractPlotOperatorGUI implements
 	private static final long serialVersionUID = 5161696780502561840L;
 
 	// class specific logger
-	private static final Logger logger = Logger.getLogger(OperatorGUI_Resample.class);
+	private static final Logger logger = Logger.getLogger(PlotGUI_Resample.class);
 
 	private ParameterBlockIQM pb = null;
 
-	private float resampleFactor = 1.0f;
+	private JRadioButton buttDown                = null;
+	private JRadioButton buttUp 	             = null;
+	private JPanel       jPanelResampleOption    = null;
+	private ButtonGroup  buttGroupResampleOption = null;
 	
-
-	private JRadioButton butt_10     = null;
-	private JRadioButton butt_5 	 = null;
-	private JRadioButton butt_2      = null; // "_" means "divide by"
-	private JRadioButton buttX2      = null;
-	private JRadioButton buttX5      = null;
-	private JRadioButton buttX10     = null;
-	private JPanel       jPanelMag   = null;
-	private ButtonGroup  buttGroupMag = null;
+	private JPanel   jPanelFactor    = null;
+	private JLabel   jLabelFactor    = null;
+	private JSpinner jSpinnerFactor  = null;
+	private JPanel   jPanelSetting     = null;
+	
 
 	private JRadioButton buttNone      = null; // simple resampling
 	private JRadioButton buttBL 	   = null; // bilinear
@@ -88,7 +100,7 @@ public class OperatorGUI_Resample extends AbstractPlotOperatorGUI implements
 	/**
 	 * constructor
 	 */
-	public OperatorGUI_Resample() {
+	public PlotGUI_Resample() {
 		logger.debug("Now initializing...");
 
 		this.setOpName(new PlotOpResampleDescriptor().getName());
@@ -99,8 +111,9 @@ public class OperatorGUI_Resample extends AbstractPlotOperatorGUI implements
 
 		this.getOpGUIContent().setLayout(new GridBagLayout());
 
-		this.getOpGUIContent().add(createJPanelMag(),       createGridBagConstraintsButtonGroupMag());
-		this.getOpGUIContent().add(createJPanelIntP(),      createGridBagConstraintsButtonGroupIntP());
+		this.getOpGUIContent().add(createJPanelResampleOption(), createGBCButtonGroupResampleOption());
+		this.getOpGUIContent().add(createJPanelSetting(),        createGridBagConstraintsSetting());
+		this.getOpGUIContent().add(createJPanelIntP(),           createGBCButtonGroupIntP());
 
 		this.pack();
 	}
@@ -111,12 +124,16 @@ public class OperatorGUI_Resample extends AbstractPlotOperatorGUI implements
 	 */
 	@Override
 	public void updateParameterBlock() {
-		pb.setParameter("ResampleFactor", resampleFactor);
+
+		if (buttDown.isSelected()) pb.setParameter("ResampleOption", PlotOpResampleDescriptor.DOWNSAMPLE);
+		if (buttUp.isSelected())   pb.setParameter("ResampleOption", PlotOpResampleDescriptor.UPSAMPLE);
+		
+		pb.setParameter("ResampleFactor", ((Number) jSpinnerFactor.getValue()).intValue());
 		
 		if (buttNone.isSelected()) pb.setParameter("Interpolation", PlotOpResampleDescriptor.INTERPOLATION_NONE);
-		if (buttBL.isSelected()) pb.setParameter("Interpolation", PlotOpResampleDescriptor.INTERPOLATION_BILINEAR);
-		if (buttBC.isSelected()) pb.setParameter("Interpolation", PlotOpResampleDescriptor.INTERPOLATION_BICUBIC);
-		if (buttBC2.isSelected())pb.setParameter("Interpolation", PlotOpResampleDescriptor.INTERPOLATION_BICUBIC2);	
+		if (buttBL.isSelected())   pb.setParameter("Interpolation", PlotOpResampleDescriptor.INTERPOLATION_BILINEAR);
+		if (buttBC.isSelected())   pb.setParameter("Interpolation", PlotOpResampleDescriptor.INTERPOLATION_BICUBIC);
+		if (buttBC2.isSelected())  pb.setParameter("Interpolation", PlotOpResampleDescriptor.INTERPOLATION_BICUBIC2);	
 	}
 
 	/**
@@ -126,22 +143,18 @@ public class OperatorGUI_Resample extends AbstractPlotOperatorGUI implements
 	public void setParameterValuesToGUI() {
 
 		this.pb = this.workPackage.getParameters();
-
-		resampleFactor = pb.getFloatParameter("ResampleFactor");
-
-		if (Math.round(1.0f / resampleFactor) == 10.0f) butt_10.setSelected(true); // ensures button appearance
-		if (Math.round(1.0f / resampleFactor) == 5.0f)  butt_5.setSelected(true); // ensures button appearance
-		if (resampleFactor == (1.0f / 2.0f))            butt_2.setSelected(true);
-		if (resampleFactor == 2.0f)                     buttX2.setSelected(true);
-		if (resampleFactor == 5.0f)                     buttX5.setSelected(true);
-		if (resampleFactor == 10.0f)                    buttX10.setSelected(true);
+		
+		if (pb.getIntParameter("ResampleOption") == PlotOpResampleDescriptor.DOWNSAMPLE) buttDown.setSelected(true);
+		if (pb.getIntParameter("ResampleOption") == PlotOpResampleDescriptor.UPSAMPLE)   buttUp.setSelected(true);
+		
+		jSpinnerFactor.removeChangeListener(this);	
+		jSpinnerFactor.setValue(pb.getIntParameter("ResampleFactor"));
+		jSpinnerFactor.addChangeListener(this);
 		
 		if (pb.getIntParameter("Interpolation") == PlotOpResampleDescriptor.INTERPOLATION_NONE)     buttNone.setSelected(true);
 		if (pb.getIntParameter("Interpolation") == PlotOpResampleDescriptor.INTERPOLATION_BILINEAR) buttBL.setSelected(true);
 		if (pb.getIntParameter("Interpolation") == PlotOpResampleDescriptor.INTERPOLATION_BICUBIC)  buttBC.setSelected(true);
 		if (pb.getIntParameter("Interpolation") == PlotOpResampleDescriptor.INTERPOLATION_BICUBIC2) buttBC2.setSelected(true);
-
-
 	}
 
 	/**
@@ -154,147 +167,137 @@ public class OperatorGUI_Resample extends AbstractPlotOperatorGUI implements
 		this.setParameterValuesToGUI();
 	}
 
-
-	private GridBagConstraints createGridBagConstraintsButtonGroupMag() {
-		GridBagConstraints gridBagConstraintsButtonMagGroup = new GridBagConstraints();
-		gridBagConstraintsButtonMagGroup.gridx = 0;
-		gridBagConstraintsButtonMagGroup.gridy = 0;
-		// gridBagConstraintsButtonMagGroup.gridwidth = 3;//?
-		gridBagConstraintsButtonMagGroup.insets = new Insets(5, 0, 0, 0); // top left  bottom  right
-		gridBagConstraintsButtonMagGroup.fill = GridBagConstraints.BOTH;
-		return gridBagConstraintsButtonMagGroup;
+	private GridBagConstraints createGBCButtonGroupResampleOption() {
+		GridBagConstraints gBCButtonResampleOptionGroup = new GridBagConstraints();
+		gBCButtonResampleOptionGroup.gridx = 0;
+		gBCButtonResampleOptionGroup.gridy = 0;
+		//gBCButtonResampleOptionGroup.gridwidth = 3;//?
+		gBCButtonResampleOptionGroup.insets = new Insets(5, 0, 0, 0); // top left  bottom  right
+		gBCButtonResampleOptionGroup.fill = GridBagConstraints.BOTH;
+		return gBCButtonResampleOptionGroup;
+	}
+	
+	private GridBagConstraints createGridBagConstraintsSetting() {
+		GridBagConstraints gBCSetting = new GridBagConstraints();
+		//gBCSetting.anchor = GridBagConstraints.WEST;
+		gBCSetting.gridx = 0;
+		gBCSetting.gridy = 1;
+		//gBCSetting.gridwidth = 2;// ?
+		gBCSetting.insets = new Insets(5, 0, 0, 0); // top  left  bottom  right
+		gBCSetting.fill = GridBagConstraints.BOTH;
+		return gBCSetting;
 	}
 
-	private GridBagConstraints createGridBagConstraintsButtonGroupIntP() {
-		GridBagConstraints gridBagConstraintsButtonIntPGroup = new GridBagConstraints();
-		gridBagConstraintsButtonIntPGroup.gridx = 0;
-		gridBagConstraintsButtonIntPGroup.gridy = 1;
-		gridBagConstraintsButtonIntPGroup.insets = new Insets(5, 0, 0, 0); // top left  bottom  right
-		//gridBagConstraintsButtonIntPGroup.fill = GridBagConstraints.BOTH;
-		//gridBagConstraintsButtonIntPGroup.anchor = GridBagConstraints.NORTH;
-		return gridBagConstraintsButtonIntPGroup;
+	private GridBagConstraints createGBCButtonGroupIntP() {
+		GridBagConstraints gBCButtonIntPGroup = new GridBagConstraints();
+		gBCButtonIntPGroup.gridx = 0;
+		gBCButtonIntPGroup.gridy = 2;
+		gBCButtonIntPGroup.insets = new Insets(5, 0, 0, 0); // top left  bottom  right
+		gBCButtonIntPGroup.fill = GridBagConstraints.BOTH;
+		//gBCButtonIntPGroup.anchor = GridBagConstraints.NORTH;
+		return gBCButtonIntPGroup;
 	}
-
-
 
 	// ------------------------------------------------------------------------------------------------------
 
 	/**
-	 * This method initializes the Option: /10
+	 * This method initializes the Option: Downscaling
 	 * 
 	 * @return javax.swing.JRadioButton
 	 */
-	private JRadioButton getJRadioButtonButt_10() {
-		butt_10 = new JRadioButton();
-		butt_10.setText("/10");
-		butt_10.setToolTipText("Downsamples to 1/10");
-		butt_10.addActionListener(this);
-		butt_10.setActionCommand("parameter");
-		return butt_10;
+	private JRadioButton getJRadioButtonDown() {
+		buttDown = new JRadioButton();
+		buttDown.setText("Down-sampling");
+		buttDown.setToolTipText("Downsampling of signal");
+		buttDown.addActionListener(this);
+		buttDown.setActionCommand("parameter");
+		return buttDown;
 	}
 
 	/**
-	 * This method initializes the Option: /5
+	 * This method initializes the Option: Upscaling
 	 * 
 	 * @return javax.swing.JRadioButton
 	 */
-	private JRadioButton getJRadioButtonButt_5() {
-		butt_5 = new JRadioButton();
-		butt_5.setText("/5");
-		butt_5.setToolTipText("Downsamples to 1/5");
-		butt_5.addActionListener(this);
-		butt_5.setActionCommand("parameter");
-		return butt_5;
+	private JRadioButton getJRadioButtonUp() {
+		buttUp = new JRadioButton();
+		buttUp.setText("Up-sampling");
+		buttUp.setToolTipText("Upsampling of signal");
+		buttUp.addActionListener(this);
+		buttUp.setActionCommand("parameter");
+		return buttUp;
 	}
 
-	/**
-	 * This method initializes the Option: /2
-	 * 
-	 * @return javax.swing.JRadioButton
-	 */
-	private JRadioButton getJRadioButtonButt_2() {
-		butt_2 = new JRadioButton();
-		butt_2.setText("/2");
-		butt_2.setToolTipText("Downsamples to 1/2");
-		butt_2.addActionListener(this);
-		butt_2.setActionCommand("parameter");
-		return butt_2;
-	}
-
-	/**
-	 * This method initializes the Option: 2 times
-	 * 
-	 * @return javax.swing.JRadioButton
-	 */
-	private JRadioButton getJRadioButtonButtX2() {
-		buttX2 = new JRadioButton();
-		buttX2.setText("x2");
-		buttX2.setToolTipText("Upsamples 2 times");
-		buttX2.addActionListener(this);
-		buttX2.setActionCommand("parameter");
-		return buttX2;
-	}
-
-	/**
-	 * This method initializes the Option: 5 times
-	 * 
-	 * @return javax.swing.JRadioButton
-	 */
-	private JRadioButton getJRadioButtonButtX5() {
-		buttX5 = new JRadioButton();
-		buttX5.setText("x5");
-		buttX5.setToolTipText("Upsamples 5 times");
-		buttX5.addActionListener(this);
-		buttX5.setActionCommand("parameter");
-		return buttX5;
-	}
-
-	/**
-	 * This method initializes the Option: 10 times
-	 * 
-	 * @return javax.swing.JRadioButton
-	 */
-	private JRadioButton getJRadioButtonButtX10() {
-		buttX10 = new JRadioButton();
-		buttX10.setText("x10");
-		buttX10.setToolTipText("Upsamples 10 times");
-		buttX10.addActionListener(this);
-		buttX10.setActionCommand("parameter");
-		return buttX10;
-	}
 
 	/**
 	 * This method initializes JPanel
 	 * 
 	 * @return javax.swing.JPanel
 	 */
-	private JPanel createJPanelMag() {
-		jPanelMag = new JPanel();
-		jPanelMag.setLayout(new BoxLayout(jPanelMag, BoxLayout.Y_AXIS));
-		//jPanelMag.setLayout(new FlowLayout(FlowLayout.CENTER, 0, 0));
-		jPanelMag.setBorder(new TitledBorder(null, "Factor", TitledBorder.LEADING, TitledBorder.TOP, null, null));		
-		jPanelMag.add(getJRadioButtonButt_10());
-		jPanelMag.add(getJRadioButtonButt_5());
-		jPanelMag.add(getJRadioButtonButt_2());
-		jPanelMag.add(getJRadioButtonButtX2());
-		jPanelMag.add(getJRadioButtonButtX5());
-		jPanelMag.add(getJRadioButtonButtX10());
-		// jPanelMag.addSeparator();
-		this.setButtonGroupMag(); // Grouping of JRadioButtons
-		return jPanelMag;
+	private JPanel createJPanelResampleOption() {
+		jPanelResampleOption = new JPanel();
+		jPanelResampleOption.setLayout(new BoxLayout(jPanelResampleOption, BoxLayout.Y_AXIS));
+		//jPanelResampleOption.setLayout(new FlowLayout(FlowLayout.CENTER, 0, 0));
+		jPanelResampleOption.setBorder(new TitledBorder(null, "Option", TitledBorder.LEADING, TitledBorder.TOP, null, null));		
+		jPanelResampleOption.add(getJRadioButtonDown());
+		jPanelResampleOption.add(getJRadioButtonUp());
+		//jPanelResampleOption.addSeparator();
+		this.setButtonGroupResampleOption(); // Grouping of JRadioButtons
+		return jPanelResampleOption;
 	}
 
-	private void setButtonGroupMag() {
-		buttGroupMag = new ButtonGroup();
-		buttGroupMag.add(butt_10);
-		buttGroupMag.add(butt_5);
-		buttGroupMag.add(butt_2);
-		buttGroupMag.add(buttX2);
-		buttGroupMag.add(buttX5);
-		buttGroupMag.add(buttX10);
+	private void setButtonGroupResampleOption() {
+		buttGroupResampleOption = new ButtonGroup();
+		buttGroupResampleOption.add(buttDown);
+		buttGroupResampleOption.add(buttUp);
 	}
 
 	// -------------------------------------------------------------------------------------------
+	/**
+	 * This method initializes jJPanelFactor
+	 * 
+	 * @return javax.swing.JPanel
+	 */
+	private JPanel createJPanelFactor() {
+		if (jPanelFactor == null) {
+			jPanelFactor = new JPanel();
+			jPanelFactor.setLayout(new BorderLayout());
+			jLabelFactor = new JLabel("Factor: ");
+			jLabelFactor.setHorizontalAlignment(SwingConstants.RIGHT);
+			SpinnerModel sModel = new SpinnerNumberModel(2, 2, Integer.MAX_VALUE, 1); // init, min, max, step
+			jSpinnerFactor = new JSpinner(sModel);
+			//jSpinnerFactor.setPreferredSize(new Dimension(60, 20));
+			jSpinnerFactor.addChangeListener(this);
+			JSpinner.DefaultEditor defEditor = (JSpinner.DefaultEditor) jSpinnerFactor.getEditor();
+			JFormattedTextField ftf = defEditor.getTextField();
+			ftf.setColumns(5);
+			InternationalFormatter intFormatter = (InternationalFormatter) ftf.getFormatter();
+			DecimalFormat decimalFormat = (DecimalFormat) intFormatter.getFormat();
+			decimalFormat.applyPattern("#"); // decimalFormat.applyPattern("#,##0.0") ;
+			jPanelFactor.add(jLabelFactor, BorderLayout.WEST);
+			jPanelFactor.add(jSpinnerFactor, BorderLayout.CENTER);
+		}
+		return jPanelFactor;
+	}
+	
+	/**
+	 * This method initializes jJPanelSetting
+	 * 
+	 * @return javax.swing.JPanel
+	 */
+	private JPanel createJPanelSetting() {
+		if (jPanelSetting == null) {
+			jPanelSetting = new JPanel();
+			//jPanelSetting.setLayout(new BoxLayout(jPanelSetting, BoxLayout.X_AXIS));
+			jPanelSetting.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 0));
+			jPanelSetting.setBorder(new TitledBorder(null, "Setting", TitledBorder.LEADING, TitledBorder.TOP, null, null));		
+			jPanelSetting.add(this.createJPanelFactor());
+		}
+		return jPanelSetting;
+	}
+	
+	// -------------------------------------------------------------------------------------------
+	
 	/**
 	 * This method initializes the Option: None
 	 * 
@@ -389,30 +392,15 @@ public class OperatorGUI_Resample extends AbstractPlotOperatorGUI implements
 	public void actionPerformed(ActionEvent e) {
 		if ("parameter".equals(e.getActionCommand())) {
 
-			if (butt_10 == e.getSource()) {
-				resampleFactor = 1.0f / 10.0f;
+			if (buttDown == e.getSource()) {
+				
 				
 			}
-			if (butt_5 == e.getSource()) {
-				resampleFactor = 1.0f / 5.0f;
+			if (buttUp == e.getSource()) {
+				
 				
 			}
-			if (butt_2 == e.getSource()) {
-				resampleFactor = 1.0f / 2.0f;
-				
-			}
-			if (buttX2 == e.getSource()) {
-				resampleFactor = 2.0f;
-				
-			}
-			if (buttX5 == e.getSource()) {
-				resampleFactor = 5.0f;
-				
-			}
-			if (buttX10 == e.getSource()) {
-				resampleFactor = 10.0f;
-				
-			}
+			
 			this.update();
 			//this.updateParameterBlock();
 			//this.setParameterValuesToGUI();

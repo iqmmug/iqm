@@ -70,8 +70,9 @@ public class PlotOpResample extends AbstractOperator {
 		
 		// get the parameters
 		
-		float resampleFactor = pb.getFloatParameter("ResampleFactor");
-		int   optIntP        = pb.getIntParameter("Interpolation");
+		int resampleOption = pb.getIntParameter("ResampleOption"); //Down   Up
+		int resampleFactor = pb.getIntParameter("ResampleFactor");
+		int optIntP        = pb.getIntParameter("Interpolation");
 		
 		String plotModelName = plotModel.getModelName();
 
@@ -87,173 +88,71 @@ public class PlotOpResample extends AbstractOperator {
 //		for (int i=0;i<size;i++){
 //			signalDbl[i] = signal.get(i);
 //		}
-			
-			
-		if (optIntP == PlotOpResampleDescriptor.INTERPOLATION_NONE) { 
-			
-			if (Math.round(1.0f / resampleFactor) == 10.0f) {
-				for (int i=0;  i < signal.size();  i=i+10) {
-					resampledSignal.add(signal.get(i));
-					resampledDomain.add(domain.get(i));
-				}
-			}		
-			if (Math.round(1.0f / resampleFactor) == 5.0f) {
-				for (int i=0;  i < signal.size();  i=i+5) {
-					resampledSignal.add(signal.get(i));
-					resampledDomain.add(domain.get(i));
-				}
-			}	
-			if (resampleFactor == 0.5f){
-				for (int i=0;  i < signal.size();  i=i+2) {
-					resampledSignal.add(signal.get(i));
-					resampledDomain.add(domain.get(i));
-				}
-			}
-			if (resampleFactor == 2.0f){
-				for (int i=0;  i < signal.size();  i++) {
-					resampledSignal.add(signal.get(i));
-					resampledSignal.add(signal.get(i));
 					
-					resampledDomain.add(domain.get(i));
+		
+		if (resampleOption == PlotOpResampleDescriptor.DOWNSAMPLE) {
+			
+			if (optIntP == PlotOpResampleDescriptor.INTERPOLATION_NONE) { 
+				for (int i=0;  i < signal.size();  i=i+resampleFactor) {
+					resampledSignal.add(signal.get(i));
 					resampledDomain.add(domain.get(i));
 				}
 			}
-			if (resampleFactor == 5.0f){
-				for (int i=0;  i < signal.size();  i++) {
-					resampledSignal.add(signal.get(i));
-					resampledSignal.add(signal.get(i));
-					resampledSignal.add(signal.get(i));
-					resampledSignal.add(signal.get(i));
-					resampledSignal.add(signal.get(i));
+			
+			if (optIntP == PlotOpResampleDescriptor.INTERPOLATION_BILINEAR) { 
+				for (int i=0;  i < signal.size()-resampleFactor+1;  i=i+resampleFactor) {
+					double meanSignal =0.0;
+					double meanDomain =0.0;
+					for (int d=0; d<resampleFactor; d++) {
+						meanSignal += (signal.get(i+d));
+						meanDomain += (domain.get(i+d));
+					}
+					meanSignal = meanSignal/(double)resampleFactor;
+					meanDomain = meanDomain/(double)resampleFactor;
 					
-					resampledDomain.add(domain.get(i));
-					resampledDomain.add(domain.get(i));
-					resampledDomain.add(domain.get(i));
-					resampledDomain.add(domain.get(i));
-					resampledDomain.add(domain.get(i));
-				}
+					resampledSignal.add(meanSignal);
+					resampledDomain.add(meanDomain);
+				}		
 			}
-			if (resampleFactor == 10.0f){
-				for (int i=0;  i < signal.size();  i++) {
-					resampledSignal.add(signal.get(i));
-					resampledSignal.add(signal.get(i));
-					resampledSignal.add(signal.get(i));
-					resampledSignal.add(signal.get(i));
-					resampledSignal.add(signal.get(i));
-					resampledSignal.add(signal.get(i));
-					resampledSignal.add(signal.get(i));
-					resampledSignal.add(signal.get(i));
-					resampledSignal.add(signal.get(i));
-					resampledSignal.add(signal.get(i));
-					
-					resampledDomain.add(domain.get(i));
-					resampledDomain.add(domain.get(i));
-					resampledDomain.add(domain.get(i));
-					resampledDomain.add(domain.get(i));
-					resampledDomain.add(domain.get(i));
-					resampledDomain.add(domain.get(i));
-					resampledDomain.add(domain.get(i));
-					resampledDomain.add(domain.get(i));
-					resampledDomain.add(domain.get(i));
-					resampledDomain.add(domain.get(i));
-				}
-			}
+			if (optIntP == PlotOpResampleDescriptor.INTERPOLATION_BICUBIC) { 
 				
-			plotModelName += ": Resampled";
-		}
+			}
+			if (optIntP == PlotOpResampleDescriptor.INTERPOLATION_BICUBIC2) { 
+		
+			}
+			plotModelName += ": Downsampled";			
+		}	
 		
 		
-		if (optIntP == PlotOpResampleDescriptor.INTERPOLATION_BILINEAR) { 
-			if (Math.round(1.0f / resampleFactor) == 10.0f) {
-				for (int i=0;  i < signal.size()-9;  i=i+10) {
-					resampledSignal.add((signal.get(i)  + signal.get(i+1) + signal.get(i+2) + signal.get(i+3) + signal.get(i+4)
-					                   + signal.get(i+5)+ signal.get(i+6) + signal.get(i+7) + signal.get(i+8) + signal.get(i+9))/10.0);
-					
-					resampledDomain.add(domain.get(i));
-				}
-			}
-			if (Math.round(1.0f / resampleFactor) == 5.0f) {
-				for (int i=0;  i < signal.size()-4;  i=i+5) {
-					resampledSignal.add((signal.get(i) + signal.get(i+1) + signal.get(i+2) + signal.get(i+3) + signal.get(i+4))/5.0);
-					
-					resampledDomain.add(domain.get(i));
-				}
-			}			
-			if (resampleFactor == 0.5){
-				for (int i=0;  i < signal.size()-1;  i=i+2) {
-					resampledSignal.add((signal.get(i) + signal.get(i+1))/2.0);
-					
-					resampledDomain.add(domain.get(i));
-				}
-			}
-			if (resampleFactor == 2.0f){
+		if (resampleOption == PlotOpResampleDescriptor.UPSAMPLE) {
+			if (optIntP == PlotOpResampleDescriptor.INTERPOLATION_NONE) { 
+				for (int i=0;  i < signal.size();  i++) {
+					for (int d=0; d<resampleFactor; d++) { //adding identical data values
+						resampledSignal.add(signal.get(i));
+						resampledDomain.add(domain.get(i));
+					}
+				}	
+			}		
+			if (optIntP == PlotOpResampleDescriptor.INTERPOLATION_BILINEAR) { 
+				
 				for (int i=0;  i < signal.size()-1;  i++) {
-					double linearDeltaSignal = (signal.get(i+1) - signal.get(i))/2.0;
-					resampledSignal.add(signal.get(i));
-					resampledSignal.add(signal.get(i) +     linearDeltaSignal);
-					
-					double linearDeltaDomain = (domain.get(i+1) - domain.get(i))/2.0;
-					resampledDomain.add(domain.get(i));
-					resampledDomain.add(domain.get(i) +     linearDeltaDomain);
-								
-				}
+					double linearDeltaSignal = (signal.get(i+1) - signal.get(i))/resampleFactor;
+					double linearDeltaDomain = (domain.get(i+1) - domain.get(i))/resampleFactor;
+					for (int d=0; d<resampleFactor; d++) { //adding values
+						resampledSignal.add(signal.get(i) + d*linearDeltaSignal);
+						resampledDomain.add(domain.get(i) + d*linearDeltaDomain);
+					}
+				}	
 			}
-			if (resampleFactor == 5.0f){
-				for (int i=0;  i < signal.size()-1;  i++) {	
-					double linearDeltaSignal = (signal.get(i+1) - signal.get(i))/5.0;
-					resampledSignal.add(signal.get(i));
-					resampledSignal.add(signal.get(i) +     linearDeltaSignal);
-					resampledSignal.add(signal.get(i) + 2.0*linearDeltaSignal);
-					resampledSignal.add(signal.get(i) + 3.0*linearDeltaSignal);
-					resampledSignal.add(signal.get(i) + 4.0*linearDeltaSignal);
-					
-					double linearDeltaDomain = (domain.get(i+1) - domain.get(i))/5.0;
-					resampledDomain.add(domain.get(i));
-					resampledDomain.add(domain.get(i) +     linearDeltaDomain);
-					resampledDomain.add(domain.get(i) + 2.0*linearDeltaDomain);
-					resampledDomain.add(domain.get(i) + 3.0*linearDeltaDomain);
-					resampledDomain.add(domain.get(i) + 4.0*linearDeltaDomain);
-				}
+			if (optIntP == PlotOpResampleDescriptor.INTERPOLATION_BICUBIC) { 
+				
 			}
-			if (resampleFactor == 10.0f){
-				for (int i=0;  i < signal.size()-1;  i++) {	
-					double linearDeltaSignal = (signal.get(i+1) - signal.get(i))/10.0;
-					resampledSignal.add(signal.get(i));
-					resampledSignal.add(signal.get(i) +     linearDeltaSignal);
-					resampledSignal.add(signal.get(i) + 2.0*linearDeltaSignal);
-					resampledSignal.add(signal.get(i) + 3.0*linearDeltaSignal);
-					resampledSignal.add(signal.get(i) + 4.0*linearDeltaSignal);
-					resampledSignal.add(signal.get(i) + 5.0*linearDeltaSignal);
-					resampledSignal.add(signal.get(i) + 6.0*linearDeltaSignal);
-					resampledSignal.add(signal.get(i) + 7.0*linearDeltaSignal);
-					resampledSignal.add(signal.get(i) + 8.0*linearDeltaSignal);
-					resampledSignal.add(signal.get(i) + 9.0*linearDeltaSignal);		
-					
-					double linearDeltaDomain = (domain.get(i+1) - domain.get(i))/10.0;
-					resampledDomain.add(domain.get(i));
-					resampledDomain.add(domain.get(i) +     linearDeltaDomain);
-					resampledDomain.add(domain.get(i) + 2.0*linearDeltaDomain);
-					resampledDomain.add(domain.get(i) + 3.0*linearDeltaDomain);
-					resampledDomain.add(domain.get(i) + 4.0*linearDeltaDomain);
-					resampledDomain.add(domain.get(i) + 5.0*linearDeltaDomain);
-					resampledDomain.add(domain.get(i) + 6.0*linearDeltaDomain);
-					resampledDomain.add(domain.get(i) + 7.0*linearDeltaDomain);
-					resampledDomain.add(domain.get(i) + 8.0*linearDeltaDomain);
-					resampledDomain.add(domain.get(i) + 9.0*linearDeltaDomain);
-				}
-			}
-			
-			plotModelName += ": Resampled";
-		}
-		if (optIntP == PlotOpResampleDescriptor.INTERPOLATION_BICUBIC) { 
-	
-		}
-		if (optIntP == PlotOpResampleDescriptor.INTERPOLATION_BICUBIC2) { 
-	
-		}
+			if (optIntP == PlotOpResampleDescriptor.INTERPOLATION_BICUBIC2) { 
 		
-		
-		
+			}		
+			plotModelName += ": Upsampled";
+		}
+				
 		// generate the new plot model
 		PlotModel plotModelNew = new PlotModel(plotModel.getDomainHeader(), plotModel.getDomainUnit(),
 				                               plotModel.getDataHeader(),   plotModel.getDataUnit(), 
