@@ -55,6 +55,7 @@ import at.mug.iqm.img.bundle.descriptors.IqmOpFracMinkowskiDescriptor;
 import at.mug.iqm.img.bundle.descriptors.IqmOpFracPyramidDescriptor;
 import at.mug.iqm.img.bundle.descriptors.IqmOpFracScanDescriptor;
 import at.mug.iqm.img.bundle.descriptors.IqmOpFracSurrogateDescriptor;
+import at.mug.iqm.img.bundle.descriptors.IqmOpGenEntDescriptor;
 
 /**
  * This is the base class for the fractal menu in IQM.
@@ -82,6 +83,7 @@ public class FractalMenu extends DeactivatableMenu implements ActionListener {
 	private OperatorMenuItem fracFFTMenuItem;
 	private OperatorMenuItem fracHiguchiMenuItem;
 	private OperatorMenuItem complexLogDepthMenuItem;
+	private OperatorMenuItem genEntMenuItem;
 	private OperatorMenuItem fracScanMenuItem;
 	private OperatorMenuItem fracSurrogateMenuItem;
 
@@ -105,6 +107,7 @@ public class FractalMenu extends DeactivatableMenu implements ActionListener {
 		this.fracFFTMenuItem          = new OperatorMenuItem(OperatorType.IMAGE);
 		this.fracHiguchiMenuItem      = new OperatorMenuItem(OperatorType.IMAGE);
 		this.complexLogDepthMenuItem  = new OperatorMenuItem(OperatorType.IMAGE);
+		this.genEntMenuItem           = new OperatorMenuItem(OperatorType.IMAGE);
 		this.fracScanMenuItem         = new OperatorMenuItem(OperatorType.IMAGE);
 		this.fracSurrogateMenuItem    = new OperatorMenuItem(OperatorType.IMAGE);
 
@@ -138,6 +141,7 @@ public class FractalMenu extends DeactivatableMenu implements ActionListener {
 		this.add(this.createFracScanMenuItem());
 		this.addSeparator();
 		this.add(this.createComplexLogDepthMenuItem());
+		this.add(this.createGenEntMenuItem());
 		this.addSeparator();
 		this.add(this.createFracSurrogateMenuItem());
 		
@@ -341,6 +345,24 @@ public class FractalMenu extends DeactivatableMenu implements ActionListener {
 		this.complexLogDepthMenuItem.setActionCommand("complexlogdepth");
 		return this.complexLogDepthMenuItem;
 	}
+	
+	/**
+	 * This method initializes genEntMenuItem
+	 * 
+	 * @return javax.swing.JMenuItem
+	 */
+	private JMenuItem createGenEntMenuItem() {
+		this.genEntMenuItem.setText(I18N.getGUILabelText("menu.entropy.genEnt.text"));
+		this.genEntMenuItem.setToolTipText(I18N.getGUILabelText("menu.entropy.genEnt.ttp"));
+		ImageIcon iconEnabled  = new ImageIcon(Resources.getImageURL("icon.menu.entropy.genent.enabled"));
+		ImageIcon iconDisabled = new ImageIcon(Resources.getImageURL("icon.menu.entropy.genent.disabled"));
+		this.genEntMenuItem.setSelectedIcon(iconEnabled);
+		this.genEntMenuItem.setIcon(iconEnabled);
+		this.genEntMenuItem.setDisabledIcon(iconDisabled);
+		this.genEntMenuItem.addActionListener(this);
+		this.genEntMenuItem.setActionCommand("genent");
+		return this.genEntMenuItem;
+	}
 
 	/**
 	 * This method initializes fracFracScanMenuItem
@@ -415,6 +437,8 @@ public class FractalMenu extends DeactivatableMenu implements ActionListener {
 			ExecutionProxy.launchInstance(new IqmOpFracHiguchiDescriptor());
 		} else if ("complexlogdepth".equals(e.getActionCommand())) {
 			ExecutionProxy.launchInstance(new IqmOpComplexLogDepthDescriptor());
+		} else if ("genent".equals(e.getActionCommand())) {
+			ExecutionProxy.launchInstance(new IqmOpGenEntDescriptor());
 		} else if ("fracscan".equals(e.getActionCommand())) {
 			ExecutionProxy.launchInstance(new IqmOpFracScanDescriptor());
 		} else if ("fracsurrogate".equals(e.getActionCommand())) {
