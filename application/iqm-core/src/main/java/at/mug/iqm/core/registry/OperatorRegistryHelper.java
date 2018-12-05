@@ -90,6 +90,7 @@ import at.mug.iqm.img.bundle.descriptors.IqmOpTurboRegDescriptor;
 import at.mug.iqm.img.bundle.descriptors.IqmOpUnsharpMaskDescriptor;
 import at.mug.iqm.img.bundle.descriptors.IqmOpWatershedDescriptor;
 import at.mug.iqm.img.bundle.descriptors.IqmOpWhiteBalanceDescriptor;
+import at.mug.iqm.img.bundle.descriptors.IqmOpGenEntDescriptor;
 import at.mug.iqm.plot.bundle.descriptors.PlotOpAutoCorrelationDescriptor;
 import at.mug.iqm.plot.bundle.descriptors.PlotOpComplLogDepthDescriptor;
 import at.mug.iqm.plot.bundle.descriptors.PlotOpCutDescriptor;
@@ -110,6 +111,7 @@ import at.mug.iqm.plot.bundle.descriptors.PlotOpResampleDescriptor;
 import at.mug.iqm.plot.bundle.descriptors.PlotOpSignalGeneratorDescriptor;
 import at.mug.iqm.plot.bundle.descriptors.PlotOpStatisticsDescriptor;
 import at.mug.iqm.plot.bundle.descriptors.PlotOpSymbolicAggregationDescriptor;
+
 
 /**
  * This is a utility class for a controlled initialization of all image and plot
@@ -310,6 +312,9 @@ public final class OperatorRegistryHelper {
 		
 		IOperatorDescriptor complexLogDepthDesc = IqmOpComplexLogDepthDescriptor.register(); // 2014 01
 		updateWelcomeText(complexLogDepthDesc.getName());
+		
+		IOperatorDescriptor GenEntDesc = IqmOpGenEntDescriptor.register(); // 2018 12
+		updateWelcomeText(GenEntDesc.getName());
 
 		logger.debug("Done.");
 	}
