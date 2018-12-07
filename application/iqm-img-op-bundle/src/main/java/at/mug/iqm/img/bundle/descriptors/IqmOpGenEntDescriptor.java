@@ -49,6 +49,7 @@ import at.mug.iqm.img.bundle.validators.IqmOpGenEntValidator;
 /**
  * <li>Generalized Entropies
  * <li>according to a review of Amigó, J.M., Balogh, S.G., Hernández, S., 2018. A Brief Review of Generalized Entropies. Entropy 20, 813. https://doi.org/10.3390/e20110813
+ * <li>and to: Tsallis Introduction to Nonextensive Statistical Mechanics, 2009, S105-106
  * 
  * @author Ahammer
  * @since  2018-12-04
@@ -98,7 +99,7 @@ public class IqmOpGenEntDescriptor extends AbstractOperatorDescriptor {
 			{ "arg10Desc", "SGamma" },
 			{ "arg11Desc", "minimal q" },
 			{ "arg12Desc", "maximal q" },
-			{ "arg13Desc", "Epsilon" }, //Distance
+			{ "arg13Desc", "Max Epsilon" }, //Distance
 			{ "arg14Desc", "Parameter Eta" },
 			{ "arg15Desc", "Parameter Kappa" },
 			{ "arg16Desc", "Parameter B" },
