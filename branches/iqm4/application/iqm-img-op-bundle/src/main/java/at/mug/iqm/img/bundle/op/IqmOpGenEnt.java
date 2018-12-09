@@ -360,26 +360,34 @@ public class IqmOpGenEnt extends AbstractOperator {
 			for (int b = 0; b < numBands; b++) {
 				for (int q = 0; q < numQ; q++) {
 					double sum = 0.0;
-					for (int pp = 0; pp < probabilities.length; q++) {
-						if ((q + minQ) != 1) sum = sum + Math.pow(probabilities[pp][b],(1.0-(q + minQ)));			
-						if ((q + minQ) == 1) sum = sum + Math.pow(probabilities[pp][b],(1.0-(q + minQ)));//???????????????????????????????????????????????????????????
+					for (int pp = 0; pp < probabilities.length; pp++) {
+						if ((q + minQ) != 1) sum = sum + Math.pow(probabilities[pp][b],(q + minQ));			
+						if ((q + minQ) == 1) { //q=1 special case
+							if (probabilities[pp][b] == 0) probabilities[pp][b] = Double.MIN_VALUE; // damit logarithmus nicht undefiniert ist;
+							sum = sum + probabilities[pp][b]*Math.log(probabilities[pp][b]);
+						}
 					}
 					if (sum == 0) sum = Double.MIN_VALUE; // damit logarithmus nicht undefiniert ist
-					genEntRenyi[q][b] = Math.log(sum)/(1.0-(q + minQ));
-				}//q
-				;		
+					if ((q + minQ) != 1) genEntRenyi[q][b] = Math.log(sum)/(1.0-(q + minQ));
+					if ((q + minQ) == 1) genEntRenyi[q][b] = -sum;
+				}//q		
 			}//band
 		}
 		if (tsallis == 1) {//Tsallis	
 			for (int b = 0; b < numBands; b++) {
 				for (int q = 0; q < numQ; q++) {
 					double sum = 0.0;
-					for (int pp = 0; pp < probabilities.length; q++) {
-						if ((q + minQ) != 1) sum = sum + Math.pow(probabilities[pp][b],(1.0-(q + minQ)));			
-						if ((q + minQ) == 1) sum = sum + Math.pow(probabilities[pp][b],(1.0-(q + minQ)));//???????????????????????????????????????????????????????????
+					for (int pp = 0; pp < probabilities.length; pp++) {
+						if ((q + minQ) != 1) sum = sum + Math.pow(probabilities[pp][b],(q + minQ));			
+						if ((q + minQ) == 1) { //q=1 special case
+							if ((q + minQ) == 1) { //q=1 special case
+								if (probabilities[pp][b] == 0) probabilities[pp][b] = Double.MIN_VALUE; // damit logarithmus nicht undefiniert ist;
+								sum = sum + probabilities[pp][b]*Math.log(probabilities[pp][b]);
+							}
+						}
 					}
-					if (sum == 0) sum = Double.MIN_VALUE; // damit logarithmus nicht undefiniert ist
-					genEntTsallis[q][b] = (sum-1.0)/(1.0-(q + minQ));
+					if ((q + minQ) != 1) genEntTsallis[q][b] = (sum-1.0)/(1.0-(q + minQ));
+					if ((q + minQ) == 1) genEntTsallis[q][b] = -sum;
 				}//q
 				;		
 			}//band
@@ -389,7 +397,7 @@ public class IqmOpGenEnt extends AbstractOperator {
 		if (renyi == 1) {//Renyi	
 			int numColumns = model.getColumnCount();
 			//data header
-			for (int q = 0; q < numQ; q++)   model.addColumn("GenEntRenyi_q" + (minQ + q));	
+			for (int q = 0; q < numQ; q++)   model.addColumn("Renyi_q" + (minQ + q));	
 			for (int b = 0; b < numBands; b++) { //several bands			
 				for (int q = 0; q < numQ; q++) {		
 					model.setValueAt(genEntRenyi[q][b], b, numColumns + q); // set table data			
@@ -399,7 +407,7 @@ public class IqmOpGenEnt extends AbstractOperator {
 		if (tsallis == 1) {//Tsallis
 			int numColumns = model.getColumnCount();
 			//data header
-			for (int q = 0; q < numQ; q++)   model.addColumn("GenEntTsallis_q" + (minQ + q));	
+			for (int q = 0; q < numQ; q++)   model.addColumn("Tsallis_q" + (minQ + q));	
 			for (int b = 0; b < numBands; b++) { //several bands			
 				for (int q = 0; q < numQ; q++) {		
 					model.setValueAt(genEntTsallis[q][b], b, numColumns + q); // set table data			
@@ -407,13 +415,15 @@ public class IqmOpGenEnt extends AbstractOperator {
 			}// bands
 		}
 		
-		if (tsallis == 1) {//Tsallis
+		if (tsallis == 1) {//Tsallis out of Renyi
 			int numColumns = model.getColumnCount();
 			//data header
-			for (int q = 0; q < numQ; q++)   model.addColumn("GenEntTsallisAusReneyi_q" + (minQ + q));	
+			for (int q = 0; q < numQ; q++)   model.addColumn("TsallisAusReneyi_q" + (minQ + q));	
 			for (int b = 0; b < numBands; b++) { //several bands			
 				for (int q = 0; q < numQ; q++) {
-					double genEnt = (Math.exp((1-(q + minQ))*genEntRenyi[q][b])-1)/(1-(q + minQ));	
+					double genEnt = 0.0;
+					if ((q + minQ) != 1) genEnt = (Math.exp((1-(q + minQ))*genEntRenyi[q][b])-1)/(1-(q + minQ));
+					if ((q + minQ) == 1) genEnt = genEntRenyi[q][b];
 					model.setValueAt(genEnt, b, numColumns + q); // set table data			
 				}
 			}// bands
