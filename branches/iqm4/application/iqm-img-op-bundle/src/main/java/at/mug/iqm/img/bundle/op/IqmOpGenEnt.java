@@ -34,8 +34,6 @@ import java.awt.image.DataBuffer;
 import java.awt.image.Raster;
 import java.awt.image.renderable.ParameterBlock;
 import java.util.Arrays;
-import java.util.Vector;
-
 import javax.media.jai.BorderExtender;
 import javax.media.jai.Histogram;
 import javax.media.jai.ImageLayout;
@@ -44,8 +42,9 @@ import javax.media.jai.KernelJAI;
 import javax.media.jai.PlanarImage;
 import javax.media.jai.RenderedOp;
 
+import org.apache.commons.math3.special.Gamma;
+
 import at.mug.iqm.api.IQMConstants;
-import at.mug.iqm.api.gui.BoardPanel;
 import at.mug.iqm.api.model.IqmDataBox;
 import at.mug.iqm.api.model.TableModel;
 import at.mug.iqm.api.operator.AbstractOperator;
@@ -56,7 +55,6 @@ import at.mug.iqm.api.operator.ParameterBlockIQM;
 import at.mug.iqm.api.operator.ParameterBlockImg;
 import at.mug.iqm.api.operator.Result;
 import at.mug.iqm.commons.util.image.ImageTools;
-import at.mug.iqm.commons.util.plot.PlotTools;
 import at.mug.iqm.img.bundle.descriptors.IqmOpGenEntDescriptor;
 
 /**
@@ -82,7 +80,7 @@ public class IqmOpGenEnt extends AbstractOperator {
 		double typeGreyMax = ImageTools.getImgTypeGreyMax(pi);
 		System.out.println("IqmOpGenEnt: typeGreyMax: " + typeGreyMax);
 
-		double[] totalGrey = new double[numBands];
+		double[] totalGrey   = new double[numBands];
 		double[] totalBinary = new double[numBands];
 
 		// Get total amount of object pixels
@@ -111,8 +109,29 @@ public class IqmOpGenEnt extends AbstractOperator {
 			// System.out.println("IqmOpGenEnt: totalGrey[b]: "+
 			// totalGrey[b] + "totalBinary[b]: " + totalBinary[b]);
 		}
-		return totalGrey;
+		return totalGrey; //or totalBinary 
 	}
+	
+	/**
+	 * This method computes the incomplete Gamma function
+	 * return double
+	 */
+	
+	private double getIncompleteGammafunction (double a, double b) {
+		double sum = 0.0;
+		//TO DO	
+		return sum;
+	}
+	
+	/**
+	 * This method computes the Gamma function
+	 * return double
+	 */
+	private double getIncompleteGammafunction (double a) {
+		return getIncompleteGammafunction (a, 0.0);
+	}
+	
+	
 
 	@SuppressWarnings({ "unchecked", "unused" })
 	@Override
@@ -132,9 +151,7 @@ public class IqmOpGenEnt extends AbstractOperator {
 		
 		int renyi   = pb.getIntParameter("Renyi");
 		int tsallis = pb.getIntParameter("Tsallis");
-		int h1      = pb.getIntParameter("H1");
-		int h2      = pb.getIntParameter("H2");
-		int h3      = pb.getIntParameter("H3");
+		int h       = pb.getIntParameter("H");
 		int sEta    = pb.getIntParameter("SEta");
 		int sKappa  = pb.getIntParameter("SKappa");
 		int sB      = pb.getIntParameter("SB");
@@ -142,15 +159,20 @@ public class IqmOpGenEnt extends AbstractOperator {
 		int sBeta   = pb.getIntParameter("SBeta");
 		int sGamma  = pb.getIntParameter("SGamma");
 		
-		int minQ   = pb.getIntParameter("MinQ");
-		int maxQ   = pb.getIntParameter("MaxQ");
-		int maxEps = pb.getIntParameter("MaxEps"); // maximal eps in pixels
+		int eps   = pb.getIntParameter("Eps"); // epsilon in pixels
 		
-		float paramEta   = pb.getFloatParameter("ParamEta");
-		float paramKappa = pb.getFloatParameter("ParamKappa");
-		float paramB     = pb.getFloatParameter("ParamB");
-		float paramBeta  = pb.getFloatParameter("ParamBeta");
-		float paramGamma = pb.getFloatParameter("ParamGamma");
+		int minQ     = pb.getIntParameter("MinQ");
+		int maxQ     = pb.getIntParameter("MaxQ");
+		float minEta   = pb.getFloatParameter("MinEta");
+		float maxEta   = pb.getFloatParameter("MaxEta");
+		float minKappa = pb.getFloatParameter("MinKappa");
+		float maxKappa = pb.getFloatParameter("MaxKappa");
+		float minB     = pb.getFloatParameter("MinB");
+		float maxB     = pb.getFloatParameter("MaxB");
+		float minBeta  = pb.getFloatParameter("MinBeta");
+		float maxBeta  = pb.getFloatParameter("MaxBeta");
+		float minGamma = pb.getFloatParameter("MinGamma");
+		float maxGamma = pb.getFloatParameter("MaxGamma");
 	
 		int method = pb.getIntParameter("GridMethod"); // 0: Gliding Box,// 1:Alternative method
 	
@@ -170,24 +192,24 @@ public class IqmOpGenEnt extends AbstractOperator {
 		// initialize table for Dimension data
 		TableModel model = new TableModel("Generalized Entropies [" + imgName + "]");
 		// JTable jTable = new JTable(model);
-		// adding a lot of columns would be very slow due to active model listener
+		
+		// remove table model listener when adding a lot of columns because otherwise it would be very slow due to active model listener
+		// don't forget to activate it at the end!
 		// model.removeTableModelListener(jTable);
+	
 		model.addColumn("FileName");
 		model.addColumn("ImageName");
 		model.addColumn("Band");	
-		for (int b = 0; b < pi.getNumBands(); b++) { // mehrere Bands
+		for (int b = 0; b < pi.getNumBands(); b++) { // severalBands
 			model.addRow(new Object[] {fileName, imgName, b});
 		}
 
-//		// data arrays
-//		double[][] totals    = new double[numQ][numBands];
-//		double[]   totalsMax = new double[numBands];
-				
+		// data arrays			
 		double[][] genEntRenyi   = new double[numQ][numBands];
 		double[][] genEntTsallis = new double[numQ][numBands];	
-		double[][] genEntH1      = new double[numQ][numBands];	
-		double[][] genEntH2      = new double[numQ][numBands];	
-		double[][] genEntH3      = new double[numQ][numBands];	
+		double[]   genEntH1      = new double[numBands];	
+		double[]   genEntH2      = new double[numBands];	
+		double[]   genEntH3      = new double[numBands];	
 		double[][] genEntSEta    = new double[numQ][numBands];	
 		double[][] genEntSKappa  = new double[numQ][numBands];	
 		double[][] genEntSB      = new double[numQ][numBands];	
@@ -196,6 +218,7 @@ public class IqmOpGenEnt extends AbstractOperator {
 		double[][] genEntSGamma  = new double[numQ][numBands];	
 		
 		double[][] probabilities = null;
+		double[]   totalsMax     = new double[numBands];
 		
 		// --------------------------------------------------------------------------------------------------------------
 		if (method == 0) { // 0 gliding mass box counting
@@ -246,7 +269,7 @@ public class IqmOpGenEnt extends AbstractOperator {
 
 			// JAI Method using convolution
 			// int kernelSize = (int)(2*epsWidth+1);
-			int kernelSize = (2 * maxEps + 1);
+			int kernelSize = (2 * eps + 1);
 			int size = kernelSize * kernelSize;
 			float[] kernel = new float[size];
 			// Arrays.fill(kernel, 0.0f); //Damit Hintergrund nicht auf 1 gesetzt wird bei dilate, ....
@@ -279,11 +302,22 @@ public class IqmOpGenEnt extends AbstractOperator {
 				for (int y = 0; y < height; y++) {
 					ra.getPixel(x, y, sample);
 					for (int b = 0; b < numBands; b++) { // several bands	
-						probabilities[pp][b] = sample[b]/size;// -1 ; //-1: subtract point itself							
+						totalsMax[b] = totalsMax[b] + sample[b]; // calculate total count for normalization
+						probabilities[pp][b] = sample[b];// -1 ; //-1: subtract point itself			
+						//probabilities[pp][b] = sample[b]/size;// -1 ; //-1: subtract point itself			
+						//probabilities[pp][b] = sample[b]/(width*height);// -1 ; //-1: subtract point itself			
 					}// b
 					pp=pp+1;
 				}// y
 			} // x
+			
+			// normalization
+			for (int p = 0; p < probabilities.length; p++) {
+				for (int b = 0; b < numBands; b++) { // several bands
+					probabilities[p][b] = probabilities[p][b] / totalsMax[b];
+				}
+			}
+			
 
 		} // Method = 0 gliding box
 		
@@ -312,7 +346,7 @@ public class IqmOpGenEnt extends AbstractOperator {
 			if (type.equals(IQMConstants.IMAGE_TYPE_8_BIT))  pbTmp.add(DataBuffer.TYPE_BYTE);
 			if (type.equals(IQMConstants.IMAGE_TYPE_16_BIT)) pbTmp.add(DataBuffer.TYPE_USHORT);
 				
-			width = maxEps;
+			width = eps;
 			ImageLayout layout = new ImageLayout();
 			layout.setTileWidth((int) width);
 			layout.setTileHeight((int) width);
@@ -324,12 +358,11 @@ public class IqmOpGenEnt extends AbstractOperator {
 			//vector of Pi's for GenEntropies for each band
 			probabilities   = new double[tileRaster.length][numBands]; //pi's
 				
-			int pp = 0;
 			for (int r = 0; r < tileRaster.length; r++) { // tileRaster[]
 				int minX = tileRaster[r].getMinX();
 				int minY = tileRaster[r].getMinY();
-				int tileWidth = tileRaster[r].getWidth(); // ==imgWidth
-				int tileHeight = tileRaster[r].getHeight(); // ==imgWidth
+				int tileWidth  = tileRaster[r].getWidth();  // =imgWidth
+				int tileHeight = tileRaster[r].getHeight(); // =imgWidth
 				// System.out.println("IqmOpGenEnt: minX: "+minX+ "  minY: " +minY+ "   tileWidth: "+ tileWidth+ "     tileHeight: "+ tileHeight);
 				for (int b = 0; b < numBands; b++) {
 					double count = 0.0d;
@@ -344,98 +377,161 @@ public class IqmOpGenEnt extends AbstractOperator {
 					}
 					// count = count/totalBinary[b];
 					count = count / numObjectPixels[b]; // normalized mass/ of current box tileRaster[r]
-					probabilities[pp][b] = count;// -1 ; //-1: subtract point itself			
+					probabilities[r][b] = count;// -1 ; //-1: subtract point itself			
 					// System.out.println("IqmOpGenEnt: b: "+b+ "   count: "+ count );
 					//if (count > 0) {
 					//}
 				} // b bands
 			} // r tileRaster[] for (int q =0; q < numQ; q++){ System.out.println("IqmOpGenEnt:  q: "+ (q+minQ) + "    totals[q][0]: "+ totals[q][0] ); }
-			pp= pp +1;	
-			
-			
+				
 		} // method 1 raster box counting
 			
 		// --------------------------------------------------------------------------------------------------------------	
-		if (renyi == 1) {//Renyi	
+		//xxxxxxxxxxx DO NOT CHANGE THE VARIABLE probabilities[pp][b]!!!! xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+		//xxxxxxxxxxx SUBSEQUENT ENTROPIES NEED IT UNCHANGED xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+		
+		if (renyi == 1) {//Renyi according to Amigo etal. paper	
 			for (int b = 0; b < numBands; b++) {
 				for (int q = 0; q < numQ; q++) {
 					double sum = 0.0;
 					for (int pp = 0; pp < probabilities.length; pp++) {
-						if ((q + minQ) != 1) sum = sum + Math.pow(probabilities[pp][b],(q + minQ));			
 						if ((q + minQ) == 1) { //q=1 special case
-							if (probabilities[pp][b] == 0) probabilities[pp][b] = Double.MIN_VALUE; // damit logarithmus nicht undefiniert ist;
-							sum = sum + probabilities[pp][b]*Math.log(probabilities[pp][b]);
+							if (probabilities[pp][b] == 0) {// damit logarithmus nicht undefiniert ist;
+								sum = sum +  Double.MIN_VALUE*Math.log( Double.MIN_VALUE); //for q=1 Renyi is equal to S_BGS (Bolzmann Gibbs Shannon entropy)
+							}
+							else {
+								sum = sum + probabilities[pp][b]*Math.log(probabilities[pp][b]); //for q=1 Renyi is equal to S_BGS (Bolzmann Gibbs Shannon entropy)
+							}
 						}
+						else if (((q + minQ) <=  0 ) && (probabilities[pp][b] != 0.0)){ //leaving out 0 is essential! and according to Amigo etal. page 2
+							sum = sum + Math.pow(probabilities[pp][b],(q + minQ));	
+						}
+						else if ( (q + minQ) > 0 ) {
+							sum = sum + Math.pow(probabilities[pp][b],(q + minQ));
+						}
+					}			
+					if ((q + minQ) == 1) { //special case q=1 Renyi is equal to S_BGS (Bolzmann Gibbs Shannon entropy)
+						genEntRenyi[q][b] = -sum; 
+					}	
+					else {
+						if (sum == 0) sum = Double.MIN_VALUE; // damit logarithmus nicht undefiniert ist
+						genEntRenyi[q][b] = Math.log(sum)/(1.0-(q + minQ));	
 					}
-					if (sum == 0) sum = Double.MIN_VALUE; // damit logarithmus nicht undefiniert ist
-					if ((q + minQ) != 1) genEntRenyi[q][b] = Math.log(sum)/(1.0-(q + minQ));
-					if ((q + minQ) == 1) genEntRenyi[q][b] = -sum;
 				}//q		
 			}//band
 		}
-		if (tsallis == 1) {//Tsallis	
+		if (tsallis == 1) {//Tsallis according to Amigo etal. paper
 			for (int b = 0; b < numBands; b++) {
 				for (int q = 0; q < numQ; q++) {
 					double sum = 0.0;
 					for (int pp = 0; pp < probabilities.length; pp++) {
-						if ((q + minQ) != 1) sum = sum + Math.pow(probabilities[pp][b],(q + minQ));			
 						if ((q + minQ) == 1) { //q=1 special case
-							if ((q + minQ) == 1) { //q=1 special case
-								if (probabilities[pp][b] == 0) probabilities[pp][b] = Double.MIN_VALUE; // damit logarithmus nicht undefiniert ist;
-								sum = sum + probabilities[pp][b]*Math.log(probabilities[pp][b]);
+							if (probabilities[pp][b] == 0) {// damit logarithmus nicht undefiniert ist;
+								sum = sum +  Double.MIN_VALUE*Math.log( Double.MIN_VALUE); //for q=1 Renyi is equal to S_BGS (Bolzmann Gibbs Shannon entropy)
+							}
+							else {
+								sum = sum + probabilities[pp][b]*Math.log(probabilities[pp][b]); //for q=1 Renyi is equal to S_BGS (Bolzmann Gibbs Shannon entropy)
 							}
 						}
+						else if (((q + minQ) <=  0 ) && (probabilities[pp][b] != 0.0)) { //leaving out 0 is essential! and according to Amigo etal. page 2
+							 sum = sum + Math.pow(probabilities[pp][b],(q + minQ));	
+						}
+						else if ( (q + minQ) > 0 ) {
+							 sum = sum + Math.pow(probabilities[pp][b],(q + minQ));	
+						}				
+					}				
+					if ((q + minQ) == 1) { // special case for q=1 Tsallis is equal to S_BGS (Bolzmann Gibbs Shannon entropy)
+						genEntTsallis[q][b] = -sum;
 					}
-					if ((q + minQ) != 1) genEntTsallis[q][b] = (sum-1.0)/(1.0-(q + minQ));
-					if ((q + minQ) == 1) genEntTsallis[q][b] = -sum;
+					else {
+						genEntTsallis[q][b] = (sum-1)/(1.0-(q + minQ));
+					}		
 				}//q
 				;		
 			}//band
 		}
+		if (h == 1) {//H1 according to Amigo etal. paper	
+			for (int b = 0; b < numBands; b++) {
+				double sum = 0.0;
+				for (int pp = 0; pp < probabilities.length; pp++) {
+					if (probabilities[pp][b] != 0) {
+							double pHochp = Math.pow(probabilities[pp][b], probabilities[pp][b]);
+							genEntH1[b] = genEntH1[b] + (1.0 - pHochp);
+							genEntH2[b] = genEntH2[b] + Math.log(2.0-pHochp);
+							genEntH3[b] = genEntH3[b] + (probabilities[pp][b] + Math.log(2.0-pHochp));	
+					}
+				}
+				genEntH2[b] = Math.exp(genEntH2[b]);
+			}//band
+		}
+	
+	
 		//---------------------------------------------------------------------------------------------------------------------
 		//set table data
-		if (renyi == 1) {//Renyi	
+		if (renyi == 1) {//Renyi 
 			int numColumns = model.getColumnCount();
 			//data header
-			for (int q = 0; q < numQ; q++)   model.addColumn("Renyi_q" + (minQ + q));	
-			for (int b = 0; b < numBands; b++) { //several bands			
-				for (int q = 0; q < numQ; q++) {		
+			for (int q = 0; q < numQ; q++)   model.addColumn("Renyi_q" + (minQ + q));
+			for (int b = 0; b < numBands; b++) { //several bands	
+				for (int q = 0; q < numQ; q++) {			
 					model.setValueAt(genEntRenyi[q][b], b, numColumns + q); // set table data			
-				}
-			}// bands
+				}//q
+			}//bands
 		}
 		if (tsallis == 1) {//Tsallis
 			int numColumns = model.getColumnCount();
 			//data header
 			for (int q = 0; q < numQ; q++)   model.addColumn("Tsallis_q" + (minQ + q));	
-			for (int b = 0; b < numBands; b++) { //several bands			
-				for (int q = 0; q < numQ; q++) {		
+			for (int b = 0; b < numBands; b++) { //several bands	
+				for (int q = 0; q < numQ; q++) {			
 					model.setValueAt(genEntTsallis[q][b], b, numColumns + q); // set table data			
-				}
-			}// bands
-		}
-		
-		if (tsallis == 1) {//Tsallis out of Renyi
+				}//q
+			}//bands
+		}	
+		int tsallisOutOfRenyi = 0;  //only for test purposes
+		if (tsallisOutOfRenyi == 1) {//Tsallis out of Renyi according to Amigo etal. paper
 			int numColumns = model.getColumnCount();
 			//data header
-			for (int q = 0; q < numQ; q++)   model.addColumn("TsallisAusReneyi_q" + (minQ + q));	
-			for (int b = 0; b < numBands; b++) { //several bands			
-				for (int q = 0; q < numQ; q++) {
+			for (int q = 0; q < numQ; q++)   model.addColumn("TsallisAusReneyi_q" + (minQ + q));
+			for (int b = 0; b < numBands; b++) { //several bands	
+				for (int q = 0; q < numQ; q++) {					
 					double genEnt = 0.0;
 					if ((q + minQ) != 1) genEnt = (Math.exp((1-(q + minQ))*genEntRenyi[q][b])-1)/(1-(q + minQ));
 					if ((q + minQ) == 1) genEnt = genEntRenyi[q][b];
 					model.setValueAt(genEnt, b, numColumns + q); // set table data			
-				}
-			}// bands
+				}//q
+			}//bands
+		}
+		if (h == 1) {//H1, H2, H3  	
+			int numColumns = model.getColumnCount();
+			model.addColumn("H1");	
+			for (int b = 0; b < numBands; b++) { //several bands			
+					model.setValueAt(genEntH1[b], b, numColumns); // set table data			
+			}//bands
+			numColumns = model.getColumnCount();
+			model.addColumn("H2");	
+			for (int b = 0; b < numBands; b++) { //several bands					
+					model.setValueAt(genEntH2[b], b, numColumns); // set table data			
+			}//bands
+			numColumns = model.getColumnCount();
+			model.addColumn("H3");	
+			for (int b = 0; b < numBands; b++) { //several bands	
+				model.setValueAt(genEntH3[b], b, numColumns); // set table data			
+			}//bands
+		}
+		int H3OutOfH2 = 0; //only for test purposes
+		if (H3OutOfH2 == 1) {
+			int numColumns = model.getColumnCount();
+			model.addColumn("H3OutOfH2");	
+			for (int b = 0; b < numBands; b++) { //several bands	
+				model.setValueAt(1.0 + Math.log(genEntH2[b]), b, numColumns); // H3 = 1+ln(H2);  set table data			
+			}//bands	
 		}
 		
+		
+		
 		// model.addTableModelListener(jTable);
-		// model.fireTableStructureChanged(); // this is mandatory because it
-		// updates the table
-
-		// jTable.getColumnModel().getColumn(2).setPreferredWidth(30); // Band
-		// jTable.getColumnModel().getColumn(3).setPreferredWidth(30); // RegStart
-		// jTable.getColumnModel().getColumn(4).setPreferredWidth(30); // RegEnd
+		// model.fireTableStructureChanged(); // this is mandatory because it updates the table
 
 		if (isCancelled(getParentTask())){
 			return null;

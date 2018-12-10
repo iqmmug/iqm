@@ -88,61 +88,67 @@ public class IqmOpGenEntDescriptor extends AbstractOperatorDescriptor {
 			{ "Version", "1.0" },
 			{ "arg0Desc", "Renyi" },
 			{ "arg1Desc", "Tsallis" },
-			{ "arg2Desc", "H1" },
-			{ "arg3Desc", "H2" },
-			{ "arg4Desc", "H3" },
-			{ "arg5Desc", "SEta" },
-			{ "arg6Desc", "SKappa" },
-			{ "arg7Desc", "SB" },
-			{ "arg8Desc", "SE" },
-			{ "arg9Desc", "SBeta" },
-			{ "arg10Desc", "SGamma" },
-			{ "arg11Desc", "minimal q" },
-			{ "arg12Desc", "maximal q" },
-			{ "arg13Desc", "Max Epsilon" }, //Distance
-			{ "arg14Desc", "Parameter Eta" },
-			{ "arg15Desc", "Parameter Kappa" },
-			{ "arg16Desc", "Parameter B" },
-			{ "arg17Desc", "Parameter Beta" },
-			{ "arg18Desc", "Parameter Gamma" },	
-			{ "arg19Desc", "Grid Method" }, // 0 Gliding Box, 1 Grid Box
+			{ "arg2Desc", "H" }, //H1, H2, H3
+			{ "arg3Desc", "SEta" },
+			{ "arg4Desc", "SKappa" },
+			{ "arg5Desc", "SB" },
+			{ "arg6Desc", "SE" },
+			{ "arg7Desc", "SBeta" },
+			{ "arg8Desc", "SGamma" },
+			{ "arg9Desc", "Epsilon" }, //Distance
+			{ "arg10Desc",  "minimal q" },
+			{ "arg11Desc", "maximal q" },
+			{ "arg12Desc", "minimal Eta" },
+			{ "arg13Desc", "maximal Eta" },
+			{ "arg14Desc", "minimal Kappa" },
+			{ "arg15Desc", "maximal Kappa" },
+			{ "arg16Desc", "minimal B" },
+			{ "arg17Desc", "maximal B" },
+			{ "arg18Desc", "minmal Beta" },
+			{ "arg19Desc", "maximal Gamma" },	
+			{ "arg20Desc", "minimal Beta" },
+			{ "arg21Desc", "maximal Gamma" },	
+			{ "arg22Desc", "Grid Method" }, // 0 Gliding Box, 1 Grid Box
 	};
 
 	private static final String[] supportedModes = { "rendered" };
 	private static final int numSources = 1;
-	private static final String[] paramNames = {"Renyi", "Tsallis", "H1", "H2", "H3", "SEta", "SKappa", "SB", "SE", "SBeta", "SGamma", 
-												"MinQ", "MaxQ", "MaxEps",
-												"ParamEta", "ParamKappa", "ParamB", "ParamBeta", "ParamGamma",
+	private static final String[] paramNames = {"Renyi", "Tsallis", "H", "SEta", "SKappa", "SB", "SE", "SBeta", "SGamma", 
+			 									"Eps", "MinQ", "MaxQ",
+												"MinEta", "MaxEta", "MinKappa", "MaxKappa", "MinB", "MaxB", "MinBeta", "MaxBeta", "MinGamma", "MaxGamma",
 												"GridMethod"};
 
-	private static final Class[] paramClasses = { Integer.class, Integer.class, Integer.class, Integer.class, Integer.class, Integer.class, Integer.class, Integer.class, Integer.class, Integer.class, Integer.class, 
+	private static final Class[] paramClasses = { Integer.class, Integer.class, Integer.class, Integer.class, Integer.class, Integer.class, Integer.class, Integer.class, Integer.class, 
 												  Integer.class, Integer.class, Integer.class,
-												  Float.class, Float.class, Float.class, Float.class, Float.class,
+												  Float.class, Float.class, Float.class, Float.class, Float.class, Float.class, Float.class, Float.class, Float.class, Float.class,
 												  Integer.class,};
-	private static final Object[] paramDefaults = { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 
-												   -5, 5, 10,
-												   1.0f, 0.5f, 1.0f, 0.5f, 1.0f,
+	private static final Object[] paramDefaults = { 1, 1, 1, 1, 1, 1, 1, 1, 1,
+												   10, -5, 5, 
+												   0.1f, 1.0f, 0.1f, 0.9f, 0.1f, 1.0f, 0.1f, 0.9f, 0.0f, 1.0f,
 												   0,}; //
 	private static final Range[] validParamValues = {
 			new Range(Integer.class, 0, 1), //Renyi
 			new Range(Integer.class, 0, 1), //Tsallis
-			new Range(Integer.class, 0, 1), //H1
-			new Range(Integer.class, 0, 1), //H2
-			new Range(Integer.class, 0, 1), //H3
+			new Range(Integer.class, 0, 1), //H
 			new Range(Integer.class, 0, 1), //SEta
 			new Range(Integer.class, 0, 1), //SKappa
 			new Range(Integer.class, 0, 1), //SB
 			new Range(Integer.class, 0, 1), //SE
 			new Range(Integer.class, 0, 1), //SBeta
 			new Range(Integer.class, 0, 1), //SGamma
+			new Range(Integer.class, 2, Integer.MAX_VALUE), //Eps		
 			new Range(Integer.class, -Integer.MAX_VALUE, Integer.MAX_VALUE), //minQ
 			new Range(Integer.class, -Integer.MAX_VALUE, Integer.MAX_VALUE), //maxQ		
-			new Range(Integer.class, 1, Integer.MAX_VALUE), //Eps		
-			new Range(Float.class, Float.MIN_VALUE, Float.MAX_VALUE), //ParamEta > 0
-			new Range(Float.class, Float.MIN_VALUE, (1.0f-Float.MIN_VALUE)), // 0 < ParamKappa < 1
-			new Range(Float.class, Float.MIN_VALUE, Float.MAX_VALUE), //ParamB > 0
-			new Range(Float.class, Float.MIN_VALUE, 1.0f), // 0 < ParamBeta <= 1
-			new Range(Float.class, -Float.MAX_VALUE, Float.MAX_VALUE), //ParamGamma ?????????????????????		
+			new Range(Float.class, Float.MIN_VALUE, Float.MAX_VALUE), //minEta  Eta > 0
+			new Range(Float.class, Float.MIN_VALUE, Float.MAX_VALUE), //maxEta  Eta > 0
+			new Range(Float.class, Float.MIN_VALUE, (1.0f-Float.MIN_VALUE)), //minKappa 0 < Kappa < 1
+			new Range(Float.class, Float.MIN_VALUE, (1.0f-Float.MIN_VALUE)), //maxKappa 0 < Kappa < 1
+			new Range(Float.class, Float.MIN_VALUE, Float.MAX_VALUE), //minB B > 0
+			new Range(Float.class, Float.MIN_VALUE, Float.MAX_VALUE), //maxB B > 0
+			new Range(Float.class, Float.MIN_VALUE, 1.0f), //minBeta  0 < Beta <= 1
+			new Range(Float.class, Float.MIN_VALUE, 1.0f), //maxBeta  0 < Beta <= 1
+			new Range(Float.class, -Float.MAX_VALUE, Float.MAX_VALUE), //minGamma Gamma??????????????????	
+			new Range(Float.class, -Float.MAX_VALUE, Float.MAX_VALUE), //maxGamma Gamma??????????????????	
 			new Range(Integer.class, 0, 1), //GridMethods
 			};
 
