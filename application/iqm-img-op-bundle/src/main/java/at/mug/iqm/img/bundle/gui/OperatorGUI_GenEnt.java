@@ -52,6 +52,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JSpinner;
+import javax.swing.JSpinner.DefaultEditor;
 import javax.swing.SpinnerModel;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.SwingConstants;
@@ -94,20 +95,24 @@ public class OperatorGUI_GenEnt extends AbstractImageOperatorGUI implements
 
 	private ParameterBlockIQM pb = null;
 
+	private int eps = 2;
 	private int minQ;
 	private int maxQ;
-	private int maxEps;
-	private float paramEta;
-	private float paramKappa;
-	private float paramB;
-	private float paramBeta;
-	private float paramGamma;
+	private int maxEps = Integer.MAX_VALUE;
+	private float minEta;
+	private float maxEta;
+	private float minKappa;
+	private float maxKappa;
+	private float minB;
+	private float maxB;
+	private float minBeta;
+	private float maxBeta;
+	private float minGamma;
+	private float maxGamma;
 	
 	private JCheckBox    chkBxRenyi    = null;
 	private JCheckBox    chkBxTsallis  = null;
-	private JCheckBox    chkBxH1       = null;
-	private JCheckBox    chkBxH2       = null;
-	private JCheckBox    chkBxH3       = null;
+	private JCheckBox    chkBxH        = null;
 	private JCheckBox    chkBxSEta     = null;
 	private JCheckBox    chkBxSKappa   = null;
 	private JCheckBox    chkBxSB       = null;
@@ -116,6 +121,9 @@ public class OperatorGUI_GenEnt extends AbstractImageOperatorGUI implements
 	private JCheckBox    chkBxSGamma   = null;
 	private JPanel       jPanelEntropyType  = null;
 	
+	private JPanel   jPanelEps   = null;
+	private JLabel   jLabelEps   = null;
+	private JSpinner jSpinnerEps = null;
 
 	private JPanel   jPanelMinQ   = null;
 	private JLabel   jLabelMinQ   = null;
@@ -124,30 +132,46 @@ public class OperatorGUI_GenEnt extends AbstractImageOperatorGUI implements
 	private JPanel   jPanelMaxQ   = null;
 	private JLabel   jLabelMaxQ   = null;
 	private JSpinner jSpinnerMaxQ = null;
+	
+	private JPanel   jPanelMinEta   = null;
+	private JLabel   jLabelMinEta   = null;
+	private JSpinner jSpinnerMinEta = null;
+	
+	private JPanel   jPanelMaxEta   = null;
+	private JLabel   jLabelMaxEta   = null;
+	private JSpinner jSpinnerMaxEta = null;
 
-	private JPanel   jPanelMaxEps   = null;
-	private JLabel   jLabelMaxEps   = null;
-	private JSpinner jSpinnerMaxEps = null;
+	private JPanel   jPanelMinKappa   = null;
+	private JLabel   jLabelMinKappa   = null;
+	private JSpinner jSpinnerMinKappa = null;
 	
-	private JPanel   jPanelParamEta   = null;
-	private JLabel   jLabelParamEta   = null;
-	private JSpinner jSpinnerParamEta = null;
-
-	private JPanel   jPanelParamKappa   = null;
-	private JLabel   jLabelParamKappa   = null;
-	private JSpinner jSpinnerParamKappa = null;
+	private JPanel   jPanelMaxKappa   = null;
+	private JLabel   jLabelMaxKappa   = null;
+	private JSpinner jSpinnerMaxKappa = null;
 	
-	private JPanel   jPanelParamB   = null;
-	private JLabel   jLabelParamB   = null;
-	private JSpinner jSpinnerParamB = null;
+	private JPanel   jPanelMinB   = null;
+	private JLabel   jLabelMinB   = null;
+	private JSpinner jSpinnerMinB = null;
 	
-	private JPanel   jPanelParamBeta   = null;
-	private JLabel   jLabelParamBeta   = null;
-	private JSpinner jSpinnerParamBeta = null;
+	private JPanel   jPanelMaxB   = null;
+	private JLabel   jLabelMaxB   = null;
+	private JSpinner jSpinnerMaxB = null;
 	
-	private JPanel   jPanelParamGamma   = null;
-	private JLabel   jLabelParamGamma   = null;
-	private JSpinner jSpinnerParamGamma = null;
+	private JPanel   jPanelMinBeta   = null;
+	private JLabel   jLabelMinBeta   = null;
+	private JSpinner jSpinnerMinBeta = null;
+	
+	private JPanel   jPanelMaxBeta   = null;
+	private JLabel   jLabelMaxBeta   = null;
+	private JSpinner jSpinnerMaxBeta = null;
+	
+	private JPanel   jPanelMinGamma   = null;
+	private JLabel   jLabelMinGamma   = null;
+	private JSpinner jSpinnerMinGamma = null;
+	
+	private JPanel   jPanelMaxGamma   = null;
+	private JLabel   jLabelMaxGamma   = null;
+	private JSpinner jSpinnerMaxGamma = null;
 	
 	private JPanel jPanelParamOption = null;
 	
@@ -219,12 +243,8 @@ public class OperatorGUI_GenEnt extends AbstractImageOperatorGUI implements
 		if (!chkBxRenyi.isSelected())   pb.setParameter("Renyi", 0);
 		if (chkBxTsallis.isSelected())  pb.setParameter("Tsallis", 1);
 		if (!chkBxTsallis.isSelected()) pb.setParameter("Tsallis", 0);
-		if (chkBxH1.isSelected())       pb.setParameter("H1", 1);
-		if (!chkBxH1.isSelected())      pb.setParameter("H1", 0);
-		if (chkBxH2.isSelected())       pb.setParameter("H2", 1);
-		if (!chkBxH2.isSelected())      pb.setParameter("H2", 0);
-		if (chkBxH3.isSelected())       pb.setParameter("H3", 1);
-		if (!chkBxH3.isSelected())      pb.setParameter("H3", 0);
+		if (chkBxH.isSelected())        pb.setParameter("H", 1);
+		if (!chkBxH.isSelected())       pb.setParameter("H", 0);
 		if (chkBxSEta.isSelected())     pb.setParameter("SEta", 1);
 		if (!chkBxSEta.isSelected())    pb.setParameter("SEta", 0);
 		if (chkBxSKappa.isSelected())   pb.setParameter("SKappa", 1);
@@ -238,15 +258,20 @@ public class OperatorGUI_GenEnt extends AbstractImageOperatorGUI implements
 		if (chkBxSGamma.isSelected())   pb.setParameter("SGamma", 1);
 		if (!chkBxSGamma.isSelected())  pb.setParameter("SGamma", 0);
 		
-		pb.setParameter("MinQ",   ((Number) jSpinnerMinQ  .getValue()).intValue());
-		pb.setParameter("MaxQ",   ((Number) jSpinnerMaxQ  .getValue()).intValue());
-		pb.setParameter("MaxEps", ((Number) jSpinnerMaxEps.getValue()).intValue());	
+		pb.setParameter("Eps",    ((Number) jSpinnerEps .getValue()).intValue());	
 		
-		pb.setParameter("ParamEta",   ((Number) jSpinnerParamEta  .getValue()).floatValue());
-		pb.setParameter("ParamKappa", ((Number) jSpinnerParamKappa.getValue()).floatValue());
-		pb.setParameter("ParamB",     ((Number) jSpinnerParamB    .getValue()).floatValue());
-		pb.setParameter("ParamBeta",  ((Number) jSpinnerParamBeta .getValue()).floatValue());
-		pb.setParameter("ParamGamma", ((Number) jSpinnerParamBeta .getValue()).floatValue());
+		pb.setParameter("MinQ",   ((Number) jSpinnerMinQ.getValue()).intValue());
+		pb.setParameter("MaxQ",   ((Number) jSpinnerMaxQ.getValue()).intValue());	
+		pb.setParameter("MinEta",   ((Number) jSpinnerMinEta  .getValue()).floatValue());
+		pb.setParameter("MaxEta",   ((Number) jSpinnerMaxEta  .getValue()).floatValue());
+		pb.setParameter("MinKappa", ((Number) jSpinnerMinKappa.getValue()).floatValue());
+		pb.setParameter("MaxKappa", ((Number) jSpinnerMaxKappa.getValue()).floatValue());
+		pb.setParameter("MinB",     ((Number) jSpinnerMinB    .getValue()).floatValue());
+		pb.setParameter("MaxB",     ((Number) jSpinnerMaxB    .getValue()).floatValue());
+		pb.setParameter("MinBeta",  ((Number) jSpinnerMinBeta .getValue()).floatValue());
+		pb.setParameter("MaxBeta",  ((Number) jSpinnerMaxBeta .getValue()).floatValue());
+		pb.setParameter("MinGamma", ((Number) jSpinnerMinBeta .getValue()).floatValue());
+		pb.setParameter("MaxGamma", ((Number) jSpinnerMaxBeta .getValue()).floatValue());
 	
 		if (buttGlidingBox.isSelected())  pb.setParameter("GridMethod", 0);
 		if (buttRasterBox.isSelected())   pb.setParameter("GridMethod", 1);
@@ -265,12 +290,8 @@ public class OperatorGUI_GenEnt extends AbstractImageOperatorGUI implements
 		if (pb.getIntParameter("Renyi") == 1)   chkBxRenyi.setSelected(true);
 		if (pb.getIntParameter("Tsallis") == 0) chkBxTsallis.setSelected(false);
 		if (pb.getIntParameter("Tsallis") == 1) chkBxTsallis.setSelected(true);
-		if (pb.getIntParameter("H1") == 0)      chkBxH1.setSelected(false);
-		if (pb.getIntParameter("H1") == 1)      chkBxH1.setSelected(true);
-		if (pb.getIntParameter("H2") == 0)      chkBxH2.setSelected(false);
-		if (pb.getIntParameter("H2") == 1)      chkBxH2.setSelected(true);
-		if (pb.getIntParameter("H3") == 0)      chkBxH3.setSelected(false);
-		if (pb.getIntParameter("H3") == 1)      chkBxH3.setSelected(true);
+		if (pb.getIntParameter("H") == 0)       chkBxH.setSelected(false);
+		if (pb.getIntParameter("H") == 1)       chkBxH.setSelected(true);
 		if (pb.getIntParameter("SEta") == 0)    chkBxSEta.setSelected(false);
 		if (pb.getIntParameter("SEta") == 1)    chkBxSEta.setSelected(true);
 		if (pb.getIntParameter("SKappa") == 0)  chkBxSKappa.setSelected(false);
@@ -284,6 +305,10 @@ public class OperatorGUI_GenEnt extends AbstractImageOperatorGUI implements
 		if (pb.getIntParameter("SGamma") == 0)  chkBxSGamma.setSelected(false);
 		if (pb.getIntParameter("SGamma") == 1)  chkBxSGamma.setSelected(true);
 
+		jSpinnerEps.removeChangeListener(this);
+		jSpinnerEps.setValue(pb.getIntParameter("Eps"));
+		jSpinnerEps.addChangeListener(this);
+		
 		jSpinnerMinQ.removeChangeListener(this);
 		jSpinnerMinQ.setValue(pb.getIntParameter("MinQ"));
 		jSpinnerMinQ.addChangeListener(this);
@@ -291,30 +316,47 @@ public class OperatorGUI_GenEnt extends AbstractImageOperatorGUI implements
 		jSpinnerMaxQ.removeChangeListener(this);
 		jSpinnerMaxQ.setValue(pb.getIntParameter("MaxQ"));
 		jSpinnerMaxQ.addChangeListener(this);
-
-		jSpinnerMaxEps.removeChangeListener(this);
-		jSpinnerMaxEps.setValue(pb.getIntParameter("MaxEps"));
-		jSpinnerMaxEps.addChangeListener(this);
 		
-		jSpinnerParamEta.removeChangeListener(this);
-		jSpinnerParamEta.setValue(pb.getFloatParameter("ParamEta"));
-		jSpinnerParamEta.addChangeListener(this);
+		jSpinnerMinEta.removeChangeListener(this);
+		jSpinnerMinEta.setValue(pb.getFloatParameter("MinEta"));
+		jSpinnerMinEta.addChangeListener(this);
+		
+		jSpinnerMaxEta.removeChangeListener(this);
+		jSpinnerMaxEta.setValue(pb.getFloatParameter("MaxEta"));
+		jSpinnerMaxEta.addChangeListener(this);
 			
-		jSpinnerParamKappa.removeChangeListener(this);
-		jSpinnerParamKappa.setValue(pb.getFloatParameter("ParamKappa"));
-		jSpinnerParamKappa.addChangeListener(this);
+		jSpinnerMinKappa.removeChangeListener(this);
+		jSpinnerMinKappa.setValue(pb.getFloatParameter("MinKappa"));
+		jSpinnerMinKappa.addChangeListener(this);
+		
+		
+		jSpinnerMaxKappa.removeChangeListener(this);
+		jSpinnerMaxKappa.setValue(pb.getFloatParameter("MaxKappa"));
+		jSpinnerMaxKappa.addChangeListener(this);
 			
-		jSpinnerParamB.removeChangeListener(this);
-		jSpinnerParamB.setValue(pb.getFloatParameter("ParamB"));
-		jSpinnerParamB.addChangeListener(this);
+		jSpinnerMinB.removeChangeListener(this);
+		jSpinnerMinB.setValue(pb.getFloatParameter("MinB"));
+		jSpinnerMinB.addChangeListener(this);
+		
+		jSpinnerMaxB.removeChangeListener(this);
+		jSpinnerMaxB.setValue(pb.getFloatParameter("MaxB"));
+		jSpinnerMaxB.addChangeListener(this);
 			
-		jSpinnerParamBeta.removeChangeListener(this);
-		jSpinnerParamBeta.setValue(pb.getFloatParameter("ParamBeta"));
-		jSpinnerParamBeta.addChangeListener(this);
+		jSpinnerMinBeta.removeChangeListener(this);
+		jSpinnerMinBeta.setValue(pb.getFloatParameter("MinBeta"));
+		jSpinnerMinBeta.addChangeListener(this);
+		
+		jSpinnerMaxBeta.removeChangeListener(this);
+		jSpinnerMaxBeta.setValue(pb.getFloatParameter("MaxBeta"));
+		jSpinnerMaxBeta.addChangeListener(this);
 			
-		jSpinnerParamGamma.removeChangeListener(this);
-		jSpinnerParamGamma.setValue(pb.getFloatParameter("ParamGamma"));
-		jSpinnerParamGamma.addChangeListener(this);
+		jSpinnerMinGamma.removeChangeListener(this);
+		jSpinnerMinGamma.setValue(pb.getFloatParameter("MinGamma"));
+		jSpinnerMinGamma.addChangeListener(this);
+		
+		jSpinnerMaxGamma.removeChangeListener(this);
+		jSpinnerMaxGamma.setValue(pb.getFloatParameter("MaxGamma"));
+		jSpinnerMaxGamma.addChangeListener(this);
 
 		if (pb.getIntParameter("GridMethod") == 0) buttGlidingBox.setSelected(true);
 		if (pb.getIntParameter("GridMethod") == 1) buttRasterBox.setSelected(true);
@@ -331,8 +373,7 @@ public class OperatorGUI_GenEnt extends AbstractImageOperatorGUI implements
 			int number = 1; // inclusive original image
 			while ((boxWidth <= width) && (boxWidth <= height)) {
 				boxWidth = boxWidth * 2;
-				// System.out.println("OperatorGUI_FracBox: newBoxWidth: " +
-				// newBoxWidth);
+				// System.out.println("OperatorGUI_FracBox: newBoxWidth: " + newBoxWidth);
 				number = number + 1;
 			}
 			result = number - 1;
@@ -348,23 +389,37 @@ public class OperatorGUI_GenEnt extends AbstractImageOperatorGUI implements
 	@Override
 	public void update() {
 		logger.debug("Updating GUI...");
-		PlanarImage pi = ((IqmDataBox) this.pb.getSources().firstElement()).getImage();
-		int width = pi.getWidth();
+		PlanarImage  pi = ((IqmDataBox) this.pb.getSources().firstElement()).getImage();
+		int width  = pi.getWidth();
 		int height = pi.getHeight();
 		minQ = -5;
 		maxQ = 5;
 		maxEps = this.getMaxEps(width, height);
 
-		// System.out.println("OperatorGUI_GenEnt: numberMax: " +
-		// numberMax);
-		SpinnerModel sModel = new SpinnerNumberModel(minQ, -Integer.MAX_VALUE, Integer.MAX_VALUE, 1); // init, min,// max, step
-		jSpinnerMinQ.removeChangeListener(this);
-		jSpinnerMinQ.setModel(sModel);
-		JSpinner.DefaultEditor defEditor = (JSpinner.DefaultEditor) jSpinnerMinQ.getEditor();
+		
+		
+		SpinnerModel sModel = new SpinnerNumberModel(eps, 2, maxEps, 1); // init, min,  max, step
+		jSpinnerEps.removeChangeListener(this);
+		jSpinnerEps.setModel(sModel);
+		DefaultEditor defEditor = (JSpinner.DefaultEditor) jSpinnerEps.getEditor();
 		JFormattedTextField ftf = defEditor.getTextField();
 		ftf.setEditable(true);
 		InternationalFormatter intFormatter = (InternationalFormatter) ftf.getFormatter();
 		DecimalFormat decimalFormat = (DecimalFormat) intFormatter.getFormat();
+		decimalFormat.applyPattern("#"); // decimalFormat.applyPattern("#,##0.0")// ;
+		// jSpinnerNumMaxEps.setValue(maxEps);
+		jSpinnerEps.addChangeListener(this);
+		
+		// System.out.println("OperatorGUI_GenEnt: numberMax: " +
+		// numberMax);
+		 sModel = new SpinnerNumberModel(minQ, -Integer.MAX_VALUE, Integer.MAX_VALUE, 1); // init, min,// max, step
+		jSpinnerMinQ.removeChangeListener(this);
+		jSpinnerMinQ.setModel(sModel);
+		defEditor = (JSpinner.DefaultEditor) jSpinnerMinQ.getEditor();
+		ftf = defEditor.getTextField();
+		ftf.setEditable(true);
+		intFormatter = (InternationalFormatter) ftf.getFormatter();
+		decimalFormat = (DecimalFormat) intFormatter.getFormat();
 		decimalFormat.applyPattern("#"); // decimalFormat.applyPattern("#,##0.0")										// ;
 		jSpinnerMinQ.setValue(minQ);
 		jSpinnerMinQ.addChangeListener(this);
@@ -381,17 +436,7 @@ public class OperatorGUI_GenEnt extends AbstractImageOperatorGUI implements
 		jSpinnerMaxQ.setValue(maxQ);
 		jSpinnerMaxQ.addChangeListener(this);
 
-		sModel = new SpinnerNumberModel(maxEps, 3, maxEps, 1); // init, min,  max, step
-		jSpinnerMaxEps.removeChangeListener(this);
-		jSpinnerMaxEps.setModel(sModel);
-		defEditor = (JSpinner.DefaultEditor) jSpinnerMaxEps.getEditor();
-		ftf = defEditor.getTextField();
-		ftf.setEditable(true);
-		intFormatter = (InternationalFormatter) ftf.getFormatter();
-		decimalFormat = (DecimalFormat) intFormatter.getFormat();
-		decimalFormat.applyPattern("#"); // decimalFormat.applyPattern("#,##0.0")// ;
-		// jSpinnerNumMaxEps.setValue(maxEps);
-		jSpinnerMaxEps.addChangeListener(this);
+	
 
 		int init = 10;
 		if (buttGlidingBox.isSelected()) {
@@ -404,8 +449,36 @@ public class OperatorGUI_GenEnt extends AbstractImageOperatorGUI implements
 		
 		this.updateParameterBlock();
 	}
-
 	// ----------------------------------------------------------------------------------------------------------
+	/**
+	 * This method initializes jJPanelEps
+	 * 
+	 * @return javax.swing.JPanel
+	 */
+	private JPanel getJPaneEps() {
+		if (jPanelEps == null) {
+			jPanelEps = new JPanel();
+			jPanelEps.setLayout(new BorderLayout());
+			jLabelEps = new JLabel("eps [pixel]: ");
+			// jLabelEps.setPreferredSize(new Dimension(70, 20));
+			jLabelEps.setHorizontalAlignment(SwingConstants.RIGHT);
+			SpinnerModel sModel = new SpinnerNumberModel(3, 2, Integer.MAX_VALUE, 1); // init, min, max, step
+			jSpinnerEps = new JSpinner(sModel);
+			// jSpinnerEps = new JSpinner();
+			jSpinnerEps.setPreferredSize(new Dimension(60, 20));
+			jSpinnerEps.addChangeListener(this);
+			JSpinner.DefaultEditor defEditor = (JSpinner.DefaultEditor) jSpinnerEps.getEditor();
+			JFormattedTextField ftf = defEditor.getTextField();
+			ftf.setEditable(true);
+			InternationalFormatter intFormatter = (InternationalFormatter) ftf.getFormatter();
+			DecimalFormat decimalFormat = (DecimalFormat) intFormatter.getFormat();
+			decimalFormat.applyPattern("#"); // decimalFormat.applyPattern("#,##0.0")
+			jPanelEps.add(jLabelEps, BorderLayout.WEST);
+			jPanelEps.add(jSpinnerEps, BorderLayout.CENTER);
+		}
+		return jPanelEps;
+	}
+	
 	/**
 	 * This method initializes jJPanelMinQ
 	 * 
@@ -415,7 +488,7 @@ public class OperatorGUI_GenEnt extends AbstractImageOperatorGUI implements
 		if (jPanelMinQ == null) {
 			jPanelMinQ = new JPanel();
 			jPanelMinQ.setLayout(new BorderLayout());
-			jLabelMinQ = new JLabel("min q: ");
+			jLabelMinQ = new JLabel("q:    min ");
 			// jLabelMinQ.setPreferredSize(new Dimension(70, 20));
 			jLabelMinQ.setHorizontalAlignment(SwingConstants.RIGHT);
 			SpinnerModel sModel = new SpinnerNumberModel(-5, -Integer.MAX_VALUE, Integer.MAX_VALUE, 1); // init, mi max, step
@@ -426,15 +499,15 @@ public class OperatorGUI_GenEnt extends AbstractImageOperatorGUI implements
 			JSpinner.DefaultEditor defEditor = (JSpinner.DefaultEditor) jSpinnerMinQ.getEditor();
 			JFormattedTextField ftf = defEditor.getTextField();
 			ftf.setEditable(true);
+			ftf.setColumns(10);
 			InternationalFormatter intFormatter = (InternationalFormatter) ftf.getFormatter();
 			DecimalFormat decimalFormat = (DecimalFormat) intFormatter.getFormat();
 			decimalFormat.applyPattern("#"); // decimalFormat.applyPattern("#,##0.0")
-			jPanelMinQ.add(jLabelMinQ, BorderLayout.NORTH);
+			jPanelMinQ.add(jLabelMinQ, BorderLayout.WEST);
 			jPanelMinQ.add(jSpinnerMinQ, BorderLayout.CENTER);
 		}
 		return jPanelMinQ;
 	}
-
 	/**
 	 * This method initializes jJPanelMaxQ
 	 * 
@@ -444,7 +517,7 @@ public class OperatorGUI_GenEnt extends AbstractImageOperatorGUI implements
 		if (jPanelMaxQ == null) {
 			jPanelMaxQ = new JPanel();
 			jPanelMaxQ.setLayout(new BorderLayout());
-			jLabelMaxQ = new JLabel("max q: ");
+			jLabelMaxQ = new JLabel("max ");
 			// jLabelMaxQ.setPreferredSize(new Dimension(70, 20));
 			jLabelMaxQ.setHorizontalAlignment(SwingConstants.RIGHT);
 			SpinnerModel sModel = new SpinnerNumberModel(5, -Integer.MAX_VALUE,Integer.MAX_VALUE, 1); // init, min, max, step
@@ -455,190 +528,305 @@ public class OperatorGUI_GenEnt extends AbstractImageOperatorGUI implements
 			JSpinner.DefaultEditor defEditor = (JSpinner.DefaultEditor) jSpinnerMaxQ.getEditor();
 			JFormattedTextField ftf = defEditor.getTextField();
 			ftf.setEditable(true);
+			ftf.setColumns(10);
 			InternationalFormatter intFormatter = (InternationalFormatter) ftf.getFormatter();
 			DecimalFormat decimalFormat = (DecimalFormat) intFormatter.getFormat();
 			decimalFormat.applyPattern("#"); // decimalFormat.applyPattern("#,##0.0")
-			jPanelMaxQ.add(jLabelMaxQ, BorderLayout.NORTH);
+			jPanelMaxQ.add(jLabelMaxQ, BorderLayout.WEST);
 			jPanelMaxQ.add(jSpinnerMaxQ, BorderLayout.CENTER);
 		}
 		return jPanelMaxQ;
-	}
-	
+	}	
 	/**
-	 * This method initializes jJPanelMaxEps
+	 * This method initializes jJPanelMinEta
 	 * 
 	 * @return javax.swing.JPanel
 	 */
-	private JPanel getJPanelMaxEps() {
-		if (jPanelMaxEps == null) {
-			jPanelMaxEps = new JPanel();
-			jPanelMaxEps.setLayout(new BorderLayout());
-			jLabelMaxEps = new JLabel("Max eps [pixel]: ");
-			// jLabelMaxEps.setPreferredSize(new Dimension(70, 20));
-			jLabelMaxEps.setHorizontalAlignment(SwingConstants.RIGHT);
-			SpinnerModel sModel = new SpinnerNumberModel(3, 3, Integer.MAX_VALUE, 1); // init, min, max, step
-			jSpinnerMaxEps = new JSpinner(sModel);
-			// jSpinnerMaxEps = new JSpinner();
-			jSpinnerMaxEps.setPreferredSize(new Dimension(60, 20));
-			jSpinnerMaxEps.addChangeListener(this);
-			JSpinner.DefaultEditor defEditor = (JSpinner.DefaultEditor) jSpinnerMaxEps.getEditor();
-			JFormattedTextField ftf = defEditor.getTextField();
-			ftf.setEditable(true);
-			InternationalFormatter intFormatter = (InternationalFormatter) ftf.getFormatter();
-			DecimalFormat decimalFormat = (DecimalFormat) intFormatter.getFormat();
-			decimalFormat.applyPattern("#"); // decimalFormat.applyPattern("#,##0.0")
-			jPanelMaxEps.add(jLabelMaxEps, BorderLayout.NORTH);
-			jPanelMaxEps.add(jSpinnerMaxEps, BorderLayout.CENTER);
-		}
-		return jPanelMaxEps;
-	}
-
-	/**
-	 * This method initializes jJPanelParamEta
-	 * 
-	 * @return javax.swing.JPanel
-	 */
-	private JPanel getJPanelParamEta() {
-		if (jPanelParamEta == null) {
-			jPanelParamEta = new JPanel();
-			jPanelParamEta.setLayout(new BorderLayout());
-			jLabelParamEta = new JLabel("ParamEta: ");
-			//jLabelParamEta.setPreferredSize(new Dimension(70, 20));
-			jLabelParamEta.setHorizontalAlignment(SwingConstants.RIGHT);
-			SpinnerModel sModel = new SpinnerNumberModel(1.0f, Float.MIN_VALUE, Float.MAX_VALUE, 0.1f); // init, min, max, step
-			jSpinnerParamEta = new JSpinner(sModel);
-			//jSpinnerParamEta = new JSpinner();
-			//jSpinnerParamEta.setPreferredSize(new Dimension(60, 20));
-			jSpinnerParamEta.addChangeListener(this);
-			JSpinner.DefaultEditor defEditor = (JSpinner.DefaultEditor) jSpinnerParamEta.getEditor();
+	private JPanel getJPanelMinEta() {
+		if (jPanelMinEta == null) {
+			jPanelMinEta = new JPanel();
+			jPanelMinEta.setLayout(new BorderLayout());
+			jLabelMinEta = new JLabel("eta:    min ");
+			//jLabelMinEta.setPreferredSize(new Dimension(70, 20));
+			jLabelMinEta.setHorizontalAlignment(SwingConstants.RIGHT);
+			SpinnerModel sModel = new SpinnerNumberModel(0.1f, Float.MIN_VALUE, Float.MAX_VALUE, 0.1f); // init, min, max, step
+			jSpinnerMinEta = new JSpinner(sModel);
+			//jSpinnerMinEta = new JSpinner();
+			//jSpinnerMinEta.setPreferredSize(new Dimension(60, 20));
+			jSpinnerMinEta.addChangeListener(this);
+			JSpinner.DefaultEditor defEditor = (JSpinner.DefaultEditor) jSpinnerMinEta.getEditor();
 			JFormattedTextField ftf = defEditor.getTextField();
 			ftf.setEditable(true);
 			ftf.setColumns(5);
 			InternationalFormatter intFormatter = (InternationalFormatter) ftf.getFormatter();
 			DecimalFormat decimalFormat = (DecimalFormat) intFormatter.getFormat();
 			decimalFormat.applyPattern("#0.00"); // decimalFormat.applyPattern("#,##0.0")	
-			jPanelParamEta.add(jLabelParamEta, BorderLayout.NORTH);
-			jPanelParamEta.add(jSpinnerParamEta, BorderLayout.CENTER);
+			jPanelMinEta.add(jLabelMinEta, BorderLayout.WEST);
+			jPanelMinEta.add(jSpinnerMinEta, BorderLayout.CENTER);
 		}
-		return jPanelParamEta;
+		return jPanelMinEta;
 	}
-
 	/**
-	 * This method initializes jJPanelParamKappa
+	 * This method initializes jJPanelMaxEta
 	 * 
 	 * @return javax.swing.JPanel
 	 */
-	private JPanel getJPanelParamKappa() {
-		if (jPanelParamKappa == null) {
-			jPanelParamKappa = new JPanel();
-			jPanelParamKappa.setLayout(new BorderLayout());
-			jLabelParamKappa = new JLabel("ParamKappa: ");
-			// jLabelParamKappa.setPreferredSize(new Dimension(70, 20));
-			jLabelParamKappa.setHorizontalAlignment(SwingConstants.RIGHT);
-			SpinnerModel sModel = new SpinnerNumberModel(0.5f, Float.MIN_VALUE, 1.0f-Float.MIN_VALUE, 0.1f); // init, min, max, step
-			jSpinnerParamKappa = new JSpinner(sModel);
-			// jSpinnerParamKappa = new JSpinner();
-			//jSpinnerParamKappa.setPreferredSize(new Dimension(60, 20));
-			jSpinnerParamKappa.addChangeListener(this);
-			JSpinner.DefaultEditor defEditor = (JSpinner.DefaultEditor) jSpinnerParamKappa.getEditor();
-			JFormattedTextField ftf = defEditor.getTextField();
-			ftf.setEditable(true);
-			ftf.setColumns(5);
-			InternationalFormatter intFormatter = (InternationalFormatter) ftf.getFormatter();
-			DecimalFormat decimalFormat = (DecimalFormat) intFormatter.getFormat();
-			decimalFormat.applyPattern("#0.00"); // decimalFormat.applyPattern("#,##0.0")
-			jPanelParamKappa.add(jLabelParamKappa, BorderLayout.NORTH);
-			jPanelParamKappa.add(jSpinnerParamKappa, BorderLayout.CENTER);
-		}
-		return jPanelParamKappa;
-	}
-	/**
-	 * This method initializes jJPanelParamB
-	 * 
-	 * @return javax.swing.JPanel
-	 */
-	private JPanel getJPanelParamB() {
-		if (jPanelParamB == null) {
-			jPanelParamB = new JPanel();
-			jPanelParamB.setLayout(new BorderLayout());
-			jLabelParamB = new JLabel("ParamB: ");
-			// jLabelParamB.setPreferredSize(new Dimension(70, 20));
-			jLabelParamB.setHorizontalAlignment(SwingConstants.RIGHT);
+	private JPanel getJPanelMaxEta() {
+		if (jPanelMaxEta == null) {
+			jPanelMaxEta = new JPanel();
+			jPanelMaxEta.setLayout(new BorderLayout());
+			jLabelMaxEta = new JLabel("max ");
+			//jLabelMaxEta.setPreferredSize(new Dimension(70, 20));
+			jLabelMaxEta.setHorizontalAlignment(SwingConstants.RIGHT);
 			SpinnerModel sModel = new SpinnerNumberModel(1.0f, Float.MIN_VALUE, Float.MAX_VALUE, 0.1f); // init, min, max, step
-			jSpinnerParamB = new JSpinner(sModel);
-			// jSpinnerParamB = new JSpinner();
-			//jSpinnerParamB.setPreferredSize(new Dimension(60, 20));
-			jSpinnerParamB.addChangeListener(this);
-			JSpinner.DefaultEditor defEditor = (JSpinner.DefaultEditor) jSpinnerParamB.getEditor();
+			jSpinnerMaxEta = new JSpinner(sModel);
+			//jSpinnerMaxEta = new JSpinner();
+			//jSpinnerMaxEta.setPreferredSize(new Dimension(60, 20));
+			jSpinnerMaxEta.addChangeListener(this);
+			JSpinner.DefaultEditor defEditor = (JSpinner.DefaultEditor) jSpinnerMaxEta.getEditor();
 			JFormattedTextField ftf = defEditor.getTextField();
 			ftf.setEditable(true);
 			ftf.setColumns(5);
 			InternationalFormatter intFormatter = (InternationalFormatter) ftf.getFormatter();
 			DecimalFormat decimalFormat = (DecimalFormat) intFormatter.getFormat();
-			decimalFormat.applyPattern("#0.00"); // decimalFormat.applyPattern("#,##0.0")
-			jPanelParamB.add(jLabelParamB, BorderLayout.NORTH);
-			jPanelParamB.add(jSpinnerParamB, BorderLayout.CENTER);
+			decimalFormat.applyPattern("#0.00"); // decimalFormat.applyPattern("#,##0.0")	
+			jPanelMaxEta.add(jLabelMaxEta, BorderLayout.WEST);
+			jPanelMaxEta.add(jSpinnerMaxEta, BorderLayout.CENTER);
 		}
-		return jPanelParamB;
+		return jPanelMaxEta;
 	}
 	/**
-	 * This method initializes jJPanelParamBeta
+	 * This method initializes jJPanelMinKappa
 	 * 
 	 * @return javax.swing.JPanel
 	 */
-	private JPanel getJPanelParamBeta() {
-		if (jPanelParamBeta == null) {
-			jPanelParamBeta = new JPanel();
-			jPanelParamBeta.setLayout(new BorderLayout());
-			jLabelParamBeta = new JLabel("ParamBeta: ");
-			// jLabelParamBeta.setPreferredSize(new Dimension(70, 20));
-			jLabelParamBeta.setHorizontalAlignment(SwingConstants.RIGHT);
-			SpinnerModel sModel = new SpinnerNumberModel(0.5f, Float.MIN_VALUE, 1.0, 0.1f); // init, min, max, step
-			jSpinnerParamBeta = new JSpinner(sModel);
-			// jSpinnerParamBeta = new JSpinner();
-			//jSpinnerParamBeta.setPreferredSize(new Dimension(60, 20));
-			jSpinnerParamBeta.addChangeListener(this);
-			JSpinner.DefaultEditor defEditor = (JSpinner.DefaultEditor) jSpinnerParamBeta.getEditor();
+	private JPanel getJPanelMinKappa() {
+		if (jPanelMinKappa == null) {
+			jPanelMinKappa = new JPanel();
+			jPanelMinKappa.setLayout(new BorderLayout());
+			jLabelMinKappa = new JLabel("kappa:    min ");
+			// jLabelMinKappa.setPreferredSize(new Dimension(70, 20));
+			jLabelMinKappa.setHorizontalAlignment(SwingConstants.RIGHT);
+			SpinnerModel sModel = new SpinnerNumberModel(0.1f, Float.MIN_VALUE, 1.0f-Float.MIN_VALUE, 0.1f); // init, min, max, step
+			jSpinnerMinKappa = new JSpinner(sModel);
+			// jSpinnerMinKappa = new JSpinner();
+			//jSpinnerMinKappa.setPreferredSize(new Dimension(60, 20));
+			jSpinnerMinKappa.addChangeListener(this);
+			JSpinner.DefaultEditor defEditor = (JSpinner.DefaultEditor) jSpinnerMinKappa.getEditor();
 			JFormattedTextField ftf = defEditor.getTextField();
 			ftf.setEditable(true);
 			ftf.setColumns(5);
 			InternationalFormatter intFormatter = (InternationalFormatter) ftf.getFormatter();
 			DecimalFormat decimalFormat = (DecimalFormat) intFormatter.getFormat();
 			decimalFormat.applyPattern("#0.00"); // decimalFormat.applyPattern("#,##0.0")
-			jPanelParamBeta.add(jLabelParamBeta, BorderLayout.NORTH);
-			jPanelParamBeta.add(jSpinnerParamBeta, BorderLayout.CENTER);
+			jPanelMinKappa.add(jLabelMinKappa, BorderLayout.WEST);
+			jPanelMinKappa.add(jSpinnerMinKappa, BorderLayout.CENTER);
 		}
-		return jPanelParamBeta;
+		return jPanelMinKappa;
+	}
+	/**
+	 * This method initializes jJPanelMaxKappa
+	 * 
+	 * @return javax.swing.JPanel
+	 */
+	private JPanel getJPanelMaxKappa() {
+		if (jPanelMaxKappa == null) {
+			jPanelMaxKappa = new JPanel();
+			jPanelMaxKappa.setLayout(new BorderLayout());
+			jLabelMaxKappa = new JLabel("max ");
+			// jLabelMaxKappa.setPreferredSize(new Dimension(70, 20));
+			jLabelMaxKappa.setHorizontalAlignment(SwingConstants.RIGHT);
+			SpinnerModel sModel = new SpinnerNumberModel(0.9f, Float.MIN_VALUE, 1.0f-Float.MIN_VALUE, 0.1f); // init, min, max, step
+			jSpinnerMaxKappa = new JSpinner(sModel);
+			// jSpinnerMaxKappa = new JSpinner();
+			//jSpinnerMaxKappa.setPreferredSize(new Dimension(60, 20));
+			jSpinnerMaxKappa.addChangeListener(this);
+			JSpinner.DefaultEditor defEditor = (JSpinner.DefaultEditor) jSpinnerMaxKappa.getEditor();
+			JFormattedTextField ftf = defEditor.getTextField();
+			ftf.setEditable(true);
+			ftf.setColumns(5);
+			InternationalFormatter intFormatter = (InternationalFormatter) ftf.getFormatter();
+			DecimalFormat decimalFormat = (DecimalFormat) intFormatter.getFormat();
+			decimalFormat.applyPattern("#0.00"); // decimalFormat.applyPattern("#,##0.0")
+			jPanelMaxKappa.add(jLabelMaxKappa, BorderLayout.WEST);
+			jPanelMaxKappa.add(jSpinnerMaxKappa, BorderLayout.CENTER);
+		}
+		return jPanelMaxKappa;
+	}
+	/**
+	 * This method initializes jJPanelMinB
+	 * 
+	 * @return javax.swing.JPanel
+	 */
+	private JPanel getJPanelMinB() {
+		if (jPanelMinB == null) {
+			jPanelMinB = new JPanel();
+			jPanelMinB.setLayout(new BorderLayout());
+			jLabelMinB = new JLabel("b:    min ");
+			// jLabelMinB.setPreferredSize(new Dimension(70, 20));
+			jLabelMinB.setHorizontalAlignment(SwingConstants.RIGHT);
+			SpinnerModel sModel = new SpinnerNumberModel(0.1f, Float.MIN_VALUE, Float.MAX_VALUE, 0.1f); // init, min, max, step
+			jSpinnerMinB = new JSpinner(sModel);
+			// jSpinnerMinB = new JSpinner();
+			//jSpinnerMinB.setPreferredSize(new Dimension(60, 20));
+			jSpinnerMinB.addChangeListener(this);
+			JSpinner.DefaultEditor defEditor = (JSpinner.DefaultEditor) jSpinnerMinB.getEditor();
+			JFormattedTextField ftf = defEditor.getTextField();
+			ftf.setEditable(true);
+			ftf.setColumns(5);
+			InternationalFormatter intFormatter = (InternationalFormatter) ftf.getFormatter();
+			DecimalFormat decimalFormat = (DecimalFormat) intFormatter.getFormat();
+			decimalFormat.applyPattern("#0.00"); // decimalFormat.applyPattern("#,##0.0")
+			jPanelMinB.add(jLabelMinB, BorderLayout.WEST);
+			jPanelMinB.add(jSpinnerMinB, BorderLayout.CENTER);
+		}
+		return jPanelMinB;
+	}
+	/**
+	 * This method initializes jJPanelMaxB
+	 * 
+	 * @return javax.swing.JPanel
+	 */
+	private JPanel getJPanelMaxB() {
+		if (jPanelMaxB == null) {
+			jPanelMaxB = new JPanel();
+			jPanelMaxB.setLayout(new BorderLayout());
+			jLabelMaxB = new JLabel("max ");
+			// jLabelMaxB.setPreferredSize(new Dimension(70, 20));
+			jLabelMaxB.setHorizontalAlignment(SwingConstants.RIGHT);
+			SpinnerModel sModel = new SpinnerNumberModel(1.0f, Float.MIN_VALUE, Float.MAX_VALUE, 0.1f); // init, min, max, step
+			jSpinnerMaxB = new JSpinner(sModel);
+			// jSpinnerMaxB = new JSpinner();
+			//jSpinnerMaxB.setPreferredSize(new Dimension(60, 20));
+			jSpinnerMaxB.addChangeListener(this);
+			JSpinner.DefaultEditor defEditor = (JSpinner.DefaultEditor) jSpinnerMaxB.getEditor();
+			JFormattedTextField ftf = defEditor.getTextField();
+			ftf.setEditable(true);
+			ftf.setColumns(5);
+			InternationalFormatter intFormatter = (InternationalFormatter) ftf.getFormatter();
+			DecimalFormat decimalFormat = (DecimalFormat) intFormatter.getFormat();
+			decimalFormat.applyPattern("#0.00"); // decimalFormat.applyPattern("#,##0.0")
+			jPanelMaxB.add(jLabelMaxB, BorderLayout.WEST);
+			jPanelMaxB.add(jSpinnerMaxB, BorderLayout.CENTER);
+		}
+		return jPanelMaxB;
+	}
+	/**
+	 * This method initializes jJPanelMinBeta
+	 * 
+	 * @return javax.swing.JPanel
+	 */
+	private JPanel getJPanelMinBeta() {
+		if (jPanelMinBeta == null) {
+			jPanelMinBeta = new JPanel();
+			jPanelMinBeta.setLayout(new BorderLayout());
+			jLabelMinBeta = new JLabel("beta:    min ");
+			// jLabelMinBeta.setPreferredSize(new Dimension(70, 20));
+			jLabelMinBeta.setHorizontalAlignment(SwingConstants.RIGHT);
+			SpinnerModel sModel = new SpinnerNumberModel(0.1f, Float.MIN_VALUE, 1.0, 0.1f); // init, min, max, step
+			jSpinnerMinBeta = new JSpinner(sModel);
+			// jSpinnerMinBeta = new JSpinner();
+			//jSpinnerMinBeta.setPreferredSize(new Dimension(60, 20));
+			jSpinnerMinBeta.addChangeListener(this);
+			JSpinner.DefaultEditor defEditor = (JSpinner.DefaultEditor) jSpinnerMinBeta.getEditor();
+			JFormattedTextField ftf = defEditor.getTextField();
+			ftf.setEditable(true);
+			ftf.setColumns(5);
+			InternationalFormatter intFormatter = (InternationalFormatter) ftf.getFormatter();
+			DecimalFormat decimalFormat = (DecimalFormat) intFormatter.getFormat();
+			decimalFormat.applyPattern("#0.00"); // decimalFormat.applyPattern("#,##0.0")
+			jPanelMinBeta.add(jLabelMinBeta, BorderLayout.WEST);
+			jPanelMinBeta.add(jSpinnerMinBeta, BorderLayout.CENTER);
+		}
+		return jPanelMinBeta;
 	}
 	
 	/**
-	 * This method initializes jJPanelParamGamma
+	 * This method initializes jJPanelMaxBeta
 	 * 
 	 * @return javax.swing.JPanel
 	 */
-	private JPanel getJPanelParamGamma() {
-		if (jPanelParamGamma == null) {
-			jPanelParamGamma = new JPanel();
-			jPanelParamGamma.setLayout(new BorderLayout());
-			jLabelParamGamma = new JLabel("ParamGamma: ");
-			// jLabelParamGamma.setPreferredSize(new Dimension(70, 20));
-			jLabelParamGamma.setHorizontalAlignment(SwingConstants.RIGHT);
-			SpinnerModel sModel = new SpinnerNumberModel(1.0f, Float.MIN_VALUE, Float.MAX_VALUE, 0.1f); // init, min, max, step
-			jSpinnerParamGamma = new JSpinner(sModel);
-			// jSpinnerParamGamma = new JSpinner();
-			//jSpinnerParamGamma.setPreferredSize(new Dimension(60, 20));
-			jSpinnerParamGamma.addChangeListener(this);
-			JSpinner.DefaultEditor defEditor = (JSpinner.DefaultEditor) jSpinnerParamGamma.getEditor();
+	private JPanel getJPanelMaxBeta() {
+		if (jPanelMaxBeta == null) {
+			jPanelMaxBeta = new JPanel();
+			jPanelMaxBeta.setLayout(new BorderLayout());
+			jLabelMaxBeta = new JLabel("max ");
+			// jLabelMaxBeta.setPreferredSize(new Dimension(70, 20));
+			jLabelMaxBeta.setHorizontalAlignment(SwingConstants.RIGHT);
+			SpinnerModel sModel = new SpinnerNumberModel(1.0f, Float.MIN_VALUE, 1.0, 0.1f); // init, min, max, step
+			jSpinnerMaxBeta = new JSpinner(sModel);
+			// jSpinnerMaxBeta = new JSpinner();
+			//jSpinnerMaxBeta.setPreferredSize(new Dimension(60, 20));
+			jSpinnerMaxBeta.addChangeListener(this);
+			JSpinner.DefaultEditor defEditor = (JSpinner.DefaultEditor) jSpinnerMaxBeta.getEditor();
 			JFormattedTextField ftf = defEditor.getTextField();
 			ftf.setEditable(true);
 			ftf.setColumns(5);
 			InternationalFormatter intFormatter = (InternationalFormatter) ftf.getFormatter();
 			DecimalFormat decimalFormat = (DecimalFormat) intFormatter.getFormat();
 			decimalFormat.applyPattern("#0.00"); // decimalFormat.applyPattern("#,##0.0")
-			jPanelParamGamma.add(jLabelParamGamma, BorderLayout.NORTH);
-			jPanelParamGamma.add(jSpinnerParamGamma, BorderLayout.CENTER);
+			jPanelMaxBeta.add(jLabelMaxBeta, BorderLayout.WEST);
+			jPanelMaxBeta.add(jSpinnerMaxBeta, BorderLayout.CENTER);
 		}
-		return jPanelParamGamma;
+		return jPanelMaxBeta;
+	}
+	/**
+	 * This method initializes jJPanelMinGamma
+	 * 
+	 * @return javax.swing.JPanel
+	 */
+	private JPanel getJPanelMinGamma() {
+		if (jPanelMinGamma == null) {
+			jPanelMinGamma = new JPanel();
+			jPanelMinGamma.setLayout(new BorderLayout());
+			jLabelMinGamma = new JLabel("gamma:    min ");
+			// jLabelMinGamma.setPreferredSize(new Dimension(70, 20));
+			jLabelMinGamma.setHorizontalAlignment(SwingConstants.RIGHT);
+			SpinnerModel sModel = new SpinnerNumberModel(0.1f, Float.MIN_VALUE, Float.MAX_VALUE, 0.1f); // init, min, max, step
+			jSpinnerMinGamma = new JSpinner(sModel);
+			// jSpinnerMinGamma = new JSpinner();
+			//jSpinnerMinGamma.setPreferredSize(new Dimension(60, 20));
+			jSpinnerMinGamma.addChangeListener(this);
+			JSpinner.DefaultEditor defEditor = (JSpinner.DefaultEditor) jSpinnerMinGamma.getEditor();
+			JFormattedTextField ftf = defEditor.getTextField();
+			ftf.setEditable(true);
+			ftf.setColumns(5);
+			InternationalFormatter intFormatter = (InternationalFormatter) ftf.getFormatter();
+			DecimalFormat decimalFormat = (DecimalFormat) intFormatter.getFormat();
+			decimalFormat.applyPattern("#0.00"); // decimalFormat.applyPattern("#,##0.0")
+			jPanelMinGamma.add(jLabelMinGamma, BorderLayout.WEST);
+			jPanelMinGamma.add(jSpinnerMinGamma, BorderLayout.CENTER);
+		}
+		return jPanelMinGamma;
+	}
+	/**
+	 * This method initializes jJPanelMaxGamma
+	 * 
+	 * @return javax.swing.JPanel
+	 */
+	private JPanel getJPanelMaxGamma() {
+		if (jPanelMaxGamma == null) {
+			jPanelMaxGamma = new JPanel();
+			jPanelMaxGamma.setLayout(new BorderLayout());
+			jLabelMaxGamma = new JLabel("max ");
+			// jLabelMaxGamma.setPreferredSize(new Dimension(70, 20));
+			jLabelMaxGamma.setHorizontalAlignment(SwingConstants.RIGHT);
+			SpinnerModel sModel = new SpinnerNumberModel(1.0f, Float.MIN_VALUE, Float.MAX_VALUE, 0.1f); // init, min, max, step
+			jSpinnerMaxGamma = new JSpinner(sModel);
+			// jSpinnerMaxGamma = new JSpinner();
+			//jSpinnerMaxGamma.setPreferredSize(new Dimension(60, 20));
+			jSpinnerMaxGamma.addChangeListener(this);
+			JSpinner.DefaultEditor defEditor = (JSpinner.DefaultEditor) jSpinnerMaxGamma.getEditor();
+			JFormattedTextField ftf = defEditor.getTextField();
+			ftf.setEditable(true);
+			ftf.setColumns(5);
+			InternationalFormatter intFormatter = (InternationalFormatter) ftf.getFormatter();
+			DecimalFormat decimalFormat = (DecimalFormat) intFormatter.getFormat();
+			decimalFormat.applyPattern("#0.00"); // decimalFormat.applyPattern("#,##0.0")
+			jPanelMaxGamma.add(jLabelMaxGamma, BorderLayout.WEST);
+			jPanelMaxGamma.add(jSpinnerMaxGamma, BorderLayout.CENTER);
+		}
+		return jPanelMaxGamma;
 	}
 	
 
@@ -683,50 +871,19 @@ public class OperatorGUI_GenEnt extends AbstractImageOperatorGUI implements
 	 * 
 	 * @return javax.swing.JCheckBox
 	 */
-	private JCheckBox getJCheckBoxH1() {
-		if (chkBxH1 == null) {
-			chkBxH1 = new JCheckBox();
-			chkBxH1.setText("H1");
-			chkBxH1.setToolTipText("generalized H1 entropies");
-			chkBxH1.addActionListener(this);
-			chkBxH1.setActionCommand("parameter");
-			chkBxH1.setEnabled(true);
+	private JCheckBox getJCheckBoxH() {
+		if (chkBxH == null) {
+			chkBxH = new JCheckBox();
+			chkBxH.setText("H");
+			chkBxH.setToolTipText("generalized graph entropies");
+			chkBxH.addActionListener(this);
+			chkBxH.setActionCommand("parameter");
+			chkBxH.setEnabled(true);
 		}
-		return chkBxH1;
+		return chkBxH;
 	}
 	
-	/**
-	 * This method initializes the Option:
-	 * 
-	 * @return javax.swing.JCheckBox
-	 */
-	private JCheckBox getJCheckBoxH2() {
-		if (chkBxH2 == null) {
-			chkBxH2 = new JCheckBox();
-			chkBxH2.setText("H2");
-			chkBxH2.setToolTipText("generalized H2 entropies");
-			chkBxH2.addActionListener(this);
-			chkBxH2.setActionCommand("parameter");
-			chkBxH2.setEnabled(true);
-		}
-		return chkBxH2;
-	}
-	/**
-	 * This method initializes the Option:
-	 * 
-	 * @return javax.swing.JCheckBox
-	 */
-	private JCheckBox getJCheckBoxH3() {
-		if (chkBxH3 == null) {
-			chkBxH3 = new JCheckBox();
-			chkBxH3.setText("H3");
-			chkBxH3.setToolTipText("generalized H3 entropies");
-			chkBxH3.addActionListener(this);
-			chkBxH3.setActionCommand("parameter");
-			chkBxH3.setEnabled(true);
-		}
-		return chkBxH3;
-	}
+
 	/**
 	 * This method initializes the Option:
 	 * 
@@ -836,9 +993,7 @@ public class OperatorGUI_GenEnt extends AbstractImageOperatorGUI implements
 			jPanelEntropyType.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "Check entropy types", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
 			jPanelEntropyType.add(getJCheckBoxRenyi());
 			jPanelEntropyType.add(getJCheckBoxTsallis());
-			jPanelEntropyType.add(getJCheckBoxH1());
-			jPanelEntropyType.add(getJCheckBoxH2());
-			jPanelEntropyType.add(getJCheckBoxH3());
+			jPanelEntropyType.add(getJCheckBoxH());
 			jPanelEntropyType.add(getJCheckBoxSEta());
 			jPanelEntropyType.add(getJCheckBoxSKappa());
 			jPanelEntropyType.add(getJCheckBoxSB());
@@ -858,59 +1013,106 @@ public class OperatorGUI_GenEnt extends AbstractImageOperatorGUI implements
 			jPanelParamOption.setBorder(new TitledBorder(UIManager
 					.getBorder("TitledBorder.border"), "Generalized entropy options", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
 			GridBagLayout gbl_paramPanel = new GridBagLayout();
-			gbl_paramPanel.columnWidths  = new int[] { 0, 0, 0 };
-			gbl_paramPanel.rowHeights    = new int[] { 0, 0, 0, 0, 0 };
-			gbl_paramPanel.columnWeights = new double[] { 0.0, 0.0, Double.MIN_VALUE };
-			gbl_paramPanel.rowWeights    = new double[] { 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE };
+//			gbl_paramPanel.columnWidths  = new int[] { 0, 0, 0 };
+//			gbl_paramPanel.rowHeights    = new int[] { 0, 0, 0, 0, 0 };
+//			gbl_paramPanel.columnWeights = new double[] { 0.0, 0.0, Double.MIN_VALUE };
+//			gbl_paramPanel.rowWeights    = new double[] { 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE };
 			jPanelParamOption.setLayout(gbl_paramPanel);
 			
+			GridBagConstraints gbc_jPanelMaxEps = new GridBagConstraints();
+			gbc_jPanelMaxEps.insets = new Insets(20, 0, 20, 0);
+			gbc_jPanelMaxEps.gridx = 0;
+			gbc_jPanelMaxEps.gridy = 0;
+			gbc_jPanelMaxEps.anchor = GridBagConstraints.EAST;
+			
 			GridBagConstraints gbc_jPanelMinQ = new GridBagConstraints();
-			gbc_jPanelMinQ.insets = new Insets(5, 5, 20, 0); //top left bottom right 
+			gbc_jPanelMinQ.insets = new Insets(5, 5, 10, 0); //top left bottom right 
 			gbc_jPanelMinQ.gridx = 0;
-			gbc_jPanelMinQ.gridy = 0;
+			gbc_jPanelMinQ.gridy = 1;
+			gbc_jPanelMinQ.anchor = GridBagConstraints.EAST;
 			
 			GridBagConstraints gbc_jPanelMaxQ = new GridBagConstraints();
-			gbc_jPanelMaxQ.insets = new Insets(5, 10, 20, 0);
+			gbc_jPanelMaxQ.insets = new Insets(5, 10, 10, 0);
 			gbc_jPanelMaxQ.gridx = 1;
-			gbc_jPanelMaxQ.gridy = 0;
-			
-			GridBagConstraints gbc_jPanelMaxEps = new GridBagConstraints();
-			gbc_jPanelMaxEps.insets = new Insets(5, 0, 20, 0);
-			gbc_jPanelMaxEps.gridx = 3;
-			gbc_jPanelMaxEps.gridy = 0;
-			
-			GridBagConstraints gbc_jPanelParamEta = new GridBagConstraints();
-			gbc_jPanelParamEta.insets = new Insets(5, 0, 20, 0);
-			gbc_jPanelParamEta.gridx = 0;
-			gbc_jPanelParamEta.gridy = 3;
-			GridBagConstraints gbc_jPanelParamKappa = new GridBagConstraints();
-			gbc_jPanelParamKappa.insets = new Insets(5, 30, 20, 0);
-			gbc_jPanelParamKappa.gridx = 1;
-			gbc_jPanelParamKappa.gridy = 3;
-			GridBagConstraints gbc_jPanelParamB = new GridBagConstraints();
-			gbc_jPanelParamB.insets = new Insets(5, 0, 20, 0);
-			gbc_jPanelParamB.gridx = 2;
-			gbc_jPanelParamB.gridy = 3;
-			GridBagConstraints gbc_jPanelParamBeta = new GridBagConstraints();
-			gbc_jPanelParamBeta.insets = new Insets(5, 0, 20, 0);
-			gbc_jPanelParamBeta.gridx = 3;
-			gbc_jPanelParamBeta.gridy = 3;
-			GridBagConstraints gbc_jPanelParamGamma = new GridBagConstraints();
-			gbc_jPanelParamGamma.insets = new Insets(5, 30, 20, 5);
-			gbc_jPanelParamGamma.gridx = 4;
-			gbc_jPanelParamGamma.gridy = 3;
-		
+			gbc_jPanelMaxQ.gridy = 1;
+			gbc_jPanelMaxQ.anchor = GridBagConstraints.EAST;
 				
+			GridBagConstraints gbc_jPanelMinEta = new GridBagConstraints();
+			gbc_jPanelMinEta.insets = new Insets(5, 5, 10, 0);
+			gbc_jPanelMinEta.gridx = 0;
+			gbc_jPanelMinEta.gridy = 2;
+			gbc_jPanelMinEta.anchor = GridBagConstraints.EAST;
+			
+			
+			GridBagConstraints gbc_jPanelMaxEta = new GridBagConstraints();
+			gbc_jPanelMaxEta.insets = new Insets(5, 10, 10, 0);
+			gbc_jPanelMaxEta.gridx = 1;
+			gbc_jPanelMaxEta.gridy = 2;
+			gbc_jPanelMaxEta.anchor = GridBagConstraints.EAST;
+		
+			GridBagConstraints gbc_jPanelMinKappa = new GridBagConstraints();
+			gbc_jPanelMinKappa.insets = new Insets(5, 5, 10, 0);
+			gbc_jPanelMinKappa.gridx = 0;
+			gbc_jPanelMinKappa.gridy = 3;
+			gbc_jPanelMinKappa.anchor = GridBagConstraints.EAST;
+			
+			GridBagConstraints gbc_jPanelMaxKappa = new GridBagConstraints();
+			gbc_jPanelMaxKappa.insets = new Insets(5, 10, 10, 0);
+			gbc_jPanelMaxKappa.gridx = 1;
+			gbc_jPanelMaxKappa.gridy = 3;
+			gbc_jPanelMaxKappa.anchor = GridBagConstraints.EAST;
+			
+			
+			GridBagConstraints gbc_jPanelMinB = new GridBagConstraints();
+			gbc_jPanelMinB.insets = new Insets(5, 5, 10, 0);
+			gbc_jPanelMinB.gridx = 0;
+			gbc_jPanelMinB.gridy = 4;
+			gbc_jPanelMinB.anchor = GridBagConstraints.EAST;
+			
+			GridBagConstraints gbc_jPanelMaxB = new GridBagConstraints();
+			gbc_jPanelMaxB.insets = new Insets(5, 10, 10, 0);
+			gbc_jPanelMaxB.gridx = 1;
+			gbc_jPanelMaxB.gridy = 4;
+			gbc_jPanelMaxB.anchor = GridBagConstraints.EAST;
+			
+			GridBagConstraints gbc_jPanelMinBeta = new GridBagConstraints();
+			gbc_jPanelMinBeta.insets = new Insets(5, 5, 10, 0);
+			gbc_jPanelMinBeta.gridx = 0;
+			gbc_jPanelMinBeta.gridy = 5;
+			gbc_jPanelMinBeta.anchor = GridBagConstraints.EAST;
+			
+			GridBagConstraints gbc_jPanelMaxBeta = new GridBagConstraints();
+			gbc_jPanelMaxBeta.insets = new Insets(5, 10, 10, 0);
+			gbc_jPanelMaxBeta.gridx = 1;
+			gbc_jPanelMaxBeta.gridy = 5;
+			gbc_jPanelMaxBeta.anchor = GridBagConstraints.EAST;
+			
+			GridBagConstraints gbc_jPanelMinGamma = new GridBagConstraints();
+			gbc_jPanelMinGamma.insets = new Insets(5, 5, 10, 0);
+			gbc_jPanelMinGamma.gridx = 0;
+			gbc_jPanelMinGamma.gridy = 6;
+			gbc_jPanelMinGamma.anchor = GridBagConstraints.EAST;
+			
+			GridBagConstraints gbc_jPanelMaxGamma = new GridBagConstraints();
+			gbc_jPanelMaxGamma.insets = new Insets(5, 1, 10, 0);
+			gbc_jPanelMaxGamma.gridx = 1;
+			gbc_jPanelMaxGamma.gridy = 6;
+			gbc_jPanelMaxGamma.anchor = GridBagConstraints.EAST;
+								
+			jPanelParamOption.add(getJPaneEps(),     gbc_jPanelMaxEps);
+			
 			jPanelParamOption.add(getJPanelMinQ(),     gbc_jPanelMinQ);
 			jPanelParamOption.add(getJPanelMaxQ(),     gbc_jPanelMaxQ);
-			jPanelParamOption.add(getJPanelMaxEps(),   gbc_jPanelMaxEps);
-			
-			jPanelParamOption.add(getJPanelParamEta(),   gbc_jPanelParamEta);
-			jPanelParamOption.add(getJPanelParamKappa(), gbc_jPanelParamKappa);
-			jPanelParamOption.add(getJPanelParamB(),     gbc_jPanelParamB);
-			jPanelParamOption.add(getJPanelParamBeta(),  gbc_jPanelParamBeta);
-			jPanelParamOption.add(getJPanelParamGamma(), gbc_jPanelParamGamma);
-		
+			jPanelParamOption.add(getJPanelMinEta(),   gbc_jPanelMinEta);
+			jPanelParamOption.add(getJPanelMaxEta(),   gbc_jPanelMaxEta);
+			jPanelParamOption.add(getJPanelMinKappa(), gbc_jPanelMinKappa);
+			jPanelParamOption.add(getJPanelMaxKappa(), gbc_jPanelMaxKappa);
+			jPanelParamOption.add(getJPanelMinB(),     gbc_jPanelMinB);
+			jPanelParamOption.add(getJPanelMaxB(),     gbc_jPanelMaxB);
+			jPanelParamOption.add(getJPanelMinBeta(),  gbc_jPanelMinBeta);
+			jPanelParamOption.add(getJPanelMaxBeta(),  gbc_jPanelMaxBeta);
+			jPanelParamOption.add(getJPanelMinGamma(), gbc_jPanelMinGamma);
+			jPanelParamOption.add(getJPanelMaxGamma(), gbc_jPanelMaxGamma);	
 		}
 		return jPanelParamOption;
 	}	
@@ -920,10 +1122,10 @@ public class OperatorGUI_GenEnt extends AbstractImageOperatorGUI implements
 			jPanelGridOption = new JPanel();
 		
 			GridBagLayout gbl_panel = new GridBagLayout();
-			gbl_panel.columnWidths = new int[] { 0, 0, 0 };
-			gbl_panel.rowHeights = new int[] { 0, 0, 0, 0, 0 };
-			gbl_panel.columnWeights = new double[] { 0.0, 0.0, Double.MIN_VALUE };
-			gbl_panel.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE };
+//			gbl_panel.columnWidths = new int[] { 0, 0, 0 };
+//			gbl_panel.rowHeights = new int[] { 0, 0, 0, 0, 0 };
+//			gbl_panel.columnWeights = new double[] { 0.0, 0.0, Double.MIN_VALUE };
+//			gbl_panel.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE };
 			jPanelGridOption.setLayout(gbl_panel);
 			
 			//jPanelGridOption.setLayout(new BoxLayout(jPanelGridOption, BoxLayout.X_AXIS));
@@ -932,14 +1134,14 @@ public class OperatorGUI_GenEnt extends AbstractImageOperatorGUI implements
 					.getBorder("TitledBorder.border"), "Box options", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
 			
 			buttGlidingBox = new JRadioButton();
-			buttGlidingBox.setText("Gliding Box");
-			buttGlidingBox.setToolTipText("Gliding Box");
+			buttGlidingBox.setText("Gliding box");
+			buttGlidingBox.setToolTipText("Gliding box");
 			buttGlidingBox.addActionListener(this);
 			buttGlidingBox.setActionCommand("parameter");
 
 			buttRasterBox = new JRadioButton();
-			buttRasterBox.setText("Raster Box");
-			buttRasterBox.setToolTipText("Raster Box");
+			buttRasterBox.setText("Raster Bbx");
+			buttRasterBox.setToolTipText("Raster box");
 			buttRasterBox.addActionListener(this);
 			buttRasterBox.setActionCommand("parameter");
 			buttRasterBox.setEnabled(true);
@@ -976,44 +1178,62 @@ public class OperatorGUI_GenEnt extends AbstractImageOperatorGUI implements
 		logger.debug(e.getActionCommand() + " event has been triggered.");
 		if ("parameter".equals(e.getActionCommand())) {
 					
-			if (chkBxRenyi == e.getSource()) {	
-			}
-			if (chkBxTsallis == e.getSource()) {	
-			}
-			if (chkBxH1 == e.getSource()) {	
-			}
-			if (chkBxH2 == e.getSource()) {	
-			}
-			if (chkBxH3 == e.getSource()) {	
+			if (chkBxRenyi == e.getSource() || chkBxTsallis == e.getSource()) {
+				if (chkBxRenyi.isSelected() || chkBxTsallis.isSelected()) {
+					jSpinnerMinQ.setEnabled(true);
+					jLabelMinQ.setEnabled(true);
+					jSpinnerMaxQ.setEnabled(true);
+					jLabelMaxQ.setEnabled(true);
+				}		
+				if (!chkBxRenyi.isSelected() && !chkBxTsallis.isSelected()) {
+					jSpinnerMinQ.setEnabled(false);
+					jLabelMinQ.setEnabled(false);
+					jSpinnerMaxQ.setEnabled(false);
+					jLabelMaxQ.setEnabled(false);
+				}	
+			}	
+			if (chkBxH == e.getSource()) {	
 			}
 			if (chkBxSEta == e.getSource()) {
 				if (chkBxSEta.isSelected()) {
-					jSpinnerParamEta.setEnabled(true);
-					jLabelParamEta.setEnabled(true);
+					jSpinnerMinEta.setEnabled(true);
+					jLabelMinEta.setEnabled(true);
+					jSpinnerMaxEta.setEnabled(true);
+					jLabelMaxEta.setEnabled(true);
 				}
 				if (!chkBxSEta.isSelected()) {
-					jSpinnerParamEta.setEnabled(false);
-					jLabelParamEta.setEnabled(false);
+					jSpinnerMinEta.setEnabled(false);
+					jLabelMinEta.setEnabled(false);
+					jSpinnerMaxEta.setEnabled(false);
+					jLabelMaxEta.setEnabled(false);
 				}
 			}
 			if (chkBxSKappa == e.getSource()) {	
 				if (chkBxSKappa.isSelected()) {
-					jSpinnerParamKappa.setEnabled(true);
-					jLabelParamKappa.setEnabled(true);
+					jSpinnerMinKappa.setEnabled(true);
+					jLabelMinKappa.setEnabled(true);
+					jSpinnerMaxKappa.setEnabled(true);
+					jLabelMaxKappa.setEnabled(true);
 				}
 				if (!chkBxSKappa.isSelected()) {
-					jSpinnerParamKappa.setEnabled(false);
-					jLabelParamKappa.setEnabled(false);
+					jSpinnerMinKappa.setEnabled(false);
+					jLabelMinKappa.setEnabled(false);
+					jSpinnerMaxKappa.setEnabled(false);
+					jLabelMaxKappa.setEnabled(false);
 				}
 			}
 			if (chkBxSB == e.getSource()) {	
 				if (chkBxSB.isSelected()) {
-					jSpinnerParamB.setEnabled(true);
-					jLabelParamB.setEnabled(true);
+					jSpinnerMinB.setEnabled(true);
+					jLabelMinB.setEnabled(true);
+					jSpinnerMaxB.setEnabled(true);
+					jLabelMaxB.setEnabled(true);
 				}
 				if (!chkBxSB.isSelected()) {
-					jSpinnerParamB.setEnabled(false);
-					jLabelParamB.setEnabled(false);
+					jSpinnerMinB.setEnabled(false);
+					jLabelMinB.setEnabled(false);
+					jSpinnerMaxB.setEnabled(false);
+					jLabelMaxB.setEnabled(false);
 				}
 			}
 			if (chkBxSE == e.getSource()) {	
@@ -1021,22 +1241,30 @@ public class OperatorGUI_GenEnt extends AbstractImageOperatorGUI implements
 			}
 			if (chkBxSBeta == e.getSource()) {	
 				if (chkBxSBeta.isSelected()) {
-					jSpinnerParamBeta.setEnabled(true);
-					jLabelParamBeta.setEnabled(true);
+					jSpinnerMinBeta.setEnabled(true);
+					jLabelMinBeta.setEnabled(true);
+					jSpinnerMaxBeta.setEnabled(true);
+					jLabelMaxBeta.setEnabled(true);
 				}
 				if (!chkBxSBeta.isSelected()) {
-					jSpinnerParamBeta.setEnabled(false);
-					jLabelParamBeta.setEnabled(false);
+					jSpinnerMinBeta.setEnabled(false);
+					jLabelMinBeta.setEnabled(false);
+					jSpinnerMaxBeta.setEnabled(false);
+					jLabelMaxBeta.setEnabled(false);
 				}
 			}
 			if (chkBxSGamma == e.getSource()) {
 				if (chkBxSGamma.isSelected()) {
-					jSpinnerParamGamma.setEnabled(true);
-					jLabelParamGamma.setEnabled(true);
+					jSpinnerMinGamma.setEnabled(true);
+					jLabelMinGamma.setEnabled(true);
+					jSpinnerMaxGamma.setEnabled(true);
+					jLabelMaxGamma.setEnabled(true);
 				}
 				if (!chkBxSGamma.isSelected()) {
-					jSpinnerParamGamma.setEnabled(false);
-					jLabelParamGamma.setEnabled(false);
+					jSpinnerMinGamma.setEnabled(false);
+					jLabelMinGamma.setEnabled(false);
+					jSpinnerMaxGamma.setEnabled(false);
+					jLabelMaxGamma.setEnabled(false);
 				}
 			}
 					
@@ -1066,15 +1294,38 @@ public class OperatorGUI_GenEnt extends AbstractImageOperatorGUI implements
 	@Override
 	public void stateChanged(ChangeEvent e) {
 
-		minQ     = ((Number) jSpinnerMinQ  .getValue()).intValue();
-		maxQ     = ((Number) jSpinnerMaxQ  .getValue()).intValue();
-		maxEps   = ((Number) jSpinnerMaxEps.getValue()).intValue();
+		maxEps   = ((Number) jSpinnerEps      .getValue()).intValue();
+		minQ     = ((Number) jSpinnerMinQ     .getValue()).intValue();
+		maxQ     = ((Number) jSpinnerMaxQ     .getValue()).intValue();
+		minEta   = ((Number) jSpinnerMinEta   .getValue()).floatValue();
+		maxEta   = ((Number) jSpinnerMaxEta   .getValue()).floatValue();
+		minKappa = ((Number) jSpinnerMinKappa .getValue()).floatValue();
+		maxKappa = ((Number) jSpinnerMaxKappa .getValue()).floatValue();
+		minB     = ((Number) jSpinnerMinB     .getValue()).floatValue();
+		maxB     = ((Number) jSpinnerMaxB     .getValue()).floatValue();
+		minBeta  = ((Number) jSpinnerMinBeta  .getValue()).floatValue();
+		maxBeta  = ((Number) jSpinnerMaxBeta  .getValue()).floatValue();
+		minGamma = ((Number) jSpinnerMinGamma .getValue()).floatValue();
+		maxGamma = ((Number) jSpinnerMaxGamma .getValue()).floatValue();
 		
-		jSpinnerMinQ.removeChangeListener(this);
-		jSpinnerMaxQ.removeChangeListener(this);
-		jSpinnerMaxEps.removeChangeListener(this);
 		
-		
+		jSpinnerEps     .removeChangeListener(this);
+		jSpinnerMinQ    .removeChangeListener(this);
+		jSpinnerMaxQ    .removeChangeListener(this);
+		jSpinnerMinEta  .removeChangeListener(this);
+		jSpinnerMaxEta  .removeChangeListener(this);
+		jSpinnerMinKappa.removeChangeListener(this);
+		jSpinnerMaxKappa.removeChangeListener(this);
+		jSpinnerMinB    .removeChangeListener(this);
+		jSpinnerMaxB    .removeChangeListener(this);
+		jSpinnerMinBeta .removeChangeListener(this);
+		jSpinnerMaxBeta .removeChangeListener(this);
+		jSpinnerMinGamma.removeChangeListener(this);
+		jSpinnerMaxGamma.removeChangeListener(this);
+	
+		if (jSpinnerEps == e.getSource()) {
+			
+		}	
 		if (jSpinnerMinQ == e.getSource()) {
 			if (maxQ <= minQ) {
 				maxQ = minQ + 1;
@@ -1087,14 +1338,82 @@ public class OperatorGUI_GenEnt extends AbstractImageOperatorGUI implements
 				jSpinnerMinQ.setValue(minQ);
 			}
 		}
-		if (jSpinnerMaxEps == e.getSource()) {
-				
+		if (jSpinnerMinEta == e.getSource()) {
+			if (maxEta <= minEta) {
+				maxEta = minEta + 0.1f;
+				jSpinnerMaxEta.setValue(maxEta);
+			}
 		}
-	
+
+		if (jSpinnerMaxEta == e.getSource()) {
+			if (minEta >= maxEta) {
+				minEta = maxEta - 0.1f;
+				jSpinnerMinEta.setValue(minEta);
+			}
+		}
+		if (jSpinnerMinKappa == e.getSource()) {
+			if (maxKappa <= minKappa) {
+				maxKappa = minKappa + 0.1f;
+				jSpinnerMaxKappa.setValue(maxKappa);
+			}
+		}
+		if (jSpinnerMaxKappa == e.getSource()) {
+			if (minKappa >= maxKappa) {
+				minKappa = maxKappa - 0.1f;
+				jSpinnerMinKappa.setValue(minKappa);
+			}
+		}
+		if (jSpinnerMinB == e.getSource()) {
+			if (maxB <= minB) {
+				maxB = minB + 0.1f;
+				jSpinnerMaxB.setValue(maxB);
+			}
+		}
+		if (jSpinnerMaxB == e.getSource()) {
+			if (minB >= maxB) {
+				minB = maxB - 0.1f;
+				jSpinnerMinB.setValue(minB);
+			}
+		}
+		if (jSpinnerMinBeta == e.getSource()) {
+			if (maxBeta <= minBeta) {
+				maxBeta = minBeta + 0.1f;
+				jSpinnerMaxBeta.setValue(maxBeta);
+			}
+		}
+		if (jSpinnerMaxBeta == e.getSource()) {
+			if (minBeta >= maxBeta) {
+				minBeta = maxBeta - 0.1f;
+				jSpinnerMinBeta.setValue(minBeta);
+			}
+		}
+		if (jSpinnerMinGamma == e.getSource()) {
+			if (maxGamma <= minGamma) {
+				maxGamma = minGamma + 0.1f;
+				jSpinnerMaxGamma.setValue(maxGamma);
+			}
+		}
+		if (jSpinnerMaxGamma == e.getSource()) {
+			if (minGamma >= maxGamma) {
+				minGamma = maxGamma - 0.1f;
+				jSpinnerMinGamma.setValue(minGamma);
+			}
+		}
 		
-		jSpinnerMinQ.addChangeListener(this);
-		jSpinnerMaxQ.addChangeListener(this);
-		jSpinnerMaxEps.addChangeListener(this);
+		jSpinnerEps     .addChangeListener(this);
+		jSpinnerMinQ    .addChangeListener(this);
+		jSpinnerMaxQ    .addChangeListener(this);
+		jSpinnerMinEta  .addChangeListener(this);
+		jSpinnerMaxEta  .addChangeListener(this);
+		jSpinnerMinKappa.addChangeListener(this);
+		jSpinnerMaxKappa.addChangeListener(this);
+		jSpinnerMinB    .addChangeListener(this);
+		jSpinnerMaxB    .addChangeListener(this);
+		jSpinnerMinBeta .addChangeListener(this);
+		jSpinnerMaxBeta .addChangeListener(this);
+		jSpinnerMinGamma.addChangeListener(this);
+		jSpinnerMaxGamma.addChangeListener(this);
+		
 		
 
 		this.updateParameterBlock();
