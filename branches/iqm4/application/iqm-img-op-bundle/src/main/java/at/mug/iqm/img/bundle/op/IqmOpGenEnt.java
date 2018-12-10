@@ -41,9 +41,7 @@ import javax.media.jai.JAI;
 import javax.media.jai.KernelJAI;
 import javax.media.jai.PlanarImage;
 import javax.media.jai.RenderedOp;
-
 import org.apache.commons.math3.special.Gamma;
-
 import at.mug.iqm.api.IQMConstants;
 import at.mug.iqm.api.model.IqmDataBox;
 import at.mug.iqm.api.model.TableModel;
@@ -54,6 +52,7 @@ import at.mug.iqm.api.operator.OperatorType;
 import at.mug.iqm.api.operator.ParameterBlockIQM;
 import at.mug.iqm.api.operator.ParameterBlockImg;
 import at.mug.iqm.api.operator.Result;
+import at.mug.iqm.commons.util.GammaFunction;
 import at.mug.iqm.commons.util.image.ImageTools;
 import at.mug.iqm.img.bundle.descriptors.IqmOpGenEntDescriptor;
 
@@ -61,6 +60,13 @@ import at.mug.iqm.img.bundle.descriptors.IqmOpGenEntDescriptor;
  * <li>Generalized Entropies
  * <li>according to a review of Amigó, J.M., Balogh, S.G., Hernández, S., 2018. A Brief Review of Generalized Entropies. Entropy 20, 813. https://doi.org/10.3390/e20110813
  * <li>and to: Tsallis Introduction to Nonextensive Statistical Mechanics, 2009, S105-106
+ * <li>Renyi, Tsallis, H1,H2,H3 according to Amigo etal.
+ * <li>SEta   according to Amigo etal. and Anteneodo et al.	
+ * <li>SKappa according to Amigo etal. and Kanidakis et al.
+ * <li>SB     according to Amigo etal. and Curado et al.
+ * <li>SE     according to Amigo etal. and Tsekouras et al.
+ * <li>SBeta  according to Amigo etal. and Shafee et al.
+ * <li>SGamma according to Amigo etal. and Tsallis Introduction to Nonextensive Statistical Mechanics, 2009, S60
  * 
  * @author Ahammer
  * @since  2018-12-04
@@ -112,27 +118,6 @@ public class IqmOpGenEnt extends AbstractOperator {
 		return totalGrey; //or totalBinary 
 	}
 	
-	/**
-	 * This method computes the incomplete Gamma function
-	 * return double
-	 */
-	
-	private double getIncompleteGammafunction (double a, double b) {
-		double sum = 0.0;
-		//TO DO	
-		return sum;
-	}
-	
-	/**
-	 * This method computes the Gamma function
-	 * return double
-	 */
-	private double getIncompleteGammafunction (double a) {
-		return getIncompleteGammafunction (a, 0.0);
-	}
-	
-	
-
 	@SuppressWarnings({ "unchecked", "unused" })
 	@Override
 	public IResult run(IWorkPackage wp) {
@@ -176,7 +161,21 @@ public class IqmOpGenEnt extends AbstractOperator {
 	
 		int method = pb.getIntParameter("GridMethod"); // 0: Gliding Box,// 1:Alternative method
 	
-		int numQ = maxQ - minQ + 1;
+		int   stepQ     = 1;
+		float stepEta   = 0.1f;
+		float stepKappa = 0.1f;
+		float stepB     = 0.1f;
+		float stepE     = 0.1f;
+		float stepBeta  = 0.1f;
+		float stepGamma = 0.1f;
+	
+		int numQ     = maxQ - minQ + 1;
+		int numEta   = (int) ((maxEta - minEta)/0.1f + 1);
+		int numKappa = (int) ((maxKappa - minKappa)/0.1f + 1);
+		int numB     = (int) ((maxB - minB)/0.1f + 1);
+		int numBeta  = (int) ((maxBeta - minBeta)/0.1f + 1);
+		int numGamma = (int) ((maxGamma - minGamma)/0.1f + 1);
+		
 		
 		int numBands = pi.getData().getNumBands();
 		String type = ImageTools.getImgType(pi);
@@ -210,12 +209,12 @@ public class IqmOpGenEnt extends AbstractOperator {
 		double[]   genEntH1      = new double[numBands];	
 		double[]   genEntH2      = new double[numBands];	
 		double[]   genEntH3      = new double[numBands];	
-		double[][] genEntSEta    = new double[numQ][numBands];	
-		double[][] genEntSKappa  = new double[numQ][numBands];	
-		double[][] genEntSB      = new double[numQ][numBands];	
-		double[][] genEntSE      = new double[numQ][numBands];	
-		double[][] genEntSBeta   = new double[numQ][numBands];	
-		double[][] genEntSGamma  = new double[numQ][numBands];	
+		double[][] genEntSEta    = new double[numEta][numBands];	
+		double[][] genEntSKappa  = new double[numKappa][numBands];	
+		double[][] genEntSB      = new double[numB][numBands];	
+		double[]   genEntSE      = new double[numBands];	
+		double[][] genEntSBeta   = new double[numBeta][numBands];	
+		double[][] genEntSGamma  = new double[numGamma][numBands];	
 		
 		double[][] probabilities = null;
 		double[]   totalsMax     = new double[numBands];
@@ -465,13 +464,39 @@ public class IqmOpGenEnt extends AbstractOperator {
 			}//band
 		}
 	
+		if (sEta == 1) {//SEta according to Amigo etal. paper and Anteneodo et al.	
+			for (int b = 0; b < numBands; b++) {
+				for (int n = 0; n < numEta; n++) {
+					float eta = minEta + n*stepEta;
+					double sum = 0.0;
+					for (int pp = 0; pp < probabilities.length; pp++) {
+						if (probabilities[pp][b] != 0){
+//							if (Math.log(probabilities[pp][b]) < 0){
+//								double prob = probabilities[pp][b];
+//								double log = Math.log(probabilities[pp][b]);
+//								double dummy = 0;
+//							}
+							//double gam1 = GammaFunction.upperIncomplete((eta+1.0f)/eta, Math.log(probabilities[pp][b]));
+							//double gam2 = probabilities[pp][b]*GammaFunction.gamma((eta+1.0f)/eta); 
+							
+							double gam1 = Gamma.regularizedGammaQ((eta+1.0f)/eta, Math.log(probabilities[pp][b])) * Math.exp(Gamma.logGamma((eta+1.0f)/eta));
+							double gam2 = probabilities[pp][b]*Math.exp(Gamma.logGamma((eta+1.0f)/eta)); 
+							sum = sum + gam1 - gam2;	
+						}
+					}	
+					genEntSEta[n][b] = sum;
+				}//q		
+			}//band
+		}
 	
 		//---------------------------------------------------------------------------------------------------------------------
 		//set table data
 		if (renyi == 1) {//Renyi 
 			int numColumns = model.getColumnCount();
 			//data header
-			for (int q = 0; q < numQ; q++)   model.addColumn("Renyi_q" + (minQ + q));
+			for (int q = 0; q < numQ; q++) {
+				model.addColumn("Renyi_q" + (minQ + q));
+			}
 			for (int b = 0; b < numBands; b++) { //several bands	
 				for (int q = 0; q < numQ; q++) {			
 					model.setValueAt(genEntRenyi[q][b], b, numColumns + q); // set table data			
@@ -481,7 +506,9 @@ public class IqmOpGenEnt extends AbstractOperator {
 		if (tsallis == 1) {//Tsallis
 			int numColumns = model.getColumnCount();
 			//data header
-			for (int q = 0; q < numQ; q++)   model.addColumn("Tsallis_q" + (minQ + q));	
+			for (int q = 0; q < numQ; q++) {
+				model.addColumn("Tsallis_q" + (minQ + q));	
+			}
 			for (int b = 0; b < numBands; b++) { //several bands	
 				for (int q = 0; q < numQ; q++) {			
 					model.setValueAt(genEntTsallis[q][b], b, numColumns + q); // set table data			
@@ -492,7 +519,9 @@ public class IqmOpGenEnt extends AbstractOperator {
 		if (tsallisOutOfRenyi == 1) {//Tsallis out of Renyi according to Amigo etal. paper
 			int numColumns = model.getColumnCount();
 			//data header
-			for (int q = 0; q < numQ; q++)   model.addColumn("TsallisAusReneyi_q" + (minQ + q));
+			for (int q = 0; q < numQ; q++) {
+				model.addColumn("TsallisAusReneyi_q" + (minQ + q));
+			}
 			for (int b = 0; b < numBands; b++) { //several bands	
 				for (int q = 0; q < numQ; q++) {					
 					double genEnt = 0.0;
@@ -527,7 +556,18 @@ public class IqmOpGenEnt extends AbstractOperator {
 				model.setValueAt(1.0 + Math.log(genEntH2[b]), b, numColumns); // H3 = 1+ln(H2);  set table data			
 			}//bands	
 		}
-		
+		if (sEta == 1) {
+			int numColumns = model.getColumnCount();
+			//data header
+			for (int n = 0; n < numEta; n++) {	
+				model.addColumn("SEta_n" + String.format ("%.1f", minEta + n*stepEta));
+			}
+			for (int b = 0; b < numBands; b++) { //several bands	
+				for (int n = 0; n < numEta; n++) {			
+					model.setValueAt(genEntSEta[n][b], b, numColumns + n); // set table data			
+				}//q
+			}//bands
+		}
 		
 		
 		// model.addTableModelListener(jTable);
