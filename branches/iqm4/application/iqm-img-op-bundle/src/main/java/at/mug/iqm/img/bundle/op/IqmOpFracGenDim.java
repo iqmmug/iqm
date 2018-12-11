@@ -94,17 +94,9 @@ public class IqmOpFracGenDim extends AbstractOperator {
 		// Get total amount of object pixels
 		// Set up the parameters for the Histogram object.
 		int[] bins = { (int) typeGreyMax + 1, (int) typeGreyMax + 1,
-				(int) typeGreyMax + 1 }; // The number of bins e.g. {256, 256,
-											// 256}
-		double[] lows = { 0.0D, 0.0D, 0.0D }; // The low incl.value e.g. {0.0D,
-												// 0.0D, 0.0D}
-		double[] highs = { typeGreyMax + 1, typeGreyMax + 1, typeGreyMax + 1 }; // The
-																				// high
-																				// excl.value
-																				// e.g.
-																				// {256.0D,
-																				// 256.0D,
-																				// 256.0D}
+				(int) typeGreyMax + 1 }; // The number of bins e.g. {256, 256, 256}
+		double[] lows = { 0.0D, 0.0D, 0.0D }; // The low incl.value e.g. {0.0D, 0.0D, 0.0D}
+		double[] highs = { typeGreyMax + 1, typeGreyMax + 1, typeGreyMax + 1 }; // The high excl.value e.g. {256.0D, 256.0D, 256.0D}
 		// Create the parameter block.
 		ParameterBlock pbHisto = new ParameterBlock();
 		pbHisto.addSource(pi); // Source image
@@ -121,10 +113,8 @@ public class IqmOpFracGenDim extends AbstractOperator {
 		// System.out.println("IqmOpFracGendim: (int)typeGreyMax: " +
 		// (int)typeGreyMax);
 		for (int b = 0; b < numBands; b++) {
-			totalGrey[b] = histogram.getSubTotal(b, 1, (int) typeGreyMax); // without
-																			// 0!
-			totalBinary[b] = histogram.getSubTotal(b, (int) typeGreyMax,
-					(int) typeGreyMax);
+			totalGrey[b] = histogram.getSubTotal(b, 1, (int) typeGreyMax); // without 0!
+			totalBinary[b] = histogram.getSubTotal(b, (int) typeGreyMax, (int) typeGreyMax);
 			// System.out.println("IqmOpFracGendim: totalGrey[b]: "+
 			// totalGrey[b] + "totalBinary[b]: " + totalBinary[b]);
 		}
@@ -154,7 +144,7 @@ public class IqmOpFracGenDim extends AbstractOperator {
 		int methodEps = pb.getIntParameter("MethodEps"); // 0 linear
 															// distributed 1 log
 															// distributed
-		int method = pb.getIntParameter("Method"); // 0: Gliding Box,
+		int gridMethod = pb.getIntParameter("Method"); // 0: Gliding Box,
 													// 1:Alternative method
 		int regStart = pb.getIntParameter("RegStart");
 		int regEnd = pb.getIntParameter("RegEnd");
@@ -165,14 +155,10 @@ public class IqmOpFracGenDim extends AbstractOperator {
 		boolean optShowPlotDq = false;
 		boolean optShowPlotF = false;
 
-		if (pb.getIntParameter("ShowPlot") == 1)
-			optShowPlot = true;
-		if (pb.getIntParameter("DeleteExistingPlot") == 1)
-			optDeleteExistingPlot = true;
-		if (pb.getIntParameter("ShowPlotDq") == 1)
-			optShowPlotDq = true;
-		if (pb.getIntParameter("ShowPlotF") == 1)
-			optShowPlotF = true;
+		if (pb.getIntParameter("ShowPlot") == 1)           optShowPlot = true;
+		if (pb.getIntParameter("DeleteExistingPlot") == 1) optDeleteExistingPlot = true;
+		if (pb.getIntParameter("ShowPlotDq") == 1)         optShowPlotDq = true;
+		if (pb.getIntParameter("ShowPlotF") == 1)          optShowPlotF = true;
 
 		int numBands = pi.getData().getNumBands();
 		String type = ImageTools.getImgType(pi);
@@ -184,6 +170,10 @@ public class IqmOpFracGenDim extends AbstractOperator {
 		int height = pi.getHeight();
 		String imgName = String.valueOf(pi.getProperty("image_name"));
 		String fileName = String.valueOf(pi.getProperty("file_name"));
+		
+		String strGridMethod = "?";
+		if (gridMethod == 0) strGridMethod = "Gliding box";
+		if (gridMethod == 1) strGridMethod = "Raster box";
 
 		// initialize table for Dimension data
 		TableModel model = new TableModel("Generalized Dimensions [" + imgName
@@ -194,11 +184,12 @@ public class IqmOpFracGenDim extends AbstractOperator {
 		// model.removeTableModelListener(jTable);
 		model.addColumn("FileName");
 		model.addColumn("ImageName");
+		model.addColumn("Grid method");
 		model.addColumn("Band");
 		model.addColumn("RegStart");
 		model.addColumn("RegEnd");
 		for (int b = 0; b < pi.getNumBands(); b++) { // mehrere Bands
-			model.addRow(new Object[] { fileName, imgName, b, regStart, regEnd });
+			model.addRow(new Object[] { fileName, imgName, strGridMethod, b, regStart, regEnd });
 		}
 
 		// data arrays
@@ -207,14 +198,13 @@ public class IqmOpFracGenDim extends AbstractOperator {
 		int[] eps = new int[numEps];
 
 		// --------------------------------------------------------------------------------------------------------------
-		if (method == 0) { // 0 gliding mass box counting
+		if (gridMethod == 0) { // 0 gliding mass box counting
 
 			// set eps values
 			if (methodEps == 0) { // linear distributed
 				for (int i = 0; i < numEps; i++) {
 					eps[i] = Math.round((i + 1) / (float) numEps * maxEps);
-					System.out.println("IqmOpFracGenDim: i, eps[i]: " + i
-							+ "   " + eps[i]);
+					System.out.println("IqmOpFracGenDim: i, eps[i]: " + i + "   " + eps[i]);
 				}
 			}
 			if (methodEps == 1) { // log distributed
@@ -229,8 +219,7 @@ public class IqmOpFracGenDim extends AbstractOperator {
 						if (eps[i] <= eps[i - 1])
 							eps[i] = eps[i - 1] + 1;
 					}
-					System.out.println("IqmOpFracGenDim: i, eps[i]: " + i
-							+ "   " + eps[i]);
+					System.out.println("IqmOpFracGenDim: i, eps[i]: " + i + "   " + eps[i]);
 				}
 			}
 			RenderingHints rh = new RenderingHints(JAI.KEY_BORDER_EXTENDER,
@@ -287,23 +276,18 @@ public class IqmOpFracGenDim extends AbstractOperator {
 				// Arrays.fill(kernel, 0.0f); //Damit Hintergrund nicht auf 1
 				// gesetzt wird bei dilate, ....
 				Arrays.fill(kernel, 1.0f); // Sum of box
-				KernelJAI kernelJAI = new KernelJAI(kernelSize, kernelSize,
-						kernel);
+				KernelJAI kernelJAI = new KernelJAI(kernelSize, kernelSize, kernel);
 
 				pbTmp = new ParameterBlock();
 				pbTmp.addSource(piBin);
 				pbTmp.add(kernelJAI);
 				piConv = JAI.create("convolve", pbTmp, rh);
 
-				pbTmp = new ParameterBlock(); // set pixels that were 0 again to
-												// 0(because of "convolve"
-												// changed
-												// some zeros)
+				pbTmp = new ParameterBlock(); // set pixels that were 0 again to 0(because of "convolve" changed some zeros)
 				pbTmp.addSource(piConv);
 				pbTmp.addSource(piBin); // 0 or 1
 				piConv = JAI.create("multiply", pbTmp, rh);
-				// each pixel value is now the sum of the box (neighborhood
-				// values)
+				// each pixel value is now the sum of the box (neighborhood values)
 
 				// double[] numObjectPixels; //number of pixel >0
 				// numObjectPixels = this.getNumberOfNonZeroPixels(piConv);
@@ -317,24 +301,16 @@ public class IqmOpFracGenDim extends AbstractOperator {
 						ra.getPixel(x, y, sample);
 						for (int b = 0; b < numBands; b++) { // several bands
 							if (sample[b] > 0.0) { // no zero values!!!
-								double count = sample[b];// -1 ; //-1: subtract
-															// point itself
-								totalsMax[ee][b] = totalsMax[ee][b] + count; // calculate
-																				// total
-																				// count
-																				// for
-																				// normalization
-
+								double count = sample[b];// -1 ; //-1: subtract point itself
+								totalsMax[ee][b] = totalsMax[ee][b] + count; // calculate total count for normalization
 								// count = count/totalMass[b]; //normalized mass
 								// of current box
 								// if (count > 0) {
 								for (int q = 0; q < numQ; q++) {
 									if ((q + minQ) != 1)
-										totals[q][ee][b] = totals[q][ee][b]
-												+ Math.pow(count, (q + minQ)); // GenDim
+										totals[q][ee][b] = totals[q][ee][b] + Math.pow(count, (q + minQ)); // GenDim
 									if ((q + minQ) == 1)
-										totals[q][ee][b] = totals[q][ee][b]
-												+ count * Math.log(count); // GenDim
+										totals[q][ee][b] = totals[q][ee][b] + count * Math.log(count); // GenDim
 								}
 								// }
 							}// sample > 0
@@ -354,7 +330,7 @@ public class IqmOpFracGenDim extends AbstractOperator {
 			}
 		} // Method = 0 gliding box
 			// --------------------------------------------------------------------------------------------------------------
-		if (method == 1) { // raster mass box counting
+		if (gridMethod == 1) { // raster mass box counting
 
 			double[] numObjectPixels; // number of pixel >0
 			numObjectPixels = this.getNumberOfNonZeroPixels(pi);
@@ -362,8 +338,7 @@ public class IqmOpFracGenDim extends AbstractOperator {
 			// set eps values
 			for (int i = 0; i < numEps; i++) {
 				eps[i] = (int) Math.pow(2, i);
-				System.out.println("IqmOpFracGenDim: i, eps[i]: " + i + "   "
-						+ eps[i]);
+				System.out.println("IqmOpFracGenDim: i, eps[i]: " + i + "   " + eps[i]);
 			}
 
 			ParameterBlock pbTmp = new ParameterBlock();
@@ -383,12 +358,9 @@ public class IqmOpFracGenDim extends AbstractOperator {
 
 				pbTmp.removeParameters();
 
-				if (type.equals(IQMConstants.IMAGE_TYPE_RGB))
-					pbTmp.add(DataBuffer.TYPE_BYTE);
-				if (type.equals(IQMConstants.IMAGE_TYPE_8_BIT))
-					pbTmp.add(DataBuffer.TYPE_BYTE);
-				if (type.equals(IQMConstants.IMAGE_TYPE_16_BIT))
-					pbTmp.add(DataBuffer.TYPE_USHORT);
+				if (type.equals(IQMConstants.IMAGE_TYPE_RGB))   pbTmp.add(DataBuffer.TYPE_BYTE);
+				if (type.equals(IQMConstants.IMAGE_TYPE_8_BIT)) pbTmp.add(DataBuffer.TYPE_BYTE);
+				if (type.equals(IQMConstants.IMAGE_TYPE_16_BIT))pbTmp.add(DataBuffer.TYPE_USHORT);
 				
 				width = eps[ee];
 				ImageLayout layout = new ImageLayout();
@@ -404,15 +376,12 @@ public class IqmOpFracGenDim extends AbstractOperator {
 					int minY = tileRaster[r].getMinY();
 					int tileWidth = tileRaster[r].getWidth(); // ==imgWidth
 					int tileHeight = tileRaster[r].getHeight(); // ==imgWidth
-					// System.out.println("IqmOpFracGendim: minX: "+minX+
-					// "  minY: " +minY+ "   tileWidth: "+ tileWidth+
-					// "     tileHeight: "+ tileHeight);
+					// System.out.println("IqmOpFracGendim: minX: "+minX+ "  minY: " +minY+ "   tileWidth: "+ tileWidth+ "     tileHeight: "+ tileHeight);
 					for (int b = 0; b < numBands; b++) {
 						double count = 0.0d;
 						for (int x = 0; x < tileWidth; x++) {
 							for (int y = 0; y < tileHeight; y++) {
-								// System.out.println("IqmOpFracBox: b, x, y, "
-								// +b+"  " + x+ "  "+y);
+								// System.out.println("IqmOpFracBox: b, x, y, " +b+"  " + x+ "  "+y);
 								int pixel = tileRaster[r].getSample(minX + x,
 										minY + y, b);
 								if (pixel > 0) {
@@ -421,11 +390,8 @@ public class IqmOpFracGenDim extends AbstractOperator {
 							}
 						}
 						// count = count/totalBinary[b];
-						count = count / numObjectPixels[b]; // normalized mass
-															// of current box
-															// tileRaster[r]
-						// System.out.println("IqmOpFracGendim: b: "+b+
-						// "   count: "+ count );
+						count = count / numObjectPixels[b]; // normalized mass of current box tileRaster[r]
+						// System.out.println("IqmOpFracGendim: b: "+b+ "   count: "+ count );
 						if (count > 0) {
 							for (int q = 0; q < numQ; q++) {
 								if ((q + minQ) != 1)
@@ -440,9 +406,7 @@ public class IqmOpFracGenDim extends AbstractOperator {
 					} // b bands
 				} // r tileRaster[]
 					// for (int q =0; q < numQ; q++){
-					// System.out.println("IqmOpFracGendim: ee: " + ee +
-					// "  q: "+
-					// (q+minQ) + "    totals[q][ee][0]: "+ totals[q][ee][0] );
+					// System.out.println("IqmOpFracGendim: ee: " + ee + "  q: "+ (q+minQ) + "    totals[q][ee][0]: "+ totals[q][ee][0] );
 					// }
 
 			} // 0>=ee<=numEps loop through eps
@@ -460,11 +424,7 @@ public class IqmOpFracGenDim extends AbstractOperator {
 							+ (q + minQ) + "    totals[q][ee][0]: "
 							+ totals[q][ee][0]);
 					if (totals[q][ee][b] == 0)
-						totals[q][ee][b] = Double.MIN_VALUE; // damit
-																// logarithmus
-																// nicht
-																// undefiniert
-																// ist
+						totals[q][ee][b] = Double.MIN_VALUE; // damit logarithmus nicht undefiniert ist
 					if ((q + minQ) != 1)
 						lnTotals[q][ee][b] = Math.log(totals[q][ee][b]);
 					if ((q + minQ) == 1)
@@ -493,10 +453,8 @@ public class IqmOpFracGenDim extends AbstractOperator {
 			final Vector<Double> dataX = new Vector<Double>();
 			final Vector<Double>[] dataY = new Vector[numQ];
 			for (int v = 0; v < dataY.length; v++)
-				dataY[v] = new Vector<Double>(); // Initialize, otherwise
-													// NullpointerError
-			// System.out.println("IqmFracGenDimOperator: dataY.length: "+
-			// dataY.length );
+				dataY[v] = new Vector<Double>(); // Initialize, otherwise NullpointerError
+			// System.out.println("IqmFracGenDimOperator: dataY.length: "+ dataY.length );
 
 			for (int n = 0; n < numEps; n++) {
 				dataX.add(lnEps[n]);
@@ -559,14 +517,11 @@ public class IqmOpFracGenDim extends AbstractOperator {
 			for (int q = 0; q < numQ; q++) {
 				genDimDataQ.add((double) (q + minQ));
 				if ((q + minQ) == 1) { // q=1
-					model.setValueAt(slope[q], b, numColumns + q); // set table
-																	// data
+					model.setValueAt(slope[q], b, numColumns + q); // set table data
 					genDimDataDq.add(slope[q]); // set plot data
 				} else { // all other q's
-					model.setValueAt(slope[q] / (q + minQ - 1), b, numColumns
-							+ q); // set table data
-					genDimDataDq.add(slope[q] / (q + minQ - 1)); // set plot
-																	// data
+					model.setValueAt(slope[q] / (q + minQ - 1), b, numColumns+ q); // set table data
+					genDimDataDq.add(slope[q] / (q + minQ - 1)); // set plot data
 				}
 			}
 
@@ -578,25 +533,21 @@ public class IqmOpFracGenDim extends AbstractOperator {
 				// see Vicsek Fractal Growth Phenomena p55
 				Vector<Double> alpha = new Vector<Double>();
 				Vector<Double> f = new Vector<Double>();
-				// alpha == first derivative of Dq
-				// first point
+				// alpha == first derivative of Dq first point
 				alpha.add((genDimDataDq.get(0) + genDimDataDq.get(1)) / 2.0);
 				// several points
 				for (int i = 1; i < (genDimDataDq.size() - 1); i++)
 					alpha.add((genDimDataDq.get(i - 1) + genDimDataDq
 							.get(i + 1)) / 2.0);
 				// last point
-				alpha.add((genDimDataDq.get(genDimDataDq.size() - 2) + genDimDataDq
-						.get(genDimDataDq.size() - 1)) / 2.0);
+				alpha.add((genDimDataDq.get(genDimDataDq.size() - 2) + genDimDataDq.get(genDimDataDq.size() - 1)) / 2.0);
 
 				// calcualte f
 				for (int i = 0; i < genDimDataDq.size(); i++) {
-					f.add(genDimDataQ.get(i) * alpha.get(i)
-							- ((genDimDataQ.get(i) - 1) * genDimDataDq.get(i)));
+					f.add(genDimDataQ.get(i) * alpha.get(i) - ((genDimDataQ.get(i) - 1) * genDimDataDq.get(i)));
 				}
 
-				PlotTools.displayPlotXY(alpha, f, isLineVisible, "f spectrum",
-						"alpha", "f");
+				PlotTools.displayPlotXY(alpha, f, isLineVisible, "f spectrum", "alpha", "f");
 			}
 
 			// System.out.println("IqmOpFracGenDim: right before setting regression data");
