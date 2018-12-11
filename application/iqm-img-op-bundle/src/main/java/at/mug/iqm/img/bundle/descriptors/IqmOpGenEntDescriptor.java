@@ -63,18 +63,6 @@ public class IqmOpGenEntDescriptor extends AbstractOperatorDescriptor {
 	 */
 	private static final long serialVersionUID = -965433752465270136L;
 	
-	public static final Integer ENTROPY_RENYI   = 0;
-	public static final Integer ENTROPY_TSALLIS  = 1;
-	public static final Integer ENTROPY_H1       = 2;
-	public static final Integer ENTROPY_H2       = 3;
-	public static final Integer ENTROPY_H3       = 4;
-	public static final Integer ENTROPY_S_ETA    = 5;
-	public static final Integer ENTROPY_S_KAPPPA = 6;
-	public static final Integer ENTROPY_S_B      = 7;
-	public static final Integer ENTROPY_S_E      = 8;
-	public static final Integer ENTROPY_S_BETA   = 9;
-	public static final Integer ENTROPY_S_GAMMA = 10;
-	
 	public static final OperatorType TYPE = OperatorType.IMAGE;
 	
 	private static final DataType[] OUTPUT_TYPES = new DataType[] { DataType.IMAGE, DataType.TABLE };
@@ -95,6 +83,8 @@ public class IqmOpGenEntDescriptor extends AbstractOperatorDescriptor {
 			{ "arg6Desc", "SE" },
 			{ "arg7Desc", "SBeta" },
 			{ "arg8Desc", "SGamma" },
+			{ "arg8Desc", "SNorm" },
+			{ "arg8Desc", "SEscort" },
 			{ "arg9Desc", "Epsilon" }, //Distance
 			{ "arg10Desc",  "minimal q" },
 			{ "arg11Desc", "maximal q" },
@@ -113,16 +103,16 @@ public class IqmOpGenEntDescriptor extends AbstractOperatorDescriptor {
 
 	private static final String[] supportedModes = { "rendered" };
 	private static final int numSources = 1;
-	private static final String[] paramNames = {"Renyi", "Tsallis", "H", "SE", "SEta", "SKappa", "SB",  "SBeta", "SGamma", 
+	private static final String[] paramNames = {"Renyi", "Tsallis", "H", "SE", "SEta", "SKappa", "SB",  "SBeta", "SGamma", "SNorm", "SEscort",
 			 									"Eps", "MinQ", "MaxQ",
 												"MinEta", "MaxEta", "MinKappa", "MaxKappa", "MinB", "MaxB", "MinBeta", "MaxBeta", "MinGamma", "MaxGamma",
 												"GridMethod"};
 
-	private static final Class[] paramClasses = { Integer.class, Integer.class, Integer.class, Integer.class, Integer.class, Integer.class, Integer.class, Integer.class, Integer.class, 
+	private static final Class[] paramClasses = { Integer.class, Integer.class, Integer.class, Integer.class, Integer.class, Integer.class, Integer.class, Integer.class, Integer.class, Integer.class, Integer.class, 
 												  Integer.class, Integer.class, Integer.class,
 												  Double.class, Double.class, Double.class, Double.class, Double.class, Double.class, Double.class, Double.class, Double.class, Double.class,
 												  Integer.class,};
-	private static final Object[] paramDefaults = { 1, 1, 1, 1, 1, 1, 1, 1, 1,
+	private static final Object[] paramDefaults = { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
 												   10, -5, 5, 
 												   0.1, 1.0, 0.0, 0.9, 1.0, 10.0, 0.5, 1.5, 0.1, 1.0,
 												   0,}; //
@@ -136,6 +126,8 @@ public class IqmOpGenEntDescriptor extends AbstractOperatorDescriptor {
 			new Range(Integer.class, 0, 1), //SB		
 			new Range(Integer.class, 0, 1), //SBeta
 			new Range(Integer.class, 0, 1), //SGamma
+			new Range(Integer.class, 0, 1), //SNorm
+			new Range(Integer.class, 0, 1), //SEscort
 			new Range(Integer.class, 2, Integer.MAX_VALUE), //Eps		
 			new Range(Integer.class, -Integer.MAX_VALUE, Integer.MAX_VALUE), //minQ
 			new Range(Integer.class, -Integer.MAX_VALUE, Integer.MAX_VALUE), //maxQ		

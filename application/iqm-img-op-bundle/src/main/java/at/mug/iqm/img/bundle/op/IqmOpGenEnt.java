@@ -61,13 +61,15 @@ import at.mug.iqm.img.bundle.descriptors.IqmOpGenEntDescriptor;
  * <li>according to a review of Amigó, J.M., Balogh, S.G., Hernández, S., 2018. A Brief Review of Generalized Entropies. Entropy 20, 813. https://doi.org/10.3390/e20110813
  * <li>and to: Tsallis Introduction to Nonextensive Statistical Mechanics, 2009, S105-106
  * <li>Renyi, Tsallis, H1,H2,H3 according to Amigo etal.
- * <li>H      according to Amigo etal. 
- * <li>SE     according to Amigo etal. and Tsekouras, G.A.; Tsallis, C. Generalized entropy arising from a distribution of q indices. Phys. Rev. E 2005,
- * <li>SEta   according to Amigo etal. and Anteneodo, C.; Plastino, A.R. Maximum entropy approach to stretched exponential probability distributions. J. Phys. A Math. Gen. 1999, 32, 1089–1098.	
- * <li>SKappa according to Amigo etal. and Kaniadakis, G. Statistical mechanics in the context of special relativity. Phys. Rev. E 2002, 66, 056125
- * <li>SB     according to Amigo etal. and Curado, E.M.; Nobre, F.D. On the stability of analytic entropic forms. Physica A 2004, 335, 94–106.
- * <li>SBeta  according to Amigo etal. and Shafee, F. Lambert function and a new non-extensive form of entropy. IMA J. Appl. Math. 2007, 72, 785–800.
- * <li>SGamma according to Amigo etal. and Tsallis Introduction to Nonextensive Statistical Mechanics, 2009, S61
+ * <li>H       according to Amigo etal. 
+ * <li>SE      according to Amigo etal. and Tsekouras, G.A.; Tsallis, C. Generalized entropy arising from a distribution of q indices. Phys. Rev. E 2005,
+ * <li>SEta    according to Amigo etal. and Anteneodo, C.; Plastino, A.R. Maximum entropy approach to stretched exponential probability distributions. J. Phys. A Math. Gen. 1999, 32, 1089–1098.	
+ * <li>SKappa  according to Amigo etal. and Kaniadakis, G. Statistical mechanics in the context of special relativity. Phys. Rev. E 2002, 66, 056125
+ * <li>SB      according to Amigo etal. and Curado, E.M.; Nobre, F.D. On the stability of analytic entropic forms. Physica A 2004, 335, 94–106.
+ * <li>SBeta   according to Amigo etal. and Shafee, F. Lambert function and a new non-extensive form of entropy. IMA J. Appl. Math. 2007, 72, 785–800.
+ * <li>SGamma  according to Amigo etal. and Tsallis Introduction to Nonextensive Statistical Mechanics, 2009, S61
+ * <li>SNorm   according to Tsallis Introduction to Nonextensive Statistical Mechanics, 2009, S105-106
+ * <li>SEscort according to Tsallis Introduction to Nonextensive Statistical Mechanics, 2009, S105-106
  * 
  * @author Ahammer
  * @since  2018-12-04
@@ -144,6 +146,8 @@ public class IqmOpGenEnt extends AbstractOperator {
 		int sB      = pb.getIntParameter("SB");
 		int sBeta   = pb.getIntParameter("SBeta");
 		int sGamma  = pb.getIntParameter("SGamma");
+		int sNorm   = pb.getIntParameter("SNorm");
+		int sEscort = pb.getIntParameter("SEscort");
 		
 		int eps   = pb.getIntParameter("Eps"); // epsilon in pixels
 		
@@ -221,7 +225,9 @@ public class IqmOpGenEnt extends AbstractOperator {
 		double[][] genEntSKappa  = new double[numKappa][numBands];	
 		double[][] genEntSB      = new double[numB][numBands];	
 		double[][] genEntSBeta   = new double[numBeta][numBands];	
-		double[][] genEntSGamma  = new double[numGamma][numBands];	
+		double[][] genEntSGamma  = new double[numGamma][numBands];
+		double[][] genEntSNorm   = new double[numQ][numBands];	
+		double[][] genEntSEscort = new double[numQ][numBands];	
 		
 		double[][] probabilities = null;
 		double[]   totalsMax     = new double[numBands];
@@ -572,6 +578,70 @@ public class IqmOpGenEnt extends AbstractOperator {
 				}//q		
 			}//band
 		}
+		if (sNorm == 1) {//SNorm according to Tsallis Introduction to Nonextensive Statistical Mechanics, 2009, S105-106
+			for (int b = 0; b < numBands; b++) {
+				for (int q = 0; q < numQ; q++) {
+					double sum = 0.0;
+					for (int pp = 0; pp < probabilities.length; pp++) {
+						if ((q + minQ) == 1) { //q=1 special case
+							if (probabilities[pp][b] == 0) {// damit logarithmus nicht undefiniert ist;
+								sum = sum +  Double.MIN_VALUE*Math.log( Double.MIN_VALUE); //for q=1 Snorm is equal to S_BGS (Bolzmann Gibbs Shannon entropy)
+							}
+							else {
+								sum = sum + probabilities[pp][b]*Math.log(probabilities[pp][b]); //for q=1 Snorm is equal to S_BGS (Bolzmann Gibbs Shannon entropy)
+							}
+						}
+						else if (((q + minQ) <=  0 ) && (probabilities[pp][b] != 0.0)){ //leaving out 0 is essential! and according to Amigo etal. page 2
+							sum = sum + Math.pow(probabilities[pp][b],(q + minQ));	
+						}
+						else if ( (q + minQ) > 0 ) {
+							sum = sum + Math.pow(probabilities[pp][b],(q + minQ));
+						}
+//						else {
+//							sum = sum + Math.pow(probabilities[pp][b],(q + minQ));
+//						}
+					}			
+					if ((q + minQ) == 1) { //special case q=1 SNorm is equal to S_BGS (Bolzmann Gibbs Shannon entropy)
+						genEntSNorm[q][b] = -sum; 
+					}	
+					else {
+						genEntSNorm[q][b] = (1.0-(1.0/sum))/(1.0-(q + minQ));	
+					}
+				}//q		
+			}//band
+		}
+		if (sEscort == 1) {//SEscort according to Tsallis Introduction to Nonextensive Statistical Mechanics, 2009, S105-106
+			for (int b = 0; b < numBands; b++) {
+				for (int q = 0; q < numQ; q++) {
+					double sum = 0.0;
+					for (int pp = 0; pp < probabilities.length; pp++) {
+						if ((q + minQ) == 1) { //q=1 special case
+							if (probabilities[pp][b] == 0) {// damit logarithmus nicht undefiniert ist;
+								sum = sum +  Double.MIN_VALUE*Math.log( Double.MIN_VALUE); //for q=1 SEscort is equal to S_BGS (Bolzmann Gibbs Shannon entropy)
+							}
+							else {
+								sum = sum + probabilities[pp][b]*Math.log(probabilities[pp][b]); //for q=1 SEscort is equal to S_BGS (Bolzmann Gibbs Shannon entropy)
+							}
+						}
+						else if (((q + minQ) <=  0 ) && (probabilities[pp][b] != 0.0)){ //leaving out 0 is essential! and according to Amigo etal. page 2
+							sum = sum + Math.pow(probabilities[pp][b], 1.0/(q + minQ));	
+						}
+						else if ( (q + minQ) > 0 ) {
+							sum = sum + Math.pow(probabilities[pp][b], 1.0/(q + minQ));
+						}
+//						else {
+//							sum = sum + Math.pow(probabilities[pp][b], 1.0/(q + minQ));
+//						}
+					}			
+					if ((q + minQ) == 1) { //special case q=1 SEscort is equal to S_BGS (Bolzmann Gibbs Shannon entropy)
+						genEntSEscort[q][b] = -sum; 
+					}	
+					else {
+						genEntSEscort[q][b] = (1.0 - Math.pow(sum, -(q+minQ)))/((q + minQ) - 1.0);	
+					}
+				}//q		
+			}//band
+		}
 		
 		
 		
@@ -709,6 +779,30 @@ public class IqmOpGenEnt extends AbstractOperator {
 				for (int g = 0; g < numGamma; g++) {			
 					model.setValueAt(genEntSGamma[g][b], b, numColumns + g); // set table data			
 				}//n
+			}//bands
+		}
+		if (sNorm == 1) {//SNorm
+			int numColumns = model.getColumnCount();
+			//data header
+			for (int q = 0; q < numQ; q++) {
+				model.addColumn("SNorm_q" + (minQ + q));
+			}
+			for (int b = 0; b < numBands; b++) { //several bands	
+				for (int q = 0; q < numQ; q++) {			
+					model.setValueAt(genEntSNorm[q][b], b, numColumns + q); // set table data			
+				}//q
+			}//bands
+		}
+		if (sEscort == 1) {//SEscort
+			int numColumns = model.getColumnCount();
+			//data header
+			for (int q = 0; q < numQ; q++) {
+				model.addColumn("SEscort_q" + (minQ + q));
+			}
+			for (int b = 0; b < numBands; b++) { //several bands	
+				for (int q = 0; q < numQ; q++) {			
+					model.setValueAt(genEntSEscort[q][b], b, numColumns + q); // set table data			
+				}//q
 			}//bands
 		}
 		

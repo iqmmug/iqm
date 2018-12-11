@@ -110,6 +110,7 @@ public class OperatorGUI_GenEnt extends AbstractImageOperatorGUI implements
 	private double minGamma;
 	private double maxGamma;
 	
+	
 	private JCheckBox    chkBxRenyi    = null;
 	private JCheckBox    chkBxTsallis  = null;
 	private JCheckBox    chkBxH        = null;
@@ -119,6 +120,8 @@ public class OperatorGUI_GenEnt extends AbstractImageOperatorGUI implements
 	private JCheckBox    chkBxSB       = null;
 	private JCheckBox    chkBxSBeta    = null;
 	private JCheckBox    chkBxSGamma   = null;
+	private JCheckBox    chkBxSNorm    = null;
+	private JCheckBox    chkBxSEscort  = null;
 	private JPanel       jPanelEntropyType  = null;
 	
 	private JPanel   jPanelEps   = null;
@@ -257,6 +260,10 @@ public class OperatorGUI_GenEnt extends AbstractImageOperatorGUI implements
 		if (!chkBxSBeta.isSelected())   pb.setParameter("SBeta", 0);
 		if (chkBxSGamma.isSelected())   pb.setParameter("SGamma", 1);
 		if (!chkBxSGamma.isSelected())  pb.setParameter("SGamma", 0);
+		if (chkBxSNorm.isSelected())    pb.setParameter("SNorm", 1);
+		if (!chkBxSNorm.isSelected())   pb.setParameter("SNorm", 0);
+		if (chkBxSEscort.isSelected())  pb.setParameter("SEscort", 1);
+		if (!chkBxSEscort.isSelected()) pb.setParameter("SEscort", 0);
 		
 		pb.setParameter("Eps",    ((Number) jSpinnerEps .getValue()).intValue());	
 		
@@ -304,7 +311,12 @@ public class OperatorGUI_GenEnt extends AbstractImageOperatorGUI implements
 		if (pb.getIntParameter("SBeta") == 1)   chkBxSBeta.setSelected(true);
 		if (pb.getIntParameter("SGamma") == 0)  chkBxSGamma.setSelected(false);
 		if (pb.getIntParameter("SGamma") == 1)  chkBxSGamma.setSelected(true);
+		if (pb.getIntParameter("SNorm") == 0)   chkBxSNorm.setSelected(false);
+		if (pb.getIntParameter("SNorm") == 1)   chkBxSNorm.setSelected(true);
+		if (pb.getIntParameter("SEscort") == 0) chkBxSEscort.setSelected(false);
+		if (pb.getIntParameter("SEscort") == 1) chkBxSEscort.setSelected(true);
 
+		
 		jSpinnerEps.removeChangeListener(this);
 		jSpinnerEps.setValue(pb.getIntParameter("Eps"));
 		jSpinnerEps.addChangeListener(this);
@@ -980,6 +992,39 @@ public class OperatorGUI_GenEnt extends AbstractImageOperatorGUI implements
 	}
 	
 	/**
+	 * This method initializes the Option:
+	 * 
+	 * @return javax.swing.JCheckBox
+	 */
+	private JCheckBox getJCheckBoxSNorm() {
+		if (chkBxSNorm == null) {
+			chkBxSNorm = new JCheckBox();
+			chkBxSNorm.setText("SNorm");
+			chkBxSNorm.setToolTipText("generalized normalized (Landsberg Vedral Rajagopal Abe) entropies");
+			chkBxSNorm.addActionListener(this);
+			chkBxSNorm.setActionCommand("parameter");
+			chkBxSNorm.setEnabled(true);
+		}
+		return chkBxSNorm;
+	}
+	/**
+	 * This method initializes the Option:
+	 * 
+	 * @return javax.swing.JCheckBox
+	 */
+	private JCheckBox getJCheckBoxSEscort() {
+		if (chkBxSEscort == null) {
+			chkBxSEscort = new JCheckBox();
+			chkBxSEscort.setText("SEscort");
+			chkBxSEscort.setToolTipText("generalized Escort entropies");
+			chkBxSEscort.addActionListener(this);
+			chkBxSEscort.setActionCommand("parameter");
+			chkBxSEscort.setEnabled(true);
+		}
+		return chkBxSEscort;
+	}
+	
+	/**
 	 * This method initializes jJPanelMethodEps
 	 * 
 	 * @return javax.swing.JPanel
@@ -998,6 +1043,8 @@ public class OperatorGUI_GenEnt extends AbstractImageOperatorGUI implements
 			jPanelEntropyType.add(getJCheckBoxSB());	
 			jPanelEntropyType.add(getJCheckBoxSBeta());
 			jPanelEntropyType.add(getJCheckBoxSGamma());	
+			jPanelEntropyType.add(getJCheckBoxSNorm());	
+			jPanelEntropyType.add(getJCheckBoxSEscort());	
 			// jPanelEntropyType.addSeparator();
 	
 		}
@@ -1176,14 +1223,14 @@ public class OperatorGUI_GenEnt extends AbstractImageOperatorGUI implements
 		logger.debug(e.getActionCommand() + " event has been triggered.");
 		if ("parameter".equals(e.getActionCommand())) {
 					
-			if (chkBxRenyi == e.getSource() || chkBxTsallis == e.getSource()) {
-				if (chkBxRenyi.isSelected() || chkBxTsallis.isSelected()) {
+			if (chkBxRenyi == e.getSource() || chkBxTsallis == e.getSource() || chkBxSNorm == e.getSource() || chkBxSEscort == e.getSource()) {
+				if (chkBxRenyi.isSelected() || chkBxTsallis.isSelected() || chkBxSNorm.isSelected() || chkBxSEscort.isSelected()) {
 					jSpinnerMinQ.setEnabled(true);
 					jLabelMinQ.setEnabled(true);
 					jSpinnerMaxQ.setEnabled(true);
 					jLabelMaxQ.setEnabled(true);
 				}		
-				if (!chkBxRenyi.isSelected() && !chkBxTsallis.isSelected()) {
+				if (!chkBxRenyi.isSelected() && !chkBxTsallis.isSelected() && !chkBxSNorm.isSelected() && !chkBxSEscort.isSelected()) {
 					jSpinnerMinQ.setEnabled(false);
 					jLabelMinQ.setEnabled(false);
 					jSpinnerMaxQ.setEnabled(false);
