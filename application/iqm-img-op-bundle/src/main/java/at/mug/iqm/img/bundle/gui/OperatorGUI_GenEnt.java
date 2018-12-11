@@ -99,24 +99,24 @@ public class OperatorGUI_GenEnt extends AbstractImageOperatorGUI implements
 	private int minQ;
 	private int maxQ;
 	private int maxEps = Integer.MAX_VALUE;
-	private float minEta;
-	private float maxEta;
-	private float minKappa;
-	private float maxKappa;
-	private float minB;
-	private float maxB;
-	private float minBeta;
-	private float maxBeta;
-	private float minGamma;
-	private float maxGamma;
+	private double minEta;
+	private double maxEta;
+	private double minKappa;
+	private double maxKappa;
+	private double minB;
+	private double maxB;
+	private double minBeta;
+	private double maxBeta;
+	private double minGamma;
+	private double maxGamma;
 	
 	private JCheckBox    chkBxRenyi    = null;
 	private JCheckBox    chkBxTsallis  = null;
 	private JCheckBox    chkBxH        = null;
+	private JCheckBox    chkBxSE       = null;
 	private JCheckBox    chkBxSEta     = null;
 	private JCheckBox    chkBxSKappa   = null;
 	private JCheckBox    chkBxSB       = null;
-	private JCheckBox    chkBxSE       = null;
 	private JCheckBox    chkBxSBeta    = null;
 	private JCheckBox    chkBxSGamma   = null;
 	private JPanel       jPanelEntropyType  = null;
@@ -245,14 +245,14 @@ public class OperatorGUI_GenEnt extends AbstractImageOperatorGUI implements
 		if (!chkBxTsallis.isSelected()) pb.setParameter("Tsallis", 0);
 		if (chkBxH.isSelected())        pb.setParameter("H", 1);
 		if (!chkBxH.isSelected())       pb.setParameter("H", 0);
+		if (chkBxSE.isSelected())       pb.setParameter("SE", 1);
+		if (!chkBxSE.isSelected())      pb.setParameter("SE", 0);
 		if (chkBxSEta.isSelected())     pb.setParameter("SEta", 1);
 		if (!chkBxSEta.isSelected())    pb.setParameter("SEta", 0);
 		if (chkBxSKappa.isSelected())   pb.setParameter("SKappa", 1);
 		if (!chkBxSKappa.isSelected())  pb.setParameter("SKappa", 0);
 		if (chkBxSB.isSelected())       pb.setParameter("SB", 1);
-		if (!chkBxSB.isSelected())      pb.setParameter("SB", 0);
-		if (chkBxSE.isSelected())       pb.setParameter("SE", 1);
-		if (!chkBxSE.isSelected())      pb.setParameter("SE", 0);
+		if (!chkBxSB.isSelected())      pb.setParameter("SB", 0);	
 		if (chkBxSBeta.isSelected())    pb.setParameter("SBeta", 1);
 		if (!chkBxSBeta.isSelected())   pb.setParameter("SBeta", 0);
 		if (chkBxSGamma.isSelected())   pb.setParameter("SGamma", 1);
@@ -262,16 +262,16 @@ public class OperatorGUI_GenEnt extends AbstractImageOperatorGUI implements
 		
 		pb.setParameter("MinQ",   ((Number) jSpinnerMinQ.getValue()).intValue());
 		pb.setParameter("MaxQ",   ((Number) jSpinnerMaxQ.getValue()).intValue());	
-		pb.setParameter("MinEta",   ((Number) jSpinnerMinEta  .getValue()).floatValue());
-		pb.setParameter("MaxEta",   ((Number) jSpinnerMaxEta  .getValue()).floatValue());
-		pb.setParameter("MinKappa", ((Number) jSpinnerMinKappa.getValue()).floatValue());
-		pb.setParameter("MaxKappa", ((Number) jSpinnerMaxKappa.getValue()).floatValue());
-		pb.setParameter("MinB",     ((Number) jSpinnerMinB    .getValue()).floatValue());
-		pb.setParameter("MaxB",     ((Number) jSpinnerMaxB    .getValue()).floatValue());
-		pb.setParameter("MinBeta",  ((Number) jSpinnerMinBeta .getValue()).floatValue());
-		pb.setParameter("MaxBeta",  ((Number) jSpinnerMaxBeta .getValue()).floatValue());
-		pb.setParameter("MinGamma", ((Number) jSpinnerMinBeta .getValue()).floatValue());
-		pb.setParameter("MaxGamma", ((Number) jSpinnerMaxBeta .getValue()).floatValue());
+		pb.setParameter("MinEta",   ((Number) jSpinnerMinEta  .getValue()).doubleValue());
+		pb.setParameter("MaxEta",   ((Number) jSpinnerMaxEta  .getValue()).doubleValue());
+		pb.setParameter("MinKappa", ((Number) jSpinnerMinKappa.getValue()).doubleValue());
+		pb.setParameter("MaxKappa", ((Number) jSpinnerMaxKappa.getValue()).doubleValue());
+		pb.setParameter("MinB",     ((Number) jSpinnerMinB    .getValue()).doubleValue());
+		pb.setParameter("MaxB",     ((Number) jSpinnerMaxB    .getValue()).doubleValue());
+		pb.setParameter("MinBeta",  ((Number) jSpinnerMinBeta .getValue()).doubleValue());
+		pb.setParameter("MaxBeta",  ((Number) jSpinnerMaxBeta .getValue()).doubleValue());
+		pb.setParameter("MinGamma", ((Number) jSpinnerMinBeta .getValue()).doubleValue());
+		pb.setParameter("MaxGamma", ((Number) jSpinnerMaxBeta .getValue()).doubleValue());
 	
 		if (buttGlidingBox.isSelected())  pb.setParameter("GridMethod", 0);
 		if (buttRasterBox.isSelected())   pb.setParameter("GridMethod", 1);
@@ -292,14 +292,14 @@ public class OperatorGUI_GenEnt extends AbstractImageOperatorGUI implements
 		if (pb.getIntParameter("Tsallis") == 1) chkBxTsallis.setSelected(true);
 		if (pb.getIntParameter("H") == 0)       chkBxH.setSelected(false);
 		if (pb.getIntParameter("H") == 1)       chkBxH.setSelected(true);
+		if (pb.getIntParameter("SE") == 0)      chkBxSE.setSelected(false);
+		if (pb.getIntParameter("SE") == 1)      chkBxSE.setSelected(true);
 		if (pb.getIntParameter("SEta") == 0)    chkBxSEta.setSelected(false);
 		if (pb.getIntParameter("SEta") == 1)    chkBxSEta.setSelected(true);
 		if (pb.getIntParameter("SKappa") == 0)  chkBxSKappa.setSelected(false);
 		if (pb.getIntParameter("SKappa") == 1)  chkBxSKappa.setSelected(true);
 		if (pb.getIntParameter("SB") == 0)      chkBxSB.setSelected(false);
 		if (pb.getIntParameter("SB") == 1)      chkBxSB.setSelected(true);
-		if (pb.getIntParameter("SE") == 0)      chkBxSE.setSelected(false);
-		if (pb.getIntParameter("SE") == 1)      chkBxSE.setSelected(true);
 		if (pb.getIntParameter("SBeta") == 0)   chkBxSBeta.setSelected(false);
 		if (pb.getIntParameter("SBeta") == 1)   chkBxSBeta.setSelected(true);
 		if (pb.getIntParameter("SGamma") == 0)  chkBxSGamma.setSelected(false);
@@ -318,44 +318,44 @@ public class OperatorGUI_GenEnt extends AbstractImageOperatorGUI implements
 		jSpinnerMaxQ.addChangeListener(this);
 		
 		jSpinnerMinEta.removeChangeListener(this);
-		jSpinnerMinEta.setValue(pb.getFloatParameter("MinEta"));
+		jSpinnerMinEta.setValue(pb.getDoubleParameter("MinEta"));
 		jSpinnerMinEta.addChangeListener(this);
 		
 		jSpinnerMaxEta.removeChangeListener(this);
-		jSpinnerMaxEta.setValue(pb.getFloatParameter("MaxEta"));
+		jSpinnerMaxEta.setValue(pb.getDoubleParameter("MaxEta"));
 		jSpinnerMaxEta.addChangeListener(this);
 			
 		jSpinnerMinKappa.removeChangeListener(this);
-		jSpinnerMinKappa.setValue(pb.getFloatParameter("MinKappa"));
+		jSpinnerMinKappa.setValue(pb.getDoubleParameter("MinKappa"));
 		jSpinnerMinKappa.addChangeListener(this);
 		
 		
 		jSpinnerMaxKappa.removeChangeListener(this);
-		jSpinnerMaxKappa.setValue(pb.getFloatParameter("MaxKappa"));
+		jSpinnerMaxKappa.setValue(pb.getDoubleParameter("MaxKappa"));
 		jSpinnerMaxKappa.addChangeListener(this);
 			
 		jSpinnerMinB.removeChangeListener(this);
-		jSpinnerMinB.setValue(pb.getFloatParameter("MinB"));
+		jSpinnerMinB.setValue(pb.getDoubleParameter("MinB"));
 		jSpinnerMinB.addChangeListener(this);
 		
 		jSpinnerMaxB.removeChangeListener(this);
-		jSpinnerMaxB.setValue(pb.getFloatParameter("MaxB"));
+		jSpinnerMaxB.setValue(pb.getDoubleParameter("MaxB"));
 		jSpinnerMaxB.addChangeListener(this);
 			
 		jSpinnerMinBeta.removeChangeListener(this);
-		jSpinnerMinBeta.setValue(pb.getFloatParameter("MinBeta"));
+		jSpinnerMinBeta.setValue(pb.getDoubleParameter("MinBeta"));
 		jSpinnerMinBeta.addChangeListener(this);
 		
 		jSpinnerMaxBeta.removeChangeListener(this);
-		jSpinnerMaxBeta.setValue(pb.getFloatParameter("MaxBeta"));
+		jSpinnerMaxBeta.setValue(pb.getDoubleParameter("MaxBeta"));
 		jSpinnerMaxBeta.addChangeListener(this);
 			
 		jSpinnerMinGamma.removeChangeListener(this);
-		jSpinnerMinGamma.setValue(pb.getFloatParameter("MinGamma"));
+		jSpinnerMinGamma.setValue(pb.getDoubleParameter("MinGamma"));
 		jSpinnerMinGamma.addChangeListener(this);
 		
 		jSpinnerMaxGamma.removeChangeListener(this);
-		jSpinnerMaxGamma.setValue(pb.getFloatParameter("MaxGamma"));
+		jSpinnerMaxGamma.setValue(pb.getDoubleParameter("MaxGamma"));
 		jSpinnerMaxGamma.addChangeListener(this);
 
 		if (pb.getIntParameter("GridMethod") == 0) buttGlidingBox.setSelected(true);
@@ -549,7 +549,7 @@ public class OperatorGUI_GenEnt extends AbstractImageOperatorGUI implements
 			jLabelMinEta = new JLabel("eta:    min ");
 			//jLabelMinEta.setPreferredSize(new Dimension(70, 20));
 			jLabelMinEta.setHorizontalAlignment(SwingConstants.RIGHT);
-			SpinnerModel sModel = new SpinnerNumberModel(0.1f, Float.MIN_VALUE, Float.MAX_VALUE, 0.1f); // init, min, max, step
+			SpinnerModel sModel = new SpinnerNumberModel(0.1, Double.MIN_VALUE, Double.MAX_VALUE, 0.1); // init, min, max, step
 			jSpinnerMinEta = new JSpinner(sModel);
 			//jSpinnerMinEta = new JSpinner();
 			//jSpinnerMinEta.setPreferredSize(new Dimension(60, 20));
@@ -578,7 +578,7 @@ public class OperatorGUI_GenEnt extends AbstractImageOperatorGUI implements
 			jLabelMaxEta = new JLabel("max ");
 			//jLabelMaxEta.setPreferredSize(new Dimension(70, 20));
 			jLabelMaxEta.setHorizontalAlignment(SwingConstants.RIGHT);
-			SpinnerModel sModel = new SpinnerNumberModel(1.0f, Float.MIN_VALUE, Float.MAX_VALUE, 0.1f); // init, min, max, step
+			SpinnerModel sModel = new SpinnerNumberModel(1.0, Double.MIN_VALUE, Double.MAX_VALUE, 0.1); // init, min, max, step
 			jSpinnerMaxEta = new JSpinner(sModel);
 			//jSpinnerMaxEta = new JSpinner();
 			//jSpinnerMaxEta.setPreferredSize(new Dimension(60, 20));
@@ -607,7 +607,7 @@ public class OperatorGUI_GenEnt extends AbstractImageOperatorGUI implements
 			jLabelMinKappa = new JLabel("kappa:    min ");
 			// jLabelMinKappa.setPreferredSize(new Dimension(70, 20));
 			jLabelMinKappa.setHorizontalAlignment(SwingConstants.RIGHT);
-			SpinnerModel sModel = new SpinnerNumberModel(0.1f, Float.MIN_VALUE, 1.0f-Float.MIN_VALUE, 0.1f); // init, min, max, step
+			SpinnerModel sModel = new SpinnerNumberModel(0.0, 0.0, 1.0-Double.MIN_VALUE, 0.1); // init, min, max, step  //0.0f FOR MIN DOES NOT WORK! WHY?
 			jSpinnerMinKappa = new JSpinner(sModel);
 			// jSpinnerMinKappa = new JSpinner();
 			//jSpinnerMinKappa.setPreferredSize(new Dimension(60, 20));
@@ -636,7 +636,7 @@ public class OperatorGUI_GenEnt extends AbstractImageOperatorGUI implements
 			jLabelMaxKappa = new JLabel("max ");
 			// jLabelMaxKappa.setPreferredSize(new Dimension(70, 20));
 			jLabelMaxKappa.setHorizontalAlignment(SwingConstants.RIGHT);
-			SpinnerModel sModel = new SpinnerNumberModel(0.9f, Float.MIN_VALUE, 1.0f-Float.MIN_VALUE, 0.1f); // init, min, max, step
+			SpinnerModel sModel = new SpinnerNumberModel(0.9, Double.MIN_VALUE, 1.0-Double.MIN_VALUE, 0.1); // init, min, max, step
 			jSpinnerMaxKappa = new JSpinner(sModel);
 			// jSpinnerMaxKappa = new JSpinner();
 			//jSpinnerMaxKappa.setPreferredSize(new Dimension(60, 20));
@@ -665,7 +665,7 @@ public class OperatorGUI_GenEnt extends AbstractImageOperatorGUI implements
 			jLabelMinB = new JLabel("b:    min ");
 			// jLabelMinB.setPreferredSize(new Dimension(70, 20));
 			jLabelMinB.setHorizontalAlignment(SwingConstants.RIGHT);
-			SpinnerModel sModel = new SpinnerNumberModel(0.1f, Float.MIN_VALUE, Float.MAX_VALUE, 0.1f); // init, min, max, step
+			SpinnerModel sModel = new SpinnerNumberModel(1.0, Double.MIN_VALUE, Double.MAX_VALUE, 1.0); // init, min, max, step
 			jSpinnerMinB = new JSpinner(sModel);
 			// jSpinnerMinB = new JSpinner();
 			//jSpinnerMinB.setPreferredSize(new Dimension(60, 20));
@@ -694,7 +694,7 @@ public class OperatorGUI_GenEnt extends AbstractImageOperatorGUI implements
 			jLabelMaxB = new JLabel("max ");
 			// jLabelMaxB.setPreferredSize(new Dimension(70, 20));
 			jLabelMaxB.setHorizontalAlignment(SwingConstants.RIGHT);
-			SpinnerModel sModel = new SpinnerNumberModel(1.0f, Float.MIN_VALUE, Float.MAX_VALUE, 0.1f); // init, min, max, step
+			SpinnerModel sModel = new SpinnerNumberModel(10.0, 1.0, Double.MAX_VALUE, 1.0); // init, min, max, step
 			jSpinnerMaxB = new JSpinner(sModel);
 			// jSpinnerMaxB = new JSpinner();
 			//jSpinnerMaxB.setPreferredSize(new Dimension(60, 20));
@@ -723,7 +723,7 @@ public class OperatorGUI_GenEnt extends AbstractImageOperatorGUI implements
 			jLabelMinBeta = new JLabel("beta:    min ");
 			// jLabelMinBeta.setPreferredSize(new Dimension(70, 20));
 			jLabelMinBeta.setHorizontalAlignment(SwingConstants.RIGHT);
-			SpinnerModel sModel = new SpinnerNumberModel(0.1f, Float.MIN_VALUE, 1.0, 0.1f); // init, min, max, step
+			SpinnerModel sModel = new SpinnerNumberModel(0.5, -Double.MAX_VALUE, Double.MAX_VALUE, 0.1); // init, min, max, step
 			jSpinnerMinBeta = new JSpinner(sModel);
 			// jSpinnerMinBeta = new JSpinner();
 			//jSpinnerMinBeta.setPreferredSize(new Dimension(60, 20));
@@ -753,7 +753,7 @@ public class OperatorGUI_GenEnt extends AbstractImageOperatorGUI implements
 			jLabelMaxBeta = new JLabel("max ");
 			// jLabelMaxBeta.setPreferredSize(new Dimension(70, 20));
 			jLabelMaxBeta.setHorizontalAlignment(SwingConstants.RIGHT);
-			SpinnerModel sModel = new SpinnerNumberModel(1.0f, Float.MIN_VALUE, 1.0, 0.1f); // init, min, max, step
+			SpinnerModel sModel = new SpinnerNumberModel(1.5, -Double.MAX_VALUE, Double.MAX_VALUE, 0.1); // init, min, max, step
 			jSpinnerMaxBeta = new JSpinner(sModel);
 			// jSpinnerMaxBeta = new JSpinner();
 			//jSpinnerMaxBeta.setPreferredSize(new Dimension(60, 20));
@@ -782,7 +782,7 @@ public class OperatorGUI_GenEnt extends AbstractImageOperatorGUI implements
 			jLabelMinGamma = new JLabel("gamma:    min ");
 			// jLabelMinGamma.setPreferredSize(new Dimension(70, 20));
 			jLabelMinGamma.setHorizontalAlignment(SwingConstants.RIGHT);
-			SpinnerModel sModel = new SpinnerNumberModel(0.1f, Float.MIN_VALUE, Float.MAX_VALUE, 0.1f); // init, min, max, step
+			SpinnerModel sModel = new SpinnerNumberModel(0.1, 0.0, Double.MAX_VALUE, 0.1); // init, min, max, step
 			jSpinnerMinGamma = new JSpinner(sModel);
 			// jSpinnerMinGamma = new JSpinner();
 			//jSpinnerMinGamma.setPreferredSize(new Dimension(60, 20));
@@ -811,7 +811,7 @@ public class OperatorGUI_GenEnt extends AbstractImageOperatorGUI implements
 			jLabelMaxGamma = new JLabel("max ");
 			// jLabelMaxGamma.setPreferredSize(new Dimension(70, 20));
 			jLabelMaxGamma.setHorizontalAlignment(SwingConstants.RIGHT);
-			SpinnerModel sModel = new SpinnerNumberModel(1.0f, Float.MIN_VALUE, Float.MAX_VALUE, 0.1f); // init, min, max, step
+			SpinnerModel sModel = new SpinnerNumberModel(1.0, Double.MIN_VALUE, Double.MAX_VALUE, 0.1); // init, min, max, step
 			jSpinnerMaxGamma = new JSpinner(sModel);
 			// jSpinnerMaxGamma = new JSpinner();
 			//jSpinnerMaxGamma.setPreferredSize(new Dimension(60, 20));
@@ -882,8 +882,22 @@ public class OperatorGUI_GenEnt extends AbstractImageOperatorGUI implements
 		}
 		return chkBxH;
 	}
-	
-
+	/**
+	 * This method initializes the Option:
+	 * 
+	 * @return javax.swing.JCheckBox
+	 */
+	private JCheckBox getJCheckBoxSE() {
+		if (chkBxSE == null) {
+			chkBxSE = new JCheckBox();
+			chkBxSE.setText("SE");
+			chkBxSE.setToolTipText("Exponential (Tsekouras)  entropy");
+			chkBxSE.addActionListener(this);
+			chkBxSE.setActionCommand("parameter");
+			chkBxSE.setEnabled(true);
+		}
+		return chkBxSE;
+	}
 	/**
 	 * This method initializes the Option:
 	 * 
@@ -893,7 +907,7 @@ public class OperatorGUI_GenEnt extends AbstractImageOperatorGUI implements
 		if (chkBxSEta == null) {
 			chkBxSEta = new JCheckBox();
 			chkBxSEta.setText("SEta");
-			chkBxSEta.setToolTipText("generalized SEta entropies");
+			chkBxSEta.setToolTipText("generalized Anteneodo-Plastino entropies");
 			chkBxSEta.addActionListener(this);
 			chkBxSEta.setActionCommand("parameter");
 			chkBxSEta.setEnabled(true);
@@ -909,7 +923,7 @@ public class OperatorGUI_GenEnt extends AbstractImageOperatorGUI implements
 		if (chkBxSKappa == null) {
 			chkBxSKappa = new JCheckBox();
 			chkBxSKappa.setText("SKappa");
-			chkBxSKappa.setToolTipText("generalized SKappa entropies");
+			chkBxSKappa.setToolTipText("generalized Kaniadakis entropies");
 			chkBxSKappa.addActionListener(this);
 			chkBxSKappa.setActionCommand("parameter");
 			chkBxSKappa.setEnabled(true);
@@ -925,7 +939,7 @@ public class OperatorGUI_GenEnt extends AbstractImageOperatorGUI implements
 		if (chkBxSB == null) {
 			chkBxSB = new JCheckBox();
 			chkBxSB.setText("SB");
-			chkBxSB.setToolTipText("generalized SB entropies");
+			chkBxSB.setToolTipText("generalized Curado entropies");
 			chkBxSB.addActionListener(this);
 			chkBxSB.setActionCommand("parameter");
 			chkBxSB.setEnabled(true);
@@ -937,27 +951,11 @@ public class OperatorGUI_GenEnt extends AbstractImageOperatorGUI implements
 	 * 
 	 * @return javax.swing.JCheckBox
 	 */
-	private JCheckBox getJCheckBoxSE() {
-		if (chkBxSE == null) {
-			chkBxSE = new JCheckBox();
-			chkBxSE.setText("SE");
-			chkBxSE.setToolTipText("generalized SE entropies");
-			chkBxSE.addActionListener(this);
-			chkBxSE.setActionCommand("parameter");
-			chkBxSE.setEnabled(true);
-		}
-		return chkBxSE;
-	}
-	/**
-	 * This method initializes the Option:
-	 * 
-	 * @return javax.swing.JCheckBox
-	 */
 	private JCheckBox getJCheckBoxSBeta() {
 		if (chkBxSBeta == null) {
 			chkBxSBeta = new JCheckBox();
 			chkBxSBeta.setText("SBeta");
-			chkBxSBeta.setToolTipText("generalized SBeta entropies");
+			chkBxSBeta.setToolTipText("generalized Shafee entropies");
 			chkBxSBeta.addActionListener(this);
 			chkBxSBeta.setActionCommand("parameter");
 			chkBxSBeta.setEnabled(true);
@@ -994,10 +992,10 @@ public class OperatorGUI_GenEnt extends AbstractImageOperatorGUI implements
 			jPanelEntropyType.add(getJCheckBoxRenyi());
 			jPanelEntropyType.add(getJCheckBoxTsallis());
 			jPanelEntropyType.add(getJCheckBoxH());
+			jPanelEntropyType.add(getJCheckBoxSE());
 			jPanelEntropyType.add(getJCheckBoxSEta());
 			jPanelEntropyType.add(getJCheckBoxSKappa());
-			jPanelEntropyType.add(getJCheckBoxSB());
-			jPanelEntropyType.add(getJCheckBoxSE());
+			jPanelEntropyType.add(getJCheckBoxSB());	
 			jPanelEntropyType.add(getJCheckBoxSBeta());
 			jPanelEntropyType.add(getJCheckBoxSGamma());	
 			// jPanelEntropyType.addSeparator();
@@ -1194,6 +1192,8 @@ public class OperatorGUI_GenEnt extends AbstractImageOperatorGUI implements
 			}	
 			if (chkBxH == e.getSource()) {	
 			}
+			if (chkBxSE == e.getSource()) {				
+			}
 			if (chkBxSEta == e.getSource()) {
 				if (chkBxSEta.isSelected()) {
 					jSpinnerMinEta.setEnabled(true);
@@ -1235,9 +1235,6 @@ public class OperatorGUI_GenEnt extends AbstractImageOperatorGUI implements
 					jSpinnerMaxB.setEnabled(false);
 					jLabelMaxB.setEnabled(false);
 				}
-			}
-			if (chkBxSE == e.getSource()) {	
-				
 			}
 			if (chkBxSBeta == e.getSource()) {	
 				if (chkBxSBeta.isSelected()) {
@@ -1297,16 +1294,16 @@ public class OperatorGUI_GenEnt extends AbstractImageOperatorGUI implements
 		maxEps   = ((Number) jSpinnerEps      .getValue()).intValue();
 		minQ     = ((Number) jSpinnerMinQ     .getValue()).intValue();
 		maxQ     = ((Number) jSpinnerMaxQ     .getValue()).intValue();
-		minEta   = ((Number) jSpinnerMinEta   .getValue()).floatValue();
-		maxEta   = ((Number) jSpinnerMaxEta   .getValue()).floatValue();
-		minKappa = ((Number) jSpinnerMinKappa .getValue()).floatValue();
-		maxKappa = ((Number) jSpinnerMaxKappa .getValue()).floatValue();
-		minB     = ((Number) jSpinnerMinB     .getValue()).floatValue();
-		maxB     = ((Number) jSpinnerMaxB     .getValue()).floatValue();
-		minBeta  = ((Number) jSpinnerMinBeta  .getValue()).floatValue();
-		maxBeta  = ((Number) jSpinnerMaxBeta  .getValue()).floatValue();
-		minGamma = ((Number) jSpinnerMinGamma .getValue()).floatValue();
-		maxGamma = ((Number) jSpinnerMaxGamma .getValue()).floatValue();
+		minEta   = ((Number) jSpinnerMinEta   .getValue()).doubleValue();
+		maxEta   = ((Number) jSpinnerMaxEta   .getValue()).doubleValue();
+		minKappa = ((Number) jSpinnerMinKappa .getValue()).doubleValue();
+		maxKappa = ((Number) jSpinnerMaxKappa .getValue()).doubleValue();
+		minB     = ((Number) jSpinnerMinB     .getValue()).doubleValue();
+		maxB     = ((Number) jSpinnerMaxB     .getValue()).doubleValue();
+		minBeta  = ((Number) jSpinnerMinBeta  .getValue()).doubleValue();
+		maxBeta  = ((Number) jSpinnerMaxBeta  .getValue()).doubleValue();
+		minGamma = ((Number) jSpinnerMinGamma .getValue()).doubleValue();
+		maxGamma = ((Number) jSpinnerMaxGamma .getValue()).doubleValue();
 		
 		
 		jSpinnerEps     .removeChangeListener(this);
@@ -1356,6 +1353,10 @@ public class OperatorGUI_GenEnt extends AbstractImageOperatorGUI implements
 				maxKappa = minKappa + 0.1f;
 				jSpinnerMaxKappa.setValue(maxKappa);
 			}
+//			if (minKappa < 0.0f) { //not sure why this is needed
+//				minKappa = 0.0f;
+//				jSpinnerMinKappa.setValue(minKappa);
+//			}		
 		}
 		if (jSpinnerMaxKappa == e.getSource()) {
 			if (minKappa >= maxKappa) {

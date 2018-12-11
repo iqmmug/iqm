@@ -105,50 +105,50 @@ public class IqmOpGenEntDescriptor extends AbstractOperatorDescriptor {
 			{ "arg16Desc", "minimal B" },
 			{ "arg17Desc", "maximal B" },
 			{ "arg18Desc", "minmal Beta" },
-			{ "arg19Desc", "maximal Gamma" },	
-			{ "arg20Desc", "minimal Beta" },
+			{ "arg19Desc", "maximal Beta" },	
+			{ "arg20Desc", "minimal Gamma" },
 			{ "arg21Desc", "maximal Gamma" },	
 			{ "arg22Desc", "Grid Method" }, // 0 Gliding Box, 1 Grid Box
 	};
 
 	private static final String[] supportedModes = { "rendered" };
 	private static final int numSources = 1;
-	private static final String[] paramNames = {"Renyi", "Tsallis", "H", "SEta", "SKappa", "SB", "SE", "SBeta", "SGamma", 
+	private static final String[] paramNames = {"Renyi", "Tsallis", "H", "SE", "SEta", "SKappa", "SB",  "SBeta", "SGamma", 
 			 									"Eps", "MinQ", "MaxQ",
 												"MinEta", "MaxEta", "MinKappa", "MaxKappa", "MinB", "MaxB", "MinBeta", "MaxBeta", "MinGamma", "MaxGamma",
 												"GridMethod"};
 
 	private static final Class[] paramClasses = { Integer.class, Integer.class, Integer.class, Integer.class, Integer.class, Integer.class, Integer.class, Integer.class, Integer.class, 
 												  Integer.class, Integer.class, Integer.class,
-												  Float.class, Float.class, Float.class, Float.class, Float.class, Float.class, Float.class, Float.class, Float.class, Float.class,
+												  Double.class, Double.class, Double.class, Double.class, Double.class, Double.class, Double.class, Double.class, Double.class, Double.class,
 												  Integer.class,};
 	private static final Object[] paramDefaults = { 1, 1, 1, 1, 1, 1, 1, 1, 1,
 												   10, -5, 5, 
-												   0.1f, 1.0f, 0.1f, 0.9f, 0.1f, 1.0f, 0.1f, 0.9f, 0.0f, 1.0f,
+												   0.1, 1.0, 0.0, 0.9, 1.0, 10.0, 0.5, 1.5, 0.1, 1.0,
 												   0,}; //
 	private static final Range[] validParamValues = {
 			new Range(Integer.class, 0, 1), //Renyi
 			new Range(Integer.class, 0, 1), //Tsallis
 			new Range(Integer.class, 0, 1), //H
+			new Range(Integer.class, 0, 1), //SE
 			new Range(Integer.class, 0, 1), //SEta
 			new Range(Integer.class, 0, 1), //SKappa
-			new Range(Integer.class, 0, 1), //SB
-			new Range(Integer.class, 0, 1), //SE
+			new Range(Integer.class, 0, 1), //SB		
 			new Range(Integer.class, 0, 1), //SBeta
 			new Range(Integer.class, 0, 1), //SGamma
 			new Range(Integer.class, 2, Integer.MAX_VALUE), //Eps		
 			new Range(Integer.class, -Integer.MAX_VALUE, Integer.MAX_VALUE), //minQ
 			new Range(Integer.class, -Integer.MAX_VALUE, Integer.MAX_VALUE), //maxQ		
-			new Range(Float.class, Float.MIN_VALUE, Float.MAX_VALUE), //minEta  Eta > 0
-			new Range(Float.class, Float.MIN_VALUE, Float.MAX_VALUE), //maxEta  Eta > 0
-			new Range(Float.class, Float.MIN_VALUE, (1.0f-Float.MIN_VALUE)), //minKappa 0 < Kappa < 1
-			new Range(Float.class, Float.MIN_VALUE, (1.0f-Float.MIN_VALUE)), //maxKappa 0 < Kappa < 1
-			new Range(Float.class, Float.MIN_VALUE, Float.MAX_VALUE), //minB B > 0
-			new Range(Float.class, Float.MIN_VALUE, Float.MAX_VALUE), //maxB B > 0
-			new Range(Float.class, Float.MIN_VALUE, 1.0f), //minBeta  0 < Beta <= 1
-			new Range(Float.class, Float.MIN_VALUE, 1.0f), //maxBeta  0 < Beta <= 1
-			new Range(Float.class, -Float.MAX_VALUE, Float.MAX_VALUE), //minGamma Gamma??????????????????	
-			new Range(Float.class, -Float.MAX_VALUE, Float.MAX_VALUE), //maxGamma Gamma??????????????????	
+			new Range(Double.class, Double.MIN_VALUE, Double.MAX_VALUE), //minEta  Eta > 0
+			new Range(Double.class, Double.MIN_VALUE, Double.MAX_VALUE), //maxEta  Eta > 0
+			new Range(Double.class,              0.0, (1.0-Double.MIN_VALUE)), //minKappa 0 <= Kappa < 1
+			new Range(Double.class, Double.MIN_VALUE, (1.0-Double.MIN_VALUE)), //maxKappa 0 <= Kappa < 1
+			new Range(Double.class, Double.MIN_VALUE, Double.MAX_VALUE), //minB B > 0
+			new Range(Double.class,              1.0, Double.MAX_VALUE), //maxB B > 0
+			new Range(Double.class, Double.MIN_VALUE, Double.MAX_VALUE), //minBeta  
+			new Range(Double.class, Double.MIN_VALUE, Double.MAX_VALUE), //maxBeta  
+			new Range(Double.class,              0.0, 1.0), //minGamma 0 < Gamma < 1	
+			new Range(Double.class, Double.MIN_VALUE, 1.0), //maxGamma 0 < Gamma < 1
 			new Range(Integer.class, 0, 1), //GridMethods
 			};
 
