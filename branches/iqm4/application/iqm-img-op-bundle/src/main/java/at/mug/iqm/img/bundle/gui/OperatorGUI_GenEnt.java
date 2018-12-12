@@ -110,18 +110,17 @@ public class OperatorGUI_GenEnt extends AbstractImageOperatorGUI implements
 	private double minGamma;
 	private double maxGamma;
 	
-	
+	private JCheckBox    chkBxSE       = null;	
+	private JCheckBox    chkBxH        = null;
 	private JCheckBox    chkBxRenyi    = null;
 	private JCheckBox    chkBxTsallis  = null;
-	private JCheckBox    chkBxH        = null;
-	private JCheckBox    chkBxSE       = null;
+	private JCheckBox    chkBxSNorm    = null;
+	private JCheckBox    chkBxSEscort  = null;
 	private JCheckBox    chkBxSEta     = null;
 	private JCheckBox    chkBxSKappa   = null;
 	private JCheckBox    chkBxSB       = null;
 	private JCheckBox    chkBxSBeta    = null;
 	private JCheckBox    chkBxSGamma   = null;
-	private JCheckBox    chkBxSNorm    = null;
-	private JCheckBox    chkBxSEscort  = null;
 	private JPanel       jPanelEntropyType  = null;
 	
 	private JPanel   jPanelEps   = null;
@@ -242,14 +241,18 @@ public class OperatorGUI_GenEnt extends AbstractImageOperatorGUI implements
 	@Override
 	public void updateParameterBlock() {
 
+		if (chkBxSE.isSelected())       pb.setParameter("SE", 1);
+		if (!chkBxSE.isSelected())      pb.setParameter("SE", 0);
+		if (chkBxH.isSelected())        pb.setParameter("H", 1);
+		if (!chkBxH.isSelected())       pb.setParameter("H", 0);
 		if (chkBxRenyi.isSelected())    pb.setParameter("Renyi", 1);
 		if (!chkBxRenyi.isSelected())   pb.setParameter("Renyi", 0);
 		if (chkBxTsallis.isSelected())  pb.setParameter("Tsallis", 1);
 		if (!chkBxTsallis.isSelected()) pb.setParameter("Tsallis", 0);
-		if (chkBxH.isSelected())        pb.setParameter("H", 1);
-		if (!chkBxH.isSelected())       pb.setParameter("H", 0);
-		if (chkBxSE.isSelected())       pb.setParameter("SE", 1);
-		if (!chkBxSE.isSelected())      pb.setParameter("SE", 0);
+		if (chkBxSNorm.isSelected())    pb.setParameter("SNorm", 1);
+		if (!chkBxSNorm.isSelected())   pb.setParameter("SNorm", 0);
+		if (chkBxSEscort.isSelected())  pb.setParameter("SEscort", 1);
+		if (!chkBxSEscort.isSelected()) pb.setParameter("SEscort", 0);
 		if (chkBxSEta.isSelected())     pb.setParameter("SEta", 1);
 		if (!chkBxSEta.isSelected())    pb.setParameter("SEta", 0);
 		if (chkBxSKappa.isSelected())   pb.setParameter("SKappa", 1);
@@ -260,10 +263,7 @@ public class OperatorGUI_GenEnt extends AbstractImageOperatorGUI implements
 		if (!chkBxSBeta.isSelected())   pb.setParameter("SBeta", 0);
 		if (chkBxSGamma.isSelected())   pb.setParameter("SGamma", 1);
 		if (!chkBxSGamma.isSelected())  pb.setParameter("SGamma", 0);
-		if (chkBxSNorm.isSelected())    pb.setParameter("SNorm", 1);
-		if (!chkBxSNorm.isSelected())   pb.setParameter("SNorm", 0);
-		if (chkBxSEscort.isSelected())  pb.setParameter("SEscort", 1);
-		if (!chkBxSEscort.isSelected()) pb.setParameter("SEscort", 0);
+	
 		
 		pb.setParameter("Eps",    ((Number) jSpinnerEps .getValue()).intValue());	
 		
@@ -293,14 +293,18 @@ public class OperatorGUI_GenEnt extends AbstractImageOperatorGUI implements
 
 		this.pb = this.workPackage.getParameters();
 			
+		if (pb.getIntParameter("SE") == 0)      chkBxSE.setSelected(false);
+		if (pb.getIntParameter("SE") == 1)      chkBxSE.setSelected(true);
+		if (pb.getIntParameter("H") == 0)       chkBxH.setSelected(false);
+		if (pb.getIntParameter("H") == 1)       chkBxH.setSelected(true);
 		if (pb.getIntParameter("Renyi") == 0)   chkBxRenyi.setSelected(false);
 		if (pb.getIntParameter("Renyi") == 1)   chkBxRenyi.setSelected(true);
 		if (pb.getIntParameter("Tsallis") == 0) chkBxTsallis.setSelected(false);
 		if (pb.getIntParameter("Tsallis") == 1) chkBxTsallis.setSelected(true);
-		if (pb.getIntParameter("H") == 0)       chkBxH.setSelected(false);
-		if (pb.getIntParameter("H") == 1)       chkBxH.setSelected(true);
-		if (pb.getIntParameter("SE") == 0)      chkBxSE.setSelected(false);
-		if (pb.getIntParameter("SE") == 1)      chkBxSE.setSelected(true);
+		if (pb.getIntParameter("SNorm") == 0)   chkBxSNorm.setSelected(false);
+		if (pb.getIntParameter("SNorm") == 1)   chkBxSNorm.setSelected(true);
+		if (pb.getIntParameter("SEscort") == 0) chkBxSEscort.setSelected(false);
+		if (pb.getIntParameter("SEscort") == 1) chkBxSEscort.setSelected(true);
 		if (pb.getIntParameter("SEta") == 0)    chkBxSEta.setSelected(false);
 		if (pb.getIntParameter("SEta") == 1)    chkBxSEta.setSelected(true);
 		if (pb.getIntParameter("SKappa") == 0)  chkBxSKappa.setSelected(false);
@@ -311,11 +315,7 @@ public class OperatorGUI_GenEnt extends AbstractImageOperatorGUI implements
 		if (pb.getIntParameter("SBeta") == 1)   chkBxSBeta.setSelected(true);
 		if (pb.getIntParameter("SGamma") == 0)  chkBxSGamma.setSelected(false);
 		if (pb.getIntParameter("SGamma") == 1)  chkBxSGamma.setSelected(true);
-		if (pb.getIntParameter("SNorm") == 0)   chkBxSNorm.setSelected(false);
-		if (pb.getIntParameter("SNorm") == 1)   chkBxSNorm.setSelected(true);
-		if (pb.getIntParameter("SEscort") == 0) chkBxSEscort.setSelected(false);
-		if (pb.getIntParameter("SEscort") == 1) chkBxSEscort.setSelected(true);
-
+	
 		
 		jSpinnerEps.removeChangeListener(this);
 		jSpinnerEps.setValue(pb.getIntParameter("Eps"));
@@ -848,6 +848,38 @@ public class OperatorGUI_GenEnt extends AbstractImageOperatorGUI implements
 	 * 
 	 * @return javax.swing.JCheckBox
 	 */
+	private JCheckBox getJCheckBoxSE() {
+		if (chkBxSE == null) {
+			chkBxSE = new JCheckBox();
+			chkBxSE.setText("SE");
+			chkBxSE.setToolTipText("Exponential (Tsekouras)  entropy");
+			chkBxSE.addActionListener(this);
+			chkBxSE.setActionCommand("parameter");
+			chkBxSE.setEnabled(true);
+		}
+		return chkBxSE;
+	}
+	/**
+	 * This method initializes the Option:
+	 * 
+	 * @return javax.swing.JCheckBox
+	 */
+	private JCheckBox getJCheckBoxH() {
+		if (chkBxH == null) {
+			chkBxH = new JCheckBox();
+			chkBxH.setText("H");
+			chkBxH.setToolTipText("generalized graph entropies");
+			chkBxH.addActionListener(this);
+			chkBxH.setActionCommand("parameter");
+			chkBxH.setEnabled(true);
+		}
+		return chkBxH;
+	}
+	/**
+	 * This method initializes the Option:
+	 * 
+	 * @return javax.swing.JCheckBox
+	 */
 	private JCheckBox getJCheckBoxRenyi() {
 		if (chkBxRenyi == null) {
 			chkBxRenyi = new JCheckBox();
@@ -883,33 +915,34 @@ public class OperatorGUI_GenEnt extends AbstractImageOperatorGUI implements
 	 * 
 	 * @return javax.swing.JCheckBox
 	 */
-	private JCheckBox getJCheckBoxH() {
-		if (chkBxH == null) {
-			chkBxH = new JCheckBox();
-			chkBxH.setText("H");
-			chkBxH.setToolTipText("generalized graph entropies");
-			chkBxH.addActionListener(this);
-			chkBxH.setActionCommand("parameter");
-			chkBxH.setEnabled(true);
+	private JCheckBox getJCheckBoxSNorm() {
+		if (chkBxSNorm == null) {
+			chkBxSNorm = new JCheckBox();
+			chkBxSNorm.setText("SNorm");
+			chkBxSNorm.setToolTipText("generalized normalized (Landsberg Vedral Rajagopal Abe) entropies");
+			chkBxSNorm.addActionListener(this);
+			chkBxSNorm.setActionCommand("parameter");
+			chkBxSNorm.setEnabled(true);
 		}
-		return chkBxH;
+		return chkBxSNorm;
 	}
 	/**
 	 * This method initializes the Option:
 	 * 
 	 * @return javax.swing.JCheckBox
 	 */
-	private JCheckBox getJCheckBoxSE() {
-		if (chkBxSE == null) {
-			chkBxSE = new JCheckBox();
-			chkBxSE.setText("SE");
-			chkBxSE.setToolTipText("Exponential (Tsekouras)  entropy");
-			chkBxSE.addActionListener(this);
-			chkBxSE.setActionCommand("parameter");
-			chkBxSE.setEnabled(true);
+	private JCheckBox getJCheckBoxSEscort() {
+		if (chkBxSEscort == null) {
+			chkBxSEscort = new JCheckBox();
+			chkBxSEscort.setText("SEscort");
+			chkBxSEscort.setToolTipText("generalized Escort entropies");
+			chkBxSEscort.addActionListener(this);
+			chkBxSEscort.setActionCommand("parameter");
+			chkBxSEscort.setEnabled(true);
 		}
-		return chkBxSE;
+		return chkBxSEscort;
 	}
+	
 	/**
 	 * This method initializes the Option:
 	 * 
@@ -992,39 +1025,6 @@ public class OperatorGUI_GenEnt extends AbstractImageOperatorGUI implements
 	}
 	
 	/**
-	 * This method initializes the Option:
-	 * 
-	 * @return javax.swing.JCheckBox
-	 */
-	private JCheckBox getJCheckBoxSNorm() {
-		if (chkBxSNorm == null) {
-			chkBxSNorm = new JCheckBox();
-			chkBxSNorm.setText("SNorm");
-			chkBxSNorm.setToolTipText("generalized normalized (Landsberg Vedral Rajagopal Abe) entropies");
-			chkBxSNorm.addActionListener(this);
-			chkBxSNorm.setActionCommand("parameter");
-			chkBxSNorm.setEnabled(true);
-		}
-		return chkBxSNorm;
-	}
-	/**
-	 * This method initializes the Option:
-	 * 
-	 * @return javax.swing.JCheckBox
-	 */
-	private JCheckBox getJCheckBoxSEscort() {
-		if (chkBxSEscort == null) {
-			chkBxSEscort = new JCheckBox();
-			chkBxSEscort.setText("SEscort");
-			chkBxSEscort.setToolTipText("generalized Escort entropies");
-			chkBxSEscort.addActionListener(this);
-			chkBxSEscort.setActionCommand("parameter");
-			chkBxSEscort.setEnabled(true);
-		}
-		return chkBxSEscort;
-	}
-	
-	/**
 	 * This method initializes jJPanelMethodEps
 	 * 
 	 * @return javax.swing.JPanel
@@ -1034,17 +1034,18 @@ public class OperatorGUI_GenEnt extends AbstractImageOperatorGUI implements
 			jPanelEntropyType = new JPanel();
 			jPanelEntropyType.setLayout(new BoxLayout(jPanelEntropyType, BoxLayout.X_AXIS));
 			jPanelEntropyType.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "Check entropy types", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
+			jPanelEntropyType.add(getJCheckBoxSE());
+			jPanelEntropyType.add(getJCheckBoxH());
 			jPanelEntropyType.add(getJCheckBoxRenyi());
 			jPanelEntropyType.add(getJCheckBoxTsallis());
-			jPanelEntropyType.add(getJCheckBoxH());
-			jPanelEntropyType.add(getJCheckBoxSE());
+			jPanelEntropyType.add(getJCheckBoxSNorm());	
+			jPanelEntropyType.add(getJCheckBoxSEscort());	
 			jPanelEntropyType.add(getJCheckBoxSEta());
 			jPanelEntropyType.add(getJCheckBoxSKappa());
 			jPanelEntropyType.add(getJCheckBoxSB());	
 			jPanelEntropyType.add(getJCheckBoxSBeta());
 			jPanelEntropyType.add(getJCheckBoxSGamma());	
-			jPanelEntropyType.add(getJCheckBoxSNorm());	
-			jPanelEntropyType.add(getJCheckBoxSEscort());	
+			
 			// jPanelEntropyType.addSeparator();
 	
 		}
@@ -1222,7 +1223,11 @@ public class OperatorGUI_GenEnt extends AbstractImageOperatorGUI implements
 	public void actionPerformed(ActionEvent e) {
 		logger.debug(e.getActionCommand() + " event has been triggered.");
 		if ("parameter".equals(e.getActionCommand())) {
-					
+			
+			if (chkBxSE == e.getSource()) {				
+			}
+			if (chkBxH == e.getSource()) {	
+			}	
 			if (chkBxRenyi == e.getSource() || chkBxTsallis == e.getSource() || chkBxSNorm == e.getSource() || chkBxSEscort == e.getSource()) {
 				if (chkBxRenyi.isSelected() || chkBxTsallis.isSelected() || chkBxSNorm.isSelected() || chkBxSEscort.isSelected()) {
 					jSpinnerMinQ.setEnabled(true);
@@ -1236,11 +1241,7 @@ public class OperatorGUI_GenEnt extends AbstractImageOperatorGUI implements
 					jSpinnerMaxQ.setEnabled(false);
 					jLabelMaxQ.setEnabled(false);
 				}	
-			}	
-			if (chkBxH == e.getSource()) {	
-			}
-			if (chkBxSE == e.getSource()) {				
-			}
+			}		
 			if (chkBxSEta == e.getSource()) {
 				if (chkBxSEta.isSelected()) {
 					jSpinnerMinEta.setEnabled(true);
