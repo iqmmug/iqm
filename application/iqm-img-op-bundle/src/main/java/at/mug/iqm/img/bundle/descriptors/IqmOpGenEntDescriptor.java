@@ -74,36 +74,36 @@ public class IqmOpGenEntDescriptor extends AbstractOperatorDescriptor {
 			"calculates the lacunarity and the generalized dimensions" },
 			{ "DocURL", "https://sourceforge.net/projects/iqm/" },
 			{ "Version", "1.0" },
-			{ "arg0Desc", "Renyi" },
-			{ "arg1Desc", "Tsallis" },
-			{ "arg2Desc", "H" }, //H1, H2, H3
-			{ "arg3Desc", "SEta" },
-			{ "arg4Desc", "SKappa" },
-			{ "arg5Desc", "SB" },
-			{ "arg6Desc", "SE" },
-			{ "arg7Desc", "SBeta" },
-			{ "arg8Desc", "SGamma" },
-			{ "arg8Desc", "SNorm" },
-			{ "arg8Desc", "SEscort" },
-			{ "arg9Desc", "Epsilon" }, //Distance
-			{ "arg10Desc",  "minimal q" },
-			{ "arg11Desc", "maximal q" },
-			{ "arg12Desc", "minimal Eta" },
-			{ "arg13Desc", "maximal Eta" },
-			{ "arg14Desc", "minimal Kappa" },
-			{ "arg15Desc", "maximal Kappa" },
-			{ "arg16Desc", "minimal B" },
-			{ "arg17Desc", "maximal B" },
-			{ "arg18Desc", "minmal Beta" },
-			{ "arg19Desc", "maximal Beta" },	
-			{ "arg20Desc", "minimal Gamma" },
-			{ "arg21Desc", "maximal Gamma" },	
-			{ "arg22Desc", "Grid Method" }, // 0 Gliding Box, 1 Grid Box
+			{ "arg0Desc", "SEta" },
+			{ "arg1Desc", "H" }, //H1, H2, H3
+			{ "arg2Desc", "Renyi" },
+			{ "arg3Desc", "Tsallis" },
+			{ "arg4Desc", "SNorm" },
+			{ "arg5Desc", "SEscort" },		
+			{ "arg6Desc", "SKappa" },
+			{ "arg7Desc", "SB" },
+			{ "arg8Desc", "SE" },
+			{ "arg9Desc", "SBeta" },
+			{ "arg10Desc", "SGamma" },		
+			{ "arg11Desc", "Epsilon" }, //Distance
+			{ "arg12Desc",  "minimal q" },
+			{ "arg13Desc", "maximal q" },
+			{ "arg14Desc", "minimal Eta" },
+			{ "arg15Desc", "maximal Eta" },
+			{ "arg16Desc", "minimal Kappa" },
+			{ "arg17Desc", "maximal Kappa" },
+			{ "arg18Desc", "minimal B" },
+			{ "arg19Desc", "maximal B" },
+			{ "arg20Desc", "minmal Beta" },
+			{ "arg21Desc", "maximal Beta" },	
+			{ "arg22Desc", "minimal Gamma" },
+			{ "arg23Desc", "maximal Gamma" },	
+			{ "arg24Desc", "Grid Method" }, // 0 Gliding Box, 1 Grid Box
 	};
 
 	private static final String[] supportedModes = { "rendered" };
 	private static final int numSources = 1;
-	private static final String[] paramNames = {"Renyi", "Tsallis", "H", "SE", "SEta", "SKappa", "SB",  "SBeta", "SGamma", "SNorm", "SEscort",
+	private static final String[] paramNames = {"SE", "H", "Renyi", "Tsallis", "SNorm", "SEscort", "SEta", "SKappa", "SB",  "SBeta", "SGamma", 
 			 									"Eps", "MinQ", "MaxQ",
 												"MinEta", "MaxEta", "MinKappa", "MaxKappa", "MinB", "MaxB", "MinBeta", "MaxBeta", "MinGamma", "MaxGamma",
 												"GridMethod"};
@@ -117,17 +117,17 @@ public class IqmOpGenEntDescriptor extends AbstractOperatorDescriptor {
 												   0.1, 1.0, 0.0, 0.9, 1.0, 10.0, 0.5, 1.5, 0.1, 1.0,
 												   0,}; //
 	private static final Range[] validParamValues = {
+			new Range(Integer.class, 0, 1), //SE
+			new Range(Integer.class, 0, 1), //H
 			new Range(Integer.class, 0, 1), //Renyi
 			new Range(Integer.class, 0, 1), //Tsallis
-			new Range(Integer.class, 0, 1), //H
-			new Range(Integer.class, 0, 1), //SE
+			new Range(Integer.class, 0, 1), //SNorm
+			new Range(Integer.class, 0, 1), //SEscort	
 			new Range(Integer.class, 0, 1), //SEta
 			new Range(Integer.class, 0, 1), //SKappa
 			new Range(Integer.class, 0, 1), //SB		
 			new Range(Integer.class, 0, 1), //SBeta
-			new Range(Integer.class, 0, 1), //SGamma
-			new Range(Integer.class, 0, 1), //SNorm
-			new Range(Integer.class, 0, 1), //SEscort
+			new Range(Integer.class, 0, 1), //SGamma		
 			new Range(Integer.class, 2, Integer.MAX_VALUE), //Eps		
 			new Range(Integer.class, -Integer.MAX_VALUE, Integer.MAX_VALUE), //minQ
 			new Range(Integer.class, -Integer.MAX_VALUE, Integer.MAX_VALUE), //maxQ		
