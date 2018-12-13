@@ -60,6 +60,7 @@ import at.mug.iqm.plot.bundle.descriptors.PlotOpFracHiguchiDescriptor;
 import at.mug.iqm.plot.bundle.descriptors.PlotOpFracHurstDescriptor;
 import at.mug.iqm.plot.bundle.descriptors.PlotOpFracSurrogateDescriptor;
 import at.mug.iqm.plot.bundle.descriptors.PlotOpFractalGeneratorDescriptor;
+import at.mug.iqm.plot.bundle.descriptors.PlotOpGenEntropyDescriptor;
 import at.mug.iqm.plot.bundle.descriptors.PlotOpHRVDescriptor;
 import at.mug.iqm.plot.bundle.descriptors.PlotOpMathDescriptor;
 import at.mug.iqm.plot.bundle.descriptors.PlotOpPointFinderDescriptor;
@@ -100,6 +101,7 @@ public class PlotAnalysisMenu extends DeactivatableMenu implements
 	private OperatorMenuItem higuchiMenuItem;
 	private OperatorMenuItem dfaMenuItem;
 	private OperatorMenuItem entropyMenuItem;
+	private OperatorMenuItem genEntropyMenuItem;
 	private OperatorMenuItem hurstMenuItem;
 	private OperatorMenuItem logDepthMenuItem;
 	private OperatorMenuItem symbAggMenuItem;
@@ -131,6 +133,7 @@ public class PlotAnalysisMenu extends DeactivatableMenu implements
 		this.higuchiMenuItem           = new OperatorMenuItem(OperatorType.PLOT);
 		this.dfaMenuItem               = new OperatorMenuItem(OperatorType.PLOT);
 		this.entropyMenuItem           = new OperatorMenuItem(OperatorType.PLOT);
+		this.genEntropyMenuItem        = new OperatorMenuItem(OperatorType.PLOT);
 		this.hurstMenuItem             = new OperatorMenuItem(OperatorType.PLOT);
 		this.logDepthMenuItem          = new OperatorMenuItem(OperatorType.PLOT);
 		this.symbAggMenuItem           = new OperatorMenuItem(OperatorType.PLOT);
@@ -173,6 +176,7 @@ public class PlotAnalysisMenu extends DeactivatableMenu implements
 		this.add(this.createHiguchiMenuItem());
 		this.add(this.createDFAMenuItem());
 		this.add(this.createEntropyMenuItem());
+		this.add(this.createGenEntropyMenuItem());
 		this.add(this.createHurstMenuItem());
 		this.add(this.createLogDepthMenuItem());
 		this.add(this.createSymbAggMenuItem());
@@ -413,6 +417,18 @@ public class PlotAnalysisMenu extends DeactivatableMenu implements
 		this.entropyMenuItem.setActionCommand("entropyofplot");
 		return this.entropyMenuItem;
 	}
+	/**
+	 * This method initializes genEntropyMenuItem
+	 * 
+	 * @return javax.swing.JMenuItem
+	 */
+	private JMenuItem createGenEntropyMenuItem() {
+		this.genEntropyMenuItem.setText(I18N.getGUILabelText("menu.plotanalysis.genentropy.text"));
+		this.genEntropyMenuItem.setToolTipText(I18N.getGUILabelText("menu.plotanalysis.genentropy.ttp"));
+		this.genEntropyMenuItem.addActionListener(this);
+		this.genEntropyMenuItem.setActionCommand("genentropyofplot");
+		return this.genEntropyMenuItem;
+	}
 
 	/**
 	 * This method initializes hurstMenuItem
@@ -513,6 +529,8 @@ public class PlotAnalysisMenu extends DeactivatableMenu implements
 			ExecutionProxy.launchInstance(new PlotOpHRVDescriptor());
 		} else if ("entropyofplot".equals(e.getActionCommand())) {
 			ExecutionProxy.launchInstance(new PlotOpEntropyDescriptor());
+		} else if ("genentropyofplot".equals(e.getActionCommand())) {
+			ExecutionProxy.launchInstance(new PlotOpGenEntropyDescriptor());
 		} else if ("dfaofplot".equals(e.getActionCommand())) {
 			ExecutionProxy.launchInstance(new PlotOpFracDFADescriptor());
 		} else if ("hurstofplot".equals(e.getActionCommand())) {
