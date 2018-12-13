@@ -104,6 +104,7 @@ import at.mug.iqm.plot.bundle.descriptors.PlotOpFracHiguchiDescriptor;
 import at.mug.iqm.plot.bundle.descriptors.PlotOpFracHurstDescriptor;
 import at.mug.iqm.plot.bundle.descriptors.PlotOpFracSurrogateDescriptor;
 import at.mug.iqm.plot.bundle.descriptors.PlotOpFractalGeneratorDescriptor;
+import at.mug.iqm.plot.bundle.descriptors.PlotOpGenEntropyDescriptor;
 import at.mug.iqm.plot.bundle.descriptors.PlotOpHRVDescriptor;
 import at.mug.iqm.plot.bundle.descriptors.PlotOpMathDescriptor;
 import at.mug.iqm.plot.bundle.descriptors.PlotOpPointFinderDescriptor;
@@ -395,6 +396,9 @@ public final class OperatorRegistryHelper {
 
 		IOperatorDescriptor plotEntropyDesc = PlotOpEntropyDescriptor.register();
 		updateWelcomeText(plotEntropyDesc.getName());
+		
+		IOperatorDescriptor plotGenEntropyDesc = PlotOpGenEntropyDescriptor.register();
+		updateWelcomeText(plotGenEntropyDesc.getName());
 		
 		IOperatorDescriptor plotSymbAggDesc = PlotOpSymbolicAggregationDescriptor.register(); //2014 01
 		updateWelcomeText(plotSymbAggDesc.getName());

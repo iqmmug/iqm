@@ -1,12 +1,12 @@
-package at.mug.iqm.img.bundle.descriptors;
+package at.mug.iqm.plot.bundle.descriptors;
 
 /*
  * #%L
- * Project: IQM - Standard Image Operator Bundle
- * File: IqmOpGenEntDescriptor.java
+ * Project: IQM - Standard Plot Operator Bundle
+ * File: PlotOpGenEntropyDescriptor.java
  * 
- * $Id: IqmOpGenEntDescriptor.java 649 2018-08-14 11:05:54Z iqmmug $
- * $HeadURL: https://svn.code.sf.net/p/iqm/code-0/branches/iqm4/application/iqm-img-op-bundle/src/main/java/at/mug/iqm/img/bundle/descriptors/IqmOpGenEntDescriptor.java $
+ * $Id: PlotOpGenEntropyDescriptor.java 649 2018-08-14 11:05:54Z iqmmug $
+ * $HeadURL: https://svn.code.sf.net/p/iqm/code-0/branches/iqm4/application/iqm-plot-op-bundle/src/main/java/at/mug/iqm/plot/bundle/descriptors/PlotOpGenEntropyDescriptor.java $
  * 
  * This file is part of IQM, hereinafter referred to as "this program".
  * %%
@@ -29,11 +29,6 @@ package at.mug.iqm.img.bundle.descriptors;
  */
 
 
-
-
-import javax.media.jai.JAI;
-import javax.media.jai.OperationRegistry;
-import javax.media.jai.registry.RIFRegistry;
 import javax.media.jai.util.Range;
 
 import at.mug.iqm.api.Application;
@@ -42,33 +37,32 @@ import at.mug.iqm.api.operator.DataType;
 import at.mug.iqm.api.operator.IOperatorDescriptor;
 import at.mug.iqm.api.operator.IOperatorRegistry;
 import at.mug.iqm.api.operator.OperatorType;
-import at.mug.iqm.img.bundle.gui.OperatorGUI_GenEnt;
-import at.mug.iqm.img.bundle.op.IqmOpGenEnt;
-import at.mug.iqm.img.bundle.validators.IqmOpGenEntValidator;
+import at.mug.iqm.plot.bundle.gui.PlotGUI_GenEntropy;
+import at.mug.iqm.plot.bundle.op.PlotOpGenEntropy;
+import at.mug.iqm.plot.bundle.validators.PlotOpGenEntropyValidator;
+
 
 /**
- * <li>Generalized Entropies
- * <li>according to a review of Amigó, J.M., Balogh, S.G., Hernández, S., 2018. A Brief Review of Generalized Entropies. Entropy 20, 813. https://doi.org/10.3390/e20110813
- * <li>and to: Tsallis Introduction to Nonextensive Statistical Mechanics, 2009, S105-106
  * 
- * @author Ahammer
- * @since  2018-12-04
+ * @author Philipp Kainz
+ * <li>2014 02 HA: changed float to double for r
+ * @update 2018-03 added surrogate option 
+ * 
  */
+@SuppressWarnings({ "rawtypes" })
+public class PlotOpGenEntropyDescriptor extends AbstractOperatorDescriptor {
 
-@SuppressWarnings("rawtypes")
-public class IqmOpGenEntDescriptor extends AbstractOperatorDescriptor {
-	
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = -965433752465270136L;
+	private static final long serialVersionUID = 4493207854982165124L;
+
+	public static final OperatorType TYPE = OperatorType.PLOT;
 	
-	public static final OperatorType TYPE = OperatorType.IMAGE;
-	
-	private static final DataType[] OUTPUT_TYPES = new DataType[] { DataType.IMAGE, DataType.TABLE };
+	private static final DataType[] OUTPUT_TYPES = new DataType[] { DataType.TABLE };
 
 	private static final String[][] resources = {
-			{ "GlobalName", "IqmOpGenEnt" },
+			{ "GlobalName", "PlotOpGenEntropy" },
 			{ "Vendor", "mug.qmnm" },
 			{ "Description", "computes eneralized dimensions" },
 			{ "DocURL", "https://sourceforge.net/projects/iqm/" },
@@ -97,24 +91,26 @@ public class IqmOpGenEntDescriptor extends AbstractOperatorDescriptor {
 			{ "arg21Desc", "maximal Beta" },	
 			{ "arg22Desc", "minimal Gamma" },
 			{ "arg23Desc", "maximal Gamma" },	
-			{ "arg24Desc", "Grid Method" }, // 0 Gliding Box, 1 Grid Box
+			{ "arg24Desc", "Method" }, // 0
+			{ "arg25Desc", "Box length" }, // 100
+			{ "arg26Desc", "Surrogate Type" }, // -1. 0, 1,....5
+			{ "arg27Desc", "# of surrogates" }, //
 	};
 
-	private static final String[] supportedModes = { "rendered" };
 	private static final int numSources = 1;
 	private static final String[] paramNames = {"SE", "H", "Renyi", "Tsallis", "SNorm", "SEscort", "SEta", "SKappa", "SB",  "SBeta", "SGamma", 
-			 									"Eps", "MinQ", "MaxQ",
+												"Eps", "MinQ", "MaxQ",
 												"MinEta", "MaxEta", "MinKappa", "MaxKappa", "MinB", "MaxB", "MinBeta", "MaxBeta", "MinGamma", "MaxGamma",
-												"GridMethod"};
+												"Method", "BoxLength", "TypeSurr", "NSurr"};
 
 	private static final Class[] paramClasses = { Integer.class, Integer.class, Integer.class, Integer.class, Integer.class, Integer.class, Integer.class, Integer.class, Integer.class, Integer.class, Integer.class, 
 												  Integer.class, Integer.class, Integer.class,
 												  Double.class, Double.class, Double.class, Double.class, Double.class, Double.class, Double.class, Double.class, Double.class, Double.class,
-												  Integer.class,};
-	private static final Object[] paramDefaults = { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
-												   10, -5, 5, 
-												   0.1, 1.0, 0.0, 0.9, 1.0, 10.0, 0.5, 1.5, 0.1, 1.0,
-												   0,}; //
+												  Integer.class, Integer.class, Integer.class, Integer.class };
+	private static final Object[] paramDefaults = {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+												  10, -5, 5, 
+												  0.1, 1.0, 0.0, 0.9, 1.0, 10.0, 0.5, 1.5, 0.1, 1.0,											  
+												  0, 100, -1, 0};
 	private static final Range[] validParamValues = {
 			new Range(Integer.class, 0, 1), //SE
 			new Range(Integer.class, 0, 1), //H
@@ -140,27 +136,18 @@ public class IqmOpGenEntDescriptor extends AbstractOperatorDescriptor {
 			new Range(Double.class, Double.MIN_VALUE, Double.MAX_VALUE), //maxBeta  
 			new Range(Double.class,              0.0, 1.0), //minGamma 0 < Gamma < 1	
 			new Range(Double.class, Double.MIN_VALUE, 1.0), //maxGamma 0 < Gamma < 1
-			new Range(Integer.class, 0, 1), //GridMethods
-			};
+			new Range(Integer.class, 0, 1), //Method
+ 			new Range(Integer.class, 10, Integer.MAX_VALUE), //BoxLength
+			new Range(Integer.class, -1, Integer.MAX_VALUE), //TypeSurr
+			new Range(Integer.class,  0, Integer.MAX_VALUE)  //NSurr
+	}; 
 
 	/**
-	 * constructor: calls AbstractOperatorDescriptor
+	 * constructor
 	 */
-	public IqmOpGenEntDescriptor() {
-		super(resources, supportedModes, numSources, paramNames, paramClasses,
-				paramDefaults, validParamValues, TYPE, OUTPUT_TYPES);
-	}
-
-	/**
-	 * This method registers the operator with the {@link OperationRegistry}.
-	 */
-	public static void registerWithJAI() {
-		OperationRegistry opReg = JAI.getDefaultInstance()
-				.getOperationRegistry();
-		IqmOpGenEntDescriptor descriptor = new IqmOpGenEntDescriptor();
-		opReg.registerDescriptor(descriptor);
-		IqmOpGenEntRIF rif = new IqmOpGenEntRIF();
-		RIFRegistry.register(opReg, descriptor.getName(), "IQM", rif);
+	public PlotOpGenEntropyDescriptor() {
+		super(resources, numSources, paramNames, paramClasses, paramDefaults,
+				validParamValues, TYPE, OUTPUT_TYPES);
 	}
 
 	/**
@@ -168,14 +155,14 @@ public class IqmOpGenEntDescriptor extends AbstractOperatorDescriptor {
 	 * .
 	 */
 	public static IOperatorDescriptor register() {
-		IqmOpGenEntDescriptor odesc = new IqmOpGenEntDescriptor();
+		PlotOpGenEntropyDescriptor odesc = new PlotOpGenEntropyDescriptor();
 
 		// register the operator
 		Application.getOperatorRegistry().register(odesc.getName(),
-				odesc.getClass(), IqmOpGenEnt.class, OperatorGUI_GenEnt.class,
-				IqmOpGenEntValidator.class, odesc.getType(), odesc.getStackProcessingType());
+				odesc.getClass(), PlotOpGenEntropy.class, PlotGUI_GenEntropy.class,
+				PlotOpGenEntropyValidator.class, odesc.getType(), odesc.getStackProcessingType());
 
 		return odesc;
 	}
-	
+
 } // END

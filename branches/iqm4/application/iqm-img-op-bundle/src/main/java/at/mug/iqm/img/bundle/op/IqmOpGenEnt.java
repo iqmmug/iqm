@@ -136,19 +136,18 @@ public class IqmOpGenEnt extends AbstractOperator {
 
 		PlanarImage pi = ((IqmDataBox) pb.getSource(0)).getImage();
 
-		
+		int sE      = pb.getIntParameter("SE");
+		int h       = pb.getIntParameter("H");
 		int renyi   = pb.getIntParameter("Renyi");
 		int tsallis = pb.getIntParameter("Tsallis");
-		int h       = pb.getIntParameter("H");
-		int sE      = pb.getIntParameter("SE");
+		int sNorm   = pb.getIntParameter("SNorm");
+		int sEscort = pb.getIntParameter("SEscort");
 		int sEta    = pb.getIntParameter("SEta");
 		int sKappa  = pb.getIntParameter("SKappa");
 		int sB      = pb.getIntParameter("SB");
 		int sBeta   = pb.getIntParameter("SBeta");
 		int sGamma  = pb.getIntParameter("SGamma");
-		int sNorm   = pb.getIntParameter("SNorm");
-		int sEscort = pb.getIntParameter("SEscort");
-		
+	
 		int eps   = pb.getIntParameter("Eps"); // epsilon in pixels
 		
 		int minQ     = pb.getIntParameter("MinQ");
@@ -208,10 +207,11 @@ public class IqmOpGenEnt extends AbstractOperator {
 		model.addColumn("FileName");
 		model.addColumn("ImageName");
 		model.addColumn("Grid method");	
+		model.addColumn("Eps");	
 		model.addColumn("Band");	
 	
 		for (int b = 0; b < pi.getNumBands(); b++) { // severalBands
-			model.addRow(new Object[] {fileName, imgName, strGridMethod, b });
+			model.addRow(new Object[] {fileName, imgName, strGridMethod, eps, b });
 		}
 
 		// data arrays		
@@ -230,8 +230,11 @@ public class IqmOpGenEnt extends AbstractOperator {
 		double[][] genEntSGamma  = new double[numGamma][numBands];
 		
 		
-		double[][] probabilities = null;
+		double[][] probs = null; //Probabilities
 		double[]   totalsMax     = new double[numBands];
+		
+		fireProgressChanged(5);
+		if (isCancelled(getParentTask())) return null;
 		
 		// --------------------------------------------------------------------------------------------------------------
 		if (gridMethod == 0) { // 0 gliding mass box counting
@@ -307,7 +310,7 @@ public class IqmOpGenEnt extends AbstractOperator {
 			Raster ra = piConv.getData();
 			
 			//compute vector of Pi's for GenEntropies for each band
-			probabilities   = new double[width*height][numBands]; //pi's
+			probs   = new double[width*height][numBands]; //pi's
 			double[] sample = new double[numBands];
 			
 			int pp = 0;
@@ -316,7 +319,7 @@ public class IqmOpGenEnt extends AbstractOperator {
 					ra.getPixel(x, y, sample);
 					for (int b = 0; b < numBands; b++) { // several bands	
 						totalsMax[b] = totalsMax[b] + sample[b]; // calculate total count for normalization
-						probabilities[pp][b] = sample[b];// -1 ; //-1: subtract point itself			
+						probs[pp][b] = sample[b];// -1 ; //-1: subtract point itself			
 						//probabilities[pp][b] = sample[b]/size;// -1 ; //-1: subtract point itself			
 						//probabilities[pp][b] = sample[b]/(width*height);// -1 ; //-1: subtract point itself			
 					}// b
@@ -325,9 +328,9 @@ public class IqmOpGenEnt extends AbstractOperator {
 			} // x
 			
 			// normalization
-			for (int p = 0; p < probabilities.length; p++) {
+			for (int p = 0; p < probs.length; p++) {
 				for (int b = 0; b < numBands; b++) { // several bands
-					probabilities[p][b] = probabilities[p][b] / totalsMax[b];
+					probs[p][b] = probs[p][b] / totalsMax[b];
 				}
 			}
 		} // Method = 0 gliding box
@@ -367,7 +370,7 @@ public class IqmOpGenEnt extends AbstractOperator {
 			Raster[] tileRaster = pi.getTiles();
 		
 			//vector of Pi's for GenEntropies for each band
-			probabilities   = new double[tileRaster.length][numBands]; //pi's
+			probs   = new double[tileRaster.length][numBands]; //pi's
 				
 			for (int r = 0; r < tileRaster.length; r++) { // tileRaster[]
 				int minX = tileRaster[r].getMinX();
@@ -388,7 +391,7 @@ public class IqmOpGenEnt extends AbstractOperator {
 					}
 					// count = count/totalBinary[b];
 					count = count / numObjectPixels[b]; // normalized mass/ of current box tileRaster[r]
-					probabilities[r][b] = count;// -1 ; //-1: subtract point itself			
+					probs[r][b] = count;// -1 ; //-1: subtract point itself			
 					// System.out.println("IqmOpGenEnt: b: "+b+ "   count: "+ count );
 					//if (count > 0) {
 					//}
@@ -404,262 +407,37 @@ public class IqmOpGenEnt extends AbstractOperator {
 		if (sE == 1) {//SE according to Amigo etal. paper	
 			for (int b = 0; b < numBands; b++) {
 				double sum = 0.0;
-				for (int pp = 0; pp < probabilities.length; pp++) {
-					if (probabilities[pp][b] != 0) {
-						sum = sum +  probabilities[pp][b] * (1.0 - Math.exp((probabilities[pp][b] - 1.0) / probabilities[pp][b]) );				
+				for (int pp = 0; pp < probs.length; pp++) {
+					if (probs[pp][b] != 0) {
+						sum = sum +  probs[pp][b] * (1.0 - Math.exp((probs[pp][b] - 1.0) / probs[pp][b]) );				
 					}
 				}
 				genEntSE[b] = sum;
 			}//band
-		}
-		if (h == 1) {//H1 according to Amigo etal. paper	
-			for (int b = 0; b < numBands; b++) {
-				double sum = 0.0;
-				for (int pp = 0; pp < probabilities.length; pp++) {
-					if (probabilities[pp][b] != 0) {
-							double pHochp = Math.pow(probabilities[pp][b], probabilities[pp][b]);
-							genEntH1[b] = genEntH1[b] + (1.0 - pHochp);
-							genEntH2[b] = genEntH2[b] + Math.log(2.0-pHochp);
-							genEntH3[b] = genEntH3[b] + (probabilities[pp][b] + Math.log(2.0-pHochp));	
-					}
-				}
-				genEntH2[b] = Math.exp(genEntH2[b]);
-			}//band
-		}	
-		if (renyi == 1) {//Renyi according to Amigo etal. paper	
-			for (int b = 0; b < numBands; b++) {
-				for (int q = 0; q < numQ; q++) {
-					double sum = 0.0;
-					for (int pp = 0; pp < probabilities.length; pp++) {
-						if ((q + minQ) == 1) { //q=1 special case
-							if (probabilities[pp][b] == 0) {// damit logarithmus nicht undefiniert ist;
-								sum = sum +  Double.MIN_VALUE*Math.log( Double.MIN_VALUE); //for q=1 Renyi is equal to S_BGS (Bolzmann Gibbs Shannon entropy)
-							}
-							else {
-								sum = sum + probabilities[pp][b]*Math.log(probabilities[pp][b]); //for q=1 Renyi is equal to S_BGS (Bolzmann Gibbs Shannon entropy)
-							}
-						}
-						else if (((q + minQ) <=  0 ) && (probabilities[pp][b] != 0.0)){ //leaving out 0 is essential! and according to Amigo etal. page 2
-							sum = sum + Math.pow(probabilities[pp][b],(q + minQ));	
-						}
-						else if ( (q + minQ) > 0 ) {
-							sum = sum + Math.pow(probabilities[pp][b],(q + minQ));
-						}
-					}			
-					if ((q + minQ) == 1) { //special case q=1 Renyi is equal to S_BGS (Bolzmann Gibbs Shannon entropy)
-						genEntRenyi[q][b] = -sum; 
-					}	
-					else {
-						if (sum == 0) sum = Double.MIN_VALUE; // damit logarithmus nicht undefiniert ist
-						genEntRenyi[q][b] = Math.log(sum)/(1.0-(q + minQ));	
-					}
-				}//q		
-			}//band
-		}
-		if (tsallis == 1) {//Tsallis according to Amigo etal. paper
-			for (int b = 0; b < numBands; b++) {
-				for (int q = 0; q < numQ; q++) {
-					double sum = 0.0;
-					for (int pp = 0; pp < probabilities.length; pp++) {
-						if ((q + minQ) == 1) { //q=1 special case
-							if (probabilities[pp][b] == 0) {// damit logarithmus nicht undefiniert ist;
-								sum = sum +  Double.MIN_VALUE*Math.log( Double.MIN_VALUE); //for q=1 Renyi is equal to S_BGS (Bolzmann Gibbs Shannon entropy)
-							}
-							else {
-								sum = sum + probabilities[pp][b]*Math.log(probabilities[pp][b]); //for q=1 Renyi is equal to S_BGS (Bolzmann Gibbs Shannon entropy)
-							}
-						}
-						else if (((q + minQ) <=  0 ) && (probabilities[pp][b] != 0.0)) { //leaving out 0 is essential! and according to Amigo etal. page 2
-							 sum = sum + Math.pow(probabilities[pp][b],(q + minQ));	
-						}
-						else if ( (q + minQ) > 0 ) {
-							 sum = sum + Math.pow(probabilities[pp][b],(q + minQ));	
-						}				
-					}				
-					if ((q + minQ) == 1) { // special case for q=1 Tsallis is equal to S_BGS (Bolzmann Gibbs Shannon entropy)
-						genEntTsallis[q][b] = -sum;
-					}
-					else {
-						genEntTsallis[q][b] = (sum-1)/(1.0-(q + minQ));
-					}		
-				}//q
-				;		
-			}//band
-		}
-		if (sNorm == 1) {//SNorm according to Tsallis Introduction to Nonextensive Statistical Mechanics, 2009, S105-106
-			for (int b = 0; b < numBands; b++) {
-				for (int q = 0; q < numQ; q++) {
-					double sum = 0.0;
-					for (int pp = 0; pp < probabilities.length; pp++) {
-						if ((q + minQ) == 1) { //q=1 special case
-							if (probabilities[pp][b] == 0) {// damit logarithmus nicht undefiniert ist;
-								sum = sum +  Double.MIN_VALUE*Math.log( Double.MIN_VALUE); //for q=1 Snorm is equal to S_BGS (Bolzmann Gibbs Shannon entropy)
-							}
-							else {
-								sum = sum + probabilities[pp][b]*Math.log(probabilities[pp][b]); //for q=1 Snorm is equal to S_BGS (Bolzmann Gibbs Shannon entropy)
-							}
-						}
-						else if (((q + minQ) <=  0 ) && (probabilities[pp][b] != 0.0)){ //leaving out 0 is essential! and according to Amigo etal. page 2
-							sum = sum + Math.pow(probabilities[pp][b],(q + minQ));	
-						}
-						else if ( (q + minQ) > 0 ) {
-							sum = sum + Math.pow(probabilities[pp][b],(q + minQ));
-						}
-//						else {
-//							sum = sum + Math.pow(probabilities[pp][b],(q + minQ));
-//						}
-					}			
-					if ((q + minQ) == 1) { //special case q=1 SNorm is equal to S_BGS (Bolzmann Gibbs Shannon entropy)
-						genEntSNorm[q][b] = -sum; 
-					}	
-					else {
-						genEntSNorm[q][b] = (1.0-(1.0/sum))/(1.0-(q + minQ));	
-					}
-				}//q		
-			}//band
-		}
-		if (sEscort == 1) {//SEscort according to Tsallis Introduction to Nonextensive Statistical Mechanics, 2009, S105-106
-			for (int b = 0; b < numBands; b++) {
-				for (int q = 0; q < numQ; q++) {
-					double sum = 0.0;
-					for (int pp = 0; pp < probabilities.length; pp++) {
-						if ((q + minQ) == 1) { //q=1 special case
-							if (probabilities[pp][b] == 0) {// damit logarithmus nicht undefiniert ist;
-								sum = sum +  Double.MIN_VALUE*Math.log( Double.MIN_VALUE); //for q=1 SEscort is equal to S_BGS (Bolzmann Gibbs Shannon entropy)
-							}
-							else {
-								sum = sum + probabilities[pp][b]*Math.log(probabilities[pp][b]); //for q=1 SEscort is equal to S_BGS (Bolzmann Gibbs Shannon entropy)
-							}
-						}
-						else if (((q + minQ) <=  0 ) && (probabilities[pp][b] != 0.0)){ //leaving out 0 is essential! and according to Amigo etal. page 2
-							sum = sum + Math.pow(probabilities[pp][b], 1.0/(q + minQ));	
-						}
-						else if ( (q + minQ) > 0 ) {
-							sum = sum + Math.pow(probabilities[pp][b], 1.0/(q + minQ));
-						}
-//						else {
-//							sum = sum + Math.pow(probabilities[pp][b], 1.0/(q + minQ));
-//						}
-					}			
-					if ((q + minQ) == 1) { //special case q=1 SEscort is equal to S_BGS (Bolzmann Gibbs Shannon entropy)
-						genEntSEscort[q][b] = -sum; 
-					}	
-					else {
-						genEntSEscort[q][b] = (1.0 - Math.pow(sum, -(q+minQ)))/((q + minQ) - 1.0);	
-					}
-				}//q		
-			}//band
-		}
-		
-		if (sEta == 1) { //SEta   according to Amigo etal. and Anteneodo, C.; Plastino, A.R. Maximum entropy approach to stretched exponential probability distributions. J. Phys. A Math. Gen. 1999, 32, 1089–1098.	
-			for (int b = 0; b < numBands; b++) {
-				for (int n = 0; n < numEta; n++) {
-					double eta = minEta + n*stepEta; //SEta is equal to S_BGS (Bolzmann Gibbs Shannon entropy) for eta = 1 
-					double sum = 0.0;
-					for (int pp = 0; pp < probabilities.length; pp++) {
-						if (probabilities[pp][b] != 0){
-							//both following methods provide same results (only some minor deviations in the last decimals) 
-							//compute incomplete Gamma function using IQM's classes
-							double gam1 = GammaFunction.upperIncomplete((eta+1.0)/eta, -Math.log(probabilities[pp][b]));
-							double gam2 = probabilities[pp][b]*GammaFunction.gamma((eta+1.0)/eta); 
-							
-							//or compute incomplete Gamma function using Apache's classes
-							//double gam1 = Gamma.regularizedGammaQ((eta+1.0)/eta, -Math.log(probabilities[pp][b])) * Math.exp(Gamma.logGamma((eta+1.0)/eta));
-							//double gam2 = probabilities[pp][b]*Math.exp(Gamma.logGamma((eta+1.0f)/eta)); 
-							sum = sum + gam1 - gam2;	
-						}
-					}	
-					genEntSEta[n][b] = sum;
-				}//q		
-			}//band
-		}
-		if (sKappa == 1) { //SKappa according to Amigo etal. and Kaniadakis, G. Statistical mechanics in the context of special relativity. Phys. Rev. E 2002, 66, 056125
-			for (int b = 0; b < numBands; b++) {
-				for (int k = 0; k < numKappa; k++) {
-					double kappa = minKappa + k*stepKappa; //SKappa is equal to S_BGS (Bolzmann Gibbs Shannon entropy) for kappa = 0 
-					double sum = 0.0;
-					for (int pp = 0; pp < probabilities.length; pp++) {
-						if (kappa == 0) { //kappa=0 special case S_BGS (Bolzmann Gibbs Shannon entropy)
-							if (probabilities[pp][b] == 0) {// damit logarithmus nicht undefiniert ist;
-								sum = sum +  Double.MIN_VALUE*Math.log( Double.MIN_VALUE); //for k = 0 SKappa is equal to S_BGS (Bolzmann Gibbs Shannon entropy)
-							}
-							else {
-								sum = sum + probabilities[pp][b]*Math.log(probabilities[pp][b]); //for k=0 SKappa is equal to S_BGS (Bolzmann Gibbs Shannon entropy)
-							}
-						}
-						else {
-							//if (probabilities[pp][b] != 0){			
-								sum = sum + (Math.pow(probabilities[pp][b], 1.0-kappa) - Math.pow(probabilities[pp][b], 1.0+kappa))/(2.0*kappa);			
-							//}
-						}
-					}
-					if (kappa == 0){
-						genEntSKappa[k][b] = -sum;
-					}
-					else {
-						genEntSKappa[k][b] = sum;
-					}
-				}//q		
-			}//band
-		}
-		if (sB == 1) { //SB  according to Amigo etal. and Curado, E.M.; Nobre, F.D. On the stability of analytic entropic forms. Physica A 2004, 335, 94–106.
-			for (int b = 0; b < numBands; b++) {
-				for (int n = 0; n < numB; n++) {
-					double valueB = minB + n*stepB; //SB is equal to S_BGS (Bolzmann Gibbs Shannon entropy) for ????????????????? 
-					double sum = 0.0;
-					for (int pp = 0; pp < probabilities.length; pp++) {
-						//if (probabilities[pp][b] != 0){
-							sum = sum + (1.0 - Math.exp(-valueB*probabilities[pp][b]));
-						//}
-					}	
-					genEntSB[n][b] = sum + (Math.exp(-valueB)-1.0); 
-				}//q		
-			}//band
-		}
-		if (sBeta == 1) {//SBeta  according to Amigo etal. and Shafee, F. Lambert function and a new non-extensive form of entropy. IMA J. Appl. Math. 2007, 72, 785–800.
-			for (int b = 0; b < numBands; b++) {
-				for (int n = 0; n < numBeta; n++) {
-					double valueBeta = minBeta + n*stepBeta; //SBeta is equal to S_BGS (Bolzmann Gibbs Shannon entropy) for valueBeta = 1; 
-					double sum = 0.0;
-					for (int pp = 0; pp < probabilities.length; pp++) {		
-						if (probabilities[pp][b] != 0.0){ //leaving out 0 
-							sum = sum + Math.pow(probabilities[pp][b],  valueBeta) * Math.log(1.0/probabilities[pp][b]);
-						}
-					}
-					genEntSBeta[n][b] = sum;					
-				}//q		
-			}//band
-		}
-		if (sGamma == 1) { //SGamma according to Amigo etal. and Tsallis Introduction to Nonextensive Statistical Mechanics, 2009, S61
-			for (int b = 0; b < numBands; b++) {
-				for (int g = 0; g < numGamma; g++) {
-					double valueGamma = minGamma + g*stepGamma; //SGama is equal to S_BGS (Bolzmann Gibbs Shannon entropy) for valueGamma = 1; 
-					double sum = 0.0;
-					for (int pp = 0; pp < probabilities.length; pp++) {		
-						if (probabilities[pp][b] != 0.0){ //leaving out 0 
-							sum = sum + Math.pow(probabilities[pp][b],  1.0/valueGamma) * Math.log(1.0/probabilities[pp][b]);
-						}
-					}
-					genEntSGamma[g][b] = sum;					
-				}//q		
-			}//band
-		}
-
-		
-		
-		
-	
-		//---------------------------------------------------------------------------------------------------------------------
-		//set table data
-		//---------------------------------------------------------------------------------------------------------------------
-		if (sE == 1) {//SE	
+			
+			//set table data
 			int numColumns = model.getColumnCount();
 			model.addColumn("SE");	
 			for (int b = 0; b < numBands; b++) { //several bands			
 					model.setValueAt(genEntSE[b], b, numColumns); // set table data			
 			}//bands
 		}
-		if (h == 1) {//H1, H2, H3  	
+		//--------------------------------------------------------------------------------------------------
+		if (h == 1) {//H1 according to Amigo etal. paper	
+			for (int b = 0; b < numBands; b++) {
+				double sum = 0.0;
+				for (int pp = 0; pp < probs.length; pp++) {
+					if (probs[pp][b] != 0) {
+							double pHochp = Math.pow(probs[pp][b], probs[pp][b]);
+							genEntH1[b] = genEntH1[b] + (1.0 - pHochp);
+							genEntH2[b] = genEntH2[b] + Math.log(2.0-pHochp);
+							genEntH3[b] = genEntH3[b] + (probs[pp][b] + Math.log(2.0-pHochp));	
+					}
+				}
+				genEntH2[b] = Math.exp(genEntH2[b]);
+			}//band
+			
+			//set table data
 			int numColumns = model.getColumnCount();
 			model.addColumn("H1");	
 			for (int b = 0; b < numBands; b++) { //several bands			
@@ -675,16 +453,48 @@ public class IqmOpGenEnt extends AbstractOperator {
 			for (int b = 0; b < numBands; b++) { //several bands	
 				model.setValueAt(genEntH3[b], b, numColumns); // set table data			
 			}//bands
-		}
-		int H3OutOfH2 = 0; //only for test purposes
-		if (H3OutOfH2 == 1) {
-			int numColumns = model.getColumnCount();
-			model.addColumn("H3OutOfH2");	
-			for (int b = 0; b < numBands; b++) { //several bands	
-				model.setValueAt(1.0 + Math.log(genEntH2[b]), b, numColumns); // H3 = 1+ln(H2);  set table data			
-			}//bands	
-		}
-		if (renyi == 1) {//Renyi 
+			
+			int H3OutOfH2 = 0; //only for test purposes
+			if (H3OutOfH2 == 1) {
+				numColumns = model.getColumnCount();
+				model.addColumn("H3OutOfH2");	
+				for (int b = 0; b < numBands; b++) { //several bands	
+					model.setValueAt(1.0 + Math.log(genEntH2[b]), b, numColumns); // H3 = 1+ln(H2);  set table data			
+				}//bands	
+			}
+		}	
+		//--------------------------------------------------------------------------------------------------
+		if (renyi == 1) {//Renyi according to Amigo etal. paper	
+			for (int b = 0; b < numBands; b++) {
+				for (int q = 0; q < numQ; q++) {
+					double sum = 0.0;
+					for (int pp = 0; pp < probs.length; pp++) {
+						if ((q + minQ) == 1) { //q=1 special case
+							if (probs[pp][b] == 0) {// damit logarithmus nicht undefiniert ist;
+								sum = sum +  Double.MIN_VALUE*Math.log( Double.MIN_VALUE); //for q=1 Renyi is equal to S_BGS (Bolzmann Gibbs Shannon entropy)
+							}
+							else {
+								sum = sum + probs[pp][b]*Math.log(probs[pp][b]); //for q=1 Renyi is equal to S_BGS (Bolzmann Gibbs Shannon entropy)
+							}
+						}
+						else if (((q + minQ) <=  0 ) && (probs[pp][b] != 0.0)){ //leaving out 0 is essential! and according to Amigo etal. page 2
+							sum = sum + Math.pow(probs[pp][b],(q + minQ));	
+						}
+						else if ( (q + minQ) > 0 ) {
+							sum = sum + Math.pow(probs[pp][b],(q + minQ));
+						}
+					}			
+					if ((q + minQ) == 1) { //special case q=1 Renyi is equal to S_BGS (Bolzmann Gibbs Shannon entropy)
+						genEntRenyi[q][b] = -sum; 
+					}	
+					else {
+						if (sum == 0) sum = Double.MIN_VALUE; // damit logarithmus nicht undefiniert ist
+						genEntRenyi[q][b] = Math.log(sum)/(1.0-(q + minQ));	
+					}
+				}//q		
+			}//band
+			
+			//set table data
 			int numColumns = model.getColumnCount();
 			//data header
 			for (int q = 0; q < numQ; q++) {
@@ -696,7 +506,37 @@ public class IqmOpGenEnt extends AbstractOperator {
 				}//q
 			}//bands
 		}
-		if (tsallis == 1) {//Tsallis
+		//--------------------------------------------------------------------------------------------------
+		if (tsallis == 1) {//Tsallis according to Amigo etal. paper
+			for (int b = 0; b < numBands; b++) {
+				for (int q = 0; q < numQ; q++) {
+					double sum = 0.0;
+					for (int pp = 0; pp < probs.length; pp++) {
+						if ((q + minQ) == 1) { //q=1 special case
+							if (probs[pp][b] == 0) {// damit logarithmus nicht undefiniert ist;
+								sum = sum +  Double.MIN_VALUE*Math.log( Double.MIN_VALUE); //for q=1 Renyi is equal to S_BGS (Bolzmann Gibbs Shannon entropy)
+							}
+							else {
+								sum = sum + probs[pp][b]*Math.log(probs[pp][b]); //for q=1 Renyi is equal to S_BGS (Bolzmann Gibbs Shannon entropy)
+							}
+						}
+						else if (((q + minQ) <=  0 ) && (probs[pp][b] != 0.0)) { //leaving out 0 is essential! and according to Amigo etal. page 2
+							 sum = sum + Math.pow(probs[pp][b],(q + minQ));	
+						}
+						else if ( (q + minQ) > 0 ) {
+							 sum = sum + Math.pow(probs[pp][b],(q + minQ));	
+						}				
+					}				
+					if ((q + minQ) == 1) { // special case for q=1 Tsallis is equal to S_BGS (Bolzmann Gibbs Shannon entropy)
+						genEntTsallis[q][b] = -sum;
+					}
+					else {
+						genEntTsallis[q][b] = (sum-1)/(1.0-(q + minQ));
+					}		
+				}//q	
+			}//band
+			
+			//set table data
 			int numColumns = model.getColumnCount();
 			//data header
 			for (int q = 0; q < numQ; q++) {
@@ -707,25 +547,58 @@ public class IqmOpGenEnt extends AbstractOperator {
 					model.setValueAt(genEntTsallis[q][b], b, numColumns + q); // set table data			
 				}//q
 			}//bands
-		}	
-		int tsallisOutOfRenyi = 0;  //only for test purposes
-		if (tsallisOutOfRenyi == 1) {//Tsallis out of Renyi according to Amigo etal. paper
-			int numColumns = model.getColumnCount();
-			//data header
-			for (int q = 0; q < numQ; q++) {
-				model.addColumn("TsallisAusReneyi_q" + (minQ + q));
+			
+			int tsallisOutOfRenyi = 0;  //only for test purposes
+			if (tsallisOutOfRenyi == 1) {//Tsallis out of Renyi according to Amigo etal. paper
+				numColumns = model.getColumnCount();
+				//data header
+				for (int q = 0; q < numQ; q++) {
+					model.addColumn("TsallisAusReneyi_q" + (minQ + q));
+				}
+				for (int b = 0; b < numBands; b++) { //several bands	
+					for (int q = 0; q < numQ; q++) {					
+						double genEnt = 0.0;
+						if ((q + minQ) != 1) genEnt = (Math.exp((1-(q + minQ))*genEntRenyi[q][b])-1)/(1-(q + minQ));
+						if ((q + minQ) == 1) genEnt = genEntRenyi[q][b];
+						model.setValueAt(genEnt, b, numColumns + q); // set table data			
+					}//q
+				}//bands
 			}
-			for (int b = 0; b < numBands; b++) { //several bands	
-				for (int q = 0; q < numQ; q++) {					
-					double genEnt = 0.0;
-					if ((q + minQ) != 1) genEnt = (Math.exp((1-(q + minQ))*genEntRenyi[q][b])-1)/(1-(q + minQ));
-					if ((q + minQ) == 1) genEnt = genEntRenyi[q][b];
-					model.setValueAt(genEnt, b, numColumns + q); // set table data			
-				}//q
-			}//bands
 		}
-	
-		if (sNorm == 1) {//SNorm
+		//--------------------------------------------------------------------------------------------------
+		if (sNorm == 1) {//SNorm according to Tsallis Introduction to Nonextensive Statistical Mechanics, 2009, S105-106
+			for (int b = 0; b < numBands; b++) {
+				for (int q = 0; q < numQ; q++) {
+					double sum = 0.0;
+					for (int pp = 0; pp < probs.length; pp++) {
+						if ((q + minQ) == 1) { //q=1 special case
+							if (probs[pp][b] == 0) {// damit logarithmus nicht undefiniert ist;
+								sum = sum +  Double.MIN_VALUE*Math.log( Double.MIN_VALUE); //for q=1 Snorm is equal to S_BGS (Bolzmann Gibbs Shannon entropy)
+							}
+							else {
+								sum = sum + probs[pp][b]*Math.log(probs[pp][b]); //for q=1 Snorm is equal to S_BGS (Bolzmann Gibbs Shannon entropy)
+							}
+						}
+						else if (((q + minQ) <=  0 ) && (probs[pp][b] != 0.0)){ //leaving out 0 is essential! and according to Amigo etal. page 2
+							sum = sum + Math.pow(probs[pp][b],(q + minQ));	
+						}
+						else if ( (q + minQ) > 0 ) {
+							sum = sum + Math.pow(probs[pp][b],(q + minQ));
+						}
+//						else {
+//							sum = sum + Math.pow(probabilities[pp][b],(q + minQ));
+//						}
+					}			
+					if ((q + minQ) == 1) { //special case q=1 SNorm is equal to S_BGS (Bolzmann Gibbs Shannon entropy)
+						genEntSNorm[q][b] = -sum; 
+					}	
+					else {
+						genEntSNorm[q][b] = (1.0-(1.0/sum))/(1.0-(q + minQ));	
+					}
+				}//q		
+			}//band
+			
+			//set table data
 			int numColumns = model.getColumnCount();
 			//data header
 			for (int q = 0; q < numQ; q++) {
@@ -737,7 +610,40 @@ public class IqmOpGenEnt extends AbstractOperator {
 				}//q
 			}//bands
 		}
-		if (sEscort == 1) {//SEscort
+		//--------------------------------------------------------------------------------------------------
+		if (sEscort == 1) {//SEscort according to Tsallis Introduction to Nonextensive Statistical Mechanics, 2009, S105-106
+			for (int b = 0; b < numBands; b++) {
+				for (int q = 0; q < numQ; q++) {
+					double sum = 0.0;
+					for (int pp = 0; pp < probs.length; pp++) {
+						if ((q + minQ) == 1) { //q=1 special case
+							if (probs[pp][b] == 0) {// damit logarithmus nicht undefiniert ist;
+								sum = sum +  Double.MIN_VALUE*Math.log( Double.MIN_VALUE); //for q=1 SEscort is equal to S_BGS (Bolzmann Gibbs Shannon entropy)
+							}
+							else {
+								sum = sum + probs[pp][b]*Math.log(probs[pp][b]); //for q=1 SEscort is equal to S_BGS (Bolzmann Gibbs Shannon entropy)
+							}
+						}
+						else if (((q + minQ) <=  0 ) && (probs[pp][b] != 0.0)){ //leaving out 0 is essential! and according to Amigo etal. page 2
+							sum = sum + Math.pow(probs[pp][b], 1.0/(q + minQ));	
+						}
+						else if ( (q + minQ) > 0 ) {
+							sum = sum + Math.pow(probs[pp][b], 1.0/(q + minQ));
+						}
+//						else {
+//							sum = sum + Math.pow(probabilities[pp][b], 1.0/(q + minQ));
+//						}
+					}			
+					if ((q + minQ) == 1) { //special case q=1 SEscort is equal to S_BGS (Bolzmann Gibbs Shannon entropy)
+						genEntSEscort[q][b] = -sum; 
+					}	
+					else {
+						genEntSEscort[q][b] = (1.0 - Math.pow(sum, -(q+minQ)))/((q + minQ) - 1.0);	
+					}
+				}//q		
+			}//band
+			
+			//set table data
 			int numColumns = model.getColumnCount();
 			//data header
 			for (int q = 0; q < numQ; q++) {
@@ -749,7 +655,30 @@ public class IqmOpGenEnt extends AbstractOperator {
 				}//q
 			}//bands
 		}
-		if (sEta == 1) {
+		//--------------------------------------------------------------------------------------------------
+		if (sEta == 1) { //SEta   according to Amigo etal. and Anteneodo, C.; Plastino, A.R. Maximum entropy approach to stretched exponential probability distributions. J. Phys. A Math. Gen. 1999, 32, 1089–1098.	
+			for (int b = 0; b < numBands; b++) {
+				for (int n = 0; n < numEta; n++) {
+					double eta = minEta + n*stepEta; //SEta is equal to S_BGS (Bolzmann Gibbs Shannon entropy) for eta = 1 
+					double sum = 0.0;
+					for (int pp = 0; pp < probs.length; pp++) {
+						if (probs[pp][b] != 0){
+							//both following methods provide same results (only some minor deviations in the last decimals) 
+							//compute incomplete Gamma function using IQM's classes
+							double gam1 = GammaFunction.upperIncomplete((eta+1.0)/eta, -Math.log(probs[pp][b]));
+							double gam2 = probs[pp][b]*GammaFunction.gamma((eta+1.0)/eta); 
+							
+							//or compute incomplete Gamma function using Apache's classes
+							//double gam1 = Gamma.regularizedGammaQ((eta+1.0)/eta, -Math.log(probabilities[pp][b])) * Math.exp(Gamma.logGamma((eta+1.0)/eta));
+							//double gam2 = probabilities[pp][b]*Math.exp(Gamma.logGamma((eta+1.0f)/eta)); 
+							sum = sum + gam1 - gam2;	
+						}
+					}	
+					genEntSEta[n][b] = sum;
+				}//q		
+			}//band
+			
+			//set table data
 			int numColumns = model.getColumnCount();
 			//data header
 			for (int n = 0; n < numEta; n++) {	
@@ -761,7 +690,37 @@ public class IqmOpGenEnt extends AbstractOperator {
 				}//q
 			}//bands
 		}
-		if (sKappa == 1) {
+		//--------------------------------------------------------------------------------------------------
+		if (sKappa == 1) { //SKappa according to Amigo etal. and Kaniadakis, G. Statistical mechanics in the context of special relativity. Phys. Rev. E 2002, 66, 056125
+			for (int b = 0; b < numBands; b++) {
+				for (int k = 0; k < numKappa; k++) {
+					double kappa = minKappa + k*stepKappa; //SKappa is equal to S_BGS (Bolzmann Gibbs Shannon entropy) for kappa = 0 
+					double sum = 0.0;
+					for (int pp = 0; pp < probs.length; pp++) {
+						if (kappa == 0) { //kappa=0 special case S_BGS (Bolzmann Gibbs Shannon entropy)
+							if (probs[pp][b] == 0) {// damit logarithmus nicht undefiniert ist;
+								sum = sum +  Double.MIN_VALUE*Math.log( Double.MIN_VALUE); //for k = 0 SKappa is equal to S_BGS (Bolzmann Gibbs Shannon entropy)
+							}
+							else {
+								sum = sum + probs[pp][b]*Math.log(probs[pp][b]); //for k=0 SKappa is equal to S_BGS (Bolzmann Gibbs Shannon entropy)
+							}
+						}
+						else {
+							//if (probabilities[pp][b] != 0){			
+								sum = sum + (Math.pow(probs[pp][b], 1.0-kappa) - Math.pow(probs[pp][b], 1.0+kappa))/(2.0*kappa);			
+							//}
+						}
+					}
+					if (kappa == 0){
+						genEntSKappa[k][b] = -sum;
+					}
+					else {
+						genEntSKappa[k][b] = sum;
+					}
+				}//q		
+			}//band
+			
+			//set table data
 			int numColumns = model.getColumnCount();
 			//data header
 			for (int k = 0; k < numKappa; k++) {	
@@ -773,7 +732,22 @@ public class IqmOpGenEnt extends AbstractOperator {
 				}//k
 			}//bands
 		}
-		if (sB == 1) {
+		//--------------------------------------------------------------------------------------------------
+		if (sB == 1) { //SB  according to Amigo etal. and Curado, E.M.; Nobre, F.D. On the stability of analytic entropic forms. Physica A 2004, 335, 94–106.
+			for (int b = 0; b < numBands; b++) {
+				for (int n = 0; n < numB; n++) {
+					double valueB = minB + n*stepB; //SB is equal to S_BGS (Bolzmann Gibbs Shannon entropy) for ????????????????? 
+					double sum = 0.0;
+					for (int pp = 0; pp < probs.length; pp++) {
+						//if (probabilities[pp][b] != 0){
+							sum = sum + (1.0 - Math.exp(-valueB*probs[pp][b]));
+						//}
+					}	
+					genEntSB[n][b] = sum + (Math.exp(-valueB)-1.0); 
+				}//q		
+			}//band
+			
+			//set table data
 			int numColumns = model.getColumnCount();
 			//data header
 			for (int n = 0; n < numB; n++) {	
@@ -785,7 +759,22 @@ public class IqmOpGenEnt extends AbstractOperator {
 				}//n
 			}//bands
 		}
-		if (sBeta == 1) {//SB
+		//--------------------------------------------------------------------------------------------------
+		if (sBeta == 1) {//SBeta  according to Amigo etal. and Shafee, F. Lambert function and a new non-extensive form of entropy. IMA J. Appl. Math. 2007, 72, 785–800.
+			for (int b = 0; b < numBands; b++) {
+				for (int n = 0; n < numBeta; n++) {
+					double valueBeta = minBeta + n*stepBeta; //SBeta is equal to S_BGS (Bolzmann Gibbs Shannon entropy) for valueBeta = 1; 
+					double sum = 0.0;
+					for (int pp = 0; pp < probs.length; pp++) {		
+						if (probs[pp][b] != 0.0){ //leaving out 0 
+							sum = sum + Math.pow(probs[pp][b],  valueBeta) * Math.log(1.0/probs[pp][b]);
+						}
+					}
+					genEntSBeta[n][b] = sum;					
+				}//q		
+			}//band
+			
+			//set table data
 			int numColumns = model.getColumnCount();
 			//data header
 			for (int n = 0; n < numBeta; n++) {
@@ -797,7 +786,22 @@ public class IqmOpGenEnt extends AbstractOperator {
 				}//n
 			}//bands
 		}
-		if (sGamma == 1) {//SGamma
+		//--------------------------------------------------------------------------------------------------
+		if (sGamma == 1) { //SGamma according to Amigo etal. and Tsallis Introduction to Nonextensive Statistical Mechanics, 2009, S61
+			for (int b = 0; b < numBands; b++) {
+				for (int g = 0; g < numGamma; g++) {
+					double valueGamma = minGamma + g*stepGamma; //SGama is equal to S_BGS (Bolzmann Gibbs Shannon entropy) for valueGamma = 1; 
+					double sum = 0.0;
+					for (int pp = 0; pp < probs.length; pp++) {		
+						if (probs[pp][b] != 0.0){ //leaving out 0 
+							sum = sum + Math.pow(probs[pp][b],  1.0/valueGamma) * Math.log(1.0/probs[pp][b]);
+						}
+					}
+					genEntSGamma[g][b] = sum;					
+				}//q		
+			}//band
+			
+			//set table data
 			int numColumns = model.getColumnCount();
 			//data header
 			for (int g = 0; g < numBeta; g++) {
@@ -809,8 +813,7 @@ public class IqmOpGenEnt extends AbstractOperator {
 				}//n
 			}//bands
 		}
-	
-		
+		//---------------------------------------------------------------------------------------------------------------------
 		
 		// model.addTableModelListener(jTable);
 		// model.fireTableStructureChanged(); // this is mandatory because it updates the table

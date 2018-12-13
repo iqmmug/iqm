@@ -1,12 +1,12 @@
-package at.mug.iqm.img.bundle.gui;
+package at.mug.iqm.plot.bundle.gui;
 
 /*
  * #%L
- * Project: IQM - Standard Image Operator Bundle
- * File: OperatorGUI_GenEnt.java
+ * Project: IQM - Standard Plot Operator Bundle
+ * File: PlotGUI_GenEntropy.java
  * 
- * $Id: OperatorGUI_GenEnt.java 649 2018-08-14 11:05:54Z iqmmug $
- * $HeadURL: https://svn.code.sf.net/p/iqm/code-0/branches/iqm4/application/iqm-img-op-bundle/src/main/java/at/mug/iqm/img/bundle/gui/OperatorGUI_GenEnt.java $
+ * $Id: PlotGUI_GenEntropy.java 649 2018-08-14 11:05:54Z iqmmug $
+ * $HeadURL: https://svn.code.sf.net/p/iqm/code-0/branches/iqm4/application/iqm-plot-op-bundle/src/main/java/at/mug/iqm/plot/bundle/gui/PlotGUI_GenEntropy.java $
  * 
  * This file is part of IQM, hereinafter referred to as "this program".
  * %%
@@ -28,17 +28,16 @@ package at.mug.iqm.img.bundle.gui;
  * #L%
  */
 
-
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
-import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.text.DecimalFormat;
+
 import javax.media.jai.PlanarImage;
 import javax.swing.BoxLayout;
 import javax.swing.ButtonGroup;
@@ -48,47 +47,51 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JSpinner;
-import javax.swing.JSpinner.DefaultEditor;
 import javax.swing.SpinnerModel;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.SwingConstants;
 import javax.swing.UIManager;
+import javax.swing.JSpinner.DefaultEditor;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.text.InternationalFormatter;
+
 import org.apache.log4j.Logger;
+
 import at.mug.iqm.api.model.IqmDataBox;
-import at.mug.iqm.api.operator.AbstractImageOperatorGUI;
+import at.mug.iqm.api.model.PlotModel;
+import at.mug.iqm.api.operator.AbstractPlotOperatorGUI;
 import at.mug.iqm.api.operator.ParameterBlockIQM;
-import at.mug.iqm.img.bundle.Resources;
-import at.mug.iqm.img.bundle.descriptors.IqmOpGenEntDescriptor;
+import at.mug.iqm.commons.util.plot.Surrogate;
+import at.mug.iqm.plot.bundle.descriptors.PlotOpGenEntropyDescriptor;
 
 /**
- * <li>Generalized Entropies
- * <li>according to a review of Amigó, J.M., Balogh, S.G., Hernández, S., 2018. A Brief Review of Generalized Entropies. Entropy 20, 813. https://doi.org/10.3390/e20110813
- * <li>and to: Tsallis Introduction to Nonextensive Statistical Mechanics, 2009, S105-106
+ * <li>2012 11 QSE   quadratic sample entropy      according to Lake Moormann Am J Physiol Circ Physiol 300 H319-H325 2011
+ * <li>2012 11 COSEn coefficient of sample entropy according to Lake Moormann Am J Physiol Circ Physiol 300 H319-H325 2011
+ * <li>2012 02 Permutation entropy according to Bandt C and Pompe B. Permutation Entropy: A Natural Complexity Measure for Time Series. Phys Rev Lett Vol88(17) 2002
  * 
  * @author Ahammer
- * @since  2018-12-04
+ * @since  2012 11
+ * @update 2014 12 changed buttons to JRadioButtons and added some TitledBorders
+ * @update 2018-03 added surrogate option
  */
-
-public class OperatorGUI_GenEnt extends AbstractImageOperatorGUI implements
-		ActionListener, ChangeListener {
+public class PlotGUI_GenEntropy extends AbstractPlotOperatorGUI implements
+		ChangeListener  {
 
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 47978534483668000L;
+	private static final long serialVersionUID = -6339691405570327547L;
 
-	// class specific logger
-	private static final Logger logger = Logger
-			.getLogger(OperatorGUI_GenEnt.class);
+	private static final Logger logger = Logger.getLogger(PlotGUI_GenEntropy.class);
 
-	private ParameterBlockIQM pb = null;
+	private ParameterBlockIQM pb;
 
+	private int nSurr = 1;
 	private int eps = 2;
+	
 	private int minQ;
 	private int maxQ;
 	private int maxEps = Integer.MAX_VALUE;
@@ -170,33 +173,53 @@ public class OperatorGUI_GenEnt extends AbstractImageOperatorGUI implements
 	
 	private JPanel jPanelParamOption = null;
 	
-	private JRadioButton buttGlidingBox      = null;
-	private JRadioButton buttRasterBox       = null;
-	private JPanel       jPanelGridOption    = null;
-	private ButtonGroup  buttGroupGridOption = null;
+	private JPanel       jPanelMethod      = null;
+	private ButtonGroup  buttGroupMethod   = null;
+	private JRadioButton buttSingleValue   = null;
+	private JRadioButton buttGlidingValues = null;
 	
+	private JPanel       jPanelSingleGliding  = null;
+
+	private JPanel   jPanelBoxLength   = null;
+	private JLabel   jLabelBoxLength   = null;
+	private JSpinner jSpinnerBoxLength = null;
+
+	private JPanel       jPanelOptionSurrogate        = null;
+	private JPanel       jPanelJRadioButtonsSurrogate = null;
+	private ButtonGroup  buttGroupSurrogate           = null;
+	private JRadioButton buttNoSurr                   = null;
+	private JRadioButton buttShuffle                  = null;
+	private JRadioButton buttGaussian                 = null;
+	private JRadioButton buttRandPhase                = null;
+	private JRadioButton buttAAFT                     = null;
 	
-	/**
-	 * constructor
-	 */
-	public OperatorGUI_GenEnt() {
+	private JPanel       jPanelNSurr   = null;
+	private JLabel       jLabelNSurr   = null;
+	private JSpinner     jSpinnerNSurr = null;
+
+	
+
+
+
+	public PlotGUI_GenEntropy() {
+		getOpGUIContent().setBorder(new EmptyBorder(10, 10, 10, 10));
 		logger.debug("Now initializing...");
 
-		this.setOpName(new IqmOpGenEntDescriptor().getName());
-
+		this.setOpName(new PlotOpGenEntropyDescriptor().getName());
 		this.initialize();
-
-		this.setTitle("Generalized Entropies");
-		this.setIconImage(Toolkit.getDefaultToolkit().getImage(Resources.getImageURL("icon.gui.entropy.genent.enabled")));
+		this.setTitle("Plot Generalized entropies");
 		this.getOpGUIContent().setLayout(new GridBagLayout());
 	
 		this.getOpGUIContent().add(getJPanelEntropyTypes(), getGridBagConstraints_EntropyTypes());
 		this.getOpGUIContent().add(getJPanelParamOption(),  getGridBagConstraints_ParamOption());
-		this.getOpGUIContent().add(getJPanelGridOption(),   getGridBagConstraints_GridOption());
+		this.getOpGUIContent().add(getJPanelSingleGliding(),   getGBC_SingleGliding());
+		this.getOpGUIContent().add(getJPanelOptionSurrogate(), getGBC_SurrogateOption());
+		
 	
 		this.pack();
 	}
 	
+
 	private GridBagConstraints getGridBagConstraints_EntropyTypes() {
 		GridBagConstraints gbc_EntropyTypes = new GridBagConstraints();
 		gbc_EntropyTypes.insets = new Insets(5, 0, 0, 0);
@@ -216,76 +239,29 @@ public class OperatorGUI_GenEnt extends AbstractImageOperatorGUI implements
 		
 		return gbc_ParamOption;
 	}
-
-	private GridBagConstraints getGridBagConstraints_GridOption(){
-		GridBagConstraints gbc_GridOptionPanel = new GridBagConstraints();
-		gbc_GridOptionPanel.fill = GridBagConstraints.BOTH;
-		gbc_GridOptionPanel.insets = new Insets(5, 0, 0, 0);
-		gbc_GridOptionPanel.gridx = 0;
-		gbc_GridOptionPanel.gridy = 2;
-	return gbc_GridOptionPanel;
-    }
 	
-	/**
-	 * This method sets the current parameter block The individual values of the
-	 * GUI current ParameterBlock
-	 * 
-	 */
-	@Override
-	public void updateParameterBlock() {
-
-		if (chkBxSE.isSelected())       pb.setParameter("SE", 1);
-		if (!chkBxSE.isSelected())      pb.setParameter("SE", 0);
-		if (chkBxH.isSelected())        pb.setParameter("H", 1);
-		if (!chkBxH.isSelected())       pb.setParameter("H", 0);
-		if (chkBxRenyi.isSelected())    pb.setParameter("Renyi", 1);
-		if (!chkBxRenyi.isSelected())   pb.setParameter("Renyi", 0);
-		if (chkBxTsallis.isSelected())  pb.setParameter("Tsallis", 1);
-		if (!chkBxTsallis.isSelected()) pb.setParameter("Tsallis", 0);
-		if (chkBxSNorm.isSelected())    pb.setParameter("SNorm", 1);
-		if (!chkBxSNorm.isSelected())   pb.setParameter("SNorm", 0);
-		if (chkBxSEscort.isSelected())  pb.setParameter("SEscort", 1);
-		if (!chkBxSEscort.isSelected()) pb.setParameter("SEscort", 0);
-		if (chkBxSEta.isSelected())     pb.setParameter("SEta", 1);
-		if (!chkBxSEta.isSelected())    pb.setParameter("SEta", 0);
-		if (chkBxSKappa.isSelected())   pb.setParameter("SKappa", 1);
-		if (!chkBxSKappa.isSelected())  pb.setParameter("SKappa", 0);
-		if (chkBxSB.isSelected())       pb.setParameter("SB", 1);
-		if (!chkBxSB.isSelected())      pb.setParameter("SB", 0);	
-		if (chkBxSBeta.isSelected())    pb.setParameter("SBeta", 1);
-		if (!chkBxSBeta.isSelected())   pb.setParameter("SBeta", 0);
-		if (chkBxSGamma.isSelected())   pb.setParameter("SGamma", 1);
-		if (!chkBxSGamma.isSelected())  pb.setParameter("SGamma", 0);
-	
-		
-		pb.setParameter("Eps",    ((Number) jSpinnerEps .getValue()).intValue());	
-		
-		pb.setParameter("MinQ",   ((Number) jSpinnerMinQ.getValue()).intValue());
-		pb.setParameter("MaxQ",   ((Number) jSpinnerMaxQ.getValue()).intValue());	
-		pb.setParameter("MinEta",   ((Number) jSpinnerMinEta  .getValue()).doubleValue());
-		pb.setParameter("MaxEta",   ((Number) jSpinnerMaxEta  .getValue()).doubleValue());
-		pb.setParameter("MinKappa", ((Number) jSpinnerMinKappa.getValue()).doubleValue());
-		pb.setParameter("MaxKappa", ((Number) jSpinnerMaxKappa.getValue()).doubleValue());
-		pb.setParameter("MinB",     ((Number) jSpinnerMinB    .getValue()).doubleValue());
-		pb.setParameter("MaxB",     ((Number) jSpinnerMaxB    .getValue()).doubleValue());
-		pb.setParameter("MinBeta",  ((Number) jSpinnerMinBeta .getValue()).doubleValue());
-		pb.setParameter("MaxBeta",  ((Number) jSpinnerMaxBeta .getValue()).doubleValue());
-		pb.setParameter("MinGamma", ((Number) jSpinnerMinBeta .getValue()).doubleValue());
-		pb.setParameter("MaxGamma", ((Number) jSpinnerMaxBeta .getValue()).doubleValue());
-	
-		if (buttGlidingBox.isSelected())  pb.setParameter("GridMethod", 0);
-		if (buttRasterBox.isSelected())   pb.setParameter("GridMethod", 1);
+	private GridBagConstraints getGBC_SingleGliding(){
+		GridBagConstraints gbc_SingleGliding = new GridBagConstraints();
+		gbc_SingleGliding.gridx = 0;
+		gbc_SingleGliding.gridy = 2;
+		gbc_SingleGliding.insets = new Insets(5, 0, 0, 0); // top left bottom right
+		gbc_SingleGliding.fill = GridBagConstraints.BOTH;
+		return gbc_SingleGliding;
 	}
-
-	/**
-	 * This method sets the current parameter values
-	 * 
-	 */
+	private GridBagConstraints getGBC_SurrogateOption() {
+		GridBagConstraints gbc_Surr= new GridBagConstraints();	
+		gbc_Surr.gridx = 0;
+		gbc_Surr.gridy = 3;
+		gbc_Surr.insets = new Insets(5, 0, 0, 0); // top left bottom right
+		gbc_Surr.fill = GridBagConstraints.BOTH;
+		
+		return gbc_Surr;
+	}
+	
 	@Override
 	public void setParameterValuesToGUI() {
-
 		this.pb = this.workPackage.getParameters();
-			
+		
 		if (pb.getIntParameter("SE") == 0)      chkBxSE.setSelected(false);
 		if (pb.getIntParameter("SE") == 1)      chkBxSE.setSelected(true);
 		if (pb.getIntParameter("H") == 0)       chkBxH.setSelected(false);
@@ -362,93 +338,112 @@ public class OperatorGUI_GenEnt extends AbstractImageOperatorGUI implements
 		jSpinnerMaxGamma.removeChangeListener(this);
 		jSpinnerMaxGamma.setValue(pb.getDoubleParameter("MaxGamma"));
 		jSpinnerMaxGamma.addChangeListener(this);
+		
+		
+		if (buttSingleValue.isSelected()) {
+			pb.setParameter("Method", 0);
+		} else if (buttGlidingValues.isSelected()) {
+			pb.setParameter("Method", 1);
+		}
 
-		if (pb.getIntParameter("GridMethod") == 0) buttGlidingBox.setSelected(true);
-		if (pb.getIntParameter("GridMethod") == 1) buttRasterBox.setSelected(true);
+		if (pb.getIntParameter("TypeSurr") == -1)                               buttNoSurr.doClick();
+		if (pb.getIntParameter("TypeSurr") == Surrogate.SURROGATE_AAFT)         buttAAFT.doClick();
+		if (pb.getIntParameter("TypeSurr") == Surrogate.SURROGATE_GAUSSIAN)     buttGaussian.doClick();
+		if (pb.getIntParameter("TypeSurr") == Surrogate.SURROGATE_RANDOMPHASE)  buttRandPhase.doClick();
+		if (pb.getIntParameter("TypeSurr") == Surrogate.SURROGATE_SHUFFLE)      buttShuffle.doClick();
+		
+		jSpinnerNSurr.removeChangeListener(this);
+		jSpinnerNSurr.setValue(pb.getIntParameter("NSurr"));
+		jSpinnerNSurr.addChangeListener(this);
+		
+		jSpinnerBoxLength.removeChangeListener(this);
+		jSpinnerBoxLength.setValue(pb.getIntParameter("BoxLength"));
+		jSpinnerBoxLength.addChangeListener(this);
+		
+		
 	}
 
+	private void addAllListeners() {
+			
+	}
+
+	private void removeAllListeners() {
+			
+	}
+
+	@Override
+	public void updateParameterBlock() {
+		
+		if (chkBxSE.isSelected())       pb.setParameter("SE", 1);
+		if (!chkBxSE.isSelected())      pb.setParameter("SE", 0);
+		if (chkBxH.isSelected())        pb.setParameter("H", 1);
+		if (!chkBxH.isSelected())       pb.setParameter("H", 0);
+		if (chkBxRenyi.isSelected())    pb.setParameter("Renyi", 1);
+		if (!chkBxRenyi.isSelected())   pb.setParameter("Renyi", 0);
+		if (chkBxTsallis.isSelected())  pb.setParameter("Tsallis", 1);
+		if (!chkBxTsallis.isSelected()) pb.setParameter("Tsallis", 0);
+		if (chkBxSNorm.isSelected())    pb.setParameter("SNorm", 1);
+		if (!chkBxSNorm.isSelected())   pb.setParameter("SNorm", 0);
+		if (chkBxSEscort.isSelected())  pb.setParameter("SEscort", 1);
+		if (!chkBxSEscort.isSelected()) pb.setParameter("SEscort", 0);
+		if (chkBxSEta.isSelected())     pb.setParameter("SEta", 1);
+		if (!chkBxSEta.isSelected())    pb.setParameter("SEta", 0);
+		if (chkBxSKappa.isSelected())   pb.setParameter("SKappa", 1);
+		if (!chkBxSKappa.isSelected())  pb.setParameter("SKappa", 0);
+		if (chkBxSB.isSelected())       pb.setParameter("SB", 1);
+		if (!chkBxSB.isSelected())      pb.setParameter("SB", 0);	
+		if (chkBxSBeta.isSelected())    pb.setParameter("SBeta", 1);
+		if (!chkBxSBeta.isSelected())   pb.setParameter("SBeta", 0);
+		if (chkBxSGamma.isSelected())   pb.setParameter("SGamma", 1);
+		if (!chkBxSGamma.isSelected())  pb.setParameter("SGamma", 0);
+	
+		
+		pb.setParameter("Eps",    ((Number) jSpinnerEps .getValue()).intValue());	
+		
+		pb.setParameter("MinQ",   ((Number) jSpinnerMinQ.getValue()).intValue());
+		pb.setParameter("MaxQ",   ((Number) jSpinnerMaxQ.getValue()).intValue());	
+		pb.setParameter("MinEta",   ((Number) jSpinnerMinEta  .getValue()).doubleValue());
+		pb.setParameter("MaxEta",   ((Number) jSpinnerMaxEta  .getValue()).doubleValue());
+		pb.setParameter("MinKappa", ((Number) jSpinnerMinKappa.getValue()).doubleValue());
+		pb.setParameter("MaxKappa", ((Number) jSpinnerMaxKappa.getValue()).doubleValue());
+		pb.setParameter("MinB",     ((Number) jSpinnerMinB    .getValue()).doubleValue());
+		pb.setParameter("MaxB",     ((Number) jSpinnerMaxB    .getValue()).doubleValue());
+		pb.setParameter("MinBeta",  ((Number) jSpinnerMinBeta .getValue()).doubleValue());
+		pb.setParameter("MaxBeta",  ((Number) jSpinnerMaxBeta .getValue()).doubleValue());
+		pb.setParameter("MinGamma", ((Number) jSpinnerMinBeta .getValue()).doubleValue());
+		pb.setParameter("MaxGamma", ((Number) jSpinnerMaxBeta .getValue()).doubleValue());
+		
+		if (this.buttSingleValue.isSelected())    pb.setParameter("Method", 0); 
+		if (this.buttGlidingValues.isSelected())  pb.setParameter("Method", 1); 
+		
+		if (this.buttNoSurr.isSelected())    pb.setParameter("TypeSurr", -1);
+		if (this.buttAAFT.isSelected())      pb.setParameter("TypeSurr", Surrogate.SURROGATE_AAFT);
+		if (this.buttGaussian.isSelected())  pb.setParameter("TypeSurr", Surrogate.SURROGATE_GAUSSIAN);
+		if (this.buttRandPhase.isSelected()) pb.setParameter("TypeSurr", Surrogate.SURROGATE_RANDOMPHASE);
+		if (this.buttShuffle.isSelected())   pb.setParameter("TypeSurr", Surrogate.SURROGATE_SHUFFLE);
+		
+		pb.setParameter("NSurr", nSurr);
+		pb.setParameter("BoxLength", ((Number)jSpinnerBoxLength.getValue()).intValue());	
+		
+	
+	}
+	
 	// ---------------------------------------------------------------------------------------------
-	private int getMaxEps(int width, int height) { // as normal Box counting
+	private int getMaxEps(int length) { // as normal Box counting
 		int result = 0;
-		if (buttGlidingBox.isSelected()) {
-			result = (width + height) / 2;
+		if (buttSingleValue.isSelected()) {
+			result = (length) / 2;
 		}
-		if (buttRasterBox.isSelected()) {
+		if (buttGlidingValues.isSelected()) {
 			float boxWidth = 1f;
 			int number = 1; // inclusive original image
-			while ((boxWidth <= width) && (boxWidth <= height)) {
+			while (boxWidth <= length) {
 				boxWidth = boxWidth * 2;
 				number = number + 1;
 			}
 			result = number - 1;
 		}
 		return result;
-	}
-	
-	// ------------------------------------------------------------------------------------------------------
-
-	/**
-	 * This method updates the GUI if needed This method overrides IqmOpJFrame
-	 */
-	@Override
-	public void update() {
-		logger.debug("Updating GUI...");
-		PlanarImage  pi = ((IqmDataBox) this.pb.getSources().firstElement()).getImage();
-		int width  = pi.getWidth();
-		int height = pi.getHeight();
-		minQ = -5;
-		maxQ = 5;
-		maxEps = this.getMaxEps(width, height);
-		
-		SpinnerModel sModel = new SpinnerNumberModel(eps, 2, maxEps, 1); // init, min,  max, step
-		jSpinnerEps.removeChangeListener(this);
-		jSpinnerEps.setModel(sModel);
-		DefaultEditor defEditor = (JSpinner.DefaultEditor) jSpinnerEps.getEditor();
-		JFormattedTextField ftf = defEditor.getTextField();
-		ftf.setEditable(true);
-		InternationalFormatter intFormatter = (InternationalFormatter) ftf.getFormatter();
-		DecimalFormat decimalFormat = (DecimalFormat) intFormatter.getFormat();
-		decimalFormat.applyPattern("#"); // decimalFormat.applyPattern("#,##0.0")// ;
-		// jSpinnerNumMaxEps.setValue(maxEps);
-		jSpinnerEps.addChangeListener(this);
-		
-		// System.out.println("OperatorGUI_GenEnt: numberMax: " +
-		// numberMax);
-		 sModel = new SpinnerNumberModel(minQ, -Integer.MAX_VALUE, Integer.MAX_VALUE, 1); // init, min,// max, step
-		jSpinnerMinQ.removeChangeListener(this);
-		jSpinnerMinQ.setModel(sModel);
-		defEditor = (JSpinner.DefaultEditor) jSpinnerMinQ.getEditor();
-		ftf = defEditor.getTextField();
-		ftf.setEditable(true);
-		intFormatter = (InternationalFormatter) ftf.getFormatter();
-		decimalFormat = (DecimalFormat) intFormatter.getFormat();
-		decimalFormat.applyPattern("#"); // decimalFormat.applyPattern("#,##0.0")										// ;
-		jSpinnerMinQ.setValue(minQ);
-		jSpinnerMinQ.addChangeListener(this);
-
-		sModel = new SpinnerNumberModel(maxQ, -Integer.MAX_VALUE, Integer.MAX_VALUE, 1); // init, min, max, step
-		jSpinnerMaxQ.removeChangeListener(this);
-		jSpinnerMaxQ.setModel(sModel);
-		defEditor = (JSpinner.DefaultEditor) jSpinnerMaxQ.getEditor();
-		ftf = defEditor.getTextField();
-		ftf.setEditable(true);
-		intFormatter = (InternationalFormatter) ftf.getFormatter();
-		decimalFormat = (DecimalFormat) intFormatter.getFormat();
-		decimalFormat.applyPattern("#"); // decimalFormat.applyPattern("#,##0.0")// ;
-		jSpinnerMaxQ.setValue(maxQ);
-		jSpinnerMaxQ.addChangeListener(this);
-
-		int init = 10;
-		if (buttGlidingBox.isSelected()) {
-			if (maxEps < 10)
-				init = maxEps;
-		}
-		if (buttRasterBox.isSelected()) {
-			init = maxEps;
-		}
-		
-		this.pack();
-		this.updateParameterBlock();
 	}
 	// ----------------------------------------------------------------------------------------------------------
 	/**
@@ -1151,63 +1146,327 @@ public class OperatorGUI_GenEnt extends AbstractImageOperatorGUI implements
 		}
 		return jPanelParamOption;
 	}	
-	//------------------------------------------------------------------------------------------------------------
-	private JPanel getJPanelGridOption() {
-		if (jPanelGridOption == null) {
-			jPanelGridOption = new JPanel();
-		
-			GridBagLayout gbl_panel = new GridBagLayout();
-//			gbl_panel.columnWidths = new int[] { 0, 0, 0 };
-//			gbl_panel.rowHeights = new int[] { 0, 0, 0, 0, 0 };
-//			gbl_panel.columnWeights = new double[] { 0.0, 0.0, Double.MIN_VALUE };
-//			gbl_panel.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE };
-			jPanelGridOption.setLayout(gbl_panel);
-			
-			//jPanelGridOption.setLayout(new BoxLayout(jPanelGridOption, BoxLayout.X_AXIS));
-			
-			jPanelGridOption.setBorder(new TitledBorder(UIManager
-					.getBorder("TitledBorder.border"), "Box options", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
-			
-			buttGlidingBox = new JRadioButton();
-			buttGlidingBox.setText("Gliding box");
-			buttGlidingBox.setToolTipText("Gliding box");
-			buttGlidingBox.addActionListener(this);
-			buttGlidingBox.setActionCommand("parameter");
-
-			buttRasterBox = new JRadioButton();
-			buttRasterBox.setText("Raster box");
-			buttRasterBox.setToolTipText("Raster box");
-			buttRasterBox.addActionListener(this);
-			buttRasterBox.setActionCommand("parameter");
-			buttRasterBox.setEnabled(true);
-		
-			GridBagConstraints gbc_jPanelGlidingBox = new GridBagConstraints();
-			gbc_jPanelGlidingBox.insets = new Insets(5, 5, 5, 5); //top  left bottom right
-			gbc_jPanelGlidingBox.gridx = 0;
-			gbc_jPanelGlidingBox.gridy = 0;
-			
-			GridBagConstraints gbc_jPanelRasterBox = new GridBagConstraints();
-			gbc_jPanelRasterBox.insets = new Insets(5, 5, 5, 5);
-			gbc_jPanelRasterBox.gridx = 1;
-			gbc_jPanelRasterBox.gridy = 0;
-			
-			jPanelGridOption.add(buttGlidingBox, gbc_jPanelGlidingBox);
-			jPanelGridOption.add(buttRasterBox,  gbc_jPanelRasterBox);
-			
-			this.setButtonGroupGridOption(); // Grouping of JRadioButtons
-			
+	
+	
+	// ------------------------------------------------------------------------------------------------------
+	
+	private JPanel getJPanelSingleGliding() {
+		if (jPanelSingleGliding == null) {
+			jPanelSingleGliding = new JPanel();
+			jPanelSingleGliding.setLayout(new BoxLayout(jPanelSingleGliding, BoxLayout.Y_AXIS));
+			//jPanelSingleGliding.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
+			//jPanelSingleGlidingOption.setBorder(new MatteBorder(0, 0, 1, 0, (Color) new Color(0, 0, 0)));
+			jPanelSingleGliding.setBorder(new TitledBorder(null, "Calcualtion options", TitledBorder.LEADING, TitledBorder.TOP, null, null));		
+			jPanelSingleGliding.add(getJPanelMethod());
+			jPanelSingleGliding.add(getJPanelBoxLength());
 		}
-		return jPanelGridOption;
+		return jPanelSingleGliding;
 	}
 	
-	private void setButtonGroupGridOption() {
-		// if (buttGroupGridoption == null) {
-		buttGroupGridOption = new ButtonGroup();
-		buttGroupGridOption.add(buttGlidingBox);
-		buttGroupGridOption.add(buttRasterBox);
+	/**
+	 * This method initializes the Option: SingleValue
+	 * 
+	 * @return javax.swing.JRadioButton
+	 */
+	private JRadioButton getJRadioButtonSingleValue() {
+		if (buttSingleValue == null) {
+			buttSingleValue = new JRadioButton();
+			buttSingleValue.setText("Single value");
+			buttSingleValue.setToolTipText("calculates a single Higuchi dimension value of the signal");
+			buttSingleValue.addActionListener(this);
+			buttSingleValue.setActionCommand("parameter");
+			buttSingleValue.setSelected(true);
+		}
+		return buttSingleValue;
 	}
 
-	// ----------------------------------------------------------------------------------------------------------
+	/**
+	 * This method initializes the Option: GlidingValues
+	 * 
+	 * @return javax.swing.JRadioButton
+	 */
+	private JRadioButton getJRadioButtonGlidingValues() {
+		if (buttGlidingValues == null) {
+			buttGlidingValues = new JRadioButton();
+			buttGlidingValues.setText("Gliding values");
+			buttGlidingValues.setToolTipText("calculates gliding Higuchi dimension values of the signal");
+			buttGlidingValues.addActionListener(this);
+			buttGlidingValues.setActionCommand("parameter");
+			buttGlidingValues.setEnabled(false);
+		}
+		return buttGlidingValues;
+	}
+
+	/**
+	 * This method initializes JPanel
+	 * 
+	 * @return javax.PanelPanel
+	 */
+	private JPanel getJPanelMethod() {
+		jPanelMethod = new JPanel();
+		jPanelMethod.setLayout(new BoxLayout(jPanelMethod, BoxLayout.Y_AXIS));
+		//jPanelMethod.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
+		//jPanelMethod.setBorder(new TitledBorder(null, "Calculation options", TitledBorder.LEADING, TitledBorder.TOP, null, null));		
+		jPanelMethod.add(getJRadioButtonSingleValue());
+		jPanelMethod.add(getJRadioButtonGlidingValues());
+
+		this.setButtonGroupMethod(); // Grouping of JRadioButtons
+		return jPanelMethod;
+	}
+
+	private void setButtonGroupMethod() {
+		buttGroupMethod = new ButtonGroup();
+		buttGroupMethod.add(buttSingleValue);
+		buttGroupMethod.add(buttGlidingValues);
+	}
+
+	// -------------------------------------------------------------------------------------------
+	/**
+	 * This method initializes jJPanelBoxLength
+	 * 
+	 * @return javax.swing.JPanel
+	 */
+	private JPanel getJPanelBoxLength() {
+		if (jPanelBoxLength == null) {
+			jPanelBoxLength = new JPanel();
+			jPanelBoxLength.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
+			jLabelBoxLength = new JLabel("Box length: ");
+			jLabelBoxLength.setHorizontalAlignment(SwingConstants.RIGHT);
+			SpinnerModel sModel = new SpinnerNumberModel(100, 10, Integer.MAX_VALUE, 1); // init, min, max, step
+			jSpinnerBoxLength = new JSpinner(sModel);
+			jSpinnerBoxLength.addChangeListener(this);
+			JSpinner.DefaultEditor defEditor = (JSpinner.DefaultEditor) jSpinnerBoxLength.getEditor();
+			JFormattedTextField ftf = defEditor.getTextField();
+			ftf.setColumns(5);
+			ftf.setEditable(true);
+			InternationalFormatter intFormatter = (InternationalFormatter) ftf.getFormatter();
+			DecimalFormat decimalFormat = (DecimalFormat) intFormatter.getFormat();
+			decimalFormat.applyPattern("#"); // decimalFormat.applyPattern("#,##0.0")
+			jPanelBoxLength.add(jLabelBoxLength);
+			jPanelBoxLength.add(jSpinnerBoxLength);
+			jLabelBoxLength.setEnabled(false);
+			jSpinnerBoxLength.setEnabled(false);
+		}
+		return jPanelBoxLength;
+	}
+	
+	
+	// -------------------------------------------------------------------------------------------
+	//Surrogate panel options
+	
+	/**
+	 * This method initializes the Option: NoSurr
+	 * 
+	 * @return javax.swing.JRadioButtonMenuItem
+	 */
+	private JRadioButton getJRadioButtonNoSurr() {
+		if (buttNoSurr == null) {
+			buttNoSurr = new JRadioButton();
+			buttNoSurr.addActionListener(this);
+			buttNoSurr.setText("No Surrogate(s)");
+			buttNoSurr.setToolTipText("No surrogate(s) of the signal before computation of the Higuchi dimension(s)");
+			buttNoSurr.setActionCommand("parameter");
+			//buttNoSurr.setSelected(true);
+		}
+		return buttNoSurr;
+	}
+	/**
+	 * This method initializes the Option: Shuffle
+	 * 
+	 * @return javax.swing.JRadioButtonMenuItem
+	 */
+	private JRadioButton getJRadioButtonShuffle() {
+		if (buttShuffle == null) {
+			buttShuffle = new JRadioButton();
+			buttShuffle.addActionListener(this);
+			buttShuffle.setText("Shuffle");
+			buttShuffle.setToolTipText("Shuffled surrogate(s) of the signal before computation of the Higuchi dimension(s)");
+			buttShuffle.setActionCommand("parameter");
+			//buttShuffle.setSelected(true);
+		}
+		return buttShuffle;
+	}
+	/**
+	 * This method initializes the Option: Gaussian
+	 * 
+	 * @return javax.swing.JRadioButtonMenuItem
+	 */
+	private JRadioButton getJRadioButtonGaussian() {
+		if (buttGaussian == null) {
+			buttGaussian = new JRadioButton();
+			buttGaussian.addActionListener(this);
+			buttGaussian.setText("Gaussian");
+			buttGaussian.setToolTipText("Gaussian surrogate(s) of the signal before computation of the Higuchi dimension(s)");
+			buttGaussian.setActionCommand("parameter");
+			//buttGaussian.setSelected(true);
+		}
+		return buttGaussian;
+	}
+	/**
+	 * This method initializes the Option: RandPhase
+	 * 
+	 * @return javax.swing.JRadioButtonMenuItem
+	 */
+	private JRadioButton getJRadioButtonRandPhase() {
+		if (buttRandPhase == null) {
+			buttRandPhase = new JRadioButton();
+			buttRandPhase.addActionListener(this);
+			buttRandPhase.setText("RandPhase");
+			buttRandPhase.setToolTipText("Randome phase surrogate(s) of the signal before computation of the Higuchi dimension(s)");
+			buttRandPhase.setActionCommand("parameter");
+			//buttRandPhase.setSelected(true);
+		}
+		return buttRandPhase;
+	}
+	/**
+	 * This method initializes the Option: AAFT
+	 * 
+	 * @return javax.swing.JRadioButtonMenuItem
+	 */
+	private JRadioButton getJRadioButtonAAFT() {
+		if (buttAAFT == null) {
+			buttAAFT = new JRadioButton();
+			buttAAFT.addActionListener(this);
+			buttAAFT.setText("AAFT");
+			buttAAFT.setToolTipText("AAFT surrogate(s) of the signal before computatoin of the Higuchi dimension(s)");
+			buttAAFT.setActionCommand("parameter");
+			//buttAAFT.setSelected(true);
+		}
+		return buttAAFT;
+	}
+	
+	private void setSurrogateOptionButtonGroup() {
+		buttGroupSurrogate = new ButtonGroup();
+		buttGroupSurrogate.add(buttNoSurr);
+		buttGroupSurrogate.add(buttShuffle);
+		buttGroupSurrogate.add(buttGaussian);
+		buttGroupSurrogate.add(buttRandPhase);
+		buttGroupSurrogate.add(buttAAFT);
+	}
+	
+	private JPanel getJPanelJRadioButtonsSurrogate() {
+		if (jPanelJRadioButtonsSurrogate == null) {
+			jPanelJRadioButtonsSurrogate = new JPanel();
+			jPanelJRadioButtonsSurrogate.setLayout(new BoxLayout(jPanelJRadioButtonsSurrogate, BoxLayout.Y_AXIS));
+			jPanelJRadioButtonsSurrogate.add(getJRadioButtonNoSurr());
+			jPanelJRadioButtonsSurrogate.add(getJRadioButtonShuffle());
+			jPanelJRadioButtonsSurrogate.add(getJRadioButtonGaussian());
+			jPanelJRadioButtonsSurrogate.add(getJRadioButtonRandPhase());
+			jPanelJRadioButtonsSurrogate.add(getJRadioButtonAAFT());
+			this.setSurrogateOptionButtonGroup();
+		}
+		return jPanelJRadioButtonsSurrogate;
+	}
+	
+	
+	/**
+	 * This method initializes jJPanelNSurr
+	 * 
+	 * @return javax.swing.JPanel
+	 */
+	private JPanel getJPanelNSurr() {
+		if (jPanelNSurr == null) {
+			jPanelNSurr = new JPanel();
+			jPanelNSurr.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
+			jLabelNSurr = new JLabel("#:");
+			jLabelNSurr.setHorizontalAlignment(SwingConstants.RIGHT);
+			SpinnerModel sModel = new SpinnerNumberModel(1, 1, Integer.MAX_VALUE, 1); // init, min, max, step
+			jSpinnerNSurr = new JSpinner(sModel);
+			jSpinnerNSurr.addChangeListener(this);
+			JSpinner.DefaultEditor defEditor = (JSpinner.DefaultEditor) jSpinnerNSurr.getEditor();
+			JFormattedTextField ftf = defEditor.getTextField();
+			ftf.setColumns(5);
+			ftf.setEditable(true);
+			InternationalFormatter intFormatter = (InternationalFormatter) ftf.getFormatter();
+			DecimalFormat decimalFormat = (DecimalFormat) intFormatter.getFormat();
+			decimalFormat.applyPattern("#"); // decimalFormat.applyPattern("#,##0.0")
+			jPanelNSurr.add(jLabelNSurr);
+			jPanelNSurr.add(jSpinnerNSurr);
+			jLabelNSurr.setEnabled(false);
+			jSpinnerNSurr.setEnabled(false);
+		}
+		return jPanelNSurr;
+	}
+	
+
+	/**
+	 * This method initializes 
+	 * 
+	 * @return javax.swing.JPanel
+	 */
+	private JPanel getJPanelOptionSurrogate() {
+		if (jPanelOptionSurrogate == null) {
+			jPanelOptionSurrogate = new JPanel();
+			jPanelOptionSurrogate.setLayout(new BoxLayout(jPanelOptionSurrogate, BoxLayout.Y_AXIS));
+			//jPanelOptionSurrogate.setLayout(new FlowLayout(FlowLayout.CENTER, 0, 0));
+
+			jPanelOptionSurrogate.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), 
+					               "Surrogate options", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
+			jPanelOptionSurrogate.add(getJPanelJRadioButtonsSurrogate());
+			jPanelOptionSurrogate.add(getJPanelNSurr());
+	    }
+		return jPanelOptionSurrogate;
+	}
+	
+
+	// -------------------------------------------------------------------------------------------
+	
+
+	
+    //----------------------------------------------------------------------------------------------------------------------
+	@Override
+	public void update() {
+		
+		logger.debug("Updating GUI...");
+	
+		minQ = -5;
+		maxQ = 5;
+		
+		PlotModel plotmodel = ((IqmDataBox) this.pb.getSources().firstElement()).getPlotModel();
+		maxEps = this.getMaxEps(plotmodel.getData().size());
+		
+		SpinnerModel sModel = new SpinnerNumberModel(eps, 2, maxEps, 1); // init, min,  max, step
+		jSpinnerEps.removeChangeListener(this);
+		jSpinnerEps.setModel(sModel);
+		DefaultEditor defEditor = (JSpinner.DefaultEditor) jSpinnerEps.getEditor();
+		JFormattedTextField ftf = defEditor.getTextField();
+		ftf.setEditable(true);
+		InternationalFormatter intFormatter = (InternationalFormatter) ftf.getFormatter();
+		DecimalFormat decimalFormat = (DecimalFormat) intFormatter.getFormat();
+		decimalFormat.applyPattern("#"); // decimalFormat.applyPattern("#,##0.0")// ;
+		// jSpinnerNumMaxEps.setValue(maxEps);
+		jSpinnerEps.addChangeListener(this);
+		
+		// System.out.println("OperatorGUI_GenEnt: numberMax: " +
+		// numberMax);
+		 sModel = new SpinnerNumberModel(minQ, -Integer.MAX_VALUE, Integer.MAX_VALUE, 1); // init, min,// max, step
+		jSpinnerMinQ.removeChangeListener(this);
+		jSpinnerMinQ.setModel(sModel);
+		defEditor = (JSpinner.DefaultEditor) jSpinnerMinQ.getEditor();
+		ftf = defEditor.getTextField();
+		ftf.setEditable(true);
+		intFormatter = (InternationalFormatter) ftf.getFormatter();
+		decimalFormat = (DecimalFormat) intFormatter.getFormat();
+		decimalFormat.applyPattern("#"); // decimalFormat.applyPattern("#,##0.0")										// ;
+		jSpinnerMinQ.setValue(minQ);
+		jSpinnerMinQ.addChangeListener(this);
+
+		sModel = new SpinnerNumberModel(maxQ, -Integer.MAX_VALUE, Integer.MAX_VALUE, 1); // init, min, max, step
+		jSpinnerMaxQ.removeChangeListener(this);
+		jSpinnerMaxQ.setModel(sModel);
+		defEditor = (JSpinner.DefaultEditor) jSpinnerMaxQ.getEditor();
+		ftf = defEditor.getTextField();
+		ftf.setEditable(true);
+		intFormatter = (InternationalFormatter) ftf.getFormatter();
+		decimalFormat = (DecimalFormat) intFormatter.getFormat();
+		decimalFormat.applyPattern("#"); // decimalFormat.applyPattern("#,##0.0")// ;
+		jSpinnerMaxQ.setValue(maxQ);
+		jSpinnerMaxQ.addChangeListener(this);
+
+		this.pack();
+		this.updateParameterBlock();
+	}
+
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		logger.debug(e.getActionCommand() + " event has been triggered.");
@@ -1301,33 +1560,36 @@ public class OperatorGUI_GenEnt extends AbstractImageOperatorGUI implements
 					jLabelMaxGamma.setEnabled(false);
 				}
 			}
-					
-			if (e.getSource() == buttGlidingBox) {
-				chkBxRenyi.setEnabled(true);
-				chkBxTsallis.setEnabled(true);
-				//list of chekboxes
-				
-			}
-			if (e.getSource() == buttRasterBox) {
-				chkBxRenyi.setEnabled(true); //?????????????????????????????????
-				chkBxTsallis.setEnabled(true); //????????????????????????????????	
-			}
 			
-			this.updateParameterBlock();
+			if (buttNoSurr.isSelected()) {
+				jLabelNSurr.setEnabled(false);
+				jSpinnerNSurr.setEnabled(false);
+			}
+			if (buttAAFT.isSelected() || buttGaussian.isSelected() || buttRandPhase.isSelected() || buttShuffle.isSelected()) {
+				jLabelNSurr.setEnabled(true);
+				jSpinnerNSurr.setEnabled(true);
+			}
+			if (buttSingleValue.isSelected()){
+				jLabelBoxLength.setEnabled(false);
+				jSpinnerBoxLength.setEnabled(false);
+			}
+			if (buttGlidingValues.isSelected()){
+				jLabelBoxLength.setEnabled(true);
+				jSpinnerBoxLength.setEnabled(true);
+			}	
+			
+			this.update();
+			// preview if selected
+			if (this.isAutoPreviewSelected()) {
+				logger.debug("Performing AutoPreview");
+				this.showPreview();
+			}
 		}
-
-		// preview if selected
-		if (this.isAutoPreviewSelected()) {
-			logger.debug("Performing AutoPreview");
-			this.showPreview();
-		}
-
+		
 	}
 
-	// -------------------------------------------------------------------------------------------------
 	@Override
 	public void stateChanged(ChangeEvent e) {
-
 		maxEps   = ((Number) jSpinnerEps      .getValue()).intValue();
 		minQ     = ((Number) jSpinnerMinQ     .getValue()).intValue();
 		maxQ     = ((Number) jSpinnerMaxQ     .getValue()).intValue();
@@ -1453,16 +1715,13 @@ public class OperatorGUI_GenEnt extends AbstractImageOperatorGUI implements
 		jSpinnerMaxGamma.addChangeListener(this);
 		
 		
-
 		this.updateParameterBlock();
-
+		
 		// preview if selected
 		if (this.isAutoPreviewSelected()) {
 			logger.debug("Performing AutoPreview");
 			this.showPreview();
 		}
-
 	}
 
-	
-}// END
+}

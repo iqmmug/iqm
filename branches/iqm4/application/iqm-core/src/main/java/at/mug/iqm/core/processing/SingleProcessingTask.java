@@ -184,7 +184,7 @@ public class SingleProcessingTask extends AbstractProcessingTask implements
 			logger.error("An error occured: ", e);
 			BoardPanel.appendTextln("Processing failed.", caller);
 			DialogUtil.getInstance().showErrorMessage(
-					"Image processing failed!", e, true);
+					"Image or plot processing failed!", e, true);
 			result = null;
 		}
 
