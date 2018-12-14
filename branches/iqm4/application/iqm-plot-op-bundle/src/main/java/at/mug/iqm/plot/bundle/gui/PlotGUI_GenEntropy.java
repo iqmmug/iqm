@@ -68,15 +68,24 @@ import at.mug.iqm.commons.util.plot.Surrogate;
 import at.mug.iqm.plot.bundle.descriptors.PlotOpGenEntropyDescriptor;
 
 /**
- * <li>2012 11 QSE   quadratic sample entropy      according to Lake Moormann Am J Physiol Circ Physiol 300 H319-H325 2011
- * <li>2012 11 COSEn coefficient of sample entropy according to Lake Moormann Am J Physiol Circ Physiol 300 H319-H325 2011
- * <li>2012 02 Permutation entropy according to Bandt C and Pompe B. Permutation Entropy: A Natural Complexity Measure for Time Series. Phys Rev Lett Vol88(17) 2002
+ * <li>Generalized Entropies
+ * <li>according to a review of Amigó, J.M., Balogh, S.G., Hernández, S., 2018. A Brief Review of Generalized Entropies. Entropy 20, 813. https://doi.org/10.3390/e20110813
+ * <li>and to: Tsallis Introduction to Nonextensive Statistical Mechanics, 2009, S105-106
+ * <li>Renyi, Tsallis, H1,H2,H3 according to Amigo etal.
+ * <li>H       according to Amigo etal. 
+ * <li>SE      according to Amigo etal. and Tsekouras, G.A.; Tsallis, C. Generalized entropy arising from a distribution of q indices. Phys. Rev. E 2005,
+ * <li>SEta    according to Amigo etal. and Anteneodo, C.; Plastino, A.R. Maximum entropy approach to stretched exponential probability distributions. J. Phys. A Math. Gen. 1999, 32, 1089–1098.	
+ * <li>SKappa  according to Amigo etal. and Kaniadakis, G. Statistical mechanics in the context of special relativity. Phys. Rev. E 2002, 66, 056125
+ * <li>SB      according to Amigo etal. and Curado, E.M.; Nobre, F.D. On the stability of analytic entropic forms. Physica A 2004, 335, 94–106.
+ * <li>SBeta   according to Amigo etal. and Shafee, F. Lambert function and a new non-extensive form of entropy. IMA J. Appl. Math. 2007, 72, 785–800.
+ * <li>SGamma  according to Amigo etal. and Tsallis Introduction to Nonextensive Statistical Mechanics, 2009, S61
+ * <li>SNorm   according to Tsallis Introduction to Nonextensive Statistical Mechanics, 2009, S105-106
+ * <li>SEscort according to Tsallis Introduction to Nonextensive Statistical Mechanics, 2009, S105-106
  * 
  * @author Ahammer
- * @since  2012 11
- * @update 2014 12 changed buttons to JRadioButtons and added some TitledBorders
- * @update 2018-03 added surrogate option
+ * @since  2018-12-14
  */
+
 public class PlotGUI_GenEntropy extends AbstractPlotOperatorGUI implements
 		ChangeListener  {
 

@@ -64,7 +64,7 @@ import flanagan.analysis.Stat;
  * <li>SEscort according to Tsallis Introduction to Nonextensive Statistical Mechanics, 2009, S105-106
  * 
  * @author Ahammer
- * @since  2018-12-013
+ * @since  2018-12-14
  */
 
 public class PlotOpGenEntropy extends AbstractOperator {
@@ -161,7 +161,6 @@ public class PlotOpGenEntropy extends AbstractOperator {
 		double stepEta   = 0.1;
 		double stepKappa = 0.1;
 		double stepB     = 1.0;
-		double stepE     = 0.1;
 		double stepBeta  = 0.1;
 		double stepGamma = 0.1;
 	
@@ -228,19 +227,24 @@ public class PlotOpGenEntropy extends AbstractOperator {
 					if (signal.get(i) > signalMax) signalMax = signal.get(i);  
 				}	
 				double binWidth = (signalMax - signalMin)/1000;
-		    	double[][] histo = Stat.histogramBins(signalDouble, binWidth);   //hist[0][] are the center bin values  hist[1][] are the frequencies of the bins
+				double[][] histo = Stat.histogramBins(signalDouble, binWidth, signalMin, signalMax);   //hist[0][] are the center bin values  hist[1][] are the frequencies of the bins
+				//Additionally with a Flanagan plot
+				//double[][] histo = Stat.histogramBinsPlot(signalDouble, binWidth, signalMin, signalMax);   //hist[0][] are the center bin values  hist[1][] are the frequencies of the bins
 		    	probabilities     = new double[histo[1].length]; 
 		   	
-				for (int p= 0; p < histo.length; p++) {
+				for (int p= 0; p < histo[1].length; p++) {
 					probabilities[p] = histo[1][p];
 					totalsMax = totalsMax + histo[1][p]; // calculate total count for normalization
 				}	
 				
 				// normalization
+				double sumP = 0.0;
 				for (int p = 0; p < probabilities.length; p++) {	
 					probabilities[p] = probabilities[p] / totalsMax;
-					//System.out.println("PlotOpGenEntropy: p: " + p + "probabilities[p]: " + probabilities[b]);
+					//System.out.println("PlotOpGenEntropy: p: " + p + "  probabilities[p]: " + probabilities[p]);
+					sumP = sumP + probabilities[p];
 				}
+				System.out.println("PlotOpGenEntropy: Sum of probabilities: " + sumP);
 				
 				fireProgressChanged(30);
 				if (isCancelled(getParentTask())) return null;
@@ -255,16 +259,18 @@ public class PlotOpGenEntropy extends AbstractOperator {
 					Vector<Double> signalSurr = plots.get(0);
 					
 					
-					double signalMin = Double.MAX_VALUE;
-					double signalMax = -Double.MAX_VALUE;
+					double signalMinSurr = Double.MAX_VALUE;
+					double signalMaxSurr = -Double.MAX_VALUE;
 					double signalDouble[] = new double[signal.size()]; 
 					for (int s = 0; s < signalSurr.size(); s++) {
 						signalDouble[s] = signal.get(s);
-						if (signalSurr.get(s) < signalMin) signalMin = signalSurr.get(s);  
-						if (signalSurr.get(s) > signalMax) signalMax = signalSurr.get(s);  
+						if (signalSurr.get(s) < signalMinSurr) signalMinSurr = signalSurr.get(s);  
+						if (signalSurr.get(s) > signalMaxSurr) signalMaxSurr = signalSurr.get(s);  
 					}	
-					double binWidth = (signalMax - signalMin)/1000;
-			    	double[][] histoSurr = Stat.histogramBins(signalDouble, binWidth);   //histoSurr[0][] are the center bin values  hist[1][] are the frequencies of the bins
+					double binWidth = (signalMaxSurr - signalMinSurr)/1000;
+			    	double[][] histoSurr = Stat.histogramBins(signalDouble, binWidth, signalMinSurr, signalMaxSurr);   //histoSurr[0][] are the center bin values  hist[1][] are the frequencies of the bins
+			    	//Additionally with a Flanagan plot
+			    	//double[][] histoSurr = Stat.histogramBinsPlot(signalDouble, binWidth, signalMinSurr, signalMaxSurr);   //histoSurr[0][] are the center bin values  hist[1][] are the frequencies of the bins
 			    	
 			    	probabilitiesSurr = new double[histoSurr[1].length][nSurr]; 
 
@@ -273,9 +279,12 @@ public class PlotOpGenEntropy extends AbstractOperator {
 						totalsMaxSurr = totalsMaxSurr + histoSurr[1][p]; // calculate total count for normalization
 					}		
 					// normalization
+					double sumPSurr = 0.0;
 					for (int p = 0; p < probabilitiesSurr.length; p++) {	
 						probabilitiesSurr[p][n] = probabilitiesSurr[p][n] / totalsMaxSurr;	
+						sumPSurr = sumPSurr + probabilitiesSurr[p][n];
 					}
+					System.out.println("PlotOpGenEntropy: Sum of surrogte probabilities: " + sumPSurr);
 							
 					fireProgressChanged(50);
 					if (isCancelled(getParentTask())) return null;
