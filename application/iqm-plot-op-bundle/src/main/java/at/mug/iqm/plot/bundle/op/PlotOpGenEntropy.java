@@ -73,36 +73,6 @@ public class PlotOpGenEntropy extends AbstractOperator {
 		this.setCancelable(true);
 	}
 
-	/**
-	 * This method calculates the mean of a data series
-	 * 
-	 * @param data1D
-	 * @return Double Mean
-	 */
-	private Double calcMean(Vector<Double> data1D) {
-		double sum = 0;
-		for (double d : data1D) {
-			sum += d;
-		}
-		return sum / data1D.size();
-	}
-	
-	/**
-	 * This method calculates the mean of a data series
-	 * 
-	 * @param data1D[][numberOfSurrogates]
-	 * @return double Mean
-	 */
-	private double[] calcSurrMean(double[][] data1D) {
-		double surrMean[] = new double [data1D.length];
-		for (int p = 0; p <  data1D.length; p++) {	
-			for (int n = 0; n < data1D[0].length; n++ ) {
-				surrMean[p] = surrMean[p] + data1D[p][n]/data1D[0].length;
-			}	
-		}
-		return surrMean;
-	}
-	
 	@Override
 	public IResult run(IWorkPackage wp) {
 
@@ -127,8 +97,6 @@ public class PlotOpGenEntropy extends AbstractOperator {
 		int sBeta   = pb.getIntParameter("SBeta");
 		int sGamma  = pb.getIntParameter("SGamma");
 		
-		int eps   = pb.getIntParameter("Eps"); // epsilon in pixels
-		
 		int minQ     = pb.getIntParameter("MinQ");
 		int maxQ     = pb.getIntParameter("MaxQ");
 		double minEta   = pb.getDoubleParameter("MinEta");
@@ -142,13 +110,14 @@ public class PlotOpGenEntropy extends AbstractOperator {
 		double minGamma = pb.getDoubleParameter("MinGamma");
 		double maxGamma = pb.getDoubleParameter("MaxGamma");
 		
+		int probOption   = pb.getIntParameter("ProbOption"); // Probabilities computation option
+		int eps          = pb.getIntParameter("Eps"); // epsilon in pixels
+		
 		int method    = pb.getIntParameter("Method");
 		int boxLength = pb.getIntParameter("BoxLength");
 		int typeSurr  = pb.getIntParameter("TypeSurr");
 		int nSurr     = pb.getIntParameter("NSurr");
 	
-	
-
 		//System.out.println("typeSurr:  " + typeSurr);
 		//System.out.println("nSurr:  " + nSurr);
 				
@@ -164,7 +133,7 @@ public class PlotOpGenEntropy extends AbstractOperator {
 		double stepBeta  = 0.1;
 		double stepGamma = 0.1;
 	
-		int numQ     = maxQ - minQ + 1;
+		int numQ     =        (maxQ - minQ)/stepQ + 1;
 		int numEta   = (int) ((maxEta - minEta)/stepEta + 1);
 		int numKappa = (int) ((maxKappa - minKappa)/stepKappa + 1);
 		int numB     = (int) ((maxB - minB)/stepB + 1);
@@ -186,8 +155,8 @@ public class PlotOpGenEntropy extends AbstractOperator {
 		}
 		
 		String strMethod = "?";
-		if (method == 0) strMethod = "Single Value";
-		if (method == 1) strMethod = "Gliding Values";
+		if (method == 0) strMethod = "Single value";
+		if (method == 1) strMethod = "Gliding values";
 
 		// data arrays		
 		double   genEntSE;
@@ -204,11 +173,8 @@ public class PlotOpGenEntropy extends AbstractOperator {
 		double[] genEntSBeta   = new double[numBeta];	
 		double[] genEntSGamma  = new double[numGamma];
 		
-		double[]   probabilities         = null; //pi's
-		double[][] probabilitiesSurr     = null; //pi's
-		double[]   probabilitiesSurrMean = null; //pi's
-		double     totalsMax     =  0.0;
-		double     totalsMaxSurr =  0.0;
+		double[] probabilities         = null; //pi's
+		double[] probabilitiesSurrMean = null; //pi's
 		
 		fireProgressChanged(5);
 		if (isCancelled(getParentTask())) return null;
@@ -217,80 +183,24 @@ public class PlotOpGenEntropy extends AbstractOperator {
 		if (method == 0) { // single value
 	
 			if (typeSurr == -1) {  //no surrogate
-			
-				double signalMin = Double.MAX_VALUE;
-				double signalMax = Double.MIN_VALUE;
-				double signalDouble[] = new double[signal.size()]; 
-				for (int i = 0; i < signal.size(); i++) {
-					signalDouble[i] = signal.get(i);
-					if (signal.get(i) < signalMin) signalMin = signal.get(i);  
-					if (signal.get(i) > signalMax) signalMax = signal.get(i);  
-				}	
-				double binWidth = (signalMax - signalMin)/1000;
-				double[][] histo = Stat.histogramBins(signalDouble, binWidth, signalMin, signalMax);   //hist[0][] are the center bin values  hist[1][] are the frequencies of the bins
-				//Additionally with a Flanagan plot
-				//double[][] histo = Stat.histogramBinsPlot(signalDouble, binWidth, signalMin, signalMax);   //hist[0][] are the center bin values  hist[1][] are the frequencies of the bins
-		    	probabilities     = new double[histo[1].length]; 
-		   	
-				for (int p= 0; p < histo[1].length; p++) {
-					probabilities[p] = histo[1][p];
-					totalsMax = totalsMax + histo[1][p]; // calculate total count for normalization
-				}	
-				
-				// normalization
-				double sumP = 0.0;
-				for (int p = 0; p < probabilities.length; p++) {	
-					probabilities[p] = probabilities[p] / totalsMax;
-					//System.out.println("PlotOpGenEntropy: p: " + p + "  probabilities[p]: " + probabilities[p]);
-					sumP = sumP + probabilities[p];
+				if (probOption == 0) {//Actual values
+					probabilities = compProbabilitiesOfValues(signal);	
 				}
-				System.out.println("PlotOpGenEntropy: Sum of probabilities: " + sumP);
-				
+				if (probOption == 1) {//Difference values
+					probabilities = compProbabilitiesOfDifferences(signal, eps);	
+				}
 				fireProgressChanged(30);
 				if (isCancelled(getParentTask())) return null;
 			}
-			if (typeSurr >= 0) { //Surrogates before computing entropies
-		
-				for (int n= 0; n < nSurr; n++) {
-					totalsMaxSurr = 0.0;
-					//create a surrogate signal
-					Surrogate surrogate = new Surrogate(this);
-					Vector<Vector<Double>> plots = surrogate.calcSurrogateSeries(signal, typeSurr, 1);
-					Vector<Double> signalSurr = plots.get(0);
-					
-					
-					double signalMinSurr = Double.MAX_VALUE;
-					double signalMaxSurr = -Double.MAX_VALUE;
-					double signalDouble[] = new double[signal.size()]; 
-					for (int s = 0; s < signalSurr.size(); s++) {
-						signalDouble[s] = signal.get(s);
-						if (signalSurr.get(s) < signalMinSurr) signalMinSurr = signalSurr.get(s);  
-						if (signalSurr.get(s) > signalMaxSurr) signalMaxSurr = signalSurr.get(s);  
-					}	
-					double binWidth = (signalMaxSurr - signalMinSurr)/1000;
-			    	double[][] histoSurr = Stat.histogramBins(signalDouble, binWidth, signalMinSurr, signalMaxSurr);   //histoSurr[0][] are the center bin values  hist[1][] are the frequencies of the bins
-			    	//Additionally with a Flanagan plot
-			    	//double[][] histoSurr = Stat.histogramBinsPlot(signalDouble, binWidth, signalMinSurr, signalMaxSurr);   //histoSurr[0][] are the center bin values  hist[1][] are the frequencies of the bins
-			    	
-			    	probabilitiesSurr = new double[histoSurr[1].length][nSurr]; 
-
-					for (int p=0; p<probabilitiesSurr.length; p++) {	
-						probabilitiesSurr[p][n] = histoSurr[1][p];
-						totalsMaxSurr = totalsMaxSurr + histoSurr[1][p]; // calculate total count for normalization
-					}		
-					// normalization
-					double sumPSurr = 0.0;
-					for (int p = 0; p < probabilitiesSurr.length; p++) {	
-						probabilitiesSurr[p][n] = probabilitiesSurr[p][n] / totalsMaxSurr;	
-						sumPSurr = sumPSurr + probabilitiesSurr[p][n];
-					}
-					System.out.println("PlotOpGenEntropy: Sum of surrogte probabilities: " + sumPSurr);
-							
-					fireProgressChanged(50);
-					if (isCancelled(getParentTask())) return null;
+			if (typeSurr >= 0) { //Surrogates before computing probabilities
+				if (probOption == 0) {//Actual values
+					probabilitiesSurrMean = compProbabilitiesSurrOfValues(signal, typeSurr, nSurr);
 				}
-				probabilitiesSurrMean = this.calcSurrMean(probabilitiesSurr);
+				if (probOption == 1) {//Difference values
+					probabilitiesSurrMean = compProbabilitiesSurrOfDifferences(signal, eps, typeSurr, nSurr);
+				}
 			}
+				
 		} //end of method ==  0
 
 		if (method == 1) { // gliding values
@@ -321,6 +231,7 @@ public class PlotOpGenEntropy extends AbstractOperator {
 
 		if (method == 0) { // single value
 			model.addColumn("Plot name");
+			model.addColumn("Method");
 			model.addColumn("Eps");	
 			model.addColumn("Surrogate");
 			// model.addRow(new String[] {plotModelName, String.valueOf(numK),
@@ -332,10 +243,11 @@ public class PlotOpGenEntropy extends AbstractOperator {
 			if (typeSurr == Surrogate.SURROGATE_RANDOMPHASE) surrogate = "Rand Phase x"+ nSurr; 
 			if (typeSurr == Surrogate.SURROGATE_SHUFFLE)     surrogate = "Shuffle x "+nSurr; 
 			
-			model.addRow(new String[] {plotModelName, String.valueOf(eps), surrogate});
+			model.addRow(new String[] {plotModelName, strMethod, String.valueOf(eps), surrogate});
 		}
 		if (method == 1) { // gliding values
 			model.addColumn("Plot name");
+			model.addColumn("Method");
 			model.addColumn("Eps");	
 			model.addColumn("BoxSize=" + boxLength);
 			model.addColumn("Surrogate");
@@ -348,9 +260,9 @@ public class PlotOpGenEntropy extends AbstractOperator {
 				if (typeSurr == Surrogate.SURROGATE_GAUSSIAN)    surrogate = "Gaussian x" +nSurr; 
 				if (typeSurr == Surrogate.SURROGATE_RANDOMPHASE) surrogate = "Rand Phase x"+ nSurr; 
 				if (typeSurr == Surrogate.SURROGATE_SHUFFLE)     surrogate = "Shuffle x "+nSurr; 
-				model.addRow(new String[] {plotModelName, String.valueOf(eps), "#:" + (i + 1), surrogate });
+				model.addRow(new String[] {plotModelName, strMethod, String.valueOf(eps), "#:" + (i + 1), surrogate });
 			}
-			model.addColumn("GLIDING VALUES FOR SURROGATES NO IMPLEMENTED");		
+			model.addColumn("GLIDING VALUES FOR SURROGATES IS NOT IMPLEMENTED");		
 		}
 			
 		//------------------------------------------------------------------------------------------------------
@@ -377,7 +289,7 @@ public class PlotOpGenEntropy extends AbstractOperator {
 			}
 			//--------------------------------------------------------------------------------------------------
 			if (h == 1) {//H1 according to Amigo etal. paper				
-				double sum = 0.0;
+				//double sum = 0.0;
 				for (int pp = 0; pp < probs.length; pp++) {
 					if (probs[pp] != 0) {
 							double pHochp = Math.pow(probs[pp], probs[pp]);
@@ -767,7 +679,225 @@ public class PlotOpGenEntropy extends AbstractOperator {
 		this.fireProgressChanged(95);
 		if (this.isCancelled(this.getParentTask())) return null;
 		return new Result(model);
+
 	}
+
+	//------------------------------------------------------------------------------------------------------
+	/**
+	 * This computes probabilities of actual values
+	 * 
+	 * @param signal
+	 * @return probabilities[]
+	 */
+	private double[] compProbabilitiesOfValues(Vector<Double> signal) {
+		double signalMin = Double.MAX_VALUE;
+		double signalMax = Double.MIN_VALUE;
+		double signalDouble[] = new double[signal.size()]; 
+		for (int i = 0; i < signal.size(); i++) {
+			signalDouble[i] = signal.get(i);
+			if (signalDouble[i] < signalMin) signalMin = signalDouble[i];  
+			if (signalDouble[i] > signalMax) signalMax = signalDouble[i];  
+		}	
+		double binWidth = (signalMax - signalMin)/1000;
+		double[][] histo = Stat.histogramBins(signalDouble, binWidth, signalMin, signalMax);   //hist[0][] are the center bin values  hist[1][] are the frequencies of the bins
+		//Additionally with a Flanagan plot
+		//double[][] histo = Stat.histogramBinsPlot(signalDouble, binWidth, signalMin, signalMax);   //hist[0][] are the center bin values  hist[1][] are the frequencies of the bins
+    	double[] pis = new double[histo[1].length]; 
+
+		double totalsMax = 0.0;
+		for (int p= 0; p < histo[1].length; p++) {
+			pis[p] = histo[1][p];
+			totalsMax = totalsMax + histo[1][p]; // calculate total count for normalization
+		}	
+		
+		// normalization
+		double sumP = 0.0;
+		for (int p = 0; p < pis.length; p++) {	
+			pis[p] = pis[p] / totalsMax;
+			//System.out.println("PlotOpGenEntropy: p: " + p + "  probabilities[p]: " + probabilities[p]);
+			sumP = sumP + pis[p];
+		}
+		System.out.println("PlotOpGenEntropy: Sum of probabilities: " + sumP);
+		return pis;
+	}
+	
+	/**
+	 * This computes probabilities of surrogates of actual values
+	 * 
+	 * @param signal
+	 * @param typeSurr
+	 * @param nSurr
+	 * @return double[]   probabilitiesSurrMean
+	 */
+	private double[] compProbabilitiesSurrOfValues(Vector<Double> signal, int typeSurr, int nSurr) {
+		double[]   probabilitiesSurrMean = null; //pi's
+		double[][] probabilitiesSurr = null;
+		for (int n= 0; n < nSurr; n++) {
+			double totalsMaxSurr = 0.0;
+			//create a surrogate signal
+			Surrogate surrogate = new Surrogate(this);
+			Vector<Vector<Double>> plots = surrogate.calcSurrogateSeries(signal, typeSurr, 1);
+			Vector<Double> signalSurr = plots.get(0);
+			
+			
+			double signalMinSurr = Double.MAX_VALUE;
+			double signalMaxSurr = -Double.MAX_VALUE;
+			double signalDouble[] = new double[signalSurr.size()]; 
+			for (int s = 0; s < signalSurr.size(); s++) {
+				signalDouble[s] = signalSurr.get(s);
+				if (signalDouble[s] < signalMinSurr) signalMinSurr = signalDouble[s];  
+				if (signalDouble[s] > signalMaxSurr) signalMaxSurr = signalDouble[s];  
+			}	
+			double binWidth = (signalMaxSurr - signalMinSurr)/1000;
+	    	double[][] histoSurr = Stat.histogramBins(signalDouble, binWidth, signalMinSurr, signalMaxSurr);   //histoSurr[0][] are the center bin values  hist[1][] are the frequencies of the bins
+	    	//Additionally with a Flanagan plot
+	    	//double[][] histoSurr = Stat.histogramBinsPlot(signalDouble, binWidth, signalMinSurr, signalMaxSurr);   //histoSurr[0][] are the center bin values  hist[1][] are the frequencies of the bins
+	    	
+	    	probabilitiesSurr = new double[histoSurr[1].length][nSurr]; 
+
+			for (int p=0; p<probabilitiesSurr.length; p++) {	
+				probabilitiesSurr[p][n] = histoSurr[1][p];
+				totalsMaxSurr = totalsMaxSurr + histoSurr[1][p]; // calculate total count for normalization
+			}		
+			// normalization
+			double sumPSurr = 0.0;
+			for (int p = 0; p < probabilitiesSurr.length; p++) {	
+				probabilitiesSurr[p][n] = probabilitiesSurr[p][n] / totalsMaxSurr;	
+				sumPSurr = sumPSurr + probabilitiesSurr[p][n];
+			}
+			System.out.println("PlotOpGenEntropy: Sum of surrogte probabilities: " + sumPSurr);
+					
+			fireProgressChanged(50);
+			if (isCancelled(getParentTask())) return null;
+		}
+		probabilitiesSurrMean = this.calcSurrMean(probabilitiesSurr);
+		
+		return probabilitiesSurrMean;
+	}
+	
+	/**
+	 * This computes probabilities of differences
+	 * 
+	 * @param signal
+	 * @param eps
+	 * @return double[] pis
+	 */
+	private double[] compProbabilitiesOfDifferences(Vector<Double> signal, int eps) {
+		double signalMin = Double.MAX_VALUE;
+		double signalMax = Double.MIN_VALUE;
+		double signalDouble[] = new double[signal.size()]; 
+		for (int i = 0; i < signal.size() - eps; i++) {
+			signalDouble[i] = Math.abs(signal.get(i+eps) - signal.get(i)); //Difference
+			if (signal.get(i) < signalMin) signalMin = signal.get(i);  
+			if (signal.get(i) > signalMax) signalMax = signal.get(i);  
+		}	
+		double binWidth = (signalMax - signalMin)/1000;
+		double[][] histo = Stat.histogramBins(signalDouble, binWidth, signalMin, signalMax);   //hist[0][] are the center bin values  hist[1][] are the frequencies of the bins
+		//Additionally with a Flanagan plot
+		//double[][] histo = Stat.histogramBinsPlot(signalDouble, binWidth, signalMin, signalMax);   //hist[0][] are the center bin values  hist[1][] are the frequencies of the bins
+    	double[] pis = new double[histo[1].length]; 
+
+		double totalsMax = 0.0;
+		for (int p= 0; p < histo[1].length; p++) {
+			pis[p] = histo[1][p];
+			totalsMax = totalsMax + histo[1][p]; // calculate total count for normalization
+		}	
+		
+		// normalization
+		double sumP = 0.0;
+		for (int p = 0; p < pis.length; p++) {	
+			pis[p] = pis[p] / totalsMax;
+			//System.out.println("PlotOpGenEntropy: p: " + p + "  probabilities[p]: " + probabilities[p]);
+			sumP = sumP + pis[p];
+		}
+		System.out.println("PlotOpGenEntropy: Sum of probabilities: " + sumP);
+		return pis;
+	}
+	
+	/**
+	 * This computes probabilities of surrogates of differences
+	 * 
+	 * @param signal
+	 * @param eps
+	 * @param typeSurr
+	 * @param nSurr
+	 * @return double[]   probabilitiesSurrMean
+	 */
+	private double[] compProbabilitiesSurrOfDifferences(Vector<Double> signal, int eps, int typeSurr, int nSurr) {
+		double[]   probabilitiesSurrMean = null; //pi's
+		double[][] probabilitiesSurr = null;
+		for (int n= 0; n < nSurr; n++) {
+			double totalsMaxSurr = 0.0;
+			//create a surrogate signal
+			Surrogate surrogate = new Surrogate(this);
+			Vector<Vector<Double>> plots = surrogate.calcSurrogateSeries(signal, typeSurr, 1);
+			Vector<Double> signalSurr = plots.get(0);
+			
+			double signalMinSurr = Double.MAX_VALUE;
+			double signalMaxSurr = -Double.MAX_VALUE;
+			double signalDouble[] = new double[signalSurr.size()]; 
+			for (int s = 0; s < signalSurr.size() - eps; s++) {
+				signalDouble[s] = Math.abs(signalSurr.get(s+eps) - signalSurr.get(s));
+				if (signalDouble[s] < signalMinSurr)  signalMinSurr = signalDouble[s];  
+				if (signalDouble[s] > signalMaxSurr)  signalMaxSurr = signalDouble[s];  
+			}	
+			double binWidth = (signalMaxSurr - signalMinSurr)/1000;
+	    	double[][] histoSurr = Stat.histogramBins(signalDouble, binWidth, signalMinSurr, signalMaxSurr);   //histoSurr[0][] are the center bin values  hist[1][] are the frequencies of the bins
+	    	//Additionally with a Flanagan plot
+	    	//double[][] histoSurr = Stat.histogramBinsPlot(signalDouble, binWidth, signalMinSurr, signalMaxSurr);   //histoSurr[0][] are the center bin values  hist[1][] are the frequencies of the bins
+	    	
+	    	probabilitiesSurr = new double[histoSurr[1].length][nSurr]; 
+
+			for (int p=0; p<probabilitiesSurr.length; p++) {	
+				probabilitiesSurr[p][n] = histoSurr[1][p];
+				totalsMaxSurr = totalsMaxSurr + histoSurr[1][p]; // calculate total count for normalization
+			}		
+			// normalization
+			double sumPSurr = 0.0;
+			for (int p = 0; p < probabilitiesSurr.length; p++) {	
+				probabilitiesSurr[p][n] = probabilitiesSurr[p][n] / totalsMaxSurr;	
+				sumPSurr = sumPSurr + probabilitiesSurr[p][n];
+			}
+			System.out.println("PlotOpGenEntropy: Sum of surrogte probabilities: " + sumPSurr);
+					
+			fireProgressChanged(50);
+			if (isCancelled(getParentTask())) return null;
+		}
+		probabilitiesSurrMean = this.calcSurrMean(probabilitiesSurr);
+		
+		return probabilitiesSurrMean;
+	}
+
+	/**
+	 * This method calculates the mean of a data series
+	 * 
+	 * @param data1D
+	 * @return Double Mean
+	 */
+	private Double calcMean(Vector<Double> data1D) {
+		double sum = 0;
+		for (double d : data1D) {
+			sum += d;
+		}
+		return sum / data1D.size();
+	}
+	
+	/**
+	 * This method calculates the mean of a data series
+	 * 
+	 * @param data1D[][numberOfSurrogates]
+	 * @return double Mean
+	 */
+	private double[] calcSurrMean(double[][] data1D) {
+		double surrMean[] = new double [data1D.length];
+		for (int p = 0; p <  data1D.length; p++) {	
+			for (int n = 0; n < data1D[0].length; n++ ) {
+				surrMean[p] = surrMean[p] + data1D[p][n]/data1D[0].length;
+			}	
+		}
+		return surrMean;
+	}
+
 
 	@Override
 	public String getName() {

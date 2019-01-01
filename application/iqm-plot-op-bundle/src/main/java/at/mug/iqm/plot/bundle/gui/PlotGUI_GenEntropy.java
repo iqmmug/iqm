@@ -99,7 +99,7 @@ public class PlotGUI_GenEntropy extends AbstractPlotOperatorGUI implements
 	private ParameterBlockIQM pb;
 
 	private int nSurr = 1;
-	private int eps = 2;
+	private int eps   = 1;
 	
 	private int minQ;
 	private int maxQ;
@@ -115,22 +115,18 @@ public class PlotGUI_GenEntropy extends AbstractPlotOperatorGUI implements
 	private double minGamma;
 	private double maxGamma;
 	
-	private JCheckBox    chkBxSE       = null;	
-	private JCheckBox    chkBxH        = null;
-	private JCheckBox    chkBxRenyi    = null;
-	private JCheckBox    chkBxTsallis  = null;
-	private JCheckBox    chkBxSNorm    = null;
-	private JCheckBox    chkBxSEscort  = null;
-	private JCheckBox    chkBxSEta     = null;
-	private JCheckBox    chkBxSKappa   = null;
-	private JCheckBox    chkBxSB       = null;
-	private JCheckBox    chkBxSBeta    = null;
-	private JCheckBox    chkBxSGamma   = null;
-	private JPanel       jPanelEntropyType  = null;
-	
-	private JPanel   jPanelEps   = null;
-	private JLabel   jLabelEps   = null;
-	private JSpinner jSpinnerEps = null;
+	private JCheckBox chkBxSE      = null;	
+	private JCheckBox chkBxH       = null;
+	private JCheckBox chkBxRenyi   = null;
+	private JCheckBox chkBxTsallis = null;
+	private JCheckBox chkBxSNorm   = null;
+	private JCheckBox chkBxSEscort = null;
+	private JCheckBox chkBxSEta    = null;
+	private JCheckBox chkBxSKappa  = null;
+	private JCheckBox chkBxSB      = null;
+	private JCheckBox chkBxSBeta   = null;
+	private JCheckBox chkBxSGamma  = null;
+	private JPanel    jPanelEntropyType = null;
 
 	private JPanel   jPanelMinQ   = null;
 	private JLabel   jLabelMinQ   = null;
@@ -180,7 +176,20 @@ public class PlotGUI_GenEntropy extends AbstractPlotOperatorGUI implements
 	private JLabel   jLabelMaxGamma   = null;
 	private JSpinner jSpinnerMaxGamma = null;
 	
-	private JPanel jPanelParamOption = null;
+	private JPanel   jPanelParamOption = null;
+	
+	
+	private JRadioButton buttProbabilityActual     = null;	
+	private JRadioButton buttProbabilityDifference = null;	
+	private ButtonGroup  buttGroupProbabilities    = null;
+	private JPanel       jPanelProbabiltiesButtons = null;    
+	
+	private JPanel       jPanelEps   = null;
+	private JLabel       jLabelEps   = null;
+	private JSpinner     jSpinnerEps = null;
+	
+	private JPanel       jPanelProbabiltiesOptions = null;
+	
 	
 	private JPanel       jPanelMethod      = null;
 	private ButtonGroup  buttGroupMethod   = null;
@@ -219,17 +228,17 @@ public class PlotGUI_GenEntropy extends AbstractPlotOperatorGUI implements
 		this.setTitle("Plot Generalized entropies");
 		this.getOpGUIContent().setLayout(new GridBagLayout());
 	
-		this.getOpGUIContent().add(getJPanelEntropyTypes(), getGridBagConstraints_EntropyTypes());
-		this.getOpGUIContent().add(getJPanelParamOption(),  getGridBagConstraints_ParamOption());
-		this.getOpGUIContent().add(getJPanelSingleGliding(),   getGBC_SingleGliding());
-		this.getOpGUIContent().add(getJPanelOptionSurrogate(), getGBC_SurrogateOption());
-		
-	
+		this.getOpGUIContent().add(getJPanelEntropyTypes(),        getGBC_EntropyTypes());
+		this.getOpGUIContent().add(getJPanelParamOption(),         getGBC_ParamOption());
+		this.getOpGUIContent().add(getJPanelProbabiltiesOptions(), getGBC_ProbabilitiesOption());
+		this.getOpGUIContent().add(getJPanelSingleGliding(),       getGBC_SingleGliding());
+		this.getOpGUIContent().add(getJPanelOptionSurrogate(),     getGBC_SurrogateOption());
+
 		this.pack();
 	}
 	
 
-	private GridBagConstraints getGridBagConstraints_EntropyTypes() {
+	private GridBagConstraints getGBC_EntropyTypes() {
 		GridBagConstraints gbc_EntropyTypes = new GridBagConstraints();
 		gbc_EntropyTypes.insets = new Insets(5, 0, 0, 0);
 		gbc_EntropyTypes.fill = GridBagConstraints.BOTH;
@@ -239,7 +248,7 @@ public class PlotGUI_GenEntropy extends AbstractPlotOperatorGUI implements
 		return gbc_EntropyTypes;
 	}
 	
-	private GridBagConstraints getGridBagConstraints_ParamOption() {
+	private GridBagConstraints getGBC_ParamOption() {
 		GridBagConstraints gbc_ParamOption = new GridBagConstraints();
 		gbc_ParamOption.insets = new Insets(5, 0, 0, 0);
 		gbc_ParamOption.fill = GridBagConstraints.BOTH;
@@ -249,10 +258,20 @@ public class PlotGUI_GenEntropy extends AbstractPlotOperatorGUI implements
 		return gbc_ParamOption;
 	}
 	
+	private GridBagConstraints getGBC_ProbabilitiesOption() {
+		GridBagConstraints gbc_ProbabilitiesOption = new GridBagConstraints();
+		gbc_ProbabilitiesOption.insets = new Insets(5, 0, 0, 0);
+		gbc_ProbabilitiesOption.fill = GridBagConstraints.BOTH;
+		gbc_ProbabilitiesOption.gridx = 0;
+		gbc_ProbabilitiesOption.gridy = 2;
+		
+		return gbc_ProbabilitiesOption;
+	}
+	
 	private GridBagConstraints getGBC_SingleGliding(){
 		GridBagConstraints gbc_SingleGliding = new GridBagConstraints();
 		gbc_SingleGliding.gridx = 0;
-		gbc_SingleGliding.gridy = 2;
+		gbc_SingleGliding.gridy = 3;
 		gbc_SingleGliding.insets = new Insets(5, 0, 0, 0); // top left bottom right
 		gbc_SingleGliding.fill = GridBagConstraints.BOTH;
 		return gbc_SingleGliding;
@@ -260,7 +279,7 @@ public class PlotGUI_GenEntropy extends AbstractPlotOperatorGUI implements
 	private GridBagConstraints getGBC_SurrogateOption() {
 		GridBagConstraints gbc_Surr= new GridBagConstraints();	
 		gbc_Surr.gridx = 0;
-		gbc_Surr.gridy = 3;
+		gbc_Surr.gridy = 4;
 		gbc_Surr.insets = new Insets(5, 0, 0, 0); // top left bottom right
 		gbc_Surr.fill = GridBagConstraints.BOTH;
 		
@@ -293,7 +312,9 @@ public class PlotGUI_GenEntropy extends AbstractPlotOperatorGUI implements
 		if (pb.getIntParameter("SBeta") == 1)   chkBxSBeta.setSelected(true);
 		if (pb.getIntParameter("SGamma") == 0)  chkBxSGamma.setSelected(false);
 		if (pb.getIntParameter("SGamma") == 1)  chkBxSGamma.setSelected(true);
-	
+		
+		if (pb.getIntParameter("ProbOption") == 0)  buttProbabilityActual.setSelected(true);
+		if (pb.getIntParameter("ProbOption") == 1)  buttProbabilityDifference.setSelected(true);
 		
 		jSpinnerEps.removeChangeListener(this);
 		jSpinnerEps.setValue(pb.getIntParameter("Eps"));
@@ -405,12 +426,14 @@ public class PlotGUI_GenEntropy extends AbstractPlotOperatorGUI implements
 		if (!chkBxSBeta.isSelected())   pb.setParameter("SBeta", 0);
 		if (chkBxSGamma.isSelected())   pb.setParameter("SGamma", 1);
 		if (!chkBxSGamma.isSelected())  pb.setParameter("SGamma", 0);
-	
 		
+		if (buttProbabilityActual.isSelected())     pb.setParameter("ProbOption", 0);
+		if (buttProbabilityDifference.isSelected()) pb.setParameter("ProbOption", 1);
+	
 		pb.setParameter("Eps",    ((Number) jSpinnerEps .getValue()).intValue());	
 		
-		pb.setParameter("MinQ",   ((Number) jSpinnerMinQ.getValue()).intValue());
-		pb.setParameter("MaxQ",   ((Number) jSpinnerMaxQ.getValue()).intValue());	
+		pb.setParameter("MinQ",     ((Number) jSpinnerMinQ.getValue()).intValue());
+		pb.setParameter("MaxQ",     ((Number) jSpinnerMaxQ.getValue()).intValue());	
 		pb.setParameter("MinEta",   ((Number) jSpinnerMinEta  .getValue()).doubleValue());
 		pb.setParameter("MaxEta",   ((Number) jSpinnerMaxEta  .getValue()).doubleValue());
 		pb.setParameter("MinKappa", ((Number) jSpinnerMinKappa.getValue()).doubleValue());
@@ -455,34 +478,8 @@ public class PlotGUI_GenEntropy extends AbstractPlotOperatorGUI implements
 		return result;
 	}
 	// ----------------------------------------------------------------------------------------------------------
-	/**
-	 * This method initializes jJPanelEps
-	 * 
-	 * @return javax.swing.JPanel
-	 */
-	private JPanel getJPaneEps() {
-		if (jPanelEps == null) {
-			jPanelEps = new JPanel();
-			jPanelEps.setLayout(new BorderLayout());
-			jLabelEps = new JLabel("eps [pixel]: ");
-			// jLabelEps.setPreferredSize(new Dimension(70, 20));
-			jLabelEps.setHorizontalAlignment(SwingConstants.RIGHT);
-			SpinnerModel sModel = new SpinnerNumberModel(3, 2, Integer.MAX_VALUE, 1); // init, min, max, step
-			jSpinnerEps = new JSpinner(sModel);
-			// jSpinnerEps = new JSpinner();
-			jSpinnerEps.setPreferredSize(new Dimension(60, 20));
-			jSpinnerEps.addChangeListener(this);
-			JSpinner.DefaultEditor defEditor = (JSpinner.DefaultEditor) jSpinnerEps.getEditor();
-			JFormattedTextField ftf = defEditor.getTextField();
-			ftf.setEditable(true);
-			InternationalFormatter intFormatter = (InternationalFormatter) ftf.getFormatter();
-			DecimalFormat decimalFormat = (DecimalFormat) intFormatter.getFormat();
-			decimalFormat.applyPattern("#"); // decimalFormat.applyPattern("#,##0.0")
-			jPanelEps.add(jLabelEps, BorderLayout.WEST);
-			jPanelEps.add(jSpinnerEps, BorderLayout.CENTER);
-		}
-		return jPanelEps;
-	}
+	
+	
 	
 	/**
 	 * This method initializes jJPanelMinQ
@@ -1017,6 +1014,8 @@ public class PlotGUI_GenEntropy extends AbstractPlotOperatorGUI implements
 		return chkBxSGamma;
 	}
 	
+	
+	
 	/**
 	 * This method initializes jJPanelMethodEps
 	 * 
@@ -1025,21 +1024,29 @@ public class PlotGUI_GenEntropy extends AbstractPlotOperatorGUI implements
 	private JPanel getJPanelEntropyTypes() {
 		if (jPanelEntropyType == null) {
 			jPanelEntropyType = new JPanel();
-			jPanelEntropyType.setLayout(new BoxLayout(jPanelEntropyType, BoxLayout.X_AXIS));
+			jPanelEntropyType.setLayout(new BoxLayout(jPanelEntropyType, BoxLayout.Y_AXIS));
 			jPanelEntropyType.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "Generalized entropy types", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
-			jPanelEntropyType.add(getJCheckBoxSE());
-			jPanelEntropyType.add(getJCheckBoxH());
-			jPanelEntropyType.add(getJCheckBoxRenyi());
-			jPanelEntropyType.add(getJCheckBoxTsallis());
-			jPanelEntropyType.add(getJCheckBoxSNorm());	
-			jPanelEntropyType.add(getJCheckBoxSEscort());	
-			jPanelEntropyType.add(getJCheckBoxSEta());
-			jPanelEntropyType.add(getJCheckBoxSKappa());
-			jPanelEntropyType.add(getJCheckBoxSB());	
-			jPanelEntropyType.add(getJCheckBoxSBeta());
-			jPanelEntropyType.add(getJCheckBoxSGamma());	
 			
-			// jPanelEntropyType.addSeparator();
+			JPanel jPanelEntropies1 = new JPanel();
+			JPanel jPanelEntropies2 = new JPanel();
+			jPanelEntropies1.setLayout(new BoxLayout(jPanelEntropies1, BoxLayout.X_AXIS));
+			jPanelEntropies2.setLayout(new BoxLayout(jPanelEntropies2, BoxLayout.X_AXIS));
+			
+			jPanelEntropies1.add(getJCheckBoxSE());
+			jPanelEntropies1.add(getJCheckBoxH());
+			jPanelEntropies1.add(getJCheckBoxRenyi());
+			jPanelEntropies1.add(getJCheckBoxTsallis());
+			jPanelEntropies1.add(getJCheckBoxSNorm());	
+			jPanelEntropies1.add(getJCheckBoxSEscort());	
+			
+			jPanelEntropies2.add(getJCheckBoxSEta());
+			jPanelEntropies2.add(getJCheckBoxSKappa());
+			jPanelEntropies2.add(getJCheckBoxSB());	
+			jPanelEntropies2.add(getJCheckBoxSBeta());
+			jPanelEntropies2.add(getJCheckBoxSGamma());	
+			
+			jPanelEntropyType.add(jPanelEntropies1);
+			jPanelEntropyType.add(jPanelEntropies2);
 	
 		}
 		return jPanelEntropyType;
@@ -1057,88 +1064,83 @@ public class PlotGUI_GenEntropy extends AbstractPlotOperatorGUI implements
 //			gbl_paramPanel.columnWeights = new double[] { 0.0, 0.0, Double.MIN_VALUE };
 //			gbl_paramPanel.rowWeights    = new double[] { 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE };
 			jPanelParamOption.setLayout(gbl_paramPanel);
-			
-			GridBagConstraints gbc_jPanelMaxEps = new GridBagConstraints();
-			gbc_jPanelMaxEps.insets = new Insets(5, 0, 20, 0);
-			gbc_jPanelMaxEps.gridx = 0;
-			gbc_jPanelMaxEps.gridy = 0;
-			gbc_jPanelMaxEps.anchor = GridBagConstraints.EAST;
+					
+			//gridy  0, 1, 2;  noch frei
 			
 			GridBagConstraints gbc_jPanelMinQ = new GridBagConstraints();
 			gbc_jPanelMinQ.insets = new Insets(5, 5, 0, 0); //top left bottom right 
 			gbc_jPanelMinQ.gridx = 0;
-			gbc_jPanelMinQ.gridy = 1;
+			gbc_jPanelMinQ.gridy = 3;
 			gbc_jPanelMinQ.anchor = GridBagConstraints.EAST;
 			
 			GridBagConstraints gbc_jPanelMaxQ = new GridBagConstraints();
 			gbc_jPanelMaxQ.insets = new Insets(5, 10, 0, 0);
 			gbc_jPanelMaxQ.gridx = 1;
-			gbc_jPanelMaxQ.gridy = 1;
+			gbc_jPanelMaxQ.gridy = 3;
 			gbc_jPanelMaxQ.anchor = GridBagConstraints.EAST;
 				
 			GridBagConstraints gbc_jPanelMinEta = new GridBagConstraints();
 			gbc_jPanelMinEta.insets = new Insets(5, 5, 0, 0);
 			gbc_jPanelMinEta.gridx = 0;
-			gbc_jPanelMinEta.gridy = 2;
+			gbc_jPanelMinEta.gridy = 4;
 			gbc_jPanelMinEta.anchor = GridBagConstraints.EAST;
 			
 			
 			GridBagConstraints gbc_jPanelMaxEta = new GridBagConstraints();
 			gbc_jPanelMaxEta.insets = new Insets(5, 10, 0, 0);
 			gbc_jPanelMaxEta.gridx = 1;
-			gbc_jPanelMaxEta.gridy = 2;
+			gbc_jPanelMaxEta.gridy = 4;
 			gbc_jPanelMaxEta.anchor = GridBagConstraints.EAST;
 		
 			GridBagConstraints gbc_jPanelMinKappa = new GridBagConstraints();
 			gbc_jPanelMinKappa.insets = new Insets(5, 5, 0, 0);
 			gbc_jPanelMinKappa.gridx = 0;
-			gbc_jPanelMinKappa.gridy = 3;
+			gbc_jPanelMinKappa.gridy = 5;
 			gbc_jPanelMinKappa.anchor = GridBagConstraints.EAST;
 			
 			GridBagConstraints gbc_jPanelMaxKappa = new GridBagConstraints();
 			gbc_jPanelMaxKappa.insets = new Insets(5, 10, 0, 0);
 			gbc_jPanelMaxKappa.gridx = 1;
-			gbc_jPanelMaxKappa.gridy = 3;
+			gbc_jPanelMaxKappa.gridy = 5;
 			gbc_jPanelMaxKappa.anchor = GridBagConstraints.EAST;
 			
 			
 			GridBagConstraints gbc_jPanelMinB = new GridBagConstraints();
 			gbc_jPanelMinB.insets = new Insets(5, 5, 0, 0);
 			gbc_jPanelMinB.gridx = 0;
-			gbc_jPanelMinB.gridy = 4;
+			gbc_jPanelMinB.gridy = 6;
 			gbc_jPanelMinB.anchor = GridBagConstraints.EAST;
 			
 			GridBagConstraints gbc_jPanelMaxB = new GridBagConstraints();
 			gbc_jPanelMaxB.insets = new Insets(5, 10, 0, 0);
 			gbc_jPanelMaxB.gridx = 1;
-			gbc_jPanelMaxB.gridy = 4;
+			gbc_jPanelMaxB.gridy = 6;
 			gbc_jPanelMaxB.anchor = GridBagConstraints.EAST;
 			
 			GridBagConstraints gbc_jPanelMinBeta = new GridBagConstraints();
 			gbc_jPanelMinBeta.insets = new Insets(5, 5, 0, 0);
 			gbc_jPanelMinBeta.gridx = 0;
-			gbc_jPanelMinBeta.gridy = 5;
+			gbc_jPanelMinBeta.gridy = 7;
 			gbc_jPanelMinBeta.anchor = GridBagConstraints.EAST;
 			
 			GridBagConstraints gbc_jPanelMaxBeta = new GridBagConstraints();
 			gbc_jPanelMaxBeta.insets = new Insets(5, 10, 0, 0);
 			gbc_jPanelMaxBeta.gridx = 1;
-			gbc_jPanelMaxBeta.gridy = 5;
+			gbc_jPanelMaxBeta.gridy = 7;
 			gbc_jPanelMaxBeta.anchor = GridBagConstraints.EAST;
 			
 			GridBagConstraints gbc_jPanelMinGamma = new GridBagConstraints();
 			gbc_jPanelMinGamma.insets = new Insets(5, 5, 0, 0);
 			gbc_jPanelMinGamma.gridx = 0;
-			gbc_jPanelMinGamma.gridy = 6;
+			gbc_jPanelMinGamma.gridy = 8;
 			gbc_jPanelMinGamma.anchor = GridBagConstraints.EAST;
 			
 			GridBagConstraints gbc_jPanelMaxGamma = new GridBagConstraints();
 			gbc_jPanelMaxGamma.insets = new Insets(5, 1, 5, 0);
 			gbc_jPanelMaxGamma.gridx = 1;
-			gbc_jPanelMaxGamma.gridy = 6;
+			gbc_jPanelMaxGamma.gridy = 8;
 			gbc_jPanelMaxGamma.anchor = GridBagConstraints.EAST;
-								
-			jPanelParamOption.add(getJPaneEps(),     gbc_jPanelMaxEps);
+													
 			
 			jPanelParamOption.add(getJPanelMinQ(),     gbc_jPanelMinQ);
 			jPanelParamOption.add(getJPanelMaxQ(),     gbc_jPanelMaxQ);
@@ -1159,13 +1161,142 @@ public class PlotGUI_GenEntropy extends AbstractPlotOperatorGUI implements
 	
 	// ------------------------------------------------------------------------------------------------------
 	
+	/**
+	 * This method initializes a button:
+	 * 
+	 * @return javax.swing.JRadioButton
+	 */
+	private JRadioButton getJRadioButtonProbabilityActual() {
+		if (buttProbabilityActual == null) {
+			buttProbabilityActual = new JRadioButton();
+			buttProbabilityActual.setText("Actual values");
+			buttProbabilityActual.setToolTipText("Probabilties of signal values just as they are, PARAMETER 'EPS' DOES NOT MATTER!");
+			buttProbabilityActual.addActionListener(this);
+			buttProbabilityActual.setActionCommand("parameter");
+			buttProbabilityActual.setEnabled(true);
+		}
+		return buttProbabilityActual;
+	}
+	
+	/**
+	 * This method initializes a button:
+	 * 
+	 * @return javax.swing.JRadioButton
+	 */
+	private JRadioButton getJRadioButtonProbabilityDifference() {
+		if (buttProbabilityDifference == null) {
+			buttProbabilityDifference = new JRadioButton();
+			buttProbabilityDifference.setText("Differences");
+			buttProbabilityDifference.setToolTipText("Probabilties of signal value differences with distance eps");
+			buttProbabilityDifference.addActionListener(this);
+			buttProbabilityDifference.setActionCommand("parameter");
+			buttProbabilityDifference.setEnabled(true);
+		}
+		return buttProbabilityDifference;
+	}
+	
+	private void setButtonGroupProbabilities() {
+		buttGroupProbabilities = new ButtonGroup();
+		buttGroupProbabilities.add(buttProbabilityActual);
+		buttGroupProbabilities.add(buttProbabilityDifference);
+	}
+	
+	private JPanel getJPanelProbabiltiesButtons() {
+		if (jPanelProbabiltiesButtons == null) {
+			jPanelProbabiltiesButtons = new JPanel();
+			jPanelProbabiltiesButtons.setLayout(new BoxLayout(jPanelProbabiltiesButtons, BoxLayout.Y_AXIS));
+			//jPanelProbabiltiesButtons.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
+			//jPanelProbabiltiesButtons.setBorder(new MatteBorder(0, 0, 1, 0, (Color) new Color(0, 0, 0)));
+//			GridBagLayout gbl = new GridBagLayout();
+//			gbl.columnWidths  = new int[] { 0, 0, 0 };
+//			gbl.rowHeights    = new int[] { 0, 0, 0, 0, 0 };
+//			gbl.columnWeights = new double[] { 0.0, 0.0, Double.MIN_VALUE };
+//			gbl.rowWeights    = new double[] { 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE };
+//			jPanelProbabiltiesButtons.setLayout(gbl);
+				
+			//jPanelProbabiltiesButtons.setBorder(new TitledBorder(null, "Probabilities Buttons", TitledBorder.LEADING, TitledBorder.TOP, null, null));		
+			jPanelProbabiltiesButtons.add(this.getJRadioButtonProbabilityActual());
+			jPanelProbabiltiesButtons.add(this.getJRadioButtonProbabilityDifference());
+			setButtonGroupProbabilities();			
+		}
+		return jPanelProbabiltiesButtons;
+	}
+	
+	
+	/**
+	 * This method initializes jJPanelEps
+	 * 
+	 * @return javax.swing.JPanel
+	 */
+	private JPanel getJPanelEps() {
+		if (jPanelEps == null) {
+			jPanelEps = new JPanel();
+			jPanelEps.setLayout(new BorderLayout());
+			jLabelEps = new JLabel("eps: ");
+			// jLabelEps.setPreferredSize(new Dimension(70, 20));
+			jLabelEps.setHorizontalAlignment(SwingConstants.RIGHT);
+			SpinnerModel sModel = new SpinnerNumberModel(1, 1, Integer.MAX_VALUE, 1); // init, min, max, step
+			jSpinnerEps = new JSpinner(sModel);
+			// jSpinnerEps = new JSpinner();
+			jSpinnerEps.setPreferredSize(new Dimension(60, 20));
+			jSpinnerEps.addChangeListener(this);
+			JSpinner.DefaultEditor defEditor = (JSpinner.DefaultEditor) jSpinnerEps.getEditor();
+			JFormattedTextField ftf = defEditor.getTextField();
+			ftf.setEditable(true);
+			InternationalFormatter intFormatter = (InternationalFormatter) ftf.getFormatter();
+			DecimalFormat decimalFormat = (DecimalFormat) intFormatter.getFormat();
+			decimalFormat.applyPattern("#"); // decimalFormat.applyPattern("#,##0.0")
+			jPanelEps.add(jLabelEps, BorderLayout.WEST);
+			jPanelEps.add(jSpinnerEps, BorderLayout.CENTER);
+		}
+		return jPanelEps;
+	}
+	
+	
+	
+
+	private JPanel getJPanelProbabiltiesOptions() {
+		if (jPanelProbabiltiesOptions == null) {
+			jPanelProbabiltiesOptions = new JPanel();
+			//jPanelProbabiltiesOptions.setLayout(new BoxLayout(jPanelProbabiltiesOptions, BoxLayout.Y_AXIS));
+			//jPanelProbabiltiesOptions.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
+			//jPanelProbabiltiesOptions.setBorder(new MatteBorder(0, 0, 1, 0, (Color) new Color(0, 0, 0)));
+			GridBagLayout gbl = new GridBagLayout();
+//			gbl.columnWidths  = new int[] { 0, 0, 0 };
+//			gbl.rowHeights    = new int[] { 0, 0, 0, 0, 0 };
+//			gbl.columnWeights = new double[] { 0.0, 0.0, Double.MIN_VALUE };
+//			gbl.rowWeights    = new double[] { 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE };
+			jPanelProbabiltiesOptions.setLayout(gbl);
+			
+			
+			GridBagConstraints gbc_jPanelProbButtons = new GridBagConstraints();
+			gbc_jPanelProbButtons.insets = new Insets(0, 0, 0, 0); //top left bottom right 
+			gbc_jPanelProbButtons.gridx = 0;
+			gbc_jPanelProbButtons.gridy = 0;
+			gbc_jPanelProbButtons.anchor = GridBagConstraints.EAST;
+			
+			GridBagConstraints gbc_jPanelEps = new GridBagConstraints();
+			gbc_jPanelEps.insets = new Insets(20, 5, 0, 0); //top left bottom right 
+			gbc_jPanelEps.gridx = 1;
+			gbc_jPanelEps.gridy = 0;
+			gbc_jPanelEps.anchor = GridBagConstraints.EAST;
+				
+			jPanelProbabiltiesOptions.setBorder(new TitledBorder(null, "Probabilities options", TitledBorder.LEADING, TitledBorder.TOP, null, null));		
+			jPanelProbabiltiesOptions.add(getJPanelProbabiltiesButtons(), gbc_jPanelProbButtons);
+			jPanelProbabiltiesOptions.add(getJPanelEps(),                 gbc_jPanelEps);
+					
+		}
+		return jPanelProbabiltiesOptions;
+	}
+	
+	//---------------------------------------------------------------------------------------------------------------
 	private JPanel getJPanelSingleGliding() {
 		if (jPanelSingleGliding == null) {
 			jPanelSingleGliding = new JPanel();
 			jPanelSingleGliding.setLayout(new BoxLayout(jPanelSingleGliding, BoxLayout.Y_AXIS));
 			//jPanelSingleGliding.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 			//jPanelSingleGlidingOption.setBorder(new MatteBorder(0, 0, 1, 0, (Color) new Color(0, 0, 0)));
-			jPanelSingleGliding.setBorder(new TitledBorder(null, "Calcualtion options", TitledBorder.LEADING, TitledBorder.TOP, null, null));		
+			jPanelSingleGliding.setBorder(new TitledBorder(null, "Calculation options", TitledBorder.LEADING, TitledBorder.TOP, null, null));		
 			jPanelSingleGliding.add(getJPanelMethod());
 			jPanelSingleGliding.add(getJPanelBoxLength());
 		}
@@ -1434,7 +1565,7 @@ public class PlotGUI_GenEntropy extends AbstractPlotOperatorGUI implements
 		PlotModel plotmodel = ((IqmDataBox) this.pb.getSources().firstElement()).getPlotModel();
 		maxEps = this.getMaxEps(plotmodel.getData().size());
 		
-		SpinnerModel sModel = new SpinnerNumberModel(eps, 2, maxEps, 1); // init, min,  max, step
+		SpinnerModel sModel = new SpinnerNumberModel(eps, 1, maxEps, 1); // init, min,  max, step
 		jSpinnerEps.removeChangeListener(this);
 		jSpinnerEps.setModel(sModel);
 		DefaultEditor defEditor = (JSpinner.DefaultEditor) jSpinnerEps.getEditor();
@@ -1480,6 +1611,16 @@ public class PlotGUI_GenEntropy extends AbstractPlotOperatorGUI implements
 	public void actionPerformed(ActionEvent e) {
 		logger.debug(e.getActionCommand() + " event has been triggered.");
 		if ("parameter".equals(e.getActionCommand())) {
+			
+			if (buttProbabilityActual == e.getSource()) {
+				jLabelEps.setEnabled(false);;
+				jSpinnerEps.setEnabled(false);;
+			}
+			
+			if (buttProbabilityDifference == e.getSource()) {
+				jLabelEps.setEnabled(true);;
+				jSpinnerEps.setEnabled(true);;
+			}
 			
 			if (chkBxSE == e.getSource()) {				
 			}

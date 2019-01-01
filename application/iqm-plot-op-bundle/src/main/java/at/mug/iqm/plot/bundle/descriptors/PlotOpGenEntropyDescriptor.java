@@ -89,39 +89,43 @@ public class PlotOpGenEntropyDescriptor extends AbstractOperatorDescriptor {
 			{ "arg7Desc", "SB" },
 			{ "arg8Desc", "SE" },
 			{ "arg9Desc", "SBeta" },
-			{ "arg10Desc", "SGamma" },		
-			{ "arg11Desc", "Epsilon" }, //Distance
-			{ "arg12Desc",  "minimal q" },
-			{ "arg13Desc", "maximal q" },
-			{ "arg14Desc", "minimal Eta" },
-			{ "arg15Desc", "maximal Eta" },
-			{ "arg16Desc", "minimal Kappa" },
-			{ "arg17Desc", "maximal Kappa" },
-			{ "arg18Desc", "minimal B" },
-			{ "arg19Desc", "maximal B" },
-			{ "arg20Desc", "minmal Beta" },
-			{ "arg21Desc", "maximal Beta" },	
-			{ "arg22Desc", "minimal Gamma" },
-			{ "arg23Desc", "maximal Gamma" },	
-			{ "arg24Desc", "Method" }, // 0
-			{ "arg25Desc", "Box length" }, // 100
-			{ "arg26Desc", "Surrogate Type" }, // -1. 0, 1,....5
-			{ "arg27Desc", "# of surrogates" }, //
+			{ "arg10Desc", "SGamma" },			
+			{ "arg11Desc",  "minimal q" },
+			{ "arg12Desc", "maximal q" },
+			{ "arg13Desc", "minimal Eta" },
+			{ "arg14Desc", "maximal Eta" },
+			{ "arg15Desc", "minimal Kappa" },
+			{ "arg16Desc", "maximal Kappa" },
+			{ "arg17Desc", "minimal B" },
+			{ "arg18Desc", "maximal B" },
+			{ "arg19Desc", "minmal Beta" },
+			{ "arg20Desc", "maximal Beta" },	
+			{ "arg21Desc", "minimal Gamma" },
+			{ "arg22Desc", "maximal Gamma" },
+			{ "arg23Desc", "Probabilities option" }, //Actual,  differences ......
+			{ "arg24Desc", "Epsilon" }, //Distance
+			{ "arg25Desc", "Method" }, // 0
+			{ "arg26Desc", "Box length" }, // 100
+			{ "arg27Desc", "Surrogate Type" }, // -1. 0, 1,....5
+			{ "arg28Desc", "# of surrogates" }, //
 	};
 
 	private static final int numSources = 1;
 	private static final String[] paramNames = {"SE", "H", "Renyi", "Tsallis", "SNorm", "SEscort", "SEta", "SKappa", "SB",  "SBeta", "SGamma", 
-												"Eps", "MinQ", "MaxQ",
+											    "MinQ", "MaxQ",
 												"MinEta", "MaxEta", "MinKappa", "MaxKappa", "MinB", "MaxB", "MinBeta", "MaxBeta", "MinGamma", "MaxGamma",
+												"ProbOption", "Eps",
 												"Method", "BoxLength", "TypeSurr", "NSurr"};
 
 	private static final Class[] paramClasses = { Integer.class, Integer.class, Integer.class, Integer.class, Integer.class, Integer.class, Integer.class, Integer.class, Integer.class, Integer.class, Integer.class, 
-												  Integer.class, Integer.class, Integer.class,
+												  Integer.class, Integer.class,
 												  Double.class, Double.class, Double.class, Double.class, Double.class, Double.class, Double.class, Double.class, Double.class, Double.class,
+												  Integer.class,  Integer.class, 
 												  Integer.class, Integer.class, Integer.class, Integer.class };
 	private static final Object[] paramDefaults = {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
-												  10, -5, 5, 
-												  0.1, 1.0, 0.0, 0.9, 1.0, 10.0, 0.5, 1.5, 0.1, 1.0,											  
+												  -5, 5, 
+												  0.1, 1.0, 0.0, 0.9, 1.0, 10.0, 0.5, 1.5, 0.1, 1.0,	
+												  1, 1,
 												  0, 100, -1, 0};
 	private static final Range[] validParamValues = {
 			new Range(Integer.class, 0, 1), //SE
@@ -134,8 +138,7 @@ public class PlotOpGenEntropyDescriptor extends AbstractOperatorDescriptor {
 			new Range(Integer.class, 0, 1), //SKappa
 			new Range(Integer.class, 0, 1), //SB		
 			new Range(Integer.class, 0, 1), //SBeta
-			new Range(Integer.class, 0, 1), //SGamma		
-			new Range(Integer.class, 2, Integer.MAX_VALUE), //Eps		
+			new Range(Integer.class, 0, 1), //SGamma			
 			new Range(Integer.class, -Integer.MAX_VALUE, Integer.MAX_VALUE), //minQ
 			new Range(Integer.class, -Integer.MAX_VALUE, Integer.MAX_VALUE), //maxQ		
 			new Range(Double.class, Double.MIN_VALUE, Double.MAX_VALUE), //minEta  Eta > 0
@@ -148,6 +151,8 @@ public class PlotOpGenEntropyDescriptor extends AbstractOperatorDescriptor {
 			new Range(Double.class, Double.MIN_VALUE, Double.MAX_VALUE), //maxBeta  
 			new Range(Double.class,              0.0, 1.0), //minGamma 0 < Gamma < 1	
 			new Range(Double.class, Double.MIN_VALUE, 1.0), //maxGamma 0 < Gamma < 1
+			new Range(Integer.class, 0, 1), //ProbOption	
+			new Range(Integer.class, 1, Integer.MAX_VALUE), //Eps	
 			new Range(Integer.class, 0, 1), //Method
  			new Range(Integer.class, 10, Integer.MAX_VALUE), //BoxLength
 			new Range(Integer.class, -1, Integer.MAX_VALUE), //TypeSurr
