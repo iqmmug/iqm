@@ -102,7 +102,7 @@ public class PlotOpGenEntropyDescriptor extends AbstractOperatorDescriptor {
 			{ "arg20Desc", "maximal Beta" },	
 			{ "arg21Desc", "minimal Gamma" },
 			{ "arg22Desc", "maximal Gamma" },
-			{ "arg23Desc", "Probabilities option" }, //Actual,  differences ......
+			{ "arg23Desc", "Probabilities option" }, //Actual,  pairwise differences, sum of differences, SD,   ......
 			{ "arg24Desc", "Epsilon" }, //Distance
 			{ "arg25Desc", "Method" }, // 0
 			{ "arg26Desc", "Box length" }, // 100
@@ -151,7 +151,7 @@ public class PlotOpGenEntropyDescriptor extends AbstractOperatorDescriptor {
 			new Range(Double.class, Double.MIN_VALUE, Double.MAX_VALUE), //maxBeta  
 			new Range(Double.class,              0.0, 1.0), //minGamma 0 < Gamma < 1	
 			new Range(Double.class, Double.MIN_VALUE, 1.0), //maxGamma 0 < Gamma < 1
-			new Range(Integer.class, 0, 1), //ProbOption	
+			new Range(Integer.class, 0, 3), //ProbOption	
 			new Range(Integer.class, 1, Integer.MAX_VALUE), //Eps	
 			new Range(Integer.class, 0, 1), //Method
  			new Range(Integer.class, 10, Integer.MAX_VALUE), //BoxLength

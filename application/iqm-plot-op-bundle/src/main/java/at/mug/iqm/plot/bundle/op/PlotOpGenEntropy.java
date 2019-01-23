@@ -29,9 +29,6 @@ package at.mug.iqm.plot.bundle.op;
  */
 
 import java.util.Vector;
-
-import org.apache.commons.math3.util.ArithmeticUtils;
-
 import at.mug.iqm.api.model.IqmDataBox;
 import at.mug.iqm.api.model.PlotModel;
 import at.mug.iqm.api.model.TableModel;
@@ -52,16 +49,19 @@ import flanagan.analysis.Stat;
  * <li>Generalized Entropies
  * <li>according to a review of Amigó, J.M., Balogh, S.G., Hernández, S., 2018. A Brief Review of Generalized Entropies. Entropy 20, 813. https://doi.org/10.3390/e20110813
  * <li>and to: Tsallis Introduction to Nonextensive Statistical Mechanics, 2009, S105-106
- * <li>Renyi, Tsallis, H1,H2,H3 according to Amigo etal.
- * <li>H       according to Amigo etal. 
- * <li>SE      according to Amigo etal. and Tsekouras, G.A.; Tsallis, C. Generalized entropy arising from a distribution of q indices. Phys. Rev. E 2005,
+ * <li>(SE     according to Amigo etal. and Tsekouras, G.A.; Tsallis, C. Generalized entropy arising from a distribution of q indices. Phys. Rev. E 2005,)
+ * <li>SE      according to N. R. Pal and S. K. Pal: Object background segmentation using new definitions of entropy, IEEE Proc. 366 (1989), 284–295.
+							and N. R. Pal and S. K. Pal, Entropy: a new definitions and its applications, IEEE Transactions on systems, Man and Cybernetics, 21(5), 1260-1270, 1999
+ * <li>H       according to Amigo etal.
+ * <li>Renyi   according to Amigo etal.
+ * <li>Tsallis according to Amigo etal.
+ * <li>SNorm   according to Tsallis Introduction to Nonextensive Statistical Mechanics, 2009, S105-106
+ * <li>SEscort according to Tsallis Introduction to Nonextensive Statistical Mechanics, 2009, S105-106
  * <li>SEta    according to Amigo etal. and Anteneodo, C.; Plastino, A.R. Maximum entropy approach to stretched exponential probability distributions. J. Phys. A Math. Gen. 1999, 32, 1089–1098.	
  * <li>SKappa  according to Amigo etal. and Kaniadakis, G. Statistical mechanics in the context of special relativity. Phys. Rev. E 2002, 66, 056125
  * <li>SB      according to Amigo etal. and Curado, E.M.; Nobre, F.D. On the stability of analytic entropic forms. Physica A 2004, 335, 94–106.
  * <li>SBeta   according to Amigo etal. and Shafee, F. Lambert function and a new non-extensive form of entropy. IMA J. Appl. Math. 2007, 72, 785–800.
  * <li>SGamma  according to Amigo etal. and Tsallis Introduction to Nonextensive Statistical Mechanics, 2009, S61
- * <li>SNorm   according to Tsallis Introduction to Nonextensive Statistical Mechanics, 2009, S105-106
- * <li>SEscort according to Tsallis Introduction to Nonextensive Statistical Mechanics, 2009, S105-106
  * 
  * @author Ahammer
  * @since  2018-12-14
@@ -159,7 +159,7 @@ public class PlotOpGenEntropy extends AbstractOperator {
 		if (method == 1) strMethod = "Gliding values";
 
 		// data arrays		
-		double   genEntSE;
+		double   genEntSE = 0.0;
 		double   genEntH1 = 0.0;	
 		double   genEntH2 = 0.0;	
 		double   genEntH3 = 0.0;
@@ -182,24 +182,15 @@ public class PlotOpGenEntropy extends AbstractOperator {
 		//determine pi's
 		if (method == 0) { // single value
 	
-			if (typeSurr == -1) {  //no surrogate
-				if (probOption == 0) {//Actual values
-					probabilities = compProbabilitiesOfValues(signal);	
-				}
-				if (probOption == 1) {//Difference values
-					probabilities = compProbabilitiesOfDifferences(signal, eps);	
-				}
-				fireProgressChanged(30);
-				if (isCancelled(getParentTask())) return null;
+			if (typeSurr == -1) {  //no surrogate			
+				probabilities = compProbabilities(signal, eps, probOption);			
 			}
-			if (typeSurr >= 0) { //Surrogates before computing probabilities
-				if (probOption == 0) {//Actual values
-					probabilitiesSurrMean = compProbabilitiesSurrOfValues(signal, typeSurr, nSurr);
-				}
-				if (probOption == 1) {//Difference values
-					probabilitiesSurrMean = compProbabilitiesSurrOfDifferences(signal, eps, typeSurr, nSurr);
-				}
+			if (typeSurr >= 0) { //Surrogates before computing probabilities			
+				probabilitiesSurrMean = compProbabilitiesSurr(signal, eps, probOption, typeSurr, nSurr);			
 			}
+
+			fireProgressChanged(30);
+			if (isCancelled(getParentTask())) return null;
 				
 		} //end of method ==  0
 
@@ -232,7 +223,8 @@ public class PlotOpGenEntropy extends AbstractOperator {
 		if (method == 0) { // single value
 			model.addColumn("Plot name");
 			model.addColumn("Method");
-			model.addColumn("Eps");	
+			model.addColumn("p");
+			model.addColumn("Eps");
 			model.addColumn("Surrogate");
 			// model.addRow(new String[] {plotModelName, String.valueOf(numK),
 			// String.valueOf(regStart), String.valueOf(regEnd) });
@@ -243,11 +235,15 @@ public class PlotOpGenEntropy extends AbstractOperator {
 			if (typeSurr == Surrogate.SURROGATE_RANDOMPHASE) surrogate = "Rand Phase x"+ nSurr; 
 			if (typeSurr == Surrogate.SURROGATE_SHUFFLE)     surrogate = "Shuffle x "+nSurr; 
 			
-			model.addRow(new String[] {plotModelName, strMethod, String.valueOf(eps), surrogate});
+			if (probOption == 0) model.addRow(new String[] {plotModelName, strMethod, "Actual",    "--",                surrogate});
+			if (probOption == 1) model.addRow(new String[] {plotModelName, strMethod, "Pair diff", String.valueOf(eps), surrogate});
+			if (probOption == 2) model.addRow(new String[] {plotModelName, strMethod, "Sum diff",  String.valueOf(eps), surrogate});
+			if (probOption == 3) model.addRow(new String[] {plotModelName, strMethod, "SD",        String.valueOf(eps), surrogate});
 		}
 		if (method == 1) { // gliding values
 			model.addColumn("Plot name");
 			model.addColumn("Method");
+			model.addColumn("p");
 			model.addColumn("Eps");	
 			model.addColumn("BoxSize=" + boxLength);
 			model.addColumn("Surrogate");
@@ -272,15 +268,18 @@ public class PlotOpGenEntropy extends AbstractOperator {
 			if (typeSurr == -1) probs = probabilities;          // Probabilities
 			if (typeSurr >= 0)  probs = probabilitiesSurrMean;  // Probabilities of surrogate(s)
 			//--------------------------------------------------------------------------------------------------
-			if (sE == 1) {//SE according to Amigo etal. paper	
-					double sum = 0.0;
-					for (int pp = 0; pp < probs.length; pp++) {
-						if (probs[pp] != 0) {
-							sum = sum +  probs[pp] * (1.0 - Math.exp((probs[pp] - 1.0) / probs[pp]) );				
-						}
-					}
-					genEntSE = sum;
-				
+			if (sE == 1) {//SE according to Amigo or Pal or Hassan	
+				double sum = 0.0;
+				for (int pp = 0; pp < probs.length; pp++) {
+					//if (probs[pp] != 0) {
+						//sum = sum +  probs[pp] * (1.0 - Math.exp((probs[pp] - 1.0) / probs[pp]) ); //almost always exact  1!?	//According to and Tsekouras & Tsallis, and Tsallis book
+						sum = sum +  probs[pp] * (Math.exp(1.0 - probs[pp]) - 1.0); //around 1.7 // N. R. Pal and S. K. Pal: Object background segmentation using new definitions of entropy, IEEE Proc. 366 (1989), 284–295.
+																			        // N. R. Pal and S. K. Pal, Entropy: a new definitions and its applications, IEEE Transactions on systems, Man and Cybernetics, 21(5), 1260-1270, 1999
+						//sum = sum +  probs[pp] * Math.exp(1.0 - probs[pp]); //always around 2.7 // Hassan Badry Mohamed El-Owny, Exponential Entropy Approach for Image Edge Detection, International Journal of Theoretical and Applied Mathematics 2016; 2(2): 150-155 http://www.sciencepublishinggroup.com/j/ijtam doi: 10.11648/j.ijtam.20160202.29 Hassan Badry Mohamed El-Owny1, 
+					//}
+				}
+				genEntSE = sum;
+								
 				//set table data
 				int numColumns = model.getColumnCount();
 				if (typeSurr == -1) model.addColumn("SE");		
@@ -687,14 +686,41 @@ public class PlotOpGenEntropy extends AbstractOperator {
 	 * This computes probabilities of actual values
 	 * 
 	 * @param signal
+	 * @param eps
+	 * @param probOption
 	 * @return probabilities[]
 	 */
-	private double[] compProbabilitiesOfValues(Vector<Double> signal) {
+	private double[] compProbabilities(Vector<Double> signal, int eps, int probOption) {
+		if (probOption == 0) eps = 0; //to be sure that eps = 0 for that case
 		double signalMin = Double.MAX_VALUE;
-		double signalMax = Double.MIN_VALUE;
-		double signalDouble[] = new double[signal.size()]; 
-		for (int i = 0; i < signal.size(); i++) {
-			signalDouble[i] = signal.get(i);
+		double signalMax = -Double.MAX_VALUE;
+		double signalDouble[] = new double[signal.size() - eps]; 
+		for (int i = 0; i < signal.size() - eps; i++) {
+			if (probOption == 0) {//Actual values
+				signalDouble[i] = signal.get(i);
+			}
+			if (probOption == 1) {//Pairwise differences
+				signalDouble[i] = Math.abs(signal.get(i+eps) - signal.get(i)); //Difference
+			}
+			if (probOption == 2) {//Sum of differences inbetween eps
+				double sum = 0.0;
+				for (int ii = 0; ii < eps; ii++) {
+					sum = sum + Math.abs(signal.get(i+ii+1) - signal.get(i+ii)); //Difference
+				}
+				signalDouble[i] = sum;
+			}
+			if (probOption == 3) {//SD inbetween eps
+				double mean = 0.0;
+				for (int ii = 0; ii < eps; ii++) {
+					mean = mean + signal.get(i+ii); //Difference
+				}
+				mean = mean/((double)eps);
+				double sumDiff2 = 0.0;
+				for (int ii = 0; ii <= eps; ii++) {
+					sumDiff2 = sumDiff2 + Math.pow(signal.get(i+ii) - mean, 2); //Difference
+				}	
+				signalDouble[i] = Math.sqrt(sumDiff2/((double)eps));
+			}
 			if (signalDouble[i] < signalMin) signalMin = signalDouble[i];  
 			if (signalDouble[i] > signalMax) signalMax = signalDouble[i];  
 		}	
@@ -725,11 +751,14 @@ public class PlotOpGenEntropy extends AbstractOperator {
 	 * This computes probabilities of surrogates of actual values
 	 * 
 	 * @param signal
+	 * @param eps
+	 * @param probOption
 	 * @param typeSurr
 	 * @param nSurr
 	 * @return double[]   probabilitiesSurrMean
 	 */
-	private double[] compProbabilitiesSurrOfValues(Vector<Double> signal, int typeSurr, int nSurr) {
+	private double[] compProbabilitiesSurr(Vector<Double> signal, int eps, int probOption, int typeSurr, int nSurr) {
+		if (probOption == 0) eps = 0;
 		double[]   probabilitiesSurrMean = null; //pi's
 		double[][] probabilitiesSurr = null;
 		for (int n= 0; n < nSurr; n++) {
@@ -738,13 +767,37 @@ public class PlotOpGenEntropy extends AbstractOperator {
 			Surrogate surrogate = new Surrogate(this);
 			Vector<Vector<Double>> plots = surrogate.calcSurrogateSeries(signal, typeSurr, 1);
 			Vector<Double> signalSurr = plots.get(0);
-			
-			
+				
 			double signalMinSurr = Double.MAX_VALUE;
 			double signalMaxSurr = -Double.MAX_VALUE;
-			double signalDouble[] = new double[signalSurr.size()]; 
-			for (int s = 0; s < signalSurr.size(); s++) {
-				signalDouble[s] = signalSurr.get(s);
+			double signalDouble[] = new double[signalSurr.size() - eps]; 
+			for (int s = 0; s < signalSurr.size() - eps; s++) {
+				
+				if (probOption == 0) {//Actual values
+					signalDouble[s] = signalSurr.get(s);
+				}
+				if (probOption == 1) {//Difference values
+					signalDouble[s] = Math.abs(signalSurr.get(s+eps) - signalSurr.get(s)); //Difference
+				}
+				if (probOption == 2) {//Sum of differences inbetween eps
+					double sum = 0.0;
+					for (int ii = 0; ii < eps; ii++) {
+						sum = sum + Math.abs(signalSurr.get(s+ii+1) - signalSurr.get(s+ii)); //Difference
+					}
+					signalDouble[s] = sum;
+				}
+				if (probOption == 3) {//SD inbetween eps
+					double mean = 0.0;
+					for (int ii = 0; ii < eps; ii++) {
+						mean = mean + signalSurr.get(s+ii); //Difference
+					}
+					mean = mean/((double)eps);
+					double sumDiff2 = 0.0;
+					for (int ii = 0; ii <= eps; ii++) {
+						sumDiff2 = sumDiff2 + Math.pow(signalSurr.get(s+ii) - mean, 2); //Difference
+					}	
+					signalDouble[s] = Math.sqrt(sumDiff2/((double)eps));
+				}
 				if (signalDouble[s] < signalMinSurr) signalMinSurr = signalDouble[s];  
 				if (signalDouble[s] > signalMaxSurr) signalMaxSurr = signalDouble[s];  
 			}	
@@ -774,99 +827,7 @@ public class PlotOpGenEntropy extends AbstractOperator {
 		
 		return probabilitiesSurrMean;
 	}
-	
-	/**
-	 * This computes probabilities of differences
-	 * 
-	 * @param signal
-	 * @param eps
-	 * @return double[] pis
-	 */
-	private double[] compProbabilitiesOfDifferences(Vector<Double> signal, int eps) {
-		double signalMin = Double.MAX_VALUE;
-		double signalMax = Double.MIN_VALUE;
-		double signalDouble[] = new double[signal.size()]; 
-		for (int i = 0; i < signal.size() - eps; i++) {
-			signalDouble[i] = Math.abs(signal.get(i+eps) - signal.get(i)); //Difference
-			if (signal.get(i) < signalMin) signalMin = signal.get(i);  
-			if (signal.get(i) > signalMax) signalMax = signal.get(i);  
-		}	
-		double binWidth = (signalMax - signalMin)/1000;
-		double[][] histo = Stat.histogramBins(signalDouble, binWidth, signalMin, signalMax);   //hist[0][] are the center bin values  hist[1][] are the frequencies of the bins
-		//Additionally with a Flanagan plot
-		//double[][] histo = Stat.histogramBinsPlot(signalDouble, binWidth, signalMin, signalMax);   //hist[0][] are the center bin values  hist[1][] are the frequencies of the bins
-    	double[] pis = new double[histo[1].length]; 
-
-		double totalsMax = 0.0;
-		for (int p= 0; p < histo[1].length; p++) {
-			pis[p] = histo[1][p];
-			totalsMax = totalsMax + histo[1][p]; // calculate total count for normalization
-		}	
-		
-		// normalization
-		double sumP = 0.0;
-		for (int p = 0; p < pis.length; p++) {	
-			pis[p] = pis[p] / totalsMax;
-			//System.out.println("PlotOpGenEntropy: p: " + p + "  probabilities[p]: " + probabilities[p]);
-			sumP = sumP + pis[p];
-		}
-		System.out.println("PlotOpGenEntropy: Sum of probabilities: " + sumP);
-		return pis;
-	}
-	
-	/**
-	 * This computes probabilities of surrogates of differences
-	 * 
-	 * @param signal
-	 * @param eps
-	 * @param typeSurr
-	 * @param nSurr
-	 * @return double[]   probabilitiesSurrMean
-	 */
-	private double[] compProbabilitiesSurrOfDifferences(Vector<Double> signal, int eps, int typeSurr, int nSurr) {
-		double[]   probabilitiesSurrMean = null; //pi's
-		double[][] probabilitiesSurr = null;
-		for (int n= 0; n < nSurr; n++) {
-			double totalsMaxSurr = 0.0;
-			//create a surrogate signal
-			Surrogate surrogate = new Surrogate(this);
-			Vector<Vector<Double>> plots = surrogate.calcSurrogateSeries(signal, typeSurr, 1);
-			Vector<Double> signalSurr = plots.get(0);
-			
-			double signalMinSurr = Double.MAX_VALUE;
-			double signalMaxSurr = -Double.MAX_VALUE;
-			double signalDouble[] = new double[signalSurr.size()]; 
-			for (int s = 0; s < signalSurr.size() - eps; s++) {
-				signalDouble[s] = Math.abs(signalSurr.get(s+eps) - signalSurr.get(s));
-				if (signalDouble[s] < signalMinSurr)  signalMinSurr = signalDouble[s];  
-				if (signalDouble[s] > signalMaxSurr)  signalMaxSurr = signalDouble[s];  
-			}	
-			double binWidth = (signalMaxSurr - signalMinSurr)/1000;
-	    	double[][] histoSurr = Stat.histogramBins(signalDouble, binWidth, signalMinSurr, signalMaxSurr);   //histoSurr[0][] are the center bin values  hist[1][] are the frequencies of the bins
-	    	//Additionally with a Flanagan plot
-	    	//double[][] histoSurr = Stat.histogramBinsPlot(signalDouble, binWidth, signalMinSurr, signalMaxSurr);   //histoSurr[0][] are the center bin values  hist[1][] are the frequencies of the bins
-	    	
-	    	probabilitiesSurr = new double[histoSurr[1].length][nSurr]; 
-
-			for (int p=0; p<probabilitiesSurr.length; p++) {	
-				probabilitiesSurr[p][n] = histoSurr[1][p];
-				totalsMaxSurr = totalsMaxSurr + histoSurr[1][p]; // calculate total count for normalization
-			}		
-			// normalization
-			double sumPSurr = 0.0;
-			for (int p = 0; p < probabilitiesSurr.length; p++) {	
-				probabilitiesSurr[p][n] = probabilitiesSurr[p][n] / totalsMaxSurr;	
-				sumPSurr = sumPSurr + probabilitiesSurr[p][n];
-			}
-			System.out.println("PlotOpGenEntropy: Sum of surrogte probabilities: " + sumPSurr);
-					
-			fireProgressChanged(50);
-			if (isCancelled(getParentTask())) return null;
-		}
-		probabilitiesSurrMean = this.calcSurrMean(probabilitiesSurr);
-		
-		return probabilitiesSurrMean;
-	}
+	//------------------------------------------------------------------------------------------------------
 
 	/**
 	 * This method calculates the mean of a data series

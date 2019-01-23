@@ -178,9 +178,10 @@ public class PlotGUI_GenEntropy extends AbstractPlotOperatorGUI implements
 	
 	private JPanel   jPanelParamOption = null;
 	
-	
 	private JRadioButton buttProbabilityActual     = null;	
-	private JRadioButton buttProbabilityDifference = null;	
+	private JRadioButton buttProbabilityDiff       = null;	
+	private JRadioButton buttProbabilitySumDiff    = null;
+	private JRadioButton buttProbabilitySD         = null;
 	private ButtonGroup  buttGroupProbabilities    = null;
 	private JPanel       jPanelProbabiltiesButtons = null;    
 	
@@ -314,7 +315,9 @@ public class PlotGUI_GenEntropy extends AbstractPlotOperatorGUI implements
 		if (pb.getIntParameter("SGamma") == 1)  chkBxSGamma.setSelected(true);
 		
 		if (pb.getIntParameter("ProbOption") == 0)  buttProbabilityActual.setSelected(true);
-		if (pb.getIntParameter("ProbOption") == 1)  buttProbabilityDifference.setSelected(true);
+		if (pb.getIntParameter("ProbOption") == 1)  buttProbabilityDiff.setSelected(true);
+		if (pb.getIntParameter("ProbOption") == 2)  buttProbabilitySumDiff.setSelected(true);
+		if (pb.getIntParameter("ProbOption") == 3)  buttProbabilitySD.setSelected(true);
 		
 		jSpinnerEps.removeChangeListener(this);
 		jSpinnerEps.setValue(pb.getIntParameter("Eps"));
@@ -427,8 +430,10 @@ public class PlotGUI_GenEntropy extends AbstractPlotOperatorGUI implements
 		if (chkBxSGamma.isSelected())   pb.setParameter("SGamma", 1);
 		if (!chkBxSGamma.isSelected())  pb.setParameter("SGamma", 0);
 		
-		if (buttProbabilityActual.isSelected())     pb.setParameter("ProbOption", 0);
-		if (buttProbabilityDifference.isSelected()) pb.setParameter("ProbOption", 1);
+		if (buttProbabilityActual.isSelected())  pb.setParameter("ProbOption", 0);
+		if (buttProbabilityDiff.isSelected())    pb.setParameter("ProbOption", 1);
+		if (buttProbabilitySumDiff.isSelected()) pb.setParameter("ProbOption", 2);
+		if (buttProbabilitySD.isSelected())      pb.setParameter("ProbOption", 3);
 	
 		pb.setParameter("Eps",    ((Number) jSpinnerEps .getValue()).intValue());	
 		
@@ -1183,22 +1188,58 @@ public class PlotGUI_GenEntropy extends AbstractPlotOperatorGUI implements
 	 * 
 	 * @return javax.swing.JRadioButton
 	 */
-	private JRadioButton getJRadioButtonProbabilityDifference() {
-		if (buttProbabilityDifference == null) {
-			buttProbabilityDifference = new JRadioButton();
-			buttProbabilityDifference.setText("Differences");
-			buttProbabilityDifference.setToolTipText("Probabilties of signal value differences with distance eps");
-			buttProbabilityDifference.addActionListener(this);
-			buttProbabilityDifference.setActionCommand("parameter");
-			buttProbabilityDifference.setEnabled(true);
+	private JRadioButton getJRadioButtonProbabilityDiff() {
+		if (buttProbabilityDiff == null) {
+			buttProbabilityDiff = new JRadioButton();
+			buttProbabilityDiff.setText("Pairwise differences");
+			buttProbabilityDiff.setToolTipText("Probabilties of pair wise differences with distance eps");
+			buttProbabilityDiff.addActionListener(this);
+			buttProbabilityDiff.setActionCommand("parameter");
+			buttProbabilityDiff.setEnabled(true);
 		}
-		return buttProbabilityDifference;
+		return buttProbabilityDiff;
+	}
+	
+	/**
+	 * This method initializes a button:
+	 * 
+	 * @return javax.swing.JRadioButton
+	 */
+	private JRadioButton getJRadioButtonProbabilitySumDiff() {
+		if (buttProbabilitySumDiff == null) {
+			buttProbabilitySumDiff = new JRadioButton();
+			buttProbabilitySumDiff.setText("Sum of differences");
+			buttProbabilitySumDiff.setToolTipText("Probabilties of sums of differences inbetween eps");
+			buttProbabilitySumDiff.addActionListener(this);
+			buttProbabilitySumDiff.setActionCommand("parameter");
+			buttProbabilitySumDiff.setEnabled(true);
+		}
+		return buttProbabilitySumDiff;
+	}
+	
+	/**
+	 * This method initializes a button:
+	 * 
+	 * @return javax.swing.JRadioButton
+	 */
+	private JRadioButton getJRadioButtonProbabilitySD() {
+		if (buttProbabilitySD == null) {
+			buttProbabilitySD = new JRadioButton();
+			buttProbabilitySD.setText("SD");
+			buttProbabilitySD.setToolTipText("Probabilties of standard deviations inbetween eps");
+			buttProbabilitySD.addActionListener(this);
+			buttProbabilitySD.setActionCommand("parameter");
+			buttProbabilitySD.setEnabled(true);
+		}
+		return buttProbabilitySD;
 	}
 	
 	private void setButtonGroupProbabilities() {
 		buttGroupProbabilities = new ButtonGroup();
 		buttGroupProbabilities.add(buttProbabilityActual);
-		buttGroupProbabilities.add(buttProbabilityDifference);
+		buttGroupProbabilities.add(buttProbabilityDiff);
+		buttGroupProbabilities.add(buttProbabilitySumDiff);
+		buttGroupProbabilities.add(buttProbabilitySD);
 	}
 	
 	private JPanel getJPanelProbabiltiesButtons() {
@@ -1216,7 +1257,9 @@ public class PlotGUI_GenEntropy extends AbstractPlotOperatorGUI implements
 				
 			//jPanelProbabiltiesButtons.setBorder(new TitledBorder(null, "Probabilities Buttons", TitledBorder.LEADING, TitledBorder.TOP, null, null));		
 			jPanelProbabiltiesButtons.add(this.getJRadioButtonProbabilityActual());
-			jPanelProbabiltiesButtons.add(this.getJRadioButtonProbabilityDifference());
+			jPanelProbabiltiesButtons.add(this.getJRadioButtonProbabilityDiff());
+			jPanelProbabiltiesButtons.add(this.getJRadioButtonProbabilitySumDiff());
+			jPanelProbabiltiesButtons.add(this.getJRadioButtonProbabilitySD());
 			setButtonGroupProbabilities();			
 		}
 		return jPanelProbabiltiesButtons;
@@ -1559,49 +1602,49 @@ public class PlotGUI_GenEntropy extends AbstractPlotOperatorGUI implements
 		
 		logger.debug("Updating GUI...");
 	
-		minQ = -5;
-		maxQ = 5;
-		
-		PlotModel plotmodel = ((IqmDataBox) this.pb.getSources().firstElement()).getPlotModel();
-		maxEps = this.getMaxEps(plotmodel.getData().size());
-		
-		SpinnerModel sModel = new SpinnerNumberModel(eps, 1, maxEps, 1); // init, min,  max, step
-		jSpinnerEps.removeChangeListener(this);
-		jSpinnerEps.setModel(sModel);
-		DefaultEditor defEditor = (JSpinner.DefaultEditor) jSpinnerEps.getEditor();
-		JFormattedTextField ftf = defEditor.getTextField();
-		ftf.setEditable(true);
-		InternationalFormatter intFormatter = (InternationalFormatter) ftf.getFormatter();
-		DecimalFormat decimalFormat = (DecimalFormat) intFormatter.getFormat();
-		decimalFormat.applyPattern("#"); // decimalFormat.applyPattern("#,##0.0")// ;
-		// jSpinnerNumMaxEps.setValue(maxEps);
-		jSpinnerEps.addChangeListener(this);
-		
-		// System.out.println("OperatorGUI_GenEnt: numberMax: " +
-		// numberMax);
-		 sModel = new SpinnerNumberModel(minQ, -Integer.MAX_VALUE, Integer.MAX_VALUE, 1); // init, min,// max, step
-		jSpinnerMinQ.removeChangeListener(this);
-		jSpinnerMinQ.setModel(sModel);
-		defEditor = (JSpinner.DefaultEditor) jSpinnerMinQ.getEditor();
-		ftf = defEditor.getTextField();
-		ftf.setEditable(true);
-		intFormatter = (InternationalFormatter) ftf.getFormatter();
-		decimalFormat = (DecimalFormat) intFormatter.getFormat();
-		decimalFormat.applyPattern("#"); // decimalFormat.applyPattern("#,##0.0")										// ;
-		jSpinnerMinQ.setValue(minQ);
-		jSpinnerMinQ.addChangeListener(this);
-
-		sModel = new SpinnerNumberModel(maxQ, -Integer.MAX_VALUE, Integer.MAX_VALUE, 1); // init, min, max, step
-		jSpinnerMaxQ.removeChangeListener(this);
-		jSpinnerMaxQ.setModel(sModel);
-		defEditor = (JSpinner.DefaultEditor) jSpinnerMaxQ.getEditor();
-		ftf = defEditor.getTextField();
-		ftf.setEditable(true);
-		intFormatter = (InternationalFormatter) ftf.getFormatter();
-		decimalFormat = (DecimalFormat) intFormatter.getFormat();
-		decimalFormat.applyPattern("#"); // decimalFormat.applyPattern("#,##0.0")// ;
-		jSpinnerMaxQ.setValue(maxQ);
-		jSpinnerMaxQ.addChangeListener(this);
+//		minQ = -5;
+//		maxQ = 5;
+//		
+//		PlotModel plotmodel = ((IqmDataBox) this.pb.getSources().firstElement()).getPlotModel();
+//		maxEps = this.getMaxEps(plotmodel.getData().size());
+//		
+//		SpinnerModel sModel = new SpinnerNumberModel(eps, 1, maxEps, 1); // init, min,  max, step
+//		jSpinnerEps.removeChangeListener(this);
+//		jSpinnerEps.setModel(sModel);
+//		DefaultEditor defEditor = (JSpinner.DefaultEditor) jSpinnerEps.getEditor();
+//		JFormattedTextField ftf = defEditor.getTextField();
+//		ftf.setEditable(true);
+//		InternationalFormatter intFormatter = (InternationalFormatter) ftf.getFormatter();
+//		DecimalFormat decimalFormat = (DecimalFormat) intFormatter.getFormat();
+//		decimalFormat.applyPattern("#"); // decimalFormat.applyPattern("#,##0.0")// ;
+//		// jSpinnerNumMaxEps.setValue(maxEps);
+//		jSpinnerEps.addChangeListener(this);
+//		
+//		// System.out.println("OperatorGUI_GenEnt: numberMax: " +
+//		// numberMax);
+//		 sModel = new SpinnerNumberModel(minQ, -Integer.MAX_VALUE, Integer.MAX_VALUE, 1); // init, min,// max, step
+//		jSpinnerMinQ.removeChangeListener(this);
+//		jSpinnerMinQ.setModel(sModel);
+//		defEditor = (JSpinner.DefaultEditor) jSpinnerMinQ.getEditor();
+//		ftf = defEditor.getTextField();
+//		ftf.setEditable(true);
+//		intFormatter = (InternationalFormatter) ftf.getFormatter();
+//		decimalFormat = (DecimalFormat) intFormatter.getFormat();
+//		decimalFormat.applyPattern("#"); // decimalFormat.applyPattern("#,##0.0")										// ;
+//		jSpinnerMinQ.setValue(minQ);
+//		jSpinnerMinQ.addChangeListener(this);
+//
+//		sModel = new SpinnerNumberModel(maxQ, -Integer.MAX_VALUE, Integer.MAX_VALUE, 1); // init, min, max, step
+//		jSpinnerMaxQ.removeChangeListener(this);
+//		jSpinnerMaxQ.setModel(sModel);
+//		defEditor = (JSpinner.DefaultEditor) jSpinnerMaxQ.getEditor();
+//		ftf = defEditor.getTextField();
+//		ftf.setEditable(true);
+//		intFormatter = (InternationalFormatter) ftf.getFormatter();
+//		decimalFormat = (DecimalFormat) intFormatter.getFormat();
+//		decimalFormat.applyPattern("#"); // decimalFormat.applyPattern("#,##0.0")// ;
+//		jSpinnerMaxQ.setValue(maxQ);
+//		jSpinnerMaxQ.addChangeListener(this);
 
 		this.pack();
 		this.updateParameterBlock();
@@ -1617,11 +1660,18 @@ public class PlotGUI_GenEntropy extends AbstractPlotOperatorGUI implements
 				jSpinnerEps.setEnabled(false);;
 			}
 			
-			if (buttProbabilityDifference == e.getSource()) {
+			if (buttProbabilityDiff == e.getSource()) {
 				jLabelEps.setEnabled(true);;
 				jSpinnerEps.setEnabled(true);;
 			}
-			
+			if (buttProbabilitySumDiff == e.getSource()) {
+				jLabelEps.setEnabled(true);;
+				jSpinnerEps.setEnabled(true);;
+			}
+			if (buttProbabilitySD == e.getSource()) {
+				jLabelEps.setEnabled(true);;
+				jSpinnerEps.setEnabled(true);;
+			}	
 			if (chkBxSE == e.getSource()) {				
 			}
 			if (chkBxH == e.getSource()) {	
