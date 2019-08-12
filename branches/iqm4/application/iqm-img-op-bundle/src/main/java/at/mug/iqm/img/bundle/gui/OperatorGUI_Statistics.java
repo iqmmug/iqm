@@ -396,7 +396,7 @@ public class OperatorGUI_Statistics extends AbstractImageOperatorGUI implements
 			jLabelValueRange = new JLabel("Value: ");
 			//jLabelValueRange.setPreferredSize(new Dimension(75, 20));
 			jLabelValueRange.setHorizontalAlignment(SwingConstants.LEFT);
-			SpinnerModel sModel = new SpinnerNumberModel(5, 1, 8, 1); // init,  min,  max,  step  range=2^n  n=1,....,8
+			SpinnerModel sModel = new SpinnerNumberModel(8, 1, 8, 1); // init,  min,  max,  step  range=2^n  n=1,....,8
 			jSpinnerRange = new JSpinner(sModel);
 			//jSpinnerRange.setPreferredSize(new Dimension(60, 20));
 			jSpinnerRange.addChangeListener(this);

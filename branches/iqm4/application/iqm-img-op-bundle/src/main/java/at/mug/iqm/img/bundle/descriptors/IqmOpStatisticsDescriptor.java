@@ -76,12 +76,14 @@ public class IqmOpStatisticsDescriptor extends AbstractOperatorDescriptor {
 	private static final Class[] paramClasses = { Integer.class, Integer.class,
 			Integer.class, Integer.class, Integer.class, Integer.class,
 			Integer.class };
-	private static final Object[] paramDefaults = { 1, 1, 0, 5, 1, 4, 0 }; //
+	private static final Object[] paramDefaults = { 1, 1, 0, 8, 1, 4, 0 }; //
 	private static final Range[] validParamValues = {
-			new Range(Integer.class, 0, 1), new Range(Integer.class, 0, 1),
+			new Range(Integer.class, 0, 1),
+			new Range(Integer.class, 0, 1),
 			new Range(Integer.class, 0, 1),
 			new Range(Integer.class, 1, 8), // 2^n n = 1,...,8
-			new Range(Integer.class, 0, 100), new Range(Integer.class, 0, 4),
+			new Range(Integer.class, 0, 100),
+			new Range(Integer.class, 0, 4),
 			new Range(Integer.class, 0, 1) };
 
 	/**
