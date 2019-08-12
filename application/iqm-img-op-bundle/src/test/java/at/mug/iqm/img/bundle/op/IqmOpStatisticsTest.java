@@ -10,7 +10,7 @@ package at.mug.iqm.img.bundle.op;
  * 
  * This file is part of IQM, hereinafter referred to as "this program".
  * %%
- * Copyright (C) 2009 - 2018 Helmut Ahammer, Philipp Kainz
+ * Copyright (C) 2009 - 2019 Helmut Ahammer, Philipp Kainz
  * %%
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as
@@ -86,13 +86,13 @@ public class IqmOpStatisticsTest {
                 assertEquals(129.11333333333332, row.get(18));
 
                 assertEquals("2nd Dissimilarity", tm.getColumnName(30));
-                assertEquals(0.24577555f, row.get(30));
+                assertEquals(2.0172925f, row.get(30));
 
                 assertEquals("2nd StdDev x", tm.getColumnName(37));
-                assertEquals(7.4631295f, row.get(37));
+                assertEquals(61.471565f, row.get(37));
 
                 assertEquals("2nd StdDev y", tm.getColumnName(38));
-                assertEquals(7.4631276f, row.get(38));
+                assertEquals(61.471558f, row.get(38));
 
                 assertEquals("Skewness", tm.getColumnName(16));
                 assertEquals(1.512723112578398, row.get(16));
