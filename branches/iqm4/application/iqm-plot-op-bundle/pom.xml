@@ -20,12 +20,6 @@
 
 	<dependencies>
 		<dependency>
-			<groupId>log4j</groupId>
-			<artifactId>log4j</artifactId>
-			<version>1.2.16</version>
-			<type>jar</type>
-		</dependency>
-		<dependency>
 			<groupId>javax.media.jai</groupId>
 			<artifactId>jai_core</artifactId>
 			<version>1.1.3</version>
@@ -44,9 +38,14 @@
 			<type>jar</type>
 		</dependency>
 		<dependency>
+			<groupId>org.jfree</groupId>
+			<artifactId>jfreechart</artifactId>
+			<version>1.0.19</version>
+		</dependency>
+		<dependency>
 			<groupId>org.apache.commons</groupId>
 			<artifactId>commons-math3</artifactId>
-			<version>3.0</version>
+			<version>3.6.1</version><!--3.0-->
 			<type>jar</type>
 		</dependency>
 		<dependency>
@@ -58,12 +57,13 @@
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
-			<version>4.10</version>
+			<version>4.12</version>
 		</dependency>
 		<dependency>
-			<groupId>org.jfree</groupId>
-			<artifactId>jfreechart</artifactId>
-			<version>1.0.19</version>
+			<groupId>log4j</groupId>
+			<artifactId>log4j</artifactId>
+			<version>1.2.16</version>
+			<type>jar</type>
 		</dependency>
 
 		<!-- IQM MODULES -->
