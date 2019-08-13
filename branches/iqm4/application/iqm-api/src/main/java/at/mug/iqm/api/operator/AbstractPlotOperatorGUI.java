@@ -44,7 +44,8 @@ import javax.swing.ImageIcon;
 import javax.swing.JCheckBox;
 import javax.swing.JSeparator;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import at.mug.iqm.api.Application;
 import at.mug.iqm.api.I18N;
@@ -66,8 +67,7 @@ public abstract class AbstractPlotOperatorGUI extends AbstractOperatorGUI
 	 */
 	private static final long serialVersionUID = 15646846846212L;
 
-	protected static final Logger logger = Logger
-			.getLogger(AbstractPlotOperatorGUI.class);
+	protected static final Logger logger = LogManager.getLogger(AbstractPlotOperatorGUI.class);
 
 	private PreferencesPanel preferencesPanel;
 	private JCheckBox chckbxVirtual;

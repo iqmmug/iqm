@@ -29,7 +29,8 @@ package at.mug.iqm.api.gui.util;
  */
 
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import at.mug.iqm.api.Application;
 import at.mug.iqm.api.gui.IMainFrame;
@@ -42,7 +43,7 @@ import at.mug.iqm.api.gui.IMainFrame;
 public class MemoryMonitor implements Runnable {
 
 	// class specific logger
-	private static final Logger logger = Logger.getLogger(MemoryMonitor.class);
+	private static final Logger logger = LogManager.getLogger(MemoryMonitor.class);
 
 	/**
 	 * The sleep sleepDelay for this thread in Milliseconds. Default is 5.000

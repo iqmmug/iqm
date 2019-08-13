@@ -35,7 +35,8 @@ import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import at.mug.iqm.api.I18N;
 import at.mug.iqm.api.Resources;
@@ -65,8 +66,7 @@ public class SaveSingleImageDialog extends AbstractImageSavingDialog {
 	private static final long serialVersionUID = 748811921452389786L;
 
 	// Logging variables
-	private static final Logger logger = Logger
-			.getLogger(SaveSingleImageDialog.class);
+	private static final Logger logger = LogManager.getLogger(SaveSingleImageDialog.class);
 
 	/**
 	 * Standard constructor.

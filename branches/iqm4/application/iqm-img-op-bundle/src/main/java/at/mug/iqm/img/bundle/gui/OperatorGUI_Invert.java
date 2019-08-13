@@ -41,7 +41,8 @@ import javax.swing.JRadioButton;
 import javax.swing.JPanel;
 import javax.swing.border.TitledBorder;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import at.mug.iqm.api.operator.AbstractImageOperatorGUI;
 import at.mug.iqm.api.operator.ParameterBlockIQM;
@@ -61,8 +62,7 @@ public class OperatorGUI_Invert extends AbstractImageOperatorGUI implements
 	private static final long serialVersionUID = -3378935465370173571L;
 
 	// class specific logger
-	private static final Logger logger = Logger
-			.getLogger(OperatorGUI_Invert.class);
+	private static final Logger logger = LogManager.getLogger(OperatorGUI_Invert.class);
 
 	/**
 	 * The cached parameter block from the work package.

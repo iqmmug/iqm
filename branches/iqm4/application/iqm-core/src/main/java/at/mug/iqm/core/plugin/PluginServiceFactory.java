@@ -32,7 +32,8 @@ package at.mug.iqm.core.plugin;
 import java.io.File;
 import java.io.IOException;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import at.mug.iqm.api.ClasspathUtils;
 import at.mug.iqm.api.plugin.IPluginService;
@@ -48,8 +49,7 @@ import at.mug.iqm.api.plugin.IPluginService;
  */
 public class PluginServiceFactory {
 
-	private static final Logger logger = Logger
-			.getLogger(PluginServiceFactory.class);
+	private static final Logger logger = LogManager.getLogger(PluginServiceFactory.class);
 
 	/**
 	 * Creates a new {@link DefaultPluginService}.

@@ -33,7 +33,8 @@ import java.io.File;
 
 import javax.swing.SwingWorker;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import at.mug.iqm.config.ConfigManager;
 import at.mug.iqm.core.workflow.Manager;
@@ -49,8 +50,7 @@ import at.mug.iqm.core.workflow.Manager;
 public class DeleteFilesTask extends SwingWorker<Boolean, Void> {
 
 	// Logging variables
-	private static final Logger logger = Logger
-			.getLogger(DeleteFilesTask.class);
+	private static final Logger logger = LogManager.getLogger(DeleteFilesTask.class);
 
 	private String userDirName;
 

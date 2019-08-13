@@ -50,7 +50,8 @@ import javax.swing.ImageIcon;
 import javax.swing.JMenuItem;
 import javax.swing.KeyStroke;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import at.mug.iqm.api.gui.IDialogUtil;
 import at.mug.iqm.commons.gui.OpenImageDialog;
@@ -84,7 +85,7 @@ public class InfoMenu extends DeactivatableMenu implements ActionListener {
 	private static final long serialVersionUID = -2574293426763777651L;
 
 	// class specific logger
-	private static final Logger logger = Logger.getLogger(InfoMenu.class);
+	private static final Logger logger = LogManager.getLogger(InfoMenu.class);
 
 	// class variable declaration
 	private JMenuItem currImgInfoMenuItem;

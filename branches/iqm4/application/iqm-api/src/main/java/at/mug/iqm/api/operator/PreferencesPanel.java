@@ -42,7 +42,8 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import at.mug.iqm.api.Application;
 import at.mug.iqm.api.I18N;
@@ -67,8 +68,7 @@ import java.awt.BorderLayout;
 @SuppressWarnings({ "rawtypes", "unchecked" })
 public class PreferencesPanel extends JPanel implements ITemplateSupport {
 
-	private static final Logger logger = Logger
-			.getLogger(PreferencesPanel.class);
+	private static final Logger logger = LogManager.getLogger(PreferencesPanel.class);
 
 	/**
 	 * The UID for serialization.

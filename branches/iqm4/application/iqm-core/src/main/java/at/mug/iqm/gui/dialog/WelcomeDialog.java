@@ -48,7 +48,8 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import at.mug.iqm.api.IQMConstants;
 import at.mug.iqm.commons.util.CommonTools;
@@ -69,7 +70,7 @@ public class WelcomeDialog extends JDialog {
 	private static final long serialVersionUID = 7588942388984507473L;
 
 	// class specific logger
-	private static final Logger logger = Logger.getLogger(WelcomeDialog.class);
+	private static final Logger logger = LogManager.getLogger(WelcomeDialog.class);
 
 	private JPanel welcomePanel;
 

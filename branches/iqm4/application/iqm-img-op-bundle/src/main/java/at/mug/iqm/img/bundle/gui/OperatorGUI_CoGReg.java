@@ -38,7 +38,8 @@ import javax.swing.JCheckBox;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import at.mug.iqm.api.operator.AbstractImageOperatorGUI;
 import at.mug.iqm.api.operator.ParameterBlockIQM;
@@ -56,7 +57,7 @@ public class OperatorGUI_CoGReg extends AbstractImageOperatorGUI implements Acti
 	private static final long serialVersionUID = -6045776218926915933L;
 
 	// class specific logger
-	private static final Logger logger = Logger.getLogger(OperatorGUI_CoGReg.class);
+	private static final Logger logger = LogManager.getLogger(OperatorGUI_CoGReg.class);
 
 	private  ParameterBlockIQM     pbJAI       = null;  
 

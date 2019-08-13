@@ -39,7 +39,8 @@ import java.awt.event.MouseMotionListener;
 
 import javax.swing.JViewport;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import at.mug.iqm.api.gui.DefaultDrawingLayer;
 import at.mug.iqm.api.gui.ILookPanel;
@@ -56,8 +57,7 @@ public class CanvasMover implements MouseMotionListener,
 		KeyListener, MouseListener {
 
 	// class specific logger
-	private static final Logger logger = Logger
-			.getLogger(CanvasMover.class);
+	private static final Logger logger = LogManager.getLogger(CanvasMover.class);
 
 	/**
 	 * The reference to the {@link ILookPanel}.

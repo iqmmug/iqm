@@ -29,7 +29,8 @@ package at.mug.iqm.cleaner;
  */
 
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /**
  * This task performs a <code>System.gc()</code> every given interval, so that 
@@ -40,7 +41,7 @@ import org.apache.log4j.Logger;
 public class CleanerTask implements Runnable {
 
 	// class specific logger
-	private static final Logger logger = Logger.getLogger(CleanerTask.class);
+	private static final Logger logger = LogManager.getLogger(CleanerTask.class);
 
 	/**
 	 * The sleep sleepDelay for this thread in Milliseconds. Default is 10.000 ms.

@@ -49,7 +49,8 @@ import javax.media.jai.RasterFactory;
 import javax.media.jai.RenderedOp;
 import javax.media.jai.TiledImage;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import at.mug.iqm.api.Application;
 import at.mug.iqm.api.model.ImageModel;
@@ -82,7 +83,7 @@ import at.mug.iqm.img.bundle.descriptors.IqmOpFracScanDescriptor;
 @SuppressWarnings("unused")
 public class IqmOpFracScan extends AbstractOperator {
 	// class specific logger
-	private static final Logger logger = Logger.getLogger(IqmOpFracScan.class);
+	private static final Logger logger = LogManager.getLogger(IqmOpFracScan.class);
 
 	private PlanarImage piSource;
 	private String imgName = "";

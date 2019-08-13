@@ -29,7 +29,8 @@ package at.mug.iqm.core.workflow;
  */
 
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import at.mug.iqm.api.Application;
 import at.mug.iqm.api.gui.ITextPanel;
@@ -46,7 +47,7 @@ import at.mug.iqm.gui.util.GUITools;
 public final class Text implements IText {
 
 	// class specific logger
-	private static final Logger logger = Logger.getLogger(Text.class);
+	private static final Logger logger = LogManager.getLogger(Text.class);
 
 	/**
 	 * The current {@link TextPanel} instance to control.

@@ -37,7 +37,8 @@ import java.util.Vector;
 import javax.swing.JTable;
 import javax.swing.SwingWorker;
 import javax.swing.table.DefaultTableModel;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import at.mug.iqm.api.IQMConstants;
 import at.mug.iqm.api.exception.UnreadableECGFileException;
 import at.mug.iqm.api.gui.BoardPanel;
@@ -62,7 +63,7 @@ import at.mug.iqm.config.ConfigManager;
 public class QRSPeaksExtractor extends SwingWorker<Boolean, Void> {
 	// Logging variables
 	private static Class<?> caller = QRSPeaksExtractor.class;
-	private static final Logger logger = Logger.getLogger(QRSPeaksExtractor.class);
+	private static final Logger logger = LogManager.getLogger(QRSPeaksExtractor.class);
 
 	/**
 	 * Default parameters for the QRSPeaks extraction: offset, sample rate, oseaMethod,  output option.

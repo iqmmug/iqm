@@ -50,7 +50,8 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.border.MatteBorder;
 import javax.swing.table.DefaultTableModel;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
 import org.jfree.data.xy.XYDataset;
@@ -85,7 +86,7 @@ public class PlotPanel extends JPanel implements IPlotPanel {
 	private static final long serialVersionUID = -3912758686700608387L;
 
 	// class specific logger
-	private static final Logger logger = Logger.getLogger(PlotPanel.class);
+	private static final Logger logger = LogManager.getLogger(PlotPanel.class);
 	/**
 	 * The panel, where the chart is displayed.
 	 */

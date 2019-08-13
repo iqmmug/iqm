@@ -52,7 +52,8 @@ import javax.swing.border.TitledBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import at.mug.iqm.api.Application;
 import at.mug.iqm.api.model.IqmDataBox;
@@ -75,8 +76,7 @@ public class OperatorGUI_HistoModify extends AbstractImageOperatorGUI implements
 	private static final long serialVersionUID = 1628979061994057933L;
 
 	// class specific logger
-	private static final Logger logger = Logger
-			.getLogger(OperatorGUI_HistoModify.class);
+	private static final Logger logger = LogManager.getLogger(OperatorGUI_HistoModify.class);
 
 	private ParameterBlockIQM pbJAI = null; // @jve:decl-index=0:
 

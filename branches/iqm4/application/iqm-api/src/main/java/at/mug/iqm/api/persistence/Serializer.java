@@ -43,7 +43,8 @@ import java.io.OutputStream;
 import java.io.RandomAccessFile;
 import java.io.Serializable;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /**
  * This class serializes given {@link Object}s into a <code>byte[]</code>.
@@ -56,7 +57,7 @@ public class Serializer {
 	/**
 	 * Custom logger.
 	 */
-	private static final Logger logger = Logger.getLogger(Serializer.class);
+	private static final Logger logger = LogManager.getLogger(Serializer.class);
 
 	/**
 	 * The {@link OutputStream} for serialization.

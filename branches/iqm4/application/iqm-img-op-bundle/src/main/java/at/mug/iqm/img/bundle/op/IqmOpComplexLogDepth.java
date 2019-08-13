@@ -42,7 +42,8 @@ import javax.media.jai.JAI;
 import javax.media.jai.PlanarImage;
 
 import org.apache.commons.math3.stat.descriptive.DescriptiveStatistics;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import at.mug.iqm.api.IQMConstants;
 import at.mug.iqm.api.model.IqmDataBox;
@@ -81,7 +82,7 @@ public class IqmOpComplexLogDepth extends AbstractOperator {
 	/**
 	 * Logging variable.
 	 */
-	private static final Logger logger = Logger.getLogger(IqmOpComplexLogDepth.class);
+	private static final Logger logger = LogManager.getLogger(IqmOpComplexLogDepth.class);
 	
 	private File logicalDepthDir;
 

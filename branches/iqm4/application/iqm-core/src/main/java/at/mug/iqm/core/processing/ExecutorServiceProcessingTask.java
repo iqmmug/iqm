@@ -39,7 +39,8 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.RejectedExecutionException;
 import java.util.concurrent.TimeUnit;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import at.mug.iqm.api.gui.BoardPanel;
 import at.mug.iqm.api.model.IVirtualizable;
@@ -71,8 +72,7 @@ public class ExecutorServiceProcessingTask extends AbstractProcessingTask
 implements IExplicitProcessingTask {
 	// class specific logger
 	private Class<?> caller = ExecutorServiceProcessingTask.class;
-	private static final Logger logger = Logger
-			.getLogger(ExecutorServiceProcessingTask.class);
+	private static final Logger logger = LogManager.getLogger(ExecutorServiceProcessingTask.class);
 
 	// class variable declaration
 	private List<ArrayList<ArrayList<IqmDataBox>>> allResultLists;

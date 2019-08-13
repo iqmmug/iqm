@@ -35,7 +35,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import at.mug.iqm.api.Application;
 import at.mug.iqm.api.exception.OperatorAlreadyRegisteredException;
@@ -58,8 +59,7 @@ import at.mug.iqm.commons.util.DialogUtil;
  */
 public class OperatorRegistry implements IOperatorRegistry {
 
-	private static final Logger logger = Logger
-			.getLogger(OperatorRegistry.class);
+	private static final Logger logger = LogManager.getLogger(OperatorRegistry.class);
 
 	/**
 	 * The operator names.

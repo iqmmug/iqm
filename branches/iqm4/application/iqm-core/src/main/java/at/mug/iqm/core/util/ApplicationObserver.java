@@ -33,7 +33,8 @@ import java.io.File;
 
 import javax.swing.JMenu;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import at.mug.iqm.api.gui.IDeactivatableMenu;
 import at.mug.iqm.api.gui.OperatorMenuItem;
@@ -52,8 +53,7 @@ import at.mug.iqm.gui.util.GUITools;
  */
 public final class ApplicationObserver {
 
-	private static final Logger logger = Logger
-			.getLogger(ApplicationObserver.class);
+	private static final Logger logger = LogManager.getLogger(ApplicationObserver.class);
 
 	/**
 	 * Enables all menu items where {@link OperatorType#IMAGE} is assigned to.

@@ -34,7 +34,8 @@ import java.util.Vector;
 import javax.swing.AbstractButton;
 import javax.swing.JFrame;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import at.mug.iqm.api.Application;
 import at.mug.iqm.api.events.handler.IGUIUpdateEmitter;
@@ -87,7 +88,7 @@ public class ExecutionProxy implements IExecutionProtocol {
 	/**
 	 * Custom class logger.
 	 */
-	private static final Logger logger = Logger.getLogger(ExecutionProxy.class);
+	private static final Logger logger = LogManager.getLogger(ExecutionProxy.class);
 
 	/**
 	 * Set the default state to {@link ExecutionState#IDLE}.

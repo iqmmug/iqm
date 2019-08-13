@@ -53,7 +53,8 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.text.InternationalFormatter;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import at.mug.iqm.api.Application;
 import at.mug.iqm.api.model.IqmDataBox;
@@ -74,7 +75,7 @@ public class PlotGUI_FracHurst extends AbstractPlotOperatorGUI implements
 	 */
 	private static final long serialVersionUID = 3854313562990110676L;
 
-	private static final Logger logger = Logger.getLogger(PlotGUI_FracHurst.class);
+	private static final Logger logger = LogManager.getLogger(PlotGUI_FracHurst.class);
 
 	private ParameterBlockIQM pb;
 

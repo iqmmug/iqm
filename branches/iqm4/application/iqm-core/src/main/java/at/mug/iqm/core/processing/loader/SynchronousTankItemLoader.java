@@ -33,7 +33,8 @@ import java.util.List;
 import javax.swing.DefaultListModel;
 import javax.swing.JList;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import at.mug.iqm.api.model.IqmDataBox;
 import at.mug.iqm.core.workflow.Tank;
@@ -59,8 +60,7 @@ public class SynchronousTankItemLoader extends TankItemLoader {
 	/**
 	 * Logging variable.
 	 */
-	private static final Logger logger = Logger
-			.getLogger(SynchronousTankItemLoader.class);
+	private static final Logger logger = LogManager.getLogger(SynchronousTankItemLoader.class);
 
 	/**
 	 * The constructor.

@@ -65,7 +65,8 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.text.InternationalFormatter;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.event.ChartChangeEvent;
@@ -97,7 +98,7 @@ implements ActionListener, ChangeListener, ChartChangeListener, ItemListener {
 	private static final long serialVersionUID = -7674747507007268841L;
 
 	// class specific logger
-	private static final Logger logger = Logger.getLogger(OperatorGUI_Threshold.class);
+	private static final Logger logger = LogManager.getLogger(OperatorGUI_Threshold.class);
 
 	private  ParameterBlockIQM    pb      = null;
 

@@ -32,7 +32,8 @@ package at.mug.iqm.gui.menu;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import at.mug.iqm.api.Application;
 
@@ -51,7 +52,7 @@ public class CoreMenuBar extends AbstractMenuBar {
 	private static final long serialVersionUID = -8887845277353427355L;
 
 	// class specific logger
-	private static final Logger logger = Logger.getLogger(CoreMenuBar.class);
+	private static final Logger logger = LogManager.getLogger(CoreMenuBar.class);
 
 	// class variable declaration // menus inherit from JMenu
 	private JMenu fileMenu;

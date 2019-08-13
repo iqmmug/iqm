@@ -37,7 +37,8 @@ import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import at.mug.iqm.api.I18N;
 import at.mug.iqm.api.IQMConstants;
@@ -62,7 +63,7 @@ import at.mug.iqm.config.ConfigManager;
 public class QRSPeaksExtractorOpenDialog extends Thread{
 
 	// Logging variables
-	private static final Logger logger = Logger.getLogger(QRSPeaksExtractorOpenDialog.class);
+	private static final Logger logger = LogManager.getLogger(QRSPeaksExtractorOpenDialog.class);
 
 	private File currImgDir;
 

@@ -50,7 +50,8 @@ import javax.swing.border.TitledBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import at.mug.iqm.api.operator.AbstractImageOperatorGUI;
 import at.mug.iqm.api.operator.ParameterBlockIQM;
@@ -69,7 +70,7 @@ public class OperatorGUI_KMeansFuzzy extends AbstractImageOperatorGUI implements
 	 */
 	private static final long serialVersionUID = -5569861273634595903L;
 	// class specific logger
-	private static final Logger logger = Logger.getLogger(OperatorGUI_KMeansFuzzy.class);
+	private static final Logger logger = LogManager.getLogger(OperatorGUI_KMeansFuzzy.class);
 
 	private ParameterBlockIQM pb = null; // @jve:decl-index=0:
 

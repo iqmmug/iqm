@@ -37,7 +37,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import at.mug.iqm.commons.util.DialogUtil;
 
@@ -55,8 +56,7 @@ import at.mug.iqm.commons.util.DialogUtil;
 public class GroovyScriptConnector {
 
 	// private logging variable
-	private static final Logger logger = Logger
-			.getLogger(GroovyScriptConnector.class);
+	private static final Logger logger = LogManager.getLogger(GroovyScriptConnector.class);
 
 	/**
 	 * This variable contains all variables for the execution environment of a

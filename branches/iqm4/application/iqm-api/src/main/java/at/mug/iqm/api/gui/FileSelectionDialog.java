@@ -56,7 +56,8 @@ import at.mug.iqm.api.Resources;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.event.ListSelectionEvent;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /**
  * This class is used to select a file from a list.
@@ -68,8 +69,7 @@ import org.apache.log4j.Logger;
 public class FileSelectionDialog extends JDialog {
 
 	// private logger
-	private static final Logger logger = Logger
-			.getLogger(FileSelectionDialog.class);
+	private static final Logger logger = LogManager.getLogger(FileSelectionDialog.class);
 
 	/**
 	 * The UID for serialization.

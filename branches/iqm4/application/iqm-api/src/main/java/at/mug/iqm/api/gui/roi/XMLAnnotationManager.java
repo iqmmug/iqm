@@ -57,7 +57,8 @@ import javax.xml.transform.stream.StreamSource;
 import javax.xml.validation.Schema;
 import javax.xml.validation.SchemaFactory;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.xml.sax.SAXException;
 
 import at.mug.iqm.api.IQMConstants;
@@ -117,8 +118,7 @@ import at.mug.iqm.commons.util.XMLGregCalUtil;
 public class XMLAnnotationManager {
 
 	// private class logger
-	private static final Logger logger = Logger
-			.getLogger(XMLAnnotationManager.class);
+	private static final Logger logger = LogManager.getLogger(XMLAnnotationManager.class);
 
 	private final String xmlSchemaLocation = "/xsd/AnnotationLayers.xsd";
 	public static final String XML_DATA_ENCODING = "base64";

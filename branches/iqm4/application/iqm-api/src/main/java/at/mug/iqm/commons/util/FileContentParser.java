@@ -35,7 +35,8 @@ import java.io.InputStream;
 import java.util.HashMap;
 import java.util.List;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.apache.tika.exception.TikaException;
 import org.apache.tika.metadata.HttpHeaders;
 import org.apache.tika.metadata.Metadata;
@@ -60,8 +61,7 @@ import at.mug.iqm.api.operator.DataType;
 public class FileContentParser {
 
 	// private logger
-	private static final Logger logger = Logger
-			.getLogger(FileContentParser.class);
+	private static final Logger logger = LogManager.getLogger(FileContentParser.class);
 
 	public static DataType parseContent(List<File> fileList)
 			throws IllegalArgumentException, MultipleMIMETypesException,

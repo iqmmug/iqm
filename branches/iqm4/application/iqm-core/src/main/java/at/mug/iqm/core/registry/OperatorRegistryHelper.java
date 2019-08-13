@@ -34,7 +34,8 @@ import java.util.List;
 
 import javax.media.jai.JAI;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import at.mug.iqm.api.Application;
 import at.mug.iqm.api.operator.IOperatorDescriptor;
@@ -122,8 +123,7 @@ import at.mug.iqm.plot.bundle.descriptors.PlotOpSymbolicAggregationDescriptor;
  */
 public final class OperatorRegistryHelper {
 	// class specific logger
-	private static final Logger logger = Logger
-			.getLogger(OperatorRegistryHelper.class);
+	private static final Logger logger = LogManager.getLogger(OperatorRegistryHelper.class);
 
 	/**
 	 * This method initializes every IQM image processing operator of the

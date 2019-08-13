@@ -60,7 +60,8 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.WindowConstants;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import at.mug.iqm.api.Resources;
 import at.mug.iqm.api.gui.IDrawingLayer;
@@ -73,7 +74,7 @@ import at.mug.iqm.commons.util.BASE64Helper;
  */
 public final class ImageTools {
 
-	private static final Logger logger = Logger.getLogger(ImageTools.class);
+	private static final Logger logger = LogManager.getLogger(ImageTools.class);
 
 	/**
 	 * Copies the image properties

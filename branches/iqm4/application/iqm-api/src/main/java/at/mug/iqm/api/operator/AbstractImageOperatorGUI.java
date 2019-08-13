@@ -43,7 +43,8 @@ import javax.swing.ImageIcon;
 import javax.swing.JCheckBox;
 import javax.swing.JSeparator;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import at.mug.iqm.api.Application;
 import at.mug.iqm.api.I18N;
@@ -66,8 +67,7 @@ public abstract class AbstractImageOperatorGUI extends AbstractOperatorGUI
 	 */
 	private static final long serialVersionUID = 1L;
 
-	protected static final Logger logger = Logger
-			.getLogger(AbstractImageOperatorGUI.class);
+	protected static final Logger logger = LogManager.getLogger(AbstractImageOperatorGUI.class);
 
 	private CustomImageOptionsPanel customImageOptions;
 	private PreferencesPanel preferencesPanel;

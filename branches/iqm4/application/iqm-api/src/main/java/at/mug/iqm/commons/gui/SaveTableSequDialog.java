@@ -33,7 +33,8 @@ import java.io.File;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import at.mug.iqm.api.I18N;
 import at.mug.iqm.api.Resources;
@@ -55,8 +56,7 @@ public class SaveTableSequDialog extends AbstractTableSavingDialog {
 
 	// Logging variables
 	@SuppressWarnings("unused")
-	private static final Logger logger = Logger
-			.getLogger(SaveTableDialog.class);
+	private static final Logger logger = LogManager.getLogger(OpenImageDialog.class);
 
 	/**
 	 * Standard constructor.

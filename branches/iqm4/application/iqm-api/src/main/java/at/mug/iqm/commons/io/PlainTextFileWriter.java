@@ -34,7 +34,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /**
  * This helper class writes a plain text UTF-8 (default) encoded file.
@@ -45,7 +46,7 @@ import org.apache.log4j.Logger;
  */
 public class PlainTextFileWriter implements Runnable {
 	
-	private static final Logger logger = Logger.getLogger(PlainTextFileWriter.class);
+	private static final Logger logger = LogManager.getLogger(PlainTextFileWriter.class);
 			
 	private File file;
 	private String content;

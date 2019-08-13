@@ -51,7 +51,8 @@ import javax.swing.SwingWorker;
 import loci.formats.FormatException;
 import loci.formats.gui.BufferedImageReader;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import at.mug.iqm.api.Application;
 import at.mug.iqm.api.IQMConstants;
@@ -70,8 +71,7 @@ import at.mug.iqm.commons.util.DialogUtil;
 public class SVSImageExtractor extends SwingWorker<Boolean, Void> {
 	// Logging variables
 	private static Class<?> caller = SVSImageExtractor.class;
-	private static final Logger logger = Logger
-			.getLogger(SVSImageExtractor.class);
+	private static final Logger logger = LogManager.getLogger(SVSImageExtractor.class);
 
 	/**
 	 * Default parameters for the image extraction: first image, no rescale,

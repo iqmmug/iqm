@@ -43,7 +43,8 @@ import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
 import javax.swing.JTextArea;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import at.mug.iqm.api.I18N;
 import at.mug.iqm.api.Resources;
@@ -65,7 +66,7 @@ public class BoardPanel extends JPanel implements ActionListener {
 	private static final long serialVersionUID = -536789050426854287L;
 
 	// Standard class logger
-	private static final Logger logger = Logger.getLogger(BoardPanel.class);
+	private static final Logger logger = LogManager.getLogger(BoardPanel.class);
 	
 	// Initialize class variables first
 	private static       JTextArea    textArea 		= new JTextArea();

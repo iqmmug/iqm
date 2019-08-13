@@ -38,7 +38,8 @@ import javax.swing.JTable;
 import javax.swing.event.TableModelListener;
 import javax.swing.table.DefaultTableModel;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import at.mug.iqm.api.Application;
 import at.mug.iqm.api.I18N;
@@ -63,8 +64,7 @@ import at.mug.iqm.commons.util.table.TableTools;
 public class TableFileWriter implements Runnable {
 
 	// private logging
-	private static final Logger logger = Logger
-			.getLogger(TableFileWriter.class);
+	private static final Logger logger = LogManager.getLogger(TableFileWriter.class);
 
 	/**
 	 * Saves a table as single file.

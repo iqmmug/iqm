@@ -39,7 +39,8 @@ import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import at.mug.iqm.api.I18N;
 import at.mug.iqm.api.IQMConstants;
@@ -68,7 +69,7 @@ public class IQM {
 	// defining a static logger for THIS CLASS
 	// this line must occur in every class which shall log to file and console
 	// Logging variables
-	private static final Logger logger = Logger.getLogger(IQM.class);
+	private static final Logger logger = LogManager.getLogger(IQM.class);
 
 	private static File f;
 	private static FileChannel channel;

@@ -31,7 +31,8 @@ package at.mug.iqm.api.gui.util;
 
 import javax.media.jai.PlanarImage;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import at.mug.iqm.api.Application;
 
@@ -44,7 +45,7 @@ public class ToggleRunnable implements Runnable {
 	
 	// class specific logger
 	private static Class<?> caller = ToggleRunnable.class;
-	private static final Logger logger = Logger.getLogger(ToggleRunnable.class);
+	private static final Logger logger = LogManager.getLogger(ToggleRunnable.class);
 
 	// class variable declaration
 	long delay = (long) 1.5 * 1000;

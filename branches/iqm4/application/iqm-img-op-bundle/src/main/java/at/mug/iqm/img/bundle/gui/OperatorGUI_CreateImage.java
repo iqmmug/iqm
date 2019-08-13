@@ -56,7 +56,8 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.text.InternationalFormatter;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import at.mug.iqm.api.operator.AbstractImageOperatorGUI;
 import at.mug.iqm.api.operator.ParameterBlockIQM;
@@ -78,7 +79,7 @@ public class OperatorGUI_CreateImage extends AbstractImageOperatorGUI implements
 
 	// class specific logger
 	private static Class<?> caller = OperatorGUI_CreateImage.class;
-	private static final Logger logger = Logger.getLogger(OperatorGUI_CreateImage.class);
+	private static final Logger logger = LogManager.getLogger(OperatorGUI_CreateImage.class);
 
 	/**
 	 * The cached parameter block within the work package.

@@ -40,7 +40,8 @@ import javax.swing.JFrame;
 import javax.swing.JScrollPane;
 import javax.swing.WindowConstants;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import at.mug.iqm.api.gui.BoardPanel;
 import at.mug.iqm.core.I18N;
@@ -61,7 +62,7 @@ public class LogFrame extends JFrame implements WindowListener{
 	private static final long serialVersionUID = 3348559897504047466L;
 	
 	// Standard class logger
-	private static final Logger logger = Logger.getLogger(LogFrame.class);
+	private static final Logger logger = LogManager.getLogger(LogFrame.class);
 
 	/**
 	 * Constructs a new log frame.

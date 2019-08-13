@@ -33,7 +33,8 @@ import java.util.TimeZone;
 
 import javax.media.jai.PlanarImage;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import at.mug.iqm.api.gui.BoardPanel;
 import at.mug.iqm.api.gui.IImageInvertible;
@@ -62,8 +63,7 @@ public class SingleProcessingTask extends AbstractProcessingTask implements
 		IExplicitProcessingTask {
 	// class specific logger
 	private Class<?> caller = SingleProcessingTask.class;
-	private static final Logger logger = Logger
-			.getLogger(SingleProcessingTask.class);
+	private static final Logger logger = LogManager.getLogger(SingleProcessingTask.class);
 
 	public SingleProcessingTask() {
 		this.setHeadless(true);

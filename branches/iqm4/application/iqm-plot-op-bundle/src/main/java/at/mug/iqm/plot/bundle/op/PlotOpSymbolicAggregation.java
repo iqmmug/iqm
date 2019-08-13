@@ -46,7 +46,8 @@ import javax.media.jai.PlanarImage;
 import javax.media.jai.RasterFactory;
 import javax.media.jai.TiledImage;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import at.mug.iqm.api.model.ImageModel;
 import at.mug.iqm.api.model.IqmDataBox;
@@ -68,7 +69,7 @@ import at.mug.iqm.plot.bundle.descriptors.PlotOpSymbolicAggregationDescriptor;
 public class PlotOpSymbolicAggregation extends AbstractOperator{
 	
 	// class specific logger
-	private static final Logger logger = Logger.getLogger(PlotOpSymbolicAggregation.class);
+	private static final Logger logger = LogManager.getLogger(PlotOpSymbolicAggregation.class);
 	
 	private String signalString = null; //Symbolic representation of signal
 	private String[][] LUMatrix;

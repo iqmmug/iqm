@@ -54,7 +54,8 @@ import javax.swing.JPanel;
 import javax.swing.JRadioButtonMenuItem;
 import javax.swing.JScrollPane;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import at.mug.iqm.api.gui.IDialogUtil;
 import at.mug.iqm.api.gui.ITankPanel;
@@ -94,7 +95,7 @@ public class TankPanel extends JPanel implements ITankPanel, ActionListener,
 	private static final long serialVersionUID = -4927390300874649683L;
 
 	// class specific logger
-	private static final Logger logger = Logger.getLogger(TankPanel.class);
+	private static final Logger logger = LogManager.getLogger(TankPanel.class);
 
 	private int keepNumber = -1;
 

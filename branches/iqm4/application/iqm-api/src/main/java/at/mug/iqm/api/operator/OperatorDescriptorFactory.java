@@ -31,7 +31,8 @@ package at.mug.iqm.api.operator;
 
 import java.util.NoSuchElementException;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import at.mug.iqm.api.Application;
 
@@ -45,7 +46,7 @@ public final class OperatorDescriptorFactory{
 	/**
 	 * Class specific logger.
 	 */
-	private static final Logger logger = Logger.getLogger(OperatorDescriptorFactory.class);
+	private static final Logger logger = LogManager.getLogger(OperatorDescriptorFactory.class);
 
 	/**
 	 * This method creates an instance of a specified operator.

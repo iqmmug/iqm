@@ -40,7 +40,8 @@ import javax.imageio.ImageIO;
 import javax.media.jai.JAI;
 import javax.media.jai.PlanarImage;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import at.mug.iqm.api.Application;
 import at.mug.iqm.api.I18N;
@@ -68,8 +69,7 @@ import com.sun.media.jai.codec.TIFFEncodeParam;
 public class ImageFileWriter implements Runnable {
 
 	// private class logger
-	private static final Logger logger = Logger
-			.getLogger(ImageFileWriter.class);
+	private static final Logger logger = LogManager.getLogger(ImageFileWriter.class);
 
 	public static final int MODE_SINGLE = 0;
 	public static final int MODE_SEQUENCE = 1;

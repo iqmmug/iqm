@@ -39,7 +39,8 @@ import javax.imageio.ImageIO;
 import javax.media.jai.PlanarImage;
 import javax.swing.JTable;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import at.mug.iqm.api.Resources;
 import at.mug.iqm.api.gui.IThumbnailSupport;
@@ -75,8 +76,7 @@ public class IqmDataBox implements Serializable, IThumbnailSupport, Cloneable {
 	/**
 	 * Class specific logger.
 	 */
-	private transient static final Logger logger = Logger
-			.getLogger(IqmDataBox.class);
+	private transient static final Logger logger = LogManager.getLogger(IqmDataBox.class);
 
 	/**
 	 * The unique ID of this object.

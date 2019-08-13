@@ -55,7 +55,8 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.text.InternationalFormatter;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import at.mug.iqm.api.operator.AbstractPlotOperatorGUI;
 import at.mug.iqm.api.operator.ParameterBlockIQM;
 import at.mug.iqm.plot.bundle.descriptors.PlotOpResampleDescriptor;
@@ -73,7 +74,7 @@ public class PlotGUI_Resample extends AbstractPlotOperatorGUI implements
 	private static final long serialVersionUID = 5161696780502561840L;
 
 	// class specific logger
-	private static final Logger logger = Logger.getLogger(PlotGUI_Resample.class);
+	private static final Logger logger = LogManager.getLogger(PlotGUI_Resample.class);
 
 	private ParameterBlockIQM pb = null;
 

@@ -32,7 +32,8 @@ package at.mug.iqm.api.operator;
 import java.lang.reflect.InvocationTargetException;
 import java.util.NoSuchElementException;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import at.mug.iqm.api.Application;
 
@@ -46,8 +47,7 @@ public final class OperatorGUIFactory {
 	/**
 	 * Class specific logger.
 	 */
-	private static final Logger logger = Logger
-			.getLogger(OperatorGUIFactory.class);
+	private static final Logger logger = LogManager.getLogger(OperatorGUIFactory.class);
 
 	/**
 	 * This method creates an instance of a specified operator GUI.

@@ -40,7 +40,8 @@ import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import at.mug.iqm.api.processing.ProcessingHistory;
 import at.mug.iqm.commons.gui.GenericFileDialog;
@@ -64,8 +65,7 @@ public class ProcessingHistoryMenu extends JMenu implements ActionListener {
 	private static final long serialVersionUID = -6493431116988885579L;
 
 	// class logger
-	private static final Logger logger = Logger
-			.getLogger(ProcessingHistoryMenu.class);
+	private static final Logger logger = LogManager.getLogger(ProcessingHistoryMenu.class);
 
 	private static TextDisplayFrame historyFrame = null;
 	private TextPanel tp = null;

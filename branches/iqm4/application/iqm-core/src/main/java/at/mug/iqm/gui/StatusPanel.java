@@ -49,7 +49,8 @@ import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 import javax.swing.border.EmptyBorder;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import at.mug.iqm.api.events.OperatorCancelledEvent;
 import at.mug.iqm.api.events.OperatorProgressEvent;
@@ -75,7 +76,7 @@ public class StatusPanel extends JPanel implements ActionListener, IStatusPanel 
 	private static final long serialVersionUID = 1823147602305885117L;
 
 	// class specific logger
-	private static final Logger logger = Logger.getLogger(StatusPanel.class);
+	private static final Logger logger = LogManager.getLogger(StatusPanel.class);
 
 	// class variable declaration
 	private JPanel statusPanelContent;

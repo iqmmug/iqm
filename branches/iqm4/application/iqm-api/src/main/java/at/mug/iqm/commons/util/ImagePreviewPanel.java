@@ -52,7 +52,8 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingWorker;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import at.mug.iqm.api.IQMConstants;
 import at.mug.iqm.api.Resources;
@@ -81,8 +82,7 @@ public class ImagePreviewPanel extends JPanel implements PropertyChangeListener 
 	/**
 	 * Custom class logger.
 	 */
-	private static final Logger logger = Logger
-			.getLogger(ImagePreviewPanel.class);
+	private static final Logger logger = LogManager.getLogger(ImagePreviewPanel.class);
 
 	private int width, height;
 	private Image image;

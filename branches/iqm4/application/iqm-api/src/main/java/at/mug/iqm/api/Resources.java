@@ -33,7 +33,8 @@ import java.net.URL;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /**
  * This class gets resources by identifier.
@@ -42,7 +43,7 @@ import org.apache.log4j.Logger;
  */
 public class Resources {
 	// class specific logger
-	private static final Logger logger = Logger.getLogger(Resources.class);
+	private static final Logger logger = LogManager.getLogger(Resources.class);
 
 	// class variable declaration
 	private static final ClassLoader loader = Resources.class.getClassLoader();

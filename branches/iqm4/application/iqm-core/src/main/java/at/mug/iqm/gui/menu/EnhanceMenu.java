@@ -34,7 +34,8 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JMenuItem;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import at.mug.iqm.api.gui.OperatorMenuItem;
 import at.mug.iqm.api.operator.OperatorType;
@@ -59,7 +60,7 @@ public class EnhanceMenu extends DeactivatableMenu implements ActionListener {
 	private static final long serialVersionUID = 5333828789266605725L;
 
 	// class specific logger
-	private static final Logger logger = Logger.getLogger(EnhanceMenu.class);
+	private static final Logger logger = LogManager.getLogger(EnhanceMenu.class);
 
 	// class variable declaration
 	private OperatorMenuItem edgeMenuItem;

@@ -37,7 +37,8 @@ import java.awt.image.SampleModel;
 
 import javax.media.jai.PlanarImage;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /**
  * @author Helmut Ahammer
@@ -46,7 +47,7 @@ import org.apache.log4j.Logger;
 public class ImageInfoExtractor {
 
 	// class specific logger
-	private static final Logger logger = Logger.getLogger(ImageHeaderExtractor.class);
+	private static final Logger logger = LogManager.getLogger(ImageHeaderExtractor.class);
 
 	private StringBuffer imageInfo = new StringBuffer();
 	private PlanarImage 	    pi = null;

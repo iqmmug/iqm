@@ -33,7 +33,8 @@ import javax.swing.InputVerifier;
 import javax.swing.JComponent;
 import javax.swing.JFormattedTextField;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /**
  * This class checks whether an input can be parsed as an Integer or not. 
@@ -42,7 +43,7 @@ import org.apache.log4j.Logger;
  */
 public class IntNumberVerifier extends InputVerifier { 
 	// class specific logger
-	private static final Logger logger = Logger.getLogger(IntNumberVerifier.class);
+	private static final Logger logger = LogManager.getLogger(IntNumberVerifier.class);
 
 	/**
 	 * Overrides the InputVerifier.verify method.

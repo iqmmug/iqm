@@ -59,7 +59,8 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.text.InternationalFormatter;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import at.mug.iqm.api.model.IqmDataBox;
 import at.mug.iqm.api.operator.AbstractImageOperatorGUI;
@@ -80,7 +81,7 @@ public class OperatorGUI_FracLac extends AbstractImageOperatorGUI implements
 	private static final long serialVersionUID = 3671706108316698463L;
 
 	// class specific logger
-	private static final Logger logger = Logger.getLogger(OperatorGUI_FracLac.class);
+	private static final Logger logger = LogManager.getLogger(OperatorGUI_FracLac.class);
 
 	private ParameterBlockIQM pb = null;
 

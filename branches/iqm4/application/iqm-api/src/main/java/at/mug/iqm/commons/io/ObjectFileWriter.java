@@ -34,7 +34,8 @@ import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.io.OutputStream;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /**
  * This helper class writes a POJO to a file.
@@ -44,7 +45,7 @@ import org.apache.log4j.Logger;
  */
 public class ObjectFileWriter implements Runnable {
 	
-	private static final Logger logger = Logger.getLogger(ObjectFileWriter.class);
+	private static final Logger logger = LogManager.getLogger(ObjectFileWriter.class);
 
 	protected File file;
 	protected OutputStream fos = null;

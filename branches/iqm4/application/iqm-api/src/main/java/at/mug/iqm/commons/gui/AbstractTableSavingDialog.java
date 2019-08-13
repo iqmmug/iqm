@@ -44,7 +44,8 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import at.mug.iqm.api.I18N;
 import at.mug.iqm.api.IQMConstants;
@@ -69,8 +70,7 @@ public abstract class AbstractTableSavingDialog extends JFileChooser implements
 	 * The UID for serialization.
 	 */
 	private static final long serialVersionUID = 3879770302565940024L;
-	private static final Logger logger = Logger
-			.getLogger(AbstractTableSavingDialog.class);
+	private static final Logger logger = LogManager.getLogger(AbstractTableSavingDialog.class);
 
 	protected File currImgDir;
 	protected boolean extensionExists = false;

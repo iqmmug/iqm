@@ -38,7 +38,8 @@ import javax.media.jai.PlanarImage;
 import javax.swing.JComponent;
 import javax.swing.UIManager;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import at.mug.iqm.api.Application;
 import at.mug.iqm.api.IQMConstants;
@@ -67,7 +68,7 @@ public final class Look implements ILook {
 	/**
 	 * Custom class logger.
 	 */
-	private final Logger logger = Logger.getLogger(Look.class);
+	private final Logger logger = LogManager.getLogger(Look.class);
 
 	/**
 	 * An {@link ArrayList} of {@link LookPanel}s, initially constructed of size

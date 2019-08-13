@@ -44,7 +44,8 @@ import javax.swing.JTable;
 import javax.swing.SwingWorker;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import at.mug.iqm.api.Application;
 import at.mug.iqm.api.I18N;
@@ -71,8 +72,7 @@ public class OpenTableDialog extends Thread{
 
 	// Logging variables
 	private static Class<?> caller = OpenTableDialog.class;
-	private static final Logger logger = Logger
-			.getLogger(OpenTableDialog.class);
+	private static final Logger logger = LogManager.getLogger(OpenTableDialog.class);
 
 	private FileInputStream fis;
 	private ObjectInputStream ois;
