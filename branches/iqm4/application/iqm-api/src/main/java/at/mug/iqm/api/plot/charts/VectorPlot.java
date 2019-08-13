@@ -42,7 +42,7 @@ import org.jfree.chart.renderer.xy.VectorRenderer;
 import org.jfree.data.xy.VectorSeries;
 import org.jfree.data.xy.VectorSeriesCollection;
 import org.jfree.data.xy.VectorXYDataset;
-import org.jfree.ui.RectangleInsets;
+import org.jfree.chart.ui.RectangleInsets;
 
 public class VectorPlot extends ChartPanel {
 
