@@ -51,7 +51,7 @@
 		<dependency>
 			<groupId>org.jfree</groupId>
 			<artifactId>jfreechart</artifactId>
-			<version>1.0.19</version>
+			<version>1.5.0</version>
 		</dependency>
 		<!--loci_tools is a very large package, formats-bsd is enough for J2K reading
 		<dependency>

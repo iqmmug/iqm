@@ -52,7 +52,7 @@ import org.jfree.chart.JFreeChart;
 import org.jfree.chart.plot.XYPlot;
 import org.jfree.chart.renderer.xy.XYLineAndShapeRenderer;
 import org.jfree.data.function.LineFunction2D;
-import org.jfree.data.general.DatasetUtilities;
+import org.jfree.data.general.DatasetUtils;
 import org.jfree.data.xy.XYDataset;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
@@ -395,7 +395,7 @@ public class RegressionPlot extends DefaultXYLineChart implements
 //		for (int i= regStart; i <= regEnd; i++){
 //			System.out.println("RegressionPlot:  i:"+ i+"  (Double)series.getX(i - 1):" + (Double) series.getX(i - 1) + "       (Double)series.getY(i - 1):" + (Double) series.getY(i - 1));
 //		}
-		XYSeries regSeries = DatasetUtilities.sampleFunction2DToSeries(
+		XYSeries regSeries = DatasetUtils.sampleFunction2DToSeries(
 				linefunction2d, (Double) series.getX(regStart - 1),
 				(Double) series.getX(regEnd - 1), 100, "Linear Fit " + s);
 		// ###################################################
@@ -406,8 +406,8 @@ public class RegressionPlot extends DefaultXYLineChart implements
 				false);
 		renderer1.setSeriesPaint(1, Color.GREEN);
 		renderer1.clearSeriesPaints(true);
-		renderer1.setBaseShapesVisible(false);
-		renderer1.setBaseSeriesVisibleInLegend(false);
+		renderer1.setDefaultShapesVisible(false);
+		renderer1.setDefaultSeriesVisibleInLegend(false);
 		// Shape[] shapes = DefaultDrawingSupplier.DEFAULT_SHAPE_SEQUENCE; //0
 		// square, 1 circle, 2 triangle; 3 diamond; .......9
 		// renderer1.setSeriesShape(0, shapes[2]);

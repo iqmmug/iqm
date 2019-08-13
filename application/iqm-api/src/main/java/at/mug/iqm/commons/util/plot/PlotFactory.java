@@ -49,8 +49,8 @@ import org.jfree.chart.title.LegendTitle;
 import org.jfree.data.xy.XYDataset;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
-import org.jfree.ui.RectangleEdge;
-import org.jfree.ui.RectangleInsets;
+import org.jfree.chart.ui.RectangleEdge;
+import org.jfree.chart.ui.RectangleInsets;
 
 import at.mug.iqm.api.model.PlotModel;
 import at.mug.iqm.api.plot.charts.ChartType;
@@ -295,15 +295,15 @@ public final class PlotFactory {
 		XYItemRenderer r = plot.getRenderer();
 		if (r instanceof XYLineAndShapeRenderer) {
 			XYLineAndShapeRenderer renderer = (XYLineAndShapeRenderer) r;
-			renderer.setBaseShapesVisible(false); //
-			renderer.setBaseShapesFilled(true);
+			renderer.setDefaultShapesVisible(false); //
+			renderer.setDefaultShapesFilled(true);
 			// Shape[] shapes = DefaultDrawingSupplier.DEFAULT_SHAPE_SEQUENCE;
 			// //0 square, 1 circle, 2 triangle; 3 diamond; .......9
 			// renderer.setSeriesShape(0, shapes[2]);
 			// Shape shape = new Rectangle2D.Double(-1, -1, 2, 2); //small
 			// rectangle
 			// renderer.setSeriesShape(0, shape);
-			renderer.setBaseLinesVisible(true);
+			renderer.setDefaultLinesVisible(true);
 			// renderer.setSeriesOutlinePaint(0, Color.black);
 			// renderer.setUseOutlinePaint(true);
 		}
@@ -406,15 +406,15 @@ public final class PlotFactory {
 		XYItemRenderer r = plot.getRenderer();
 		if (r instanceof XYLineAndShapeRenderer) {
 			XYLineAndShapeRenderer renderer = (XYLineAndShapeRenderer) r;
-			renderer.setBaseShapesVisible(true);
-			renderer.setBaseShapesFilled(false);
+			renderer.setDefaultShapesVisible(true);
+			renderer.setDefaultShapesFilled(false);
 			// Shape[] shapes = DefaultDrawingSupplier.DEFAULT_SHAPE_SEQUENCE;
 			// //0 square, 1 circle, 2 triangle; 3 diamond; .......9
 			// renderer.setSeriesShape(0, shapes[2]);
 			// Shape shape = new Rectangle2D.Double(-1, -1, 2, 2); //small
 			// rectangle
 			// renderer.setSeriesShape(0, shape);
-			renderer.setBaseLinesVisible(false);
+			renderer.setDefaultLinesVisible(false);
 			// renderer.setSeriesOutlinePaint(0, Color.black);
 			// renderer.setUseOutlinePaint(true);
 		}
@@ -524,8 +524,8 @@ public final class PlotFactory {
 		XYItemRenderer r = plot.getRenderer();
 		if (r instanceof XYLineAndShapeRenderer) {
 			XYLineAndShapeRenderer renderer = (XYLineAndShapeRenderer) r;
-			renderer.setBaseShapesVisible(false); //
-			renderer.setBaseShapesFilled(false);
+			renderer.setDefaultShapesVisible(false); //
+			renderer.setDefaultShapesFilled(false);
 			// Shape[] shapes = DefaultDrawingSupplier.DEFAULT_SHAPE_SEQUENCE;
 			// //0 square, 1 circle, 2 triangle; 3 diamond; .......9
 			// renderer.setSeriesShape(0, shapes[2]);

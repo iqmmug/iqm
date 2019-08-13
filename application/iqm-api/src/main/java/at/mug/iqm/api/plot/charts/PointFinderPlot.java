@@ -133,10 +133,10 @@ public class PointFinderPlot extends DefaultXYLineChart implements ChangeListene
 		// set renderer
 		XYLineAndShapeRenderer renderer1 = (XYLineAndShapeRenderer) chart.getXYPlot().getRenderer(0);
 
-		renderer1.setBaseShapesVisible(true); //
-		renderer1.setBaseShapesFilled(false);
+		renderer1.setDefaultShapesVisible(true); //
+		renderer1.setDefaultShapesFilled(false);
 		renderer1.setSeriesPaint(0, Color.BLACK);
-		renderer1.setBaseLinesVisible(false);
+		renderer1.setDefaultLinesVisible(false);
 
 		chart.getXYPlot().setRenderer(0, renderer1);
 
@@ -144,14 +144,14 @@ public class PointFinderPlot extends DefaultXYLineChart implements ChangeListene
 		XYLineAndShapeRenderer renderer = (XYLineAndShapeRenderer) chart.getXYPlot().getRenderer(1);
 		if (renderer instanceof XYLineAndShapeRenderer) {
 
-			renderer.setBaseShapesVisible(true); //
-			renderer.setBaseShapesFilled(true);
+			renderer.setDefaultShapesVisible(true); //
+			renderer.setDefaultShapesFilled(true);
 			double size = 13;
 			double delta = size / 2.0;
 			Shape shape = new Ellipse2D.Double(-delta, -delta, size, size);
 			renderer.setSeriesPaint(0, Color.RED);
 			renderer.setSeriesShape(0, shape);
-			renderer.setBaseLinesVisible(false);
+			renderer.setDefaultLinesVisible(false);
 	
 			chart.getXYPlot().setRenderer(1, renderer);
 		}
@@ -181,8 +181,8 @@ public class PointFinderPlot extends DefaultXYLineChart implements ChangeListene
 		XYLineAndShapeRenderer renderer1 = new XYLineAndShapeRenderer(true, false);
 		renderer1.setSeriesPaint(1, Color.GREEN);
 		renderer1.clearSeriesPaints(true);
-		renderer1.setBaseShapesVisible(false);
-		renderer1.setBaseSeriesVisibleInLegend(false);
+		renderer1.setDefaultShapesVisible(false);
+		renderer1.setDefaultSeriesVisibleInLegend(false);
 
 		chart.getXYPlot().setRenderer(1, renderer1);
 
@@ -190,8 +190,8 @@ public class PointFinderPlot extends DefaultXYLineChart implements ChangeListene
 		XYLineAndShapeRenderer renderer2 = new XYLineAndShapeRenderer(true, false);
 		renderer1.setSeriesPaint(0, Color.RED);
 		renderer1.clearSeriesPaints(true);
-		renderer1.setBaseShapesVisible(false);
-		renderer1.setBaseSeriesVisibleInLegend(false);
+		renderer1.setDefaultShapesVisible(false);
+		renderer1.setDefaultSeriesVisibleInLegend(false);
 
 		chart.getXYPlot().setRenderer(0, renderer2);
 

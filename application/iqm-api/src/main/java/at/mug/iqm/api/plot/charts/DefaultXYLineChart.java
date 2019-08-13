@@ -44,12 +44,13 @@ import org.jfree.chart.plot.XYPlot;
 import org.jfree.chart.renderer.xy.XYItemRenderer;
 import org.jfree.chart.renderer.xy.XYLineAndShapeRenderer;
 import org.jfree.chart.title.LegendTitle;
+import org.jfree.chart.ui.RectangleEdge;
+import org.jfree.chart.ui.RectangleInsets;
 import org.jfree.data.time.DateRange;
 import org.jfree.data.xy.XYDataset;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
-import org.jfree.ui.RectangleEdge;
-import org.jfree.ui.RectangleInsets;
+
 
 /**
  * This class is a GUI element for a default 2D line chart.
@@ -241,17 +242,17 @@ public class DefaultXYLineChart extends JPanel implements ChangeListener {
 		XYItemRenderer r = plot.getRenderer(0);
 		if (r instanceof XYLineAndShapeRenderer) {
 			XYLineAndShapeRenderer renderer = (XYLineAndShapeRenderer) r;
-			renderer.setBaseShapesVisible(true); //
-			renderer.setBaseShapesFilled(false);
-			renderer.setBaseLinesVisible(isLineVisible);
+			renderer.setDefaultShapesVisible(true); //
+			renderer.setDefaultShapesFilled(false);
+			renderer.setDefaultLinesVisible(isLineVisible);
 		}
 
 		XYItemRenderer r2 = plot.getRenderer(1);
 		if (r2 instanceof XYLineAndShapeRenderer) {
 			XYLineAndShapeRenderer renderer = (XYLineAndShapeRenderer) r2;
-			renderer.setBaseShapesVisible(true); //
-			renderer.setBaseShapesFilled(true);
-			renderer.setBaseLinesVisible(isLineVisible);
+			renderer.setDefaultShapesVisible(true); //
+			renderer.setDefaultShapesFilled(true);
+			renderer.setDefaultLinesVisible(isLineVisible);
 		}
 
 		return chart;
@@ -300,15 +301,15 @@ public class DefaultXYLineChart extends JPanel implements ChangeListener {
 		XYItemRenderer r = plot.getRenderer();
 		if (r instanceof XYLineAndShapeRenderer) {
 			XYLineAndShapeRenderer renderer = (XYLineAndShapeRenderer) r;
-			renderer.setBaseShapesVisible(true); //
-			renderer.setBaseShapesFilled(false);
+			renderer.setDefaultShapesVisible(true); //
+			renderer.setDefaultShapesFilled(false);
 			// Shape[] shapes = DefaultDrawingSupplier.DEFAULT_SHAPE_SEQUENCE;
 			// //0 square, 1 circle, 2 triangle; 3 diamond; .......9
 			// renderer.setSeriesShape(0, shapes[2]);
 			// Shape shape = new Rectangle2D.Double(-1, -1, 2, 2); //small
 			// rectangle
 			// renderer.setSeriesShape(0, shape);
-			renderer.setBaseLinesVisible(isLineVisible);
+			renderer.setDefaultLinesVisible(isLineVisible);
 			// renderer.setSeriesOutlinePaint(0, Color.black);
 			// renderer.setUseOutlinePaint(true);
 		}
