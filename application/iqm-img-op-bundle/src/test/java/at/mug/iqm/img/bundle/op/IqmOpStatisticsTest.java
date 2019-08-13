@@ -34,15 +34,15 @@ import at.mug.iqm.api.operator.IResult;
 import at.mug.iqm.api.operator.ParameterBlockIQM;
 import at.mug.iqm.api.operator.WorkPackage;
 import at.mug.iqm.img.bundle.descriptors.IqmOpStatisticsDescriptor;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.Vector;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 
 public class IqmOpStatisticsTest {
@@ -50,7 +50,7 @@ public class IqmOpStatisticsTest {
     ParameterBlockIQM pb;
     WorkPackage wp;
 
-    @Before
+    @BeforeEach
     public void setUp() throws Exception {
         iOpStat = new IqmOpStatistics();
         pb = new ParameterBlockIQM(new IqmOpStatisticsDescriptor());
@@ -63,7 +63,7 @@ public class IqmOpStatisticsTest {
         wp = new WorkPackage(iOpStat, pb);
     }
 
-    @After
+    @AfterEach
     public void tearDown() throws Exception {
 
     }

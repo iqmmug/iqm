@@ -29,7 +29,7 @@ package at.mug.iqm.img.bundle.op;
  */
 
 
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.awt.image.ColorModel;
 import java.awt.image.DataBuffer;
