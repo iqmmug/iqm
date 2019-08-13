@@ -10,7 +10,7 @@ package at.mug.iqm.img.bundle.gui;
  * 
  * This file is part of IQM, hereinafter referred to as "this program".
  * %%
- * Copyright (C) 2009 - 2018 Helmut Ahammer, Philipp Kainz
+ * Copyright (C) 2009 - 2019 Helmut Ahammer, Philipp Kainz
  * %%
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as
@@ -29,8 +29,6 @@ package at.mug.iqm.img.bundle.gui;
  */
 
 
-import java.awt.BorderLayout;
-import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;

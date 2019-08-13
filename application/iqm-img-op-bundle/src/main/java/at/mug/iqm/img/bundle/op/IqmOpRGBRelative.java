@@ -12,7 +12,7 @@ import java.awt.image.ColorModel;
  * 
  * This file is part of IQM, hereinafter referred to as "this program".
  * %%
- * Copyright (C) 2009 - 2018 Helmut Ahammer, Philipp Kainz
+ * Copyright (C) 2009 - 2019 Helmut Ahammer, Philipp Kainz
  * %%
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as

@@ -30,28 +30,22 @@
 		<dependency>
 			<groupId>javax.xml.bind</groupId>
 			<artifactId>jaxb-api</artifactId>
-			<version>2.3.0</version>
+			<version>2.3.1</version><!--2.3.0-->
 		</dependency>
 		<dependency>
 			<groupId>com.sun.xml.bind</groupId>
 			<artifactId>jaxb-impl</artifactId>
-			<version>2.3.0.1</version>
+			<version>2.3.2</version><!--2.3.0.1-->
 		</dependency>
 		<dependency>
 			<groupId>org.glassfish.jaxb</groupId>
 			<artifactId>jaxb-runtime</artifactId>
-			<version>2.3.0.1</version>
+			<version>2.3.2</version><!--2.3.0.1-->
 		</dependency>
 		<dependency>
 			<groupId>javax.activation</groupId>
 			<artifactId>activation</artifactId>
 			<version>1.1.1</version>
-		</dependency>
-		<dependency>
-			<groupId>log4j</groupId>
-			<artifactId>log4j</artifactId>
-			<version>1.2.16</version>
-			<type>jar</type>
 		</dependency>
 		<dependency>
 			<groupId>javax.media.jai</groupId>
@@ -63,6 +57,12 @@
 			<groupId>com.apple</groupId>
 			<artifactId>AppleJavaExtensions</artifactId>
 			<version>20111109</version>
+		</dependency>
+		<dependency>
+			<groupId>log4j</groupId>
+			<artifactId>log4j</artifactId>
+			<version>1.2.16</version>
+			<type>jar</type>
 		</dependency>
 
 		<!-- IQM MODULES -->
@@ -278,7 +278,8 @@
 										<mainClass>${project.mainClass}</mainClass>
 									</classPath>
 									<jre>
-										<minVersion>${project.launch4j.javaMinVersion}</minVersion>
+										<!--<minVersion>${project.launch4j.javaMinVersion}</minVersion>--><!--some troubles since 9-->
+										<path>${project.launch4j.homeJREPath}</path>
 									</jre>
 									<versionInfo>
 										<fileVersion>${project.launch4j.version}</fileVersion>
@@ -312,7 +313,8 @@
 										<mainClass>${project.mainClass}</mainClass>
 									</classPath>
 									<jre>
-										<minVersion>${project.launch4j.javaMinVersion}</minVersion>
+										<!--<minVersion>${project.launch4j.javaMinVersion}</minVersion>--><!--some troubles since 9-->
+										<path>${project.launch4j.homeJREPath}</path>
 									</jre>
 									<versionInfo>
 										<fileVersion>${project.launch4j.version}</fileVersion>
