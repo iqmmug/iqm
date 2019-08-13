@@ -30,7 +30,8 @@
 
 		<!-- Launch4j options -->
 		<project.launch4j.version>${project.release.version}</project.launch4j.version>
-		<project.launch4j.javaMinVersion>10.0.2</project.launch4j.javaMinVersion>
+		<!--<project.launch4j.javaMinVersion>10.0.2</project.launch4j.javaMinVersion>--><!--2019-08- HA-->
+		<project.launch4j.homeJREPath>%JAVA_HOME%</project.launch4j.homeJREPath><!--2019-08- HA-->
 
 		<!-- OSX Bundle options -->
 		<project.osx-bundle.version>${project.launch4j.version}</project.osx-bundle.version>
@@ -74,12 +75,12 @@
 					<plugin>
 						<groupId>org.apache.maven.plugins</groupId>
 						<artifactId>maven-site-plugin</artifactId>
-						<version>3.7.1</version>
+						<version>3.8.2</version>
 						<dependencies>
 							<dependency><!-- add support for ssh/scp -->
 								<groupId>org.apache.maven.wagon</groupId>
 								<artifactId>wagon-ssh</artifactId>
-								<version>3.1.0</version>
+								<version>3.3.3</version>
 							</dependency>
 						</dependencies>
 					</plugin>
@@ -260,6 +261,25 @@
 				</plugins>
 			</build>
 		</profile>
+		<profile>
+			<id>openJDK12</id>
+			<activation>
+				<activeByDefault>false</activeByDefault>
+				<jdk>12</jdk>
+			</activation>
+			<build>
+				<plugins>
+					<plugin>
+						<artifactId>maven-compiler-plugin</artifactId>
+						<version>3.8.1</version>
+						<configuration>
+							<source>12</source>
+							<target>12</target>
+						</configuration>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
 	</profiles>
 
 	<reporting>
@@ -267,7 +287,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-javadoc-plugin</artifactId>
-				<version>3.0.1</version>
+				<version>3.1.1</version>
 				<configuration>
 					<show>private</show>
 					<additionalparam>-Xdoclint:none</additionalparam>
