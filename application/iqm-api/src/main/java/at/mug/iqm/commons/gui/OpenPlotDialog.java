@@ -37,7 +37,8 @@ import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import at.mug.iqm.api.Application;
 import at.mug.iqm.api.I18N;
@@ -67,7 +68,7 @@ public class OpenPlotDialog extends Thread{
 	 */
 	// Logging variables
 	private static Class<?> caller = OpenPlotDialog.class;
-	private static final Logger logger = Logger.getLogger(OpenPlotDialog.class);	
+	private static final Logger logger = LogManager.getLogger(OpenPlotDialog.class);	
 
 	private File currImgDir;
 

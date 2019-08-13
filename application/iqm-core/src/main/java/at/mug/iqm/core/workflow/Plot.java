@@ -32,7 +32,8 @@ package at.mug.iqm.core.workflow;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.jfree.chart.ChartPanel;
 
 import at.mug.iqm.api.Application;
@@ -54,7 +55,7 @@ import at.mug.iqm.gui.util.GUITools;
 public final class Plot implements IPlot {
 
 	// class specific logger
-	private final Logger logger = Logger.getLogger(Plot.class);
+	private final Logger logger = LogManager.getLogger(Plot.class);
 
 	/**
 	 * The current {@link PlotPanel} instance to control.

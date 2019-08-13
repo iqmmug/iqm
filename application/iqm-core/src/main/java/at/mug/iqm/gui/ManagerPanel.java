@@ -70,7 +70,8 @@ import javax.swing.event.ChangeListener;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import at.mug.iqm.api.Application;
 import at.mug.iqm.api.gui.BoardPanel;
@@ -117,7 +118,7 @@ public class ManagerPanel extends JPanel implements IManagerPanel,
 
 	// class specific logger
 	private static Class<?> caller = ManagerPanel.class;
-	private static final Logger logger = Logger.getLogger(ManagerPanel.class);
+	private static final Logger logger = LogManager.getLogger(ManagerPanel.class);
 
 	public static final int MANAGER_LIST_LEFT = 0;
 	public static final int MANAGER_LIST_RIGHT = 1;

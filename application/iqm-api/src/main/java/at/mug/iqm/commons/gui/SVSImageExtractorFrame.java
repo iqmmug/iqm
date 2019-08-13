@@ -59,7 +59,8 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import at.mug.iqm.api.Application;
 import at.mug.iqm.api.IQMConstants;
@@ -87,8 +88,7 @@ public class SVSImageExtractorFrame extends JFrame implements ActionListener,
 	private static final long serialVersionUID = -1164991986615901682L;
 
 	// Logging variables
-	private static final Logger logger = Logger
-			.getLogger(SVSImageExtractorFrame.class);
+	private static final Logger logger = LogManager.getLogger(SVSImageExtractorFrame.class);
 
 	private JSpinner jSpinnerImgNum;
 	private JSpinner jSpinnerRescale;

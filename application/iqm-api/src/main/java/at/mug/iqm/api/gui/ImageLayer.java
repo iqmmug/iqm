@@ -44,7 +44,8 @@ import java.text.DecimalFormat;
 import javax.swing.JViewport;
 import javax.swing.SwingUtilities;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import at.mug.iqm.commons.util.CommonTools;
 
@@ -66,7 +67,7 @@ public class ImageLayer extends DisplayJAI {
 	/**
 	 * Custom class logger.
 	 */
-	private static final Logger logger = Logger.getLogger(ImageLayer.class);
+	private static final Logger logger = LogManager.getLogger(ImageLayer.class);
 
 	/**
 	 * The raster of the displayed image.

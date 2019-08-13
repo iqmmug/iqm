@@ -33,7 +33,8 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import at.mug.iqm.api.Application;
 import at.mug.iqm.api.operator.IOperator;
@@ -58,7 +59,7 @@ public class PluginRegistry implements IPluginRegistry {
 	/**
 	 * Class specific logger.
 	 */
-	private static final Logger logger = Logger.getLogger(PluginRegistry.class);
+	private static final Logger logger = LogManager.getLogger(PluginRegistry.class);
 
 	/**
 	 * The {@link HashMap} containing the {@link IPlugin}s registered at

@@ -42,7 +42,8 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /**
  * This class is responsible for displaying a scrollable {@link JTextArea}
@@ -60,8 +61,7 @@ public class ErrorMessagePanel extends JPanel {
 
 	// Logging variables
 	private static Class<?> caller = ErrorMessagePanel.class;
-	private static final Logger logger = Logger
-			.getLogger(ErrorMessagePanel.class);
+	private static final Logger logger = LogManager.getLogger(ErrorMessagePanel.class);
 
 	private String message;
 	private Throwable exception;

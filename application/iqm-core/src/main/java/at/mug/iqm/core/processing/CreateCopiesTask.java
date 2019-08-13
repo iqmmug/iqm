@@ -37,7 +37,8 @@ import java.util.TimeZone;
 import java.util.Vector;
 import java.util.concurrent.ExecutionException;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import at.mug.iqm.api.Application;
 import at.mug.iqm.api.gui.BoardPanel;
@@ -67,8 +68,7 @@ import at.mug.iqm.gui.util.GUITools;
 public class CreateCopiesTask extends AbstractProcessingTask {
 	// class specific logger
 	private Class<?> caller = CreateCopiesTask.class;
-	private static final Logger logger = Logger
-			.getLogger(CreateCopiesTask.class);
+	private static final Logger logger = LogManager.getLogger(CreateCopiesTask.class);
 
 	// class variable declaration
 	private int numCopies;

@@ -39,7 +39,8 @@ import java.util.concurrent.ExecutionException;
 import javax.swing.JList;
 import javax.swing.SwingUtilities;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import at.mug.iqm.api.Application;
 import at.mug.iqm.api.exception.MultipleMIMETypesException;
@@ -89,7 +90,7 @@ import at.mug.iqm.gui.util.GUITools;
 public final class Tank implements ITank {
 
 	// Logging variables
-	private static final Logger logger = Logger.getLogger(Tank.class);
+	private static final Logger logger = LogManager.getLogger(Tank.class);
 	/**
 	 * The tank panel.
 	 */

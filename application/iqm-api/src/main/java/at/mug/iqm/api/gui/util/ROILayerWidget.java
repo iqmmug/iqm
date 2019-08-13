@@ -55,7 +55,8 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 import javax.swing.border.MatteBorder;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import at.mug.iqm.api.I18N;
 import at.mug.iqm.api.gui.IDrawingLayer;
@@ -79,7 +80,7 @@ public class ROILayerWidget extends JPanel {
 	/**
 	 * A custom class logger.
 	 */
-	private static final Logger logger = Logger.getLogger(ROILayerWidget.class);
+	private static final Logger logger = LogManager.getLogger(ROILayerWidget.class);
 
 	private JTextField txtName;
 	private JCheckBox chckbxVisible;

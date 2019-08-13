@@ -39,7 +39,8 @@ import java.util.UUID;
 
 import javax.media.jai.JAI;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import at.mug.iqm.api.Application;
 import at.mug.iqm.api.IQMConstants;
@@ -66,8 +67,7 @@ public class VirtualDataManager {
 	/**
 	 * Custom class logger.
 	 */
-	private static final Logger logger = Logger
-			.getLogger(VirtualDataManager.class);
+	private static final Logger logger = LogManager.getLogger(VirtualDataManager.class);
 
 	/**
 	 * A serializer for I/O tasks of the manager.

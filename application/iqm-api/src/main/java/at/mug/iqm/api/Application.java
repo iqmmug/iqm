@@ -33,8 +33,8 @@ import java.net.URL;
 
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
-
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import at.mug.iqm.api.gui.IDialogUtil;
 import at.mug.iqm.api.gui.IMainFrame;
@@ -62,8 +62,10 @@ import at.mug.iqm.api.workflow.IText;
  * 
  */
 public final class Application {
+	
 
-	private static final Logger logger = Logger.getLogger(Application.class);
+	//private static final Logger logger = LogManager.getLogger(Application.class);
+	private static final Logger logger = LogManager.getLogger(Application.class);
 
 	private static boolean virtual;
 	private static IOperator currentOperator;

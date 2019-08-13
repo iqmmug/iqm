@@ -34,7 +34,8 @@ import java.text.SimpleDateFormat;
 import java.util.TimeZone;
 
 import javax.swing.table.DefaultTableModel;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import at.mug.iqm.api.gui.BoardPanel;
 import at.mug.iqm.api.model.TableModel;
@@ -49,7 +50,7 @@ import at.mug.iqm.commons.util.plot.WavFile;
  */
 public class WAVFileWriter implements Runnable {
 	
-	private static final Logger logger = Logger.getLogger(PlainTextFileWriter.class);
+	private static final Logger logger = LogManager.getLogger(PlainTextFileWriter.class);
 			
 	private File file;
 	private DefaultTableModel content;

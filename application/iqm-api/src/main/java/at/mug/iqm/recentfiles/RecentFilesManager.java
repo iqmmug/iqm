@@ -47,7 +47,8 @@ import javax.xml.transform.stream.StreamSource;
 import javax.xml.validation.Schema;
 import javax.xml.validation.SchemaFactory;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.xml.sax.SAXException;
 
 import at.mug.iqm.api.operator.DataType;
@@ -67,8 +68,7 @@ import at.mug.iqm.recentfiles.jaxb.RecentFiles;
 public class RecentFilesManager {
 
 	// private logger
-	private static final Logger logger = Logger
-			.getLogger(RecentFilesManager.class);
+	private static final Logger logger = LogManager.getLogger(RecentFilesManager.class);
 
 	private static RecentFilesManager currentManager = null;
 

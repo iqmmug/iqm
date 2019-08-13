@@ -55,7 +55,8 @@ import javax.media.jai.PlanarImage;
 import javax.media.jai.RenderedOp;
 
 import org.apache.commons.math3.stat.descriptive.DescriptiveStatistics;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import com.sun.media.jai.codec.ImageCodec;
 import com.sun.media.jai.codec.ImageEncoder;
@@ -111,7 +112,7 @@ public class IqmOpFracPyramid extends AbstractOperator {
 	/**
 	 * Logging variable.
 	 */
-	private static final Logger logger = Logger.getLogger(IqmOpFracPyramid.class);
+	private static final Logger logger = LogManager.getLogger(IqmOpFracPyramid.class);
 	
 	private File logicalDepthDir;
 	

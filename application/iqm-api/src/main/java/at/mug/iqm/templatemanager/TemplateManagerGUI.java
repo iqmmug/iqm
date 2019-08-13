@@ -37,7 +37,8 @@ import javax.swing.ImageIcon;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import at.mug.iqm.api.I18N;
 import at.mug.iqm.api.IQMConstants;
@@ -64,8 +65,7 @@ public class TemplateManagerGUI extends JFrame implements ITemplateManagerGUI {
 	private static final long serialVersionUID = -7603330014937360474L;
 
 	// class specific logger
-	private static final Logger logger = Logger
-			.getLogger(TemplateManagerGUI.class);
+	private static final Logger logger = LogManager.getLogger(TemplateManagerGUI.class);
 
 	private String opName;
 

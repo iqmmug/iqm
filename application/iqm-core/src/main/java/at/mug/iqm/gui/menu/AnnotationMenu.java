@@ -39,7 +39,8 @@ import javax.swing.JMenuItem;
 import javax.swing.SwingWorker;
 import javax.xml.bind.JAXBException;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import at.mug.iqm.api.gui.IDialogUtil;
 import at.mug.iqm.api.gui.IDrawingLayer;
@@ -68,7 +69,7 @@ public class AnnotationMenu extends JMenu {
 	private static final long serialVersionUID = 1932917444323071264L;
 
 	// private logger
-	private static final Logger logger = Logger.getLogger(AnnotationMenu.class);
+	private static final Logger logger = LogManager.getLogger(AnnotationMenu.class);
 
 	private JMenuItem mntmSave;
 	private JMenuItem mntmLoad;

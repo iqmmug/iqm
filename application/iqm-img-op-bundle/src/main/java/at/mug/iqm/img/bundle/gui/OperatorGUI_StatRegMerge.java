@@ -54,7 +54,8 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.text.InternationalFormatter;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import at.mug.iqm.api.model.IqmDataBox;
 import at.mug.iqm.api.operator.AbstractImageOperatorGUI;
@@ -76,7 +77,7 @@ public class OperatorGUI_StatRegMerge extends AbstractImageOperatorGUI
 	private static final long serialVersionUID = -3839281484081385359L;
 
 	// class specific logger
-	private static final Logger logger = Logger.getLogger(OperatorGUI_StatRegMerge.class);
+	private static final Logger logger = LogManager.getLogger(OperatorGUI_StatRegMerge.class);
 
 	private ParameterBlockIQM pb = null; // @jve:decl-index=0:
 

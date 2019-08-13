@@ -56,7 +56,8 @@ import javax.swing.SwingUtilities;
 import javax.swing.ToolTipManager;
 import javax.swing.WindowConstants;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import at.mug.iqm.api.Application;
 import at.mug.iqm.api.I18N;
@@ -75,7 +76,7 @@ public final class CommonTools {
 	/**
 	 * Custom class logger.
 	 */
-	private static final Logger logger = Logger.getLogger(CommonTools.class);
+	private static final Logger logger = LogManager.getLogger(CommonTools.class);
 	/**
 	 * The re-show delay for the {@link ToolTipManager}. Default is '0'.
 	 */

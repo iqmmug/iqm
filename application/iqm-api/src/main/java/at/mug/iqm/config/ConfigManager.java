@@ -47,7 +47,8 @@ import javax.xml.transform.stream.StreamSource;
 import javax.xml.validation.Schema;
 import javax.xml.validation.SchemaFactory;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.xml.sax.SAXException;
 
 import at.mug.iqm.api.IQMConstants;
@@ -71,7 +72,7 @@ import at.mug.iqm.config.jaxb.Paths;
  */
 public class ConfigManager {
 	// class specific logger
-	private static final Logger logger = Logger.getLogger(ConfigManager.class);
+	private static final Logger logger = LogManager.getLogger(ConfigManager.class);
 
 	private static ConfigManager currentConfigManager = null;
 

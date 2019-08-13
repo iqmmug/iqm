@@ -41,7 +41,8 @@ import javax.swing.JRadioButton;
 import javax.swing.JPanel;
 import javax.swing.border.TitledBorder;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import at.mug.iqm.api.operator.AbstractImageOperatorGUI;
 import at.mug.iqm.api.operator.ParameterBlockIQM;
@@ -60,8 +61,7 @@ public class OperatorGUI_TurboReg extends AbstractImageOperatorGUI implements
 	 */
 	private static final long serialVersionUID = -6242485796697743426L;
 
-	private static final Logger logger = Logger
-			.getLogger(OperatorGUI_TurboReg.class);
+	private static final Logger logger = LogManager.getLogger(OperatorGUI_TurboReg.class);
 
 	private ParameterBlockIQM pb = null; // @jve:decl-index=0:
 

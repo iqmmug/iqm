@@ -34,7 +34,8 @@ import java.awt.Window;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import at.mug.iqm.api.Application;
 import at.mug.iqm.api.I18N;
@@ -49,7 +50,7 @@ import at.mug.iqm.api.gui.IDialogUtil;
 public class DialogUtil implements IDialogUtil {
 
 	// Logging variables
-	private static final Logger logger = Logger.getLogger(DialogUtil.class);
+	private static final Logger logger = LogManager.getLogger(DialogUtil.class);
 
 	private DialogUtil() {
 		Application.setDialogUtil(this);

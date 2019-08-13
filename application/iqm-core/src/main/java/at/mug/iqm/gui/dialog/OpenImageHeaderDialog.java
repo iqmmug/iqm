@@ -36,7 +36,8 @@ import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import at.mug.iqm.api.IQMConstants;
 import at.mug.iqm.api.gui.BoardPanel;
@@ -68,8 +69,7 @@ public class OpenImageHeaderDialog {
 
 	// Logging variables
 	private static Class<?> caller = OpenImageHeaderDialog.class;
-	private static final Logger logger = Logger
-			.getLogger(OpenImageHeaderDialog.class);
+	private static final Logger logger = LogManager.getLogger(OpenImageHeaderDialog.class);
 
 	/**
 	 * Standard constructor.

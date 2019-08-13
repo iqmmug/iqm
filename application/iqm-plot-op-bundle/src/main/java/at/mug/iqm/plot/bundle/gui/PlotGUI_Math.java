@@ -43,7 +43,8 @@ import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.border.TitledBorder;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import at.mug.iqm.api.operator.AbstractPlotOperatorGUI;
 import at.mug.iqm.api.operator.ParameterBlockIQM;
@@ -61,7 +62,7 @@ public class PlotGUI_Math extends AbstractPlotOperatorGUI {
 	 */
 	private static final long serialVersionUID = 8050400556849306323L;
 
-	private static final Logger logger = Logger.getLogger(PlotGUI_Math.class);
+	private static final Logger logger = LogManager.getLogger(PlotGUI_Math.class);
 
 	public static final int DIFF_Y_PLUS = 0;
 	public static final int DIFF_Y_MINUS = 1;

@@ -45,7 +45,8 @@ import java.util.Map;
 import javax.media.jai.JAI;
 import javax.media.jai.PlanarImage;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /**
  * This class analyzes an image. Its methods return e.g. the color model or the
@@ -58,7 +59,7 @@ public final class ImageAnalyzer {
 	/**
 	 * Custom class logger.
 	 */
-	private static final Logger logger = Logger.getLogger(ImageAnalyzer.class);
+	private static final Logger logger = LogManager.getLogger(ImageAnalyzer.class);
 
 	/**
 	 * Read the most common properties of an image.

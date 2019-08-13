@@ -51,7 +51,8 @@ import javax.swing.JMenuItem;
 import javax.swing.KeyStroke;
 import javax.swing.SwingUtilities;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import at.mug.iqm.api.Application;
 import at.mug.iqm.api.IQMConstants;
@@ -101,7 +102,7 @@ public class FileMenu extends DeactivatableMenu implements ActionListener {
 	 */
 	private static final long serialVersionUID = -3340271210580280839L;
 	// class specific logger
-	private static final Logger logger = Logger.getLogger(FileMenu.class);
+	private static final Logger logger = LogManager.getLogger(FileMenu.class);
 
 	// class variable declaration
 	private JMenuItem openMenuItem;

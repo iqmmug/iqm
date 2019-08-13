@@ -62,7 +62,8 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.text.InternationalFormatter;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import at.mug.iqm.api.Application;
 import at.mug.iqm.api.gui.BoardPanel;
@@ -85,8 +86,7 @@ public class OperatorGUI_WhiteBalance extends AbstractImageOperatorGUI
 	private static final long serialVersionUID = -2733479495382144465L;
 
 	// class specific logger
-	private static final Logger logger = Logger
-			.getLogger(OperatorGUI_WhiteBalance.class);
+	private static final Logger logger = LogManager.getLogger(OperatorGUI_WhiteBalance.class);
 
 	private ParameterBlockIQM pb = null; // @jve:decl-index=0:
 

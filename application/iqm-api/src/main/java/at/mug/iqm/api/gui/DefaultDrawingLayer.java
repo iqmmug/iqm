@@ -63,7 +63,8 @@ import javax.swing.JLabel;
 import javax.swing.JViewport;
 import javax.swing.SwingUtilities;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import at.mug.iqm.api.Application;
 import at.mug.iqm.api.I18N;
@@ -110,8 +111,7 @@ public abstract class DefaultDrawingLayer extends JLabel implements
 	/**
 	 * A custom class logger
 	 */
-	private static final Logger logger = Logger
-			.getLogger(DefaultDrawingLayer.class);
+	private static final Logger logger = LogManager.getLogger(DefaultDrawingLayer.class);
 
 	/*
 	 * ### LAYER MANAGEMENT

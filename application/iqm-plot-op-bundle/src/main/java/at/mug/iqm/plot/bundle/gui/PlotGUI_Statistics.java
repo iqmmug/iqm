@@ -61,7 +61,8 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.text.InternationalFormatter;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import at.mug.iqm.api.model.IqmDataBox;
 import at.mug.iqm.api.model.PlotModel;
@@ -73,7 +74,7 @@ import at.mug.iqm.plot.bundle.descriptors.PlotOpStatisticsDescriptor;
 public class PlotGUI_Statistics extends AbstractPlotOperatorGUI implements
                                    ChangeListener{
 
-	private static final Logger logger = Logger.getLogger(PlotGUI_Statistics.class);
+	private static final Logger logger = LogManager.getLogger(PlotGUI_Statistics.class);
 
 	/**
 	 * 

@@ -35,7 +35,8 @@ import java.awt.event.ActionListener;
 import javax.swing.ImageIcon;
 import javax.swing.JMenuItem;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import at.mug.iqm.api.gui.OperatorMenuItem;
 import at.mug.iqm.api.model.IqmDataBox;
@@ -82,8 +83,7 @@ public class PlotAnalysisMenu extends DeactivatableMenu implements
 	private static final long serialVersionUID = -3301909889493957179L;
 
 	// class specific logger
-	private static final Logger logger = Logger
-			.getLogger(PlotAnalysisMenu.class);
+	private static final Logger logger = LogManager.getLogger(PlotAnalysisMenu.class);
 
 	// class variable declaration
 	private OperatorMenuItem tableOfPlotMenuItem;

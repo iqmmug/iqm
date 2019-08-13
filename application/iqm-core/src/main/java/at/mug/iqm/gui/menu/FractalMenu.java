@@ -35,7 +35,8 @@ import java.awt.event.ActionListener;
 import javax.swing.ImageIcon;
 import javax.swing.JMenuItem;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import at.mug.iqm.api.gui.OperatorMenuItem;
 import at.mug.iqm.api.operator.OperatorType;
@@ -69,7 +70,7 @@ public class FractalMenu extends DeactivatableMenu implements ActionListener {
 	private static final long serialVersionUID = -3554830035229045459L;
 
 	// class specific logger
-	private static final Logger logger = Logger.getLogger(FractalMenu.class);
+	private static final Logger logger = LogManager.getLogger(FractalMenu.class);
 
 	// class variable declaration
 	private OperatorMenuItem fracIFSMenuItem;

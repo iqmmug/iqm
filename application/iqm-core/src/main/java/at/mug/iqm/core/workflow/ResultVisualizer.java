@@ -37,7 +37,8 @@ import java.util.Vector;
 import javax.media.jai.PlanarImage;
 import javax.swing.SwingUtilities;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import at.mug.iqm.api.model.IqmDataBox;
 import at.mug.iqm.api.model.PlotModel;
@@ -62,8 +63,7 @@ import at.mug.iqm.gui.util.GUITools;
  */
 public class ResultVisualizer {
 	// class specific logger
-	private static final Logger logger = Logger
-			.getLogger(ResultVisualizer.class);
+	private static final Logger logger = LogManager.getLogger(ResultVisualizer.class);
 
 	public ResultVisualizer() {
 		logger.debug("Initializing...");

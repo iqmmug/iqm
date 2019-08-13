@@ -54,7 +54,8 @@ import javax.swing.border.TitledBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.table.DefaultTableModel;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import at.mug.iqm.api.Application;
 import at.mug.iqm.api.Resources;
 import at.mug.iqm.api.exception.UnreadableECGFileException;
@@ -80,7 +81,7 @@ public class QRSPeaksExtractorFrame extends JFrame implements ActionListener,
 	private static final long serialVersionUID = 8821328371974838675L;
 
 	// Logging variables
-	private static final Logger logger = Logger.getLogger(QRSPeaksExtractorFrame.class);
+	private static final Logger logger = LogManager.getLogger(QRSPeaksExtractorFrame.class);
 
 	private int offSet       = 0;   // starting offset
 	private int sampleRate   = 125; // sampel rate in Hz

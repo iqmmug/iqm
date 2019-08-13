@@ -59,7 +59,8 @@ import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 import javax.swing.border.EmptyBorder;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import at.mug.iqm.api.I18N;
 import at.mug.iqm.api.Resources;
@@ -82,8 +83,7 @@ public class ROILayerSelectorPanel extends JPanel {
 	/**
 	 * A custom class logger.
 	 */
-	private static final Logger logger = Logger
-			.getLogger(ROILayerSelectorPanel.class);
+	private static final Logger logger = LogManager.getLogger(ROILayerSelectorPanel.class);
 
 	// control elements
 	private JLabel lblAdd;

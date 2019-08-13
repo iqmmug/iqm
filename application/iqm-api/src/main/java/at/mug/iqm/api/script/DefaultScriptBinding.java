@@ -35,7 +35,8 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import at.mug.iqm.api.Application;
 import at.mug.iqm.commons.util.DialogUtil;
@@ -54,8 +55,7 @@ import at.mug.iqm.commons.util.DialogUtil;
 public class DefaultScriptBinding extends Binding {
 
 	// private logging variable
-	private static final Logger logger = Logger
-			.getLogger(DefaultScriptBinding.class);
+	private static final Logger logger = LogManager.getLogger(DefaultScriptBinding.class);
 
 	/**
 	 * Creates a default binding object common to all scripts.

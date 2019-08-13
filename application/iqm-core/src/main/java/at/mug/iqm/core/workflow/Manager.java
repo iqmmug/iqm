@@ -41,7 +41,8 @@ import javax.swing.JList;
 import javax.swing.ListCellRenderer;
 import javax.swing.SwingUtilities;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import at.mug.iqm.api.Application;
 import at.mug.iqm.api.gui.BoardPanel;
@@ -84,7 +85,7 @@ public final class Manager implements IManager {
 
 	// class specific logger
 	private static Class<?> caller = Manager.class;
-	private static final Logger logger = Logger.getLogger(Manager.class);
+	private static final Logger logger = LogManager.getLogger(Manager.class);
 
 	/**
 	 * The GUI element to administer.

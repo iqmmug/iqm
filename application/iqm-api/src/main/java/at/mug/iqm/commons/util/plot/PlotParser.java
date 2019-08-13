@@ -47,7 +47,8 @@ import java.util.concurrent.ExecutionException;
 
 import javax.swing.SwingWorker;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import at.mug.iqm.api.I18N;
 import at.mug.iqm.api.IQMConstants;
@@ -75,7 +76,7 @@ import at.mug.iqm.commons.util.DialogUtil;
 public class PlotParser extends SwingWorker<Vector<Vector<String>>, Void> {
 
 	// Logging variables
-	private static final Logger logger = Logger.getLogger(PlotParser.class);
+	private static final Logger logger = LogManager.getLogger(PlotParser.class);
 
 	private File file = null;
 

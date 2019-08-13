@@ -62,7 +62,8 @@ import javax.swing.JSeparator;
 import javax.swing.KeyStroke;
 import javax.swing.border.EmptyBorder;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import at.mug.iqm.api.Application;
 import at.mug.iqm.api.I18N;
@@ -79,8 +80,7 @@ public abstract class AbstractOperatorGUI extends JFrame implements
 	 */
 	private static final long serialVersionUID = -7846934011686537233L;
 
-	private static final Logger logger = Logger
-			.getLogger(AbstractOperatorGUI.class);
+	private static final Logger logger = LogManager.getLogger(AbstractOperatorGUI.class);
 
 	protected String opName;
 

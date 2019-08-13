@@ -52,7 +52,8 @@ import javax.swing.SwingConstants;
 import javax.swing.border.TitledBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import at.mug.iqm.api.operator.AbstractImageOperatorGUI;
 import at.mug.iqm.api.operator.ParameterBlockIQM;
 import at.mug.iqm.img.bundle.Resources;
@@ -73,7 +74,7 @@ public class OperatorGUI_FracHRM extends AbstractImageOperatorGUI implements
 	private static final long serialVersionUID = 4357820134181937876L;
 
 	// class specific logger
-	private static final Logger logger = Logger.getLogger(OperatorGUI_FracHRM.class);
+	private static final Logger logger = LogManager.getLogger(OperatorGUI_FracHRM.class);
 
 	/**
 	 * The cached parameter block from the work package.

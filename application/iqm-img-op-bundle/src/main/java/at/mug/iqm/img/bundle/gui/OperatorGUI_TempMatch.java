@@ -43,7 +43,8 @@ import javax.swing.JRadioButton;
 import javax.swing.JPanel;
 import javax.swing.border.TitledBorder;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import at.mug.iqm.api.operator.AbstractImageOperatorGUI;
 import at.mug.iqm.api.operator.ParameterBlockIQM;
@@ -63,7 +64,7 @@ public class OperatorGUI_TempMatch extends AbstractImageOperatorGUI implements
 	private static final long serialVersionUID = 101857840809416483L;
 
 	// class specific logger
-	private static final Logger logger = Logger.getLogger(OperatorGUI_Invert.class);
+	private static final Logger logger = LogManager.getLogger(OperatorGUI_Invert.class);
 
 	private ParameterBlockIQM pbJAI = null;
 

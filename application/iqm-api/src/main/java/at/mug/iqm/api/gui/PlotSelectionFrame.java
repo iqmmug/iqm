@@ -58,7 +58,8 @@ import javax.swing.table.JTableHeader;
 import javax.swing.table.TableColumn;
 import javax.swing.text.InternationalFormatter;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import at.mug.iqm.api.Application;
 import at.mug.iqm.api.I18N;
@@ -92,8 +93,7 @@ public class PlotSelectionFrame extends JFrame implements ActionListener,
 	private static final long serialVersionUID = 5939949181941247476L;
 
 	// Logging variables
-	private static final Logger logger = Logger
-			.getLogger(PlotSelectionFrame.class);
+	private static final Logger logger = LogManager.getLogger(PlotSelectionFrame.class);
 
 	private JPanel jPanelRowHeader = null;
 	private JLabel jLabelRowHeader = null;

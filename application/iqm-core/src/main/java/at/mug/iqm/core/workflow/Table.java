@@ -31,7 +31,8 @@ package at.mug.iqm.core.workflow;
 
 import java.util.List;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import at.mug.iqm.api.Application;
 import at.mug.iqm.api.IQMConstants;
@@ -50,7 +51,7 @@ import at.mug.iqm.gui.util.GUITools;
 public final class Table implements ITable {
 
 	// class specific logger
-	private static final Logger logger = Logger.getLogger(Table.class);
+	private static final Logger logger = LogManager.getLogger(Table.class);
 
 	/**
 	 * The current {@link ITablePanel} instance to control.

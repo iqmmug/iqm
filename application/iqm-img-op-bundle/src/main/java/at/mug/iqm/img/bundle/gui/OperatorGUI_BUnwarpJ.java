@@ -53,7 +53,8 @@ import javax.swing.border.TitledBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import at.mug.iqm.api.operator.AbstractImageOperatorGUI;
 import at.mug.iqm.api.operator.ParameterBlockIQM;
@@ -75,7 +76,7 @@ implements ActionListener, PropertyChangeListener, ChangeListener {
 
 	// class specific logger
 	private static Class<?> caller = OperatorGUI_BUnwarpJ.class;
-	private static final Logger logger = Logger.getLogger(OperatorGUI_BUnwarpJ.class);
+	private static final Logger logger = LogManager.getLogger(OperatorGUI_BUnwarpJ.class);
 
 	private  ParameterBlockIQM pb = null; 
 

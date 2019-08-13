@@ -48,7 +48,8 @@ import javax.swing.JTable;
 import javax.swing.WindowConstants;
 import javax.swing.table.DefaultTableModel;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import at.mug.iqm.api.IQMConstants;
 import at.mug.iqm.core.I18N;
@@ -70,7 +71,7 @@ public class AboutIQMDialog extends JDialog implements ActionListener{
 	private static final long serialVersionUID = 5253005190743054657L;
 
 	// class specific logger
-	private static final Logger logger = Logger.getLogger(AboutIQMDialog.class);
+	private static final Logger logger = LogManager.getLogger(AboutIQMDialog.class);
 
 	private JPanel dialogContent = null;
 	private JPanel textContent   = null;

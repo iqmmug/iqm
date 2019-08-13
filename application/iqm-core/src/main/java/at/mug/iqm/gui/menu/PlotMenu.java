@@ -41,7 +41,8 @@ import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 import javax.swing.table.JTableHeader;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import at.mug.iqm.api.Application;
 import at.mug.iqm.api.IQMConstants;
@@ -84,7 +85,7 @@ public class PlotMenu extends DeactivatableMenu implements ActionListener {
 
 	// class specific logger
 	private static Class<?> caller = PlotMenu.class;
-	private static final Logger logger = Logger.getLogger(PlotMenu.class);
+	private static final Logger logger = LogManager.getLogger(PlotMenu.class);
 
 	// class variable declaration
 	private OperatorMenuItem projectToXMenuItem;

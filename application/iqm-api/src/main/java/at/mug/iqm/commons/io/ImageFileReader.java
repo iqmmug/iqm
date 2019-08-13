@@ -16,7 +16,8 @@ import javax.media.jai.JAI;
 import javax.media.jai.PlanarImage;
 import javax.media.jai.RenderedImageAdapter;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import at.mug.iqm.api.IQMConstants;
 import at.mug.iqm.commons.util.FileContentParser;
@@ -68,8 +69,7 @@ import com.sun.media.jai.codec.TIFFDirectory;
  */
 public class ImageFileReader implements Callable<List<PlanarImage>> {
 
-	private static final Logger logger = Logger
-			.getLogger(ImageFileReader.class);
+	private static final Logger logger = LogManager.getLogger(ImageFileReader.class);
 
 	private File source;
 

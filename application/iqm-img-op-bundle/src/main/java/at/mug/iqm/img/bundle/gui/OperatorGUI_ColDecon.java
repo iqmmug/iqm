@@ -37,7 +37,8 @@ import javax.swing.JRadioButton;
 import javax.swing.JPanel;
 import javax.swing.border.TitledBorder;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import at.mug.iqm.api.operator.AbstractImageOperatorGUI;
 import at.mug.iqm.api.operator.ParameterBlockIQM;
@@ -56,8 +57,7 @@ public class OperatorGUI_ColDecon extends AbstractImageOperatorGUI implements
 	 */
 	private static final long serialVersionUID = 7696319497542112748L;
 	// class specific logger
-	private static final Logger logger = Logger
-			.getLogger(OperatorGUI_ColDecon.class);
+	private static final Logger logger = LogManager.getLogger(OperatorGUI_ColDecon.class);
 
 	private ParameterBlockIQM pb = null;
 

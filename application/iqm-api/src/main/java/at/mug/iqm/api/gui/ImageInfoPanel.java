@@ -46,7 +46,8 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import at.mug.iqm.api.Application;
 import at.mug.iqm.api.Resources;
@@ -67,7 +68,7 @@ public class ImageInfoPanel extends JPanel {
 	/**
 	 * Custom class logger
 	 */
-	private static final Logger logger = Logger.getLogger(ImageInfoPanel.class);
+	private static final Logger logger = LogManager.getLogger(ImageInfoPanel.class);
 
 	/**
 	 * The instance of {@link ILookPanel} where this {@link ImageInfoPanel}

@@ -58,7 +58,8 @@ import javax.swing.border.TitledBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.text.InternationalFormatter;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import at.mug.iqm.api.Application;
 import at.mug.iqm.api.gui.BoardPanel;
 import at.mug.iqm.api.model.IqmDataBox;
@@ -81,8 +82,7 @@ public class OperatorGUI_Crop extends AbstractImageOperatorGUI implements
 
 	// class specific logger
 	private static Class<?> caller = OperatorGUI_Crop.class;
-	private static final Logger logger = Logger
-			.getLogger(OperatorGUI_Crop.class);
+	private static final Logger logger = LogManager.getLogger(OperatorGUI_Crop.class);
 
 	private ParameterBlockIQM pb = null;
 

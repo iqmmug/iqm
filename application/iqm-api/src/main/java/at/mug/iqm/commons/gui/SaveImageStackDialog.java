@@ -36,7 +36,8 @@ import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import at.mug.iqm.api.Application;
 import at.mug.iqm.api.I18N;
@@ -61,8 +62,7 @@ public class SaveImageStackDialog extends AbstractImageSavingDialog {
 	private static final long serialVersionUID = 6950638952885672970L;
 	// Logging variables
 	private static Class<?> caller = SaveImageStackDialog.class;
-	private static final Logger logger = Logger
-			.getLogger(SaveImageStackDialog.class);
+	private static final Logger logger = LogManager.getLogger(SaveImageStackDialog.class);
 
 	/**
 	 * Standard constructor.

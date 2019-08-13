@@ -61,7 +61,8 @@ import javax.swing.JTabbedPane;
 import javax.swing.JViewport;
 import javax.swing.SwingUtilities;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import at.mug.iqm.api.Application;
 import at.mug.iqm.api.gui.ColorChannelSelectorPanel;
@@ -106,7 +107,7 @@ public class LookPanel extends JPanel implements ILookPanel, ActionListener,
 	/**
 	 * Class specific logger.
 	 */
-	private static final Logger logger = Logger.getLogger(LookPanel.class);
+	private static final Logger logger = LogManager.getLogger(LookPanel.class);
 
 	/**
 	 * The top most container for all panels in the {@link LookPanel}.

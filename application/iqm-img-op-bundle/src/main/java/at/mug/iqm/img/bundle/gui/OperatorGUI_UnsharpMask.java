@@ -47,7 +47,8 @@ import javax.swing.SwingConstants;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import at.mug.iqm.api.operator.AbstractImageOperatorGUI;
 import at.mug.iqm.api.operator.ParameterBlockIQM;
@@ -66,7 +67,7 @@ public class OperatorGUI_UnsharpMask extends AbstractImageOperatorGUI implements
 	private static final long serialVersionUID = 8987583671390606215L;
 
 	// class specific logger
-	private static final Logger logger = Logger.getLogger(OperatorGUI_UnsharpMask.class);
+	private static final Logger logger = LogManager.getLogger(OperatorGUI_UnsharpMask.class);
 
 	private ParameterBlockIQM pb = null;
 

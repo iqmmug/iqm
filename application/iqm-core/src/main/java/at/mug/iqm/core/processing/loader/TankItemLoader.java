@@ -38,7 +38,8 @@ import java.util.concurrent.ExecutionException;
 import javax.swing.DefaultListModel;
 import javax.swing.JList;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import at.mug.iqm.api.Application;
 import at.mug.iqm.api.gui.BoardPanel;
@@ -77,7 +78,7 @@ public class TankItemLoader extends AbstractProcessingTask {
 	/**
 	 * Logging variable.
 	 */
-	private static final Logger logger = Logger.getLogger(TankItemLoader.class);
+	private static final Logger logger = LogManager.getLogger(TankItemLoader.class);
 
 	/**
 	 * The list to load.

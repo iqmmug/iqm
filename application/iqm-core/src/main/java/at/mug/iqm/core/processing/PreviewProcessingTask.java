@@ -34,7 +34,8 @@ import java.util.Vector;
 import java.util.concurrent.CancellationException;
 import java.util.concurrent.ExecutionException;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import at.mug.iqm.api.gui.BoardPanel;
 import at.mug.iqm.api.model.IqmDataBox;
@@ -58,8 +59,7 @@ import at.mug.iqm.gui.util.GUITools;
 public class PreviewProcessingTask extends AbstractProcessingTask {
 
 	// class specific logger
-	private static final Logger logger = Logger
-			.getLogger(PreviewProcessingTask.class);
+	private static final Logger logger = LogManager.getLogger(PreviewProcessingTask.class);
 
 	/**
 	 * Default constructor.

@@ -56,7 +56,8 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.text.InternationalFormatter;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import at.mug.iqm.api.operator.AbstractPlotOperatorGUI;
 import at.mug.iqm.api.operator.ParameterBlockIQM;
@@ -75,7 +76,7 @@ public class PlotGUI_DCMGenerator extends AbstractPlotOperatorGUI implements
 	 */
 	private static final long serialVersionUID = -8557561248409563634L;
 
-	private static final Logger logger = Logger.getLogger(PlotGUI_DCMGenerator.class);
+	private static final Logger logger = LogManager.getLogger(PlotGUI_DCMGenerator.class);
 
 	private ParameterBlockIQM pb;
 

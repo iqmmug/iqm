@@ -46,7 +46,8 @@ import javax.swing.SwingWorker;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import at.mug.iqm.api.Application;
 import at.mug.iqm.api.IApplicationStarter;
@@ -92,8 +93,7 @@ import at.mug.iqm.gui.util.GUITools;
 public class ApplicationStarter extends SwingWorker<Void, Void> implements
 		IApplicationStarter {
 
-	private static final Logger logger = Logger
-			.getLogger(ApplicationStarter.class);
+	private static final Logger logger = LogManager.getLogger(ApplicationStarter.class);
 
 	// define the partial title of the MainFrame
 	// set this to the project number e.g. 3.1 in IQMConstants

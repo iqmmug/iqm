@@ -69,7 +69,8 @@ import javax.swing.event.ChangeListener;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.text.BadLocationException;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.fife.rsta.ui.GoToDialog;
 import org.fife.rsta.ui.search.FindDialog;
 import org.fife.rsta.ui.search.ReplaceDialog;
@@ -98,7 +99,7 @@ import at.mug.iqm.config.ConfigManager;
 public class ScriptEditor extends JFrame implements ActionListener,
 		PropertyChangeListener, WindowListener {
 
-	private static final Logger logger = Logger.getLogger(ScriptEditor.class);
+	private static final Logger logger = LogManager.getLogger(ScriptEditor.class);
 
 	/**
 	 * The UID for serialization.

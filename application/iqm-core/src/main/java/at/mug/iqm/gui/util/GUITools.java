@@ -53,7 +53,8 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.WindowConstants;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import at.mug.iqm.api.gui.IStatusPanel;
 import at.mug.iqm.api.gui.roi.AngleROI;
@@ -77,7 +78,7 @@ import at.mug.iqm.gui.tilecachetool.TCTool;
 public final class GUITools {
 
 	// class specific logger
-	private static final Logger logger = Logger.getLogger(GUITools.class);
+	private static final Logger logger = LogManager.getLogger(GUITools.class);
 	/**
 	 * The top-most GUI component of IQM. Default is 'null'.
 	 */
