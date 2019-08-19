@@ -155,21 +155,21 @@
 			<artifactId>rstaui</artifactId>
 			<version>2.5.0</version>
 		</dependency>
-		<dependency>
+		<!--<dependency>
 			<groupId>nz.ac.waikato.cms.weka</groupId>
 			<artifactId>weka-dev</artifactId>
 			<version>3.7.10</version>
-		</dependency>
-		<dependency>
+		</dependency>-->
+		<!--<dependency>
 			<groupId>net.sourceforge.jmatio</groupId>
 			<artifactId>jmatio</artifactId>
 			<version>1.0</version>
-		</dependency>
-		<dependency>
+		</dependency>-->
+		<!--<dependency>
 			<groupId>matlabcontrol</groupId>
 			<artifactId>matlabcontrol</artifactId>
 			<version>4.1.0</version>
-		</dependency>
+		</dependency>-->
 		<!-- https://mvnrepository.com/artifact/org.apache.logging.log4j/log4j-core -->
 		<dependency>
 			<groupId>org.apache.logging.log4j</groupId>
