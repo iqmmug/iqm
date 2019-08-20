@@ -29,7 +29,7 @@
 
 <Configuration status="warn">
     <Properties>
-        <Property name="basePath">${user.home}/IQM/logs</Property>
+        <Property name="basePath">${sys:user.home}/IQM/logs</Property>
     </Properties>
  
     <Appenders>
