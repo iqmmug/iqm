@@ -442,8 +442,10 @@ public class IqmOpComplexLogDepth extends AbstractOperator {
 		if(method == IqmOpComplexLogDepthDescriptor.COMPRESSION_LZW)             model.addColumn("KC_LWZ[MB]");
 		if(method == IqmOpComplexLogDepthDescriptor.COMPRESSION_JPEG2000)        model.addColumn("KC_J2K[MB]");
 		
+		
 		model.addColumn("ImageSize[MB]");
 		model.addColumn("ImageSize-KC[MB] ");
+	    model.addColumn("KC/ImageSize");
 		
 		// set table data
 		model.setValueAt(ld,         0, numColumns);
@@ -452,7 +454,7 @@ public class IqmOpComplexLogDepth extends AbstractOperator {
 		model.setValueAt(kc,         0, numColumns + 3);
 		model.setValueAt(is,         0, numColumns + 4);
 		model.setValueAt(is-kc,      0, numColumns + 5);
-		
+		model.setValueAt(kc/is,      0, numColumns + 6);
 		
 	     
 		fireProgressChanged(95);    
