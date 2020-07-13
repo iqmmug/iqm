@@ -75,6 +75,7 @@ public final class IQMConstants {
 	
 	public static final String WAV_EXTENSION = "wav";
 	public static final String B16_EXTENSION = "b16";
+	public static final String RAW_EXTENSION = "raw";
 
 	/**
 	 * The extension for a serialized {@link IVirtualizable} object:<br>
@@ -109,6 +110,7 @@ public final class IQMConstants {
 	
 	public final static String WAV_FILTER_DESCRIPTION = "WAV (*." + WAV_EXTENSION + ")";
 	public final static String B16_FILTER_DESCRIPTION = "B16 (*." + B16_EXTENSION + ")";
+	public final static String RAW_FILTER_DESCRIPTION = "RAW (*." + RAW_EXTENSION + ")";
 	
 
 	/**
