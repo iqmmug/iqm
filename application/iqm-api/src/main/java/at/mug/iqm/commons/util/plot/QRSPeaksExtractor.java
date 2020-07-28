@@ -31,6 +31,7 @@ package at.mug.iqm.commons.util.plot;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Vector;
@@ -259,8 +260,10 @@ public class QRSPeaksExtractor extends SwingWorker<Boolean, Void> {
 		int numPVCBeats = 0;
 	
 		for (int f = 0; f < files.length; f++) {
+			// Print results
+			BoardPanel.appendTextln(" ");
+			BoardPanel.appendTextln("Processing file " + (f + 1) + "/" + files.length);
 			try { //extract QRS peaks from a file
-				BoardPanel.appendTextln(" ");
 				BoardPanel.appendTextln("Extracting QRS peaks from: " + files[f]);
 				// Open the 16bit file				
 		        FileInputStream fis = new FileInputStream(files[f]);
@@ -271,7 +274,7 @@ public class QRSPeaksExtractor extends SwingWorker<Boolean, Void> {
 				double timeStamp2 = 0.0;
 					
 				//QRS-Detection
-				int indexOfValue = 0;
+				int indexOfValue = offset;
 				int numberOfFoundPoints = 0;
 				double meanInterval = 0.0;
 				
@@ -286,13 +289,25 @@ public class QRSPeaksExtractor extends SwingWorker<Boolean, Void> {
 		    		QRSDetector qrsDetector = OSEAFactory.createQRSDetector(sampleRate);	
 		    	
 		    		byte[] bytes = new byte[2];
-				    int numbOfReadBytes = fis.read(bytes); 
+		    		
+		    		//scroll through offset
+		    		int s = 0;
+		    		while (s <= offset) {
+		    			int numbOfReadBytes = fis.read(bytes); 
+		    			s = s+1;
+		    		}
+		    		BoardPanel.appendTextln("Skipped " + offset + " initial data points.");
+				  
+		    		int numbOfReadBytes = fis.read(bytes); 
 				    
 					while (numbOfReadBytes != -1) {
 						
 						//System.out.println("Plotparser: 16bit data: byte #: " + i + "    :" + bytes[i] );
-						int val = ((bytes[1] & 0xff) << 8) + (bytes[0] & 0xff);
+						//int val = ((bytes[1] & 0xff) << 8) + (bytes[0] & 0xff);  unsigned short
+						int val = ((bytes[1] << 8) | (bytes[0] & 0xFF)); //signed short
+					
 						indexOfValue = indexOfValue + 1;
+						//System.out.println("Found value " + val + " at index " + indexOfValue);
 						
 						valueBuffer.add(0, val);          //insert new value on the left, this increases the size of buffer +1
 						valueBuffer.remove(bufferLength); //remove oldest value on the right
@@ -333,13 +348,26 @@ public class QRSPeaksExtractor extends SwingWorker<Boolean, Void> {
 		    		QRSDetector2 qrsDetector = OSEAFactory.createQRSDetector2(sampleRate);	
 		    	
 		    		byte[] bytes = new byte[2];
+		    		
+		    		//scroll through offset
+		    		int s = 0;
+		    		while (s <= offset) {
+		    			int numbOfReadBytes = fis.read(bytes); 
+		    			s = s+1;
+		    		}
+		    		BoardPanel.appendTextln("Skipped " + offset + " initial data points.");
+		    		
 				    int numbOfReadBytes = fis.read(bytes); 
 				    
 					while (numbOfReadBytes != -1) {
 						
 						//System.out.println("Plotparser: 16bit data: byte #: " + i + "    :" + bytes[i] );
-						int val = ((bytes[1] & 0xff) << 8) + (bytes[0] & 0xff);
+						//int val = ((bytes[1] & 0xff) << 8) + (bytes[0] & 0xff);  unsigned short
+						int val = ((bytes[1] << 8) | (bytes[0] & 0xFF)); //signed short
+									
 						indexOfValue = indexOfValue + 1;
+										
+						//System.out.println("Found value " + val + " at index " + indexOfValue);
 						
 						valueBuffer.add(0, val);  //insert new value on the left, this increases the size of buffer +1
 						valueBuffer.remove(bufferLength); //remove oldest value on the right
@@ -387,12 +415,24 @@ public class QRSPeaksExtractor extends SwingWorker<Boolean, Void> {
 					BeatDetectionAndClassification bdac = OSEAFactory.createBDAC(sampleRate, sampleRate/2);		
 				  	
 		    		byte[] bytes = new byte[2];
+		    		
+		    		//scroll through offset
+		    		int s = 0;
+		    		while (s <= offset) {
+		    			int numbOfReadBytes = fis.read(bytes); 
+		    			s = s+1;
+		    		}
+		    		BoardPanel.appendTextln("Skipped " + offset + " initial data points.");
+		    		
 				    int numbOfReadBytes = fis.read(bytes); 
 				    
 					while (numbOfReadBytes != -1) {	
 						//System.out.println("Plotparser: 16bit data: byte #: " + i + "    :" + bytes[i] );
-						int val = ((bytes[1] & 0xff) << 8) + (bytes[0] & 0xff);
+						//int val = ((bytes[1] & 0xff) << 8) + (bytes[0] & 0xff);  unsigned short
+						int val = ((bytes[1] << 8) | (bytes[0] & 0xFF)); //signed short
+							
 						indexOfValue = indexOfValue + 1;
+						//System.out.println("Found value " + val + " at index " + indexOfValue);
 						
 						valueBuffer.add(0, val);  //insert new value on the left, this increases the size of buffer +1
 						valueBuffer.remove(bufferLength-1); //remove oldest value on the right
@@ -523,41 +563,45 @@ public class QRSPeaksExtractor extends SwingWorker<Boolean, Void> {
 	
 			logger.debug("QRS peaks ["+ newFile.getName()+ "] have been detected, now storing to disk.");
 
-			try {
-				//save QRS peaks file 
-					
-				boolean exportModel = false; //I don't know what an export table should be 
-				Object outputObject = null;
-					
-				if (exportModel) {
-					outputObject = TableTools.convertToTabDelimited(table);
-				} else {
-					outputObject = TableTools.convertToTabDelimited(table);
-				}
-				
-				// write the file according to the content
-				String extension = IQMConstants.TXT_EXTENSION;
+			boolean saveToFile = false;
+			
+			if (saveToFile) {
+				try {
+					//save QRS peaks file 
 						
-				File destination = newFile;
-				TableFileWriter tfw = new TableFileWriter(destination, outputObject, extension);
-				tfw.run();
-				
-				logger.debug("QRS peak times of file ["+ newFile.getName()+ "] have been stored to disk.");
-
-				extractedFiles.add(newFile);
-
-				// Print results
-				BoardPanel.appendTextln("File: " + (f + 1) + "/" + files.length);
-				//BoardPanel.appendTextln("QRS peaks extracted to: " + newFile);
-				if (oseaMethod == 3){
-					BoardPanel.appendTextln("Number of normal beats: "+ numNormalBeats); 
-					BoardPanel.appendTextln("Number of premature ventricular contraction beats: "+ numPVCBeats); 
-					BoardPanel.appendTextln("Number of unknown beats: "+ numUnknownBeats); 
+					boolean exportModel = false; //I don't know what an export table should be 
+					Object outputObject = null;
+						
+					if (exportModel) {
+						outputObject = TableTools.convertToTabDelimited(table);
+					} else {
+						outputObject = TableTools.convertToTabDelimited(table);
+					}
+					
+					// write the file according to the content
+					String extension = IQMConstants.TXT_EXTENSION;
+							
+					File destination = newFile;
+			
+					TableFileWriter tfw = new TableFileWriter(destination, outputObject, extension);
+					tfw.run();	
+					logger.debug("QRS peak times of file ["+ newFile.getName()+ "] have been stored to disk.");
+	
+					extractedFiles.add(newFile);
+	
+					// Print results
+					BoardPanel.appendTextln("Saved result file: " + (f + 1) + "/" + files.length);
+					//BoardPanel.appendTextln("QRS peaks extracted to: " + newFile);
+					if (oseaMethod == 3){
+						BoardPanel.appendTextln("Number of normal beats: "+ numNormalBeats); 
+						BoardPanel.appendTextln("Number of premature ventricular contraction beats: "+ numPVCBeats); 
+						BoardPanel.appendTextln("Number of unknown beats: "+ numUnknownBeats); 
+					}
+				} catch (Exception e) {
+					DialogUtil.getInstance().showErrorMessage(
+							"Cannot store the extracted QRS peaks",e, true);
+					return false;
 				}
-			} catch (Exception e) {
-				DialogUtil.getInstance().showErrorMessage(
-						"Cannot store the extracted QRS peaks",e, true);
-				return false;
 			}
 
 		}// files[] loop
