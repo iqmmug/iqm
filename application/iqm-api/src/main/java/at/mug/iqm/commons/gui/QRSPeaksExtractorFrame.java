@@ -84,7 +84,7 @@ public class QRSPeaksExtractorFrame extends JFrame implements ActionListener,
 	private static final Logger logger = LogManager.getLogger(QRSPeaksExtractorFrame.class);
 
 	private int offSet       = 0;   // starting offset
-	private int sampleRate   = 125; // sampel rate in Hz
+	private int sampleRate   = 180; // sampel rate in Hz  180 Herbert Syncope, 125 Helena
 	private int oseaMethod   = 1;   // 0...QRSDetect, 1..QRSDetsct2, 2...BeatDetectionAndClassify
 	private int outputOption = 1;   // 0...xy coordinates,  1...intervals 
 	
@@ -207,7 +207,7 @@ public class QRSPeaksExtractorFrame extends JFrame implements ActionListener,
 	 */
 	private boolean getNewTableData(File file) {
 		try {
-			this.tableData = qrsPeaksExtractor.readPlotMetaData(file);
+			this.tableData = qrsPeaksExtractor.readECGMetaData(file);
 			return true;
 		} catch (UnreadableECGFileException e) {
 			logger.error("An error occurred: ", e);
@@ -303,7 +303,7 @@ public class QRSPeaksExtractorFrame extends JFrame implements ActionListener,
 	 */
 	private JSpinner createJSpinnerSampleRate() {
 		JFormattedTextField ftf = null;
-		SpinnerModel sModel = new SpinnerNumberModel(125, 1, Integer.MAX_VALUE, 1);
+		SpinnerModel sModel = new SpinnerNumberModel(180, 1, Integer.MAX_VALUE, 1); //180Hz Herbert, 125 HZ Helena
 		jSpinnerSampleRate = new JSpinner(sModel);
 		// Set the formatted text field.
 		ftf = getTextField(jSpinnerSampleRate);
