@@ -93,6 +93,7 @@ public class QRSPeaksExtractor extends SwingWorker<Boolean, Void> {
 	
 	
 	int numbOfReadBytes;
+	byte[] bytes;
 	int val;
 	double timeStamp1 = 0.0;
 	double timeStamp2 = 0.0;
@@ -105,6 +106,9 @@ public class QRSPeaksExtractor extends SwingWorker<Boolean, Void> {
 	int numberOfFoundPoints = 0;
 	double meanInterval = 0.0;
 	
+	
+	BeatDetectionAndClassification bdac;		
+	BeatDetectAndClassifyResult bdac_result;
 	int numberOfNormalPeaks   = 0;
 	int numberOfPVCPeaks      = 0;
 	int numberOfUnknownPeaks  = 0;
@@ -184,7 +188,7 @@ public class QRSPeaksExtractor extends SwingWorker<Boolean, Void> {
 		int numPVCBeats = 0;
 		
 		bufferLength = 20*sampleRate; // seconds*sampleRate = number of buffered data values
-	
+		bytes = new byte[2];
 	
 		for (int f = 0; f < files.length; f++) {
 			long startTime = System.currentTimeMillis();
@@ -195,13 +199,14 @@ public class QRSPeaksExtractor extends SwingWorker<Boolean, Void> {
 				BoardPanel.appendTextln("Extracting QRS peaks from: " + files[f]);
 				// Open the 16bit file				
 		        FileInputStream fis = new FileInputStream(files[f]);
-		        //int numBytes = fis.available();
-				//byte[] bytes = fis.readNBytes(100000);
+		        //numBytes = fis.available();
+				//bytes = fis.readNBytes(100000);
 		        
 				//Set/Reset some variables such as Result table
 		    	indexOfValue = 0;
 				stringTable = "";
 				valueBuffer = new ArrayList<Integer>();	
+				numberOfFoundPoints = 0;
 						
 				//define buffer for maximal QRSDetect delay
 				for (int i = 1; i <= bufferLength; i++){ //create a shift register (buffer) with a number of values
@@ -231,14 +236,12 @@ public class QRSPeaksExtractor extends SwingWorker<Boolean, Void> {
 				
 		    	if (oseaMethod == 0){//QRSDetec1------------------------------------------------------------
 		    		QRSDetector qrsDetector = OSEAFactory.createQRSDetector(sampleRate);	
-		    	
-		    		byte[] bytes = new byte[2];
-		    		
+		     		
 		    		//scroll through offset
 		    		int s = 0;
 		    		while (s <= offset) {
 		    			numbOfReadBytes = fis.read(bytes); 
-		    			indexOfValue += 1;
+		    			//indexOfValue += 1;
 		    			s = s+1;
 		    		}
 		    		BoardPanel.appendTextln("Skipped " + offset + " initial data points.");
@@ -283,24 +286,22 @@ public class QRSPeaksExtractor extends SwingWorker<Boolean, Void> {
 					}	
 					BoardPanel.appendTextln("Number of detected QRS complexes using QRSDetect: "+ numberOfFoundPoints);
 					if (outputOption == 1) {
-						meanInterval = meanInterval/numberOfFoundPoints;
+						meanInterval = meanInterval/(numberOfFoundPoints - 1);
 						BoardPanel.appendTextln("Mean RR interval: "+ meanInterval*1000 + " [ms]");
 						BoardPanel.appendTextln("Mean HR: "+ 1.0/meanInterval*60 + " [1/min]");
 					}
-					this.setProgress(90);
+					//7this.setProgress(90);
 					fis.close();
 		    	}//oseaMethod 1----------------------------------------------------------------------------------
 		    	
 		    	if (oseaMethod == 1){//QRSDetec2------------------------------------------------------------
 		    		QRSDetector2 qrsDetector = OSEAFactory.createQRSDetector2(sampleRate);	
-		    	
-		    		byte[] bytes = new byte[2];
 		    		
 		    		//scroll through offset
 		    		int s = 0;
 		    		while (s <= offset) {
 		    			numbOfReadBytes = fis.read(bytes); 
-		    			indexOfValue += 1;
+		    			//indexOfValue += 1;
 		    			s = s+1;
 		    		}
 		    		BoardPanel.appendTextln("Skipped " + offset + " initial data points.");
@@ -310,7 +311,7 @@ public class QRSPeaksExtractor extends SwingWorker<Boolean, Void> {
 					while (numbOfReadBytes != -1) {
 						
 						//System.out.println("Plotparser: 16bit data: byte #: " + i + "    :" + bytes[i] );
-						//int val = ((bytes[1] & 0xff) << 8) + (bytes[0] & 0xff);  unsigned short
+						//val = ((bytes[1] & 0xff) << 8) + (bytes[0] & 0xff);  unsigned short
 						val = ((bytes[1] << 8) | (bytes[0] & 0xFF)); //signed short
 									
 						indexOfValue = indexOfValue + 1;
@@ -347,11 +348,11 @@ public class QRSPeaksExtractor extends SwingWorker<Boolean, Void> {
 					}	
 					BoardPanel.appendTextln("Number of detected QRS complexes using QRSDetect2: "+ numberOfFoundPoints);
 					if (outputOption == 1) {
-						meanInterval = meanInterval/numberOfFoundPoints;
+						meanInterval = meanInterval/(numberOfFoundPoints - 1);
 						BoardPanel.appendTextln("Mean RR interval: "+ meanInterval*1000 + " [ms]");
 						BoardPanel.appendTextln("Mean HR: "+ 1.0/meanInterval*60 + " [1/min]");
 					}
-					this.setProgress(90);
+					//this.setProgress(90);
 					fis.close();
 		    	}//oseaMethod 2----------------------------------------------------------------------------------
 
@@ -363,15 +364,13 @@ public class QRSPeaksExtractor extends SwingWorker<Boolean, Void> {
 					numberOfUnknownPeaks  = 0;
 					meanInterval          = 0;
 					
-					BeatDetectionAndClassification bdac = OSEAFactory.createBDAC(sampleRate, sampleRate/2);		
-				  	
-		    		byte[] bytes = new byte[2];
-		    		
-		    		//scroll through offset
+					bdac = OSEAFactory.createBDAC(sampleRate, sampleRate/2);		
+		    	
+					//scroll through offset
 		    		int s = 0;
 		    		while (s <= offset) {
 		    			numbOfReadBytes = fis.read(bytes); 
-		    			indexOfValue += 1;
+		    			//indexOfValue += 1;
 		    			s = s+1;
 		    		}
 		    		BoardPanel.appendTextln("Skipped " + offset + " initial data points.");
@@ -380,7 +379,7 @@ public class QRSPeaksExtractor extends SwingWorker<Boolean, Void> {
 				    
 					while (numbOfReadBytes != -1) {	
 						//System.out.println("Plotparser: 16bit data: byte #: " + i + "    :" + bytes[i] );
-						//int val = ((bytes[1] & 0xff) << 8) + (bytes[0] & 0xff);  unsigned short
+						// val = ((bytes[1] & 0xff) << 8) + (bytes[0] & 0xff);  unsigned short
 						val = ((bytes[1] << 8) | (bytes[0] & 0xFF)); //signed short
 							
 						indexOfValue = indexOfValue + 1;
@@ -389,19 +388,19 @@ public class QRSPeaksExtractor extends SwingWorker<Boolean, Void> {
 						valueBuffer.add(0, val);  //insert new value on the left, this increases the size of buffer +1
 						valueBuffer.remove(bufferLength-1); //remove oldest value on the right
 						
-						BeatDetectAndClassifyResult result = bdac.BeatDetectAndClassify(val);
-						delay = result.samplesSinceRWaveIfSuccess;	
+						bdac_result = bdac.BeatDetectAndClassify(val);
+						delay = bdac_result.samplesSinceRWaveIfSuccess;	
 						
 						if (delay != 0) {
-							int qrsPosition =  delay;
+							//int qrsPosition =  delay;
 		
-							if (result.beatType == ECGCODES.NORMAL) {
+							if (bdac_result.beatType == ECGCODES.NORMAL) {
 								//BoardPanel.appendTextln("A normal beat type was detected at sample: " + qrsPosition);
 								numberOfNormalPeaks += 1; 
-							} else if (result.beatType == ECGCODES.PVC) {
+							} else if (bdac_result.beatType == ECGCODES.PVC) {
 								//BoardPanel.appendTextln("A premature ventricular contraction was detected at sample: " + qrsPosition);
 								numberOfPVCPeaks += 1;
-							} else if (result.beatType == ECGCODES.UNKNOWN) {
+							} else if (bdac_result.beatType == ECGCODES.UNKNOWN) {
 								//BoardPanel.appendTextln("An unknown beat type was detected at sample: " + qrsPosition);
 								numberOfUnknownPeaks +=1;
 							}
@@ -433,11 +432,11 @@ public class QRSPeaksExtractor extends SwingWorker<Boolean, Void> {
 					BoardPanel.appendTextln("Number of premature ventricular contractions: "+ numberOfPVCPeaks);
 					BoardPanel.appendTextln("Number of unknown QRS peaks: "+ numberOfUnknownPeaks);
 					if (outputOption == 1) {
-						meanInterval = meanInterval/numberOfFoundPoints;
+						meanInterval = meanInterval/(numberOfFoundPoints - 1);
 						BoardPanel.appendTextln("Mean RR interval: "+ meanInterval*1000 + " [ms]");
 						BoardPanel.appendTextln("Mean HR: "+ 1.0/meanInterval*60 + " [1/min]");
 					}
-					this.setProgress(90);
+					
 					fis.close();
 				}//Method 3-------------------------------------------------------------------------------------
 		    	
@@ -494,9 +493,11 @@ public class QRSPeaksExtractor extends SwingWorker<Boolean, Void> {
 			sdf.applyPattern("HHH:mm:ss:SSS");
 			BoardPanel.appendTextln(this.getClass().getName() + ": Elapsed time: "+ sdf.format(duration));
 
+			this.setProgress((int)Math.round(((float)f + 1f)/files.length*100.f)); 
+			
 		}// f files[] loop
 
-		this.setProgress(90);
+		//this.setProgress(90);
 		return true;
 	}
 
@@ -557,7 +558,8 @@ public class QRSPeaksExtractor extends SwingWorker<Boolean, Void> {
 //					logger.debug("No loading of files selected");
 //				}
 //				this.setProgress(0);
-			}
+				this.setProgress(0);
+		}
 		} catch (Exception e) {
 			logger.error("An error occurred: ", e);
 			e.printStackTrace();
