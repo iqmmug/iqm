@@ -361,6 +361,7 @@ public class QRSPeaksExtractor extends SwingWorker<Boolean, Void> {
 					numberOfNormalPeaks   = 0;
 					numberOfPVCPeaks      = 0;
 					numberOfUnknownPeaks  = 0;
+					meanInterval          = 0;
 					
 					BeatDetectionAndClassification bdac = OSEAFactory.createBDAC(sampleRate, sampleRate/2);		
 				  	
