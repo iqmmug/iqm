@@ -238,7 +238,7 @@ public class QRSPeaksExtractor extends SwingWorker<Boolean, Void> {
 		    		QRSDetector qrsDetector = OSEAFactory.createQRSDetector(sampleRate);	
 		     		
 		    		//scroll through offset
-		    		int s = 0;
+		    		int s = 1;
 		    		while (s <= offset) {
 		    			numbOfReadBytes = fis.read(bytes); 
 		    			//indexOfValue += 1;
@@ -298,7 +298,7 @@ public class QRSPeaksExtractor extends SwingWorker<Boolean, Void> {
 		    		QRSDetector2 qrsDetector = OSEAFactory.createQRSDetector2(sampleRate);	
 		    		
 		    		//scroll through offset
-		    		int s = 0;
+		    		int s = 1;
 		    		while (s <= offset) {
 		    			numbOfReadBytes = fis.read(bytes); 
 		    			//indexOfValue += 1;
@@ -367,7 +367,7 @@ public class QRSPeaksExtractor extends SwingWorker<Boolean, Void> {
 					bdac = OSEAFactory.createBDAC(sampleRate, sampleRate/2);		
 		    	
 					//scroll through offset
-		    		int s = 0;
+		    		int s = 1;
 		    		while (s <= offset) {
 		    			numbOfReadBytes = fis.read(bytes); 
 		    			//indexOfValue += 1;
@@ -387,7 +387,7 @@ public class QRSPeaksExtractor extends SwingWorker<Boolean, Void> {
 						
 						valueBuffer.add(0, val);  //insert new value on the left, this increases the size of buffer +1
 						valueBuffer.remove(bufferLength-1); //remove oldest value on the right
-						
+					
 						bdac_result = bdac.BeatDetectAndClassify(val);
 						delay = bdac_result.samplesSinceRWaveIfSuccess;	
 						
