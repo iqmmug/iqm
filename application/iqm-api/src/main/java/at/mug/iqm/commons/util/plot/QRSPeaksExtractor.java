@@ -462,10 +462,10 @@ public class QRSPeaksExtractor extends SwingWorker<Boolean, Void> {
 					// construct the filename
 					String newFileName = null;
 					if (outputOption == 0) {
-						newFileName = files[f].toString() + "_osea" + String.valueOf(oseaMethod + 1) + "_XYcoordinates." + IQMConstants.TXT_EXTENSION;
+						newFileName = files[f].toString().replace(".raw",  "") + "_osea" + String.valueOf(oseaMethod + 1) + "_XYcoordinates." + IQMConstants.TXT_EXTENSION;
 					}
 					if (outputOption == 1) {
-						newFileName = files[f].toString() + "_osea" + String.valueOf(oseaMethod + 1) + "_intervals." + IQMConstants.TXT_EXTENSION;
+						newFileName = files[f].toString().replace(".raw",  "") + "_osea" + String.valueOf(oseaMethod + 1) + "_intervals." + IQMConstants.TXT_EXTENSION;
 					}
 					
 					Files.write(Paths.get(newFileName), stringTable.getBytes(StandardCharsets.UTF_8));
