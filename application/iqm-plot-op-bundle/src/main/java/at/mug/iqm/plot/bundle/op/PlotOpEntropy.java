@@ -183,12 +183,12 @@ public class PlotOpEntropy extends AbstractOperator {
 			if (typeSurr >= 0) { //Surrogates before computing entropies
 		
 				for (int n= 0; n < nSurr; n++) {
-					
+				
 					//create a surrogate signal
 					Surrogate surrogate = new Surrogate(this);
 					Vector<Vector<Double>> plots = surrogate.calcSurrogateSeries(signal, typeSurr, 1);
 					Vector<Double> signalSurr = plots.get(0);
-
+					fireProgressChanged((int)Math.round(((float)n)/(float)nSurr*100.f));
 					if (calcApEn == 1) {
 						AppEntropy appEntropy = new AppEntropy();
 						apEnSurr.add(appEntropy.calcAppEntropy(signalSurr, apEnParam_M, apEnParam_R, apEnParam_D));
@@ -217,7 +217,7 @@ public class PlotOpEntropy extends AbstractOperator {
 						// pEn_PreSurr = pEntropy.calcPEntropy(signalSurr, param_M-1,
 						// param_D);
 					}
-					fireProgressChanged(80);
+					fireProgressChanged((int)Math.round(((float)n+1.f)/(float)nSurr*100.f));
 					if (isCancelled(getParentTask())) return null;
 				}
 				apEnSurrMean   = this.calcMean(apEnSurr);

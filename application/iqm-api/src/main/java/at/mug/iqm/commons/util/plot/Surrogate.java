@@ -200,10 +200,11 @@ public class Surrogate {
 		Vector<Double> signalVec = this.convertDoubleArrayToVector(signal);
 		
 		Random generator = new Random();
+		int index;
 		int i = 0;
 		int n = signalVec.size();
 		while (signalVec.size() > 0){
-			int index = generator.nextInt(signalVec.size());	
+			index = generator.nextInt(signalVec.size());	
 			surrogate[i] = signalVec.get(index);
 			signalVec.removeElementAt(index);
 			if (operator != null){
@@ -226,9 +227,9 @@ public class Surrogate {
 		Random generator = new Random();
 		double mean   = this.calcMean(data1D);
 		double stdDev = this.calcStandardDeviation(data1D);
-		
+		double nextDataPoint;
 		for (int i = 0; i < data1D.size(); i++){
-			double nextDataPoint = generator.nextGaussian()*stdDev + mean;	
+			nextDataPoint = generator.nextGaussian()*stdDev + mean;	
 			vec.add(nextDataPoint);
 			if (operator != null){
 				this.operator.fireProgressChanged(i * (progressBarMax - progressBarMin)/data1D.size() + progressBarMin);
@@ -282,10 +283,12 @@ public class Surrogate {
 //			angle.add(Math.atan2(complexData[i].getImag(), (complexData[i].getReal())));
 //		}	
 		//shuffle phase part and get back complex number
+		double angle;
+		double magnitude;
 		for (int i = 0; i < complexData.length; i++){		
-			double angle = generator.nextDouble()*2*Math.PI;
+			angle = generator.nextDouble()*2*Math.PI;
 			//get Magnitude;
-			double magnitude = Math.sqrt(complexData[i].getImag()*complexData[i].getImag() + complexData[i].getReal()*complexData[i].getReal());
+			magnitude = Math.sqrt(complexData[i].getImag()*complexData[i].getImag() + complexData[i].getReal()*complexData[i].getReal());
 			//set back complex number with identical magnitude but shuffled phase
 			complexData[i].setReal(magnitude * Math.cos(angle));
 			complexData[i].setImag(magnitude * Math.sin(angle));
