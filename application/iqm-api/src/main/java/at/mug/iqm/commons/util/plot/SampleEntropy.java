@@ -108,13 +108,12 @@ public class SampleEntropy {
 	 * @return Vector of Series (vectors)
 	 * 
 	 */
-	private Vector<Vector<Double>> calcNewSeries(Vector<Double> data1D, int m,
-			int d) {
+	private Vector<Vector<Double>> calcNewSeries(Vector<Double> data1D, int m, int d) {
 		int numSeries = numbDataPoints - (m - 1) * d;
-		Vector<Vector<Double>> newDataSeries = new Vector<Vector<Double>>(
-				numSeries);
+		Vector<Vector<Double>> newDataSeries = new Vector<Vector<Double>>(numSeries);
+		Vector<Double> vec;
 		for (int i = 0; i < numSeries; i++) {
-			Vector<Double> vec = new Vector<Double>();
+			vec = new Vector<Double>();
 			for (int ii = i; ii <= i + (m - 1) * d; ii = ii + d) { // get m data points stepwidth = delay
 				vec.add(data1D.get(ii));
 			}
@@ -137,17 +136,22 @@ public class SampleEntropy {
 
 		int numSeries = newDataSeries.size();
 		Vector<Integer> numberOfCorrelations = new Vector<Integer>(numSeries);
+		Vector<Double> seriesI;
+		Vector<Double> seriesJ;
+		double distMax;
+		double dist;
+		
 		for (int i = 0; i < numSeries; i++) { // initialize Vector
 			numberOfCorrelations.add(0);
 		}
 		for (int i = 0; i < numSeries; i++) {
 			for (int j = 0; j < numSeries; j++) {
 				if (i != j) {
-					Vector<Double> seriesI = newDataSeries.get(i);
-					Vector<Double> seriesJ = newDataSeries.get(j);
-					double distMax = 0;
+					seriesI = newDataSeries.get(i);
+					seriesJ = newDataSeries.get(j);
+					distMax = 0;
 					for (int k = 1; k <= m; k++) {
-						double dist = Math.abs(seriesI.get(k - 1) - seriesJ.get(k - 1));
+						dist = Math.abs(seriesI.get(k - 1) - seriesJ.get(k - 1));
 						if (dist > distMax) {
 							distMax = dist;
 						}
@@ -234,12 +238,17 @@ public class SampleEntropy {
 		double sampleEntropy = 999999999999d;
 		double[] fmr = new double[2];
 
+		Vector<Vector<Double>> newDataSeries;
+		double distR;
+		Vector<Integer> numberOfCorrelations;
+		Vector<Double> correlations;
+		double sumOfCorrelations;
 		for (int mm = m; mm <= m + 1; mm++) { // two times
-			Vector<Vector<Double>> newDataSeries = this.calcNewSeries(data1D, mm, d);
-			double distR = this.calcStandardDeviation(data1D) * r;
-			Vector<Integer> numberOfCorrelations = this.calcNumberOfCorrelations(newDataSeries, mm, distR);
-			Vector<Double> correlations = this.calcCorrelations(numberOfCorrelations, mm, d);
-			double sumOfCorrelations = this.calcSumOfCorrelation(correlations,mm, d);
+			newDataSeries = this.calcNewSeries(data1D, mm, d);
+			distR = this.calcStandardDeviation(data1D) * r;
+			numberOfCorrelations = this.calcNumberOfCorrelations(newDataSeries, mm, distR);
+			correlations = this.calcCorrelations(numberOfCorrelations, mm, d);
+			sumOfCorrelations = this.calcSumOfCorrelation(correlations,mm, d);
 			fmr[mm - m] = sumOfCorrelations;
 		}
 

@@ -354,18 +354,25 @@ public class PlotOpHRV extends AbstractOperator {
 		double[] psdParameters = new double[7];
 		
 		//convert Vector to double array for Flanagan 
-		double[] xData = new double[xData1D.size()];
+		//xData1D may be longer than yData1D!!!!!!
+		double[] xData = new double[yData1D.size()];
 		double[] yData = new double[yData1D.size()];
 		
 		
 		// set data
-		for (int i = 0; i < xData1D.size(); i++) {
-			if (timeBase == 0) {//ms  convert to seconds because of FFT in Hz
-				xData[i] = xData1D.get(i)/1000.0;
+		//assuming the first x value = 0;
+		
+		if (timeBase == 0) {//ms  convert to seconds because of FFT in Hz
+			for (int i = 0; i < yData1D.size(); i++) {
+				if (xData1D.get(0) == 0.0) xData[i] =  xData1D.get(i)/1000.0;
+				if (xData1D.get(0) == 1.0) xData[i] = (xData1D.get(i)/1000.0) - 1.0;
 				yData[i] = yData1D.get(i)/1000.0;
 			}
-			if (timeBase == 1) {//s 
-				xData[i] = xData1D.get(i);
+		}
+		if (timeBase == 1) {//s 
+			for (int i = 0; i < yData1D.size(); i++) {
+				if (xData1D.get(0) == 0.0) xData[i] = xData1D.get(i);
+				if (xData1D.get(0) == 1.0) xData[i] = xData1D.get(i) - 1.0;
 				yData[i] = yData1D.get(i);
 			}
 		}

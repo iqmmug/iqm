@@ -90,20 +90,23 @@ public class PEntropy {
 		
 		
 		double pEntropy = 0d;
-		
+		double[] sample;
+		NaturalRanking ranking;
+        double[] rankOfSample;
+        double diff;
 		for(int j = 0; j < data1D.size()-d*(m-1); j++){ 			
 		
-			double[] sample = new double[m];
+			sample = new double[m];
 			for (int s = 0; s <  m; s=s+d){
 				sample[s] = data1D.get(j+s);
 			}
-			NaturalRanking ranking = new NaturalRanking(NaNStrategy.REMOVED, TiesStrategy.SEQUENTIAL);
-	        double[] rankOfSample = ranking.rank(sample);
+			ranking = new NaturalRanking(NaNStrategy.REMOVED, TiesStrategy.SEQUENTIAL);
+	        rankOfSample = ranking.rank(sample);
 	   
        	
 	        //look for matches
 	        for(int i = 0; i < permArray.length; i++){
-	        	double diff = 0.0;
+	        	diff = 0.0;
 	        	for (int s =0; s < m; s++){
 	        		diff = diff + Math.abs(permArray[i][s]- rankOfSample[s]);
 	        	}    		

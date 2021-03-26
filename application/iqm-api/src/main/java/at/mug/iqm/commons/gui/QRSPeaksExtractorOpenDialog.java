@@ -81,9 +81,13 @@ public class QRSPeaksExtractorOpenDialog extends Thread{
 
 		fc.setMultiSelectionEnabled(true);
 		fc.setDialogTitle(I18N.getGUILabelText("application.dialog.extractQRSPeaks.title"));
-		FileNameExtensionFilter filt = new FileNameExtensionFilter(IQMConstants.B16_FILTER_DESCRIPTION, IQMConstants.B16_EXTENSION);
-		fc.addChoosableFileFilter(filt);
-		fc.setFileFilter(filt);        //default setting
+		FileNameExtensionFilter filt_b16 = new FileNameExtensionFilter(IQMConstants.B16_FILTER_DESCRIPTION, IQMConstants.B16_EXTENSION);
+		FileNameExtensionFilter filt_dat = new FileNameExtensionFilter(IQMConstants.DAT_FILTER_DESCRIPTION, IQMConstants.DAT_EXTENSION);
+		FileNameExtensionFilter filt_raw = new FileNameExtensionFilter(IQMConstants.RAW_FILTER_DESCRIPTION, IQMConstants.RAW_EXTENSION);
+		fc.addChoosableFileFilter(filt_b16);
+		fc.addChoosableFileFilter(filt_dat);
+		fc.addChoosableFileFilter(filt_raw);
+		fc.setFileFilter(filt_raw);        //default setting
 
 		currImgDir = ConfigManager.getCurrentInstance().getImagePath();
 		fc.setCurrentDirectory(currImgDir);
