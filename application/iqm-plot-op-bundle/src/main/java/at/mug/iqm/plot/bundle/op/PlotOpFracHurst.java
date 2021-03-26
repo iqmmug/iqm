@@ -216,7 +216,7 @@ public class PlotOpFracHurst extends AbstractOperator{
 		if ((psd_Beta > 0.38) && (psd_Beta < 1.04)){ //signal between fGn and fBm
 			BoardPanel.appendTextln("PlotOpFracHurst: signal type could not be detected, starting SSC method");
 			//signal summation conversion (fGn to fBm, fBm to summed fBm)
-			Vector<Double> signalSSC = new Vector<Double>(plotModel.getData());
+			Vector<Double> signalSSC = new Vector<Double>();
 			signalSSC.add(signal.get(0));		
 			for (int i = 1; i < signal.size(); i++){
 				signalSSC.add(signalSSC.get(i-1) + signal.get(i));
