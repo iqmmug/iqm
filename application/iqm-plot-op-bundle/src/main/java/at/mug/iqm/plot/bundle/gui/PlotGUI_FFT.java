@@ -10,7 +10,7 @@ package at.mug.iqm.plot.bundle.gui;
  * 
  * This file is part of IQM, hereinafter referred to as "this program".
  * %%
- * Copyright (C) 2009 - 2020 Helmut Ahammer, Philipp Kainz
+ * Copyright (C) 2009 - 2021 Helmut Ahammer, Philipp Kainz
  * %%
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as
