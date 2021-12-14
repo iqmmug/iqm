@@ -39,8 +39,8 @@ import java.awt.event.MouseMotionListener;
 
 import javax.swing.JViewport;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+ 
+ 
 
 import at.mug.iqm.api.gui.DefaultDrawingLayer;
 import at.mug.iqm.api.gui.ILookPanel;
@@ -57,7 +57,7 @@ public class CanvasMover implements MouseMotionListener,
 		KeyListener, MouseListener {
 
 	// class specific logger
-	private static final Logger logger = LogManager.getLogger(CanvasMover.class);
+	  
 
 	/**
 	 * The reference to the {@link ILookPanel}.
@@ -80,7 +80,7 @@ public class CanvasMover implements MouseMotionListener,
 	 * @param displayPanel
 	 */
 	public CanvasMover(ILookPanel displayPanel) {
-		logger.debug("Creating a new instance...");
+		System.out.println("IQM:  Creating a new instance...");
 		this.displayPanel = displayPanel;
 	}
 
@@ -89,7 +89,7 @@ public class CanvasMover implements MouseMotionListener,
 		if (e.getKeyCode() == KeyEvent.VK_SPACE) {
 			if (isSpaceBarDown)
 				return;
-			logger.debug("Pressed space!");
+			System.out.println("IQM:  Pressed space!");
 			isSpaceBarDown = true;
 			CursorFactory.initializeCustomCursors();
 			displayPanel.getCurrentROILayer().removeAllDefaultListeners();
@@ -104,7 +104,7 @@ public class CanvasMover implements MouseMotionListener,
 		if (e.getKeyCode() == KeyEvent.VK_SPACE) {
 			if (!isSpaceBarDown)
 				return;
-			logger.debug("Released space!");
+			System.out.println("IQM:  Released space!");
 			isSpaceBarDown = false;
 			displayPanel.getCurrentROILayer().addAllDefaultListeners();
 			displayPanel.getCurrentROILayer().setCursor(
@@ -157,7 +157,7 @@ public class CanvasMover implements MouseMotionListener,
 			vp.repaint();
 		}
 		}catch (NullPointerException npe){
-			logger.error(npe);
+			System.out.println("IQM Error: "+ npe);
 		}
 	}
 

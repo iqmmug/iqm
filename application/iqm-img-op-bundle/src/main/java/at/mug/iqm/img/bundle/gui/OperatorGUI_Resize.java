@@ -55,8 +55,8 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.text.InternationalFormatter;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+ 
+ 
 
 import at.mug.iqm.api.model.IqmDataBox;
 import at.mug.iqm.api.operator.AbstractImageOperatorGUI;
@@ -76,7 +76,7 @@ public class OperatorGUI_Resize extends AbstractImageOperatorGUI implements
 	private static final long serialVersionUID = 5161696780502561840L;
 
 	// class specific logger
-	private static final Logger logger = LogManager.getLogger(OperatorGUI_Resize.class);
+	  
 
 	private ParameterBlockIQM pb = null;
 
@@ -128,7 +128,7 @@ public class OperatorGUI_Resize extends AbstractImageOperatorGUI implements
 	 * constructor
 	 */
 	public OperatorGUI_Resize() {
-		logger.debug("Now initializing...");
+		System.out.println("IQM:  Now initializing...");
 
 		this.setOpName(new IqmOpResizeDescriptor().getName());
 
@@ -213,7 +213,7 @@ public class OperatorGUI_Resize extends AbstractImageOperatorGUI implements
 	 */
 	@Override
 	public void update() {
-		logger.debug("Updating GUI...");
+		System.out.println("IQM:  Updating GUI...");
 		this.setOldValues();
 		this.setNewWidthHeight();
 		this.updateParameterBlock();
@@ -797,7 +797,7 @@ private GridBagConstraints createGridBagConstraintsOldSize() {
 
 		// preview if selected
 		if (this.isAutoPreviewSelected()) {
-			logger.debug("Performing AutoPreview");
+			System.out.println("IQM:  Performing AutoPreview");
 			this.showPreview();
 		}
 
@@ -806,7 +806,7 @@ private GridBagConstraints createGridBagConstraintsOldSize() {
 	// -------------------------------------------------------------------------------------------------
 	@Override
 	public void stateChanged(ChangeEvent e) {
-		logger.debug("State has changed.");
+		System.out.println("IQM:  State has changed.");
 		int newWidth   = ((Number) jSpinnerNewWidth.getValue()).intValue();
 		int newHeight  = ((Number) jSpinnerNewHeight.getValue()).intValue();
 		int oldWidth   = ((Number) jFormattedTextFieldOldWidth.getValue()).intValue();
@@ -826,7 +826,7 @@ private GridBagConstraints createGridBagConstraintsOldSize() {
 
 		// preview if selected
 		if (this.isAutoPreviewSelected()) {
-			logger.debug("Performing AutoPreview");
+			System.out.println("IQM:  Performing AutoPreview");
 			this.showPreview();
 		}
 

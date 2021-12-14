@@ -54,8 +54,8 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.text.InternationalFormatter;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+ 
+ 
 
 import at.mug.iqm.api.operator.AbstractImageOperatorGUI;
 import at.mug.iqm.api.operator.ParameterBlockIQM;
@@ -75,7 +75,7 @@ public class OperatorGUI_RGBRelative extends AbstractImageOperatorGUI implements
 	private static final long serialVersionUID = 7553460701806759973L;
 
 	// class specific logger
-	private static final Logger logger = LogManager.getLogger(OperatorGUI_RGBRelative.class);
+	  
 
 	private ParameterBlockIQM pb = null; // @jve:decl-index=0:
 
@@ -115,7 +115,7 @@ public class OperatorGUI_RGBRelative extends AbstractImageOperatorGUI implements
 	 * constructor
 	 */
 	public OperatorGUI_RGBRelative() {
-		logger.debug("Now initializing...");
+		System.out.println("IQM:  Now initializing...");
 
 		this.setOpName(new IqmOpRGBRelativeDescriptor().getName());
 
@@ -423,7 +423,7 @@ public class OperatorGUI_RGBRelative extends AbstractImageOperatorGUI implements
 	 */
 	@Override
 	public void update() {
-		logger.debug("Updating GUI...");
+		System.out.println("IQM:  Updating GUI...");
 		// here, it does nothing
 	}
 
@@ -811,7 +811,7 @@ public class OperatorGUI_RGBRelative extends AbstractImageOperatorGUI implements
 
 		// preview if selected
 		if (this.isAutoPreviewSelected()) {
-			logger.debug("Performing AutoPreview");
+			System.out.println("IQM:  Performing AutoPreview");
 			this.showPreview();
 		}
 	}
@@ -824,7 +824,7 @@ public class OperatorGUI_RGBRelative extends AbstractImageOperatorGUI implements
 
 			if (obE == jSpinnerRatio) {
 				ratio = (Integer) jSpinnerRatio.getValue();
-				logger.debug("Updating ratio: " + ratio + ".");
+				System.out.println("IQM:  Updating ratio: " + ratio + ".");
 				if (buttChRank.isSelected()) {
 					//jLabelRatio.setText("Sensitivity[%]: " + ratio);
 				} else {
@@ -838,7 +838,7 @@ public class OperatorGUI_RGBRelative extends AbstractImageOperatorGUI implements
 
 		// preview if selected
 		if (this.isAutoPreviewSelected()) {
-			logger.debug("Performing AutoPreview");
+			System.out.println("IQM:  Performing AutoPreview");
 			this.showPreview();
 		}
 		

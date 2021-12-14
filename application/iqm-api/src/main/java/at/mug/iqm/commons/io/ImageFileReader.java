@@ -16,8 +16,8 @@ import javax.media.jai.JAI;
 import javax.media.jai.PlanarImage;
 import javax.media.jai.RenderedImageAdapter;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+ 
+ 
 
 import at.mug.iqm.api.IQMConstants;
 import at.mug.iqm.commons.util.FileContentParser;
@@ -69,7 +69,7 @@ import com.sun.media.jai.codec.TIFFDirectory;
  */
 public class ImageFileReader implements Callable<List<PlanarImage>> {
 
-	private static final Logger logger = LogManager.getLogger(ImageFileReader.class);
+	  
 
 	private File source;
 
@@ -103,10 +103,10 @@ public class ImageFileReader implements Callable<List<PlanarImage>> {
 		PlanarImage img = null;
 
 		try {
-			logger.info("Trying to read image file, detected MIME type is ["
+			System.out.println("IQM Info: Trying to read image file, detected MIME type is ["
 					+ FileContentParser.parseContent(file) + "]");
 		} catch (Exception e) {
-			logger.error("Cannot read MIME type of file: " + file.toString());
+			System.out.println("IQM Error: Cannot read MIME type of file: " + file.toString());
 		}
 
 		int dotPos = file.toString().lastIndexOf(".");
@@ -115,7 +115,7 @@ public class ImageFileReader implements Callable<List<PlanarImage>> {
 		// tiff could be a stack
 		if (ext.toLowerCase().equals(IQMConstants.TIF_EXTENSION)
 				|| ext.toLowerCase().equals(IQMConstants.TIFF_EXTENSION)) {
-			// logger.debug("tif extension registered");
+			// System.out.println("IQM:  tif extension registered");
 			FileSeekableStream fs = null;
 			// BufferedInputStream bs = null; //to enhance performance
 			fs = new FileSeekableStream(file.toString());
@@ -132,7 +132,7 @@ public class ImageFileReader implements Callable<List<PlanarImage>> {
 				ImageDecoder dec = ImageCodec.createImageDecoder("tiff", bs,
 						param);
 				// nStack = dec.getNumPages();
-				logger.debug("Number of images in this tif file: " + nStack);
+				System.out.println("IQM:  Number of images in this tif file: " + nStack);
 
 				for (int imageToLoad = 0; imageToLoad < nStack; imageToLoad++) {
 					RenderedImage ri = dec.decodeAsRenderedImage(imageToLoad);
@@ -146,7 +146,7 @@ public class ImageFileReader implements Callable<List<PlanarImage>> {
 				BufferedImage bi = ImageIO.read(file);
 				img = PlanarImage.wrapRenderedImage(bi);
 			} catch (Exception ex) {
-				logger.error("It is not possible to open this image: " + file.getPath());
+				System.out.println("IQM Error: It is not possible to open this image: " + file.getPath());
 			}
 			list.add(img);
 		
@@ -181,7 +181,7 @@ public class ImageFileReader implements Callable<List<PlanarImage>> {
 					BufferedImage bi = ImageIO.read(file);
 					img = PlanarImage.wrapRenderedImage(bi);
 				} catch (Exception ex) {
-					logger.error("It is not possible to open this image: "
+					System.out.println("IQM Error: It is not possible to open this image: "
 							+ file.getPath());
 				}
 			}

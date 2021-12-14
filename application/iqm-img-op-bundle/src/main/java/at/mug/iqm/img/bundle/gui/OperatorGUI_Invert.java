@@ -41,8 +41,8 @@ import javax.swing.JRadioButton;
 import javax.swing.JPanel;
 import javax.swing.border.TitledBorder;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+ 
+ 
 
 import at.mug.iqm.api.operator.AbstractImageOperatorGUI;
 import at.mug.iqm.api.operator.ParameterBlockIQM;
@@ -62,7 +62,7 @@ public class OperatorGUI_Invert extends AbstractImageOperatorGUI implements
 	private static final long serialVersionUID = -3378935465370173571L;
 
 	// class specific logger
-	private static final Logger logger = LogManager.getLogger(OperatorGUI_Invert.class);
+	  
 
 	/**
 	 * The cached parameter block from the work package.
@@ -78,7 +78,7 @@ public class OperatorGUI_Invert extends AbstractImageOperatorGUI implements
 	 * This is the default constructor
 	 */
 	public OperatorGUI_Invert() {
-		logger.debug("Now initializing...");
+		System.out.println("IQM:  Now initializing...");
 		
 		this.setOpName(new IqmOpInvertDescriptor().getName());
 		this.initialize();	
@@ -113,7 +113,7 @@ public class OperatorGUI_Invert extends AbstractImageOperatorGUI implements
 
 	@Override
 	public void update() {
-		logger.debug("Updating GUI...");
+		System.out.println("IQM:  Updating GUI...");
 		// here, it does nothing
 	}
 
@@ -169,14 +169,14 @@ public class OperatorGUI_Invert extends AbstractImageOperatorGUI implements
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		logger.debug(e.getActionCommand() + " event has been triggered.");
+		System.out.println("IQM:  "+e.getActionCommand() + " event has been triggered.");
 		if ("parameter".equals(e.getActionCommand())) {
 			this.updateParameterBlock();
 		}
 
 		// preview automatically, if selected
 		if (this.isAutoPreviewSelected()) {
-			logger.debug("Performing AutoPreview");
+			System.out.println("IQM:  Performing AutoPreview");
 			this.showPreview();
 		}
 	}

@@ -36,8 +36,8 @@ import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+ 
+ 
 
 import at.mug.iqm.api.Application;
 import at.mug.iqm.api.I18N;
@@ -62,7 +62,7 @@ public class SaveImageStackDialog extends AbstractImageSavingDialog {
 	private static final long serialVersionUID = 6950638952885672970L;
 	// Logging variables
 	private static Class<?> caller = SaveImageStackDialog.class;
-	private static final Logger logger = LogManager.getLogger(SaveImageStackDialog.class);
+	  
 
 	/**
 	 * Standard constructor.
@@ -91,7 +91,7 @@ public class SaveImageStackDialog extends AbstractImageSavingDialog {
 
 		// react to the user's choice
 		if (returnVal != APPROVE_OPTION) {
-			logger.info("No image stack saved.");
+			System.out.println("IQM Info: No image stack saved.");
 			return null;
 		}
 
@@ -129,10 +129,10 @@ public class SaveImageStackDialog extends AbstractImageSavingDialog {
 			}
 		} catch (NullPointerException npe) {
 			extensionExists = false;
-			logger.debug(npe);
+			System.out.println("IQM:  "+npe);
 		} catch (StringIndexOutOfBoundsException se) {
 			extensionExists = false;
-			logger.debug(se);
+			System.out.println("IQM:  "+se);
 		}
 
 		File testFile;
@@ -184,10 +184,10 @@ public class SaveImageStackDialog extends AbstractImageSavingDialog {
 					}
 				} catch (NullPointerException npe) {
 					extensionExists = false;
-					logger.debug(npe);
+					System.out.println("IQM:  "+npe);
 				} catch (StringIndexOutOfBoundsException se) {
 					extensionExists = false;
-					logger.debug(se);
+					System.out.println("IQM:  "+se);
 				}
 			}
 		}

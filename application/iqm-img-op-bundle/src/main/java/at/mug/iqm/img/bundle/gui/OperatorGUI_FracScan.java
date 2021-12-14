@@ -57,8 +57,8 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.text.InternationalFormatter;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+ 
+ 
 
 import at.mug.iqm.api.gui.BoardPanel;
 import at.mug.iqm.api.model.IqmDataBox;
@@ -82,7 +82,7 @@ public class OperatorGUI_FracScan extends AbstractImageOperatorGUI implements
 	private static final long serialVersionUID = 6791427245269266377L;
 
 	// class specific logger
-	private static final Logger logger = LogManager.getLogger(OperatorGUI_FracScan.class);
+	  
 
 	private ParameterBlockIQM pb = null;
 	private int kernelSize = 0;
@@ -131,7 +131,7 @@ public class OperatorGUI_FracScan extends AbstractImageOperatorGUI implements
 	 * constructor
 	 */
 	public OperatorGUI_FracScan() {
-		logger.debug("Now initializing...");
+		System.out.println("IQM:  Now initializing...");
 
 		this.setOpName(new IqmOpFracScanDescriptor().getName());
 
@@ -298,7 +298,7 @@ public class OperatorGUI_FracScan extends AbstractImageOperatorGUI implements
 	 */
 	@Override
 	public void update() {
-		logger.debug("Updating GUI...");
+		System.out.println("IQM:  Updating GUI...");
 		// if (buttBoxCount.isSelected() ||
 		// buttPyramid.isSelected() ||
 		// buttPyramid.isSelected() ||
@@ -790,7 +790,7 @@ public class OperatorGUI_FracScan extends AbstractImageOperatorGUI implements
 	// --------------------------------------------------------------------------------------------
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		logger.debug(e.getActionCommand() + " event has been triggered.");
+		System.out.println("IQM:  "+e.getActionCommand() + " event has been triggered.");
 		if ("parameter".equals(e.getActionCommand())) {
 			if (e.getSource() == buttRectangle) {
 				KernelJAI kernel = KernelFactory.createRectangle(kernelSize,
@@ -866,7 +866,7 @@ public class OperatorGUI_FracScan extends AbstractImageOperatorGUI implements
 
 		// preview if selected
 		if (this.isAutoPreviewSelected()) {
-			logger.debug("Performing AutoPreview");
+			System.out.println("IQM:  Performing AutoPreview");
 			this.showPreview();
 		}
 
@@ -886,7 +886,7 @@ public class OperatorGUI_FracScan extends AbstractImageOperatorGUI implements
 
 		// preview if selected
 		if (this.isAutoPreviewSelected()) {
-			logger.debug("Performing AutoPreview");
+			System.out.println("IQM:  Performing AutoPreview");
 			this.showPreview();
 		}
 	}

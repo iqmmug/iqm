@@ -56,8 +56,8 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.text.InternationalFormatter;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+ 
+ 
 
 import at.mug.iqm.api.Application;
 import at.mug.iqm.api.events.VirtualFlagChangedEvent;
@@ -99,7 +99,7 @@ public class ControlPanel extends JPanel implements ActionListener,
 	private static final long serialVersionUID = 8945280479923038458L;
 
 	// class specific logger
-	private static final Logger logger = LogManager.getLogger(ControlPanel.class);
+	  
 
 	// class variable declaration
 	private JButton buttTake;
@@ -123,7 +123,7 @@ public class ControlPanel extends JPanel implements ActionListener,
 	private JSpinner spinnerCopies;
 
 	public ControlPanel() {
-		logger.debug("Generating new instance of '" + this.getClass().getName()
+		System.out.println("IQM:  Generating new instance of '" + this.getClass().getName()
 				+ "'.");
 
 		this.buttTake = new JButton();
@@ -153,7 +153,7 @@ public class ControlPanel extends JPanel implements ActionListener,
 	 * Constructs the layout and components of this panel.
 	 */
 	private void createAndAssemble() {
-		logger.debug("Creating subcomponents and assembling '"
+		System.out.println("IQM:  Creating subcomponents and assembling '"
 				+ this.getClass().getName() + "'.");
 
 		this.setLayout(new WrapLayout(FlowLayout.LEFT));
@@ -436,7 +436,7 @@ public class ControlPanel extends JPanel implements ActionListener,
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if ("virtual".equals(e.getActionCommand())) { // Set IQM to virtual mode
-			logger.debug("'Virtual' checkbox has been clicked");
+			System.out.println("IQM:  'Virtual' checkbox has been clicked");
 			Application.setVirtual(chbxVirtual.isSelected());
 
 			try {
@@ -449,9 +449,9 @@ public class ControlPanel extends JPanel implements ActionListener,
 									chbxVirtual.isSelected()));
 				}
 			} catch (NullPointerException ex) {
-				logger.debug(ex);
+				System.out.println("IQM:  "+ex);
 			} catch (Exception ex) {
-				logger.error("An error occurred: ", ex);
+				System.out.println("IQM Error: An error occurred: " + ex);
 			}
 		}
 
@@ -459,8 +459,8 @@ public class ControlPanel extends JPanel implements ActionListener,
 		if ("ok".equals(e.getActionCommand())) {
 			// this takes the preview item and stores it in a new Tank index
 			// position.
-			logger.debug("OK/Take button has been clicked");
-			logger.debug("Preparing to put item(s) to Tank and Manager");
+			System.out.println("IQM:  OK/Take button has been clicked");
+			System.out.println("IQM:  Preparing to put item(s) to Tank and Manager");
 
 			Vector<IqmDataBox> resultVec = new Vector<IqmDataBox>();
 			switch (GUITools.getMainFrame().getItemContent().getSelectedIndex()) {
@@ -499,7 +499,7 @@ public class ControlPanel extends JPanel implements ActionListener,
 					im.setModelName(String.valueOf(pi.getProperty("image_name")));
 					im.setFileName(String.valueOf(pi.getProperty("file_name")));
 				} catch (Exception ex) {
-					logger.error("An error occurred: ", ex);
+					System.out.println("IQM Error: An error occurred: " + ex);
 				}
 				// add the planar image to the vector
 				resultVec.add(new IqmDataBox(im));
@@ -553,7 +553,7 @@ public class ControlPanel extends JPanel implements ActionListener,
 				return;
 			} else {
 
-				logger.debug("Preparing to process image stack...");
+				System.out.println("IQM:  Preparing to process image stack...");
 				Application.setVirtual(chbxVirtual.isSelected());
 				try {
 					if (chbxSerial.isSelected()) {
@@ -565,7 +565,7 @@ public class ControlPanel extends JPanel implements ActionListener,
 						// NOT IMPLEMENTED
 					}
 				} catch (Exception e1) {
-					logger.error("An error occurred: ", e1);
+					System.out.println("IQM Error: An error occurred: " + e1);
 				}
 			}
 		}
@@ -573,7 +573,7 @@ public class ControlPanel extends JPanel implements ActionListener,
 		if ("createcopies".equals(e.getActionCommand())) {
 			int numCopies = ((Number) spinnerCopies.getValue()).intValue();
 
-			logger.debug("Preparing to create " + numCopies
+			System.out.println("IQM:  Preparing to create " + numCopies
 					+ " copies/samples...");
 
 			// check for any launched operator (protocol)
@@ -589,13 +589,13 @@ public class ControlPanel extends JPanel implements ActionListener,
 			try {
 				// no operator is launched and no item is displayed
 				if (protocol == null && currentManagerItemIndex == -1) {
-					logger.debug("No protocol is launched and no item is selected in any manager list, returning.");
+					System.out.println("IQM:  No protocol is launched and no item is selected in any manager list, returning.");
 					return;
 				}
 
 				// no operator is launched but an item is displayed
 				else if (protocol == null && currentManagerItemIndex != -1) {
-					logger.debug("No protocol is launched but an item is selected in a manager list, continuing.");
+					System.out.println("IQM:  No protocol is launched but an item is selected in a manager list, continuing.");
 					// continue and construct a new task for creating plain
 					// copies of the currently selected (displayed) item
 					task = (CreateCopiesTask) TaskFactory.getInstance()
@@ -608,7 +608,7 @@ public class ControlPanel extends JPanel implements ActionListener,
 
 				// an operator is launched but no item is displayed
 				else if (protocol != null && currentManagerItemIndex == -1) {
-					logger.debug("A protocol is launched but no item is selected in any manager list, continuing.");
+					System.out.println("IQM:  A protocol is launched but no item is selected in any manager list, continuing.");
 					// continue and create new samples with the parameters from
 					// the launched protocol
 					// take the work package from the currently launched
@@ -637,7 +637,7 @@ public class ControlPanel extends JPanel implements ActionListener,
 
 				// an operator is launched and an item is displayed
 				else if (protocol != null && currentManagerItemIndex != -1) {
-					logger.debug("A protocol is launched and an item is selected in any manager list, continuing.");
+					System.out.println("IQM:  A protocol is launched and an item is selected in any manager list, continuing.");
 					// continue and create new samples with the parameters from
 					// the launched protocol
 					// take the work package from the currently launched
@@ -665,11 +665,11 @@ public class ControlPanel extends JPanel implements ActionListener,
 				}
 
 			} catch (NullPointerException npe) {
-				logger.info("There is no image to create a copy from! " + npe);
-				logger.debug("An error occurred: ", npe);
+				System.out.println("IQM Info: There is no image to create a copy from! " + npe);
+				System.out.println("IQM:  An error occurred: "+ npe);
 				return;
 			} catch (Exception e1) {
-				logger.error("An error occurred: ", e1);
+				System.out.println("IQM Error: An error occurred: " + e1);
 			}
 		}
 

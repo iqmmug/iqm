@@ -34,8 +34,8 @@ import java.io.IOException;
 
 import javax.media.jai.PlanarImage;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+ 
+ 
 //import org.w3c.dom.NamedNodeMap; //split package org.w3c.dom java.xml and loci_tools.jar
 //import org.w3c.dom.Node;
 
@@ -67,7 +67,7 @@ import at.mug.iqm.commons.util.DialogUtil;
 public class ImageHeaderExtractor {
 
 	// class specific logger
-	private static final Logger logger = LogManager.getLogger(ImageHeaderExtractor.class);
+	  
 
 	private StringBuffer imageHeader = new StringBuffer();
 	private PlanarImage pi = null;
@@ -86,7 +86,7 @@ public class ImageHeaderExtractor {
 	public String getImageHeader(PlanarImage pi) {
 		this.pi = pi;
 		if (this.pi == null) {
-			logger.info("No image and therefore no information.");
+			System.out.println("IQM Info: No image and therefore no information.");
 			return null;
 		}
 		this.extractHeader(this.pi);
@@ -186,7 +186,7 @@ public class ImageHeaderExtractor {
 //						|| file.toString().toLowerCase()
 //								.endsWith(IQMConstants.TIFF_EXTENSION)) {
 //					registry.registerServiceProvider(new com.sun.media.imageioimpl.plugins.tiff.TIFFImageReaderSpi());
-//					logger.info("Additional tiff reader registered.");
+//					System.out.println("IQM Info: Additional tiff reader registered.");
 //
 //				}
 //				if (file.toString().toLowerCase().endsWith("jp2")
@@ -195,7 +195,7 @@ public class ImageHeaderExtractor {
 //						|| file.toString().toLowerCase().endsWith("j2k")
 //						|| file.toString().toLowerCase().endsWith("jpx")) {
 //					registry.registerServiceProvider(new com.sun.media.imageioimpl.plugins.jpeg2000.J2KImageReaderSpi());
-//					logger.info("Additional jpeg2000 reader registered.");
+//					System.out.println("IQM Info: Additional jpeg2000 reader registered.");
 //				}
 //				readers = ImageIO.getImageReaders(iis);
 //			}
@@ -219,7 +219,7 @@ public class ImageHeaderExtractor {
 //															// seekForwardOnly
 //															// == true geht
 //															// nicht)
-//				logger.info("this.imageHeader: Number of Images: " + numImages);
+//				System.out.println("IQM Info: this.imageHeader: Number of Images: " + numImages);
 //
 //				// BoardJ.appendTexln("this.imageHeader: File contains more than one image");
 //				int firstWidth = reader.getWidth(0);
@@ -292,7 +292,7 @@ public class ImageHeaderExtractor {
 //
 //			}
 //		} catch (Exception e) {
-//			logger.error("An error occurred: ", e);
+//			System.out.println("IQM Error: An error occurred: " + e);
 //		}
 //	}
 //

@@ -65,8 +65,8 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.text.InternationalFormatter;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+ 
+ 
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.event.ChartChangeEvent;
@@ -98,7 +98,7 @@ implements ActionListener, ChangeListener, ChartChangeListener, ItemListener {
 	private static final long serialVersionUID = -7674747507007268841L;
 
 	// class specific logger
-	private static final Logger logger = LogManager.getLogger(OperatorGUI_Threshold.class);
+	  
 
 	private  ParameterBlockIQM    pb      = null;
 
@@ -182,7 +182,7 @@ implements ActionListener, ChangeListener, ChartChangeListener, ItemListener {
 	 * constructor
 	 */
 	public OperatorGUI_Threshold() {
-		logger.debug("Now initializing...");
+		System.out.println("IQM:  Now initializing...");
 		getOpGUIContent().setBorder(new EmptyBorder(10, 10, 10, 10));
 
 		this.setOpName(new IqmOpThresholdDescriptor().getName());
@@ -336,7 +336,7 @@ implements ActionListener, ChangeListener, ChartChangeListener, ItemListener {
 	 */
 	@Override
 	public void update(){ 
-		logger.debug("Updating GUI...");
+		System.out.println("IQM:  Updating GUI...");
 
 		PlanarImage pi = ((IqmDataBox) this.workPackage.getSources().get(0)).getImage();
 		
@@ -354,7 +354,7 @@ implements ActionListener, ChangeListener, ChartChangeListener, ItemListener {
 		try{
 			this.setParameterValuesToGUI();
 		}catch(Exception e){
-			logger.error(e);
+			System.out.println("IQM Error: "+ e);
 		}
 	}
 	
@@ -547,7 +547,7 @@ implements ActionListener, ChangeListener, ChartChangeListener, ItemListener {
 	 * This method sets the lower threshold value(s) calculated by the preset method
 	 */
 	protected void setPresetValues() {
-		logger.debug("Setting low level preset options...");
+		System.out.println("IQM:  Setting low level preset options...");
 		// reset and return if the user has chosen "no preset"
 		if (this.cbxLLPresets.getSelectedIndex() == 0){
 			return;
@@ -1049,14 +1049,14 @@ implements ActionListener, ChangeListener, ChartChangeListener, ItemListener {
 	//--------------------------------------------------------------------------------------------
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		logger.debug(e.getActionCommand() + " event has been triggered.");
+		System.out.println("IQM:  "+e.getActionCommand() + " event has been triggered.");
 		if ("parameter".equals(e.getActionCommand())) {
 			this.updateParameterBlock();
 		}
 
 		//preview if selected
 		if (this.isAutoPreviewSelected()){
-			logger.debug("Performing AutoPreview");
+			System.out.println("IQM:  Performing AutoPreview");
 			this.showPreview();
 		}
 
@@ -1064,7 +1064,7 @@ implements ActionListener, ChangeListener, ChartChangeListener, ItemListener {
 	
 	@Override
 	public void stateChanged(ChangeEvent e) {
-		logger.debug(e.getSource());
+		System.out.println("IQM:  "+e.getSource());
 
 		Object source = e.getSource();
 		if (source instanceof JSpinner){
@@ -1248,7 +1248,7 @@ implements ActionListener, ChangeListener, ChartChangeListener, ItemListener {
 
 		//preview if selected
 		if (this.isAutoPreviewSelected()){
-			logger.debug("Performing AutoPreview");
+			System.out.println("IQM:  Performing AutoPreview");
 			this.showPreview();
 		}
 		
@@ -1256,7 +1256,7 @@ implements ActionListener, ChangeListener, ChartChangeListener, ItemListener {
 	
 	@Override
 	public void chartChanged(ChartChangeEvent event) {
-//		logger.debug(event.getSource());
+//		System.out.println("IQM:  "+event.getSource());
 //		System.out.println("Chart1: " + chart1);
 //		System.out.println("Chart2: " + chart2);
 //		System.out.println("Chart3: " + chart3);
@@ -1304,7 +1304,7 @@ implements ActionListener, ChangeListener, ChartChangeListener, ItemListener {
 
 		//preview if selected
 		if (this.isAutoPreviewSelected()){
-			logger.debug("Performing AutoPreview");
+			System.out.println("IQM:  Performing AutoPreview");
 			this.showPreview();
 		}
 	}
@@ -1432,7 +1432,7 @@ implements ActionListener, ChangeListener, ChartChangeListener, ItemListener {
 		
 		//preview if selected
 		if (this.isAutoPreviewSelected()){
-			logger.debug("Performing AutoPreview");
+			System.out.println("IQM:  Performing AutoPreview");
 			this.showPreview();
 		}
 	}
@@ -1544,7 +1544,7 @@ implements ActionListener, ChangeListener, ChartChangeListener, ItemListener {
 		if (e.getSource() == cbxLLPresets){
 			if (cbxLLPresets.getSelectedIndex() != 0
 					&& e.getStateChange() == ItemEvent.SELECTED){
-				//				logger.debug(e.getSource());
+				//				System.out.println("IQM:  "+e.getSource());
 				System.out.println(cbxLLPresets.getSelectedIndex());
 				System.out.println(e.getStateChange() == ItemEvent.SELECTED);
 				handleChangeEventLLPresets();
@@ -1563,7 +1563,7 @@ implements ActionListener, ChangeListener, ChartChangeListener, ItemListener {
 				}else{
 					handleChangeEventColor();
 				}
-//				logger.debug(e.getSource());
+//				System.out.println("IQM:  "+e.getSource());
 //				System.out.println(cbxColor.getSelectedIndex());
 //				System.out.println(e.getStateChange() == ItemEvent.SELECTED);
 			}

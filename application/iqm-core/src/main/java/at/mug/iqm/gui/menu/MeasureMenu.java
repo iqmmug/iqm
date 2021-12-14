@@ -34,8 +34,8 @@ import java.awt.image.RenderedImage;
 
 import javax.swing.JMenuItem;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+ 
+ 
 
 import at.mug.iqm.api.gui.OperatorMenuItem;
 import at.mug.iqm.api.operator.OperatorType;
@@ -61,7 +61,7 @@ public class MeasureMenu extends DeactivatableMenu implements ActionListener {
 	private static final long serialVersionUID = 5333828789266605725L;
 
 	// class specific logger
-	private static final Logger logger = LogManager.getLogger(MeasureMenu.class);
+	  
 
 	// class variable declaration
 	private OperatorMenuItem statisticsMenuItem;
@@ -77,7 +77,7 @@ public class MeasureMenu extends DeactivatableMenu implements ActionListener {
 	 * equipped MeasureMenu.
 	 */
 	public MeasureMenu() {
-		logger.debug("Generating new instance of 'measure' menu.");
+		System.out.println("IQM:  Generating new instance of 'measure' menu.");
 
 		// initialize the variables
 		this.statisticsMenuItem = new OperatorMenuItem(OperatorType.IMAGE);
@@ -90,14 +90,14 @@ public class MeasureMenu extends DeactivatableMenu implements ActionListener {
 		// assemble the gui elements to a JMenu
 		this.createAndAssembleMenu();
 
-		logger.debug("Menu 'measure' generated.");
+		System.out.println("IQM:  Menu 'measure' generated.");
 	}
 
 	/**
 	 * This method constructs the items.
 	 */
 	private void createAndAssembleMenu() {
-		logger.debug("Assembling menu items in 'measure' menu.");
+		System.out.println("IQM:  Assembling menu items in 'measure' menu.");
 
 		// set menu attributes
 		this.setText(I18N.getGUILabelText("menu.measure.text"));
@@ -212,7 +212,7 @@ public class MeasureMenu extends DeactivatableMenu implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 
-		logger.debug(e.getActionCommand());
+		System.out.println("IQM:  "+e.getActionCommand());
 
 		if ("statistics".equals(e.getActionCommand())) {
 			ExecutionProxy.launchInstance(new IqmOpStatisticsDescriptor());

@@ -42,8 +42,8 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+ 
+ 
 
 /**
  * This class is responsible for displaying a scrollable {@link JTextArea}
@@ -61,7 +61,7 @@ public class ErrorMessagePanel extends JPanel {
 
 	// Logging variables
 	private static Class<?> caller = ErrorMessagePanel.class;
-	private static final Logger logger = LogManager.getLogger(ErrorMessagePanel.class);
+	  
 
 	private String message;
 	private Throwable exception;
@@ -98,7 +98,7 @@ public class ErrorMessagePanel extends JPanel {
 	 * Creates the objects and assembles the content's {@link JPanel}.
 	 */
 	private void createAndAssemble() {
-		logger.debug("Creating a new instance of " + caller + "...");
+		System.out.println("IQM:  Creating a new instance of " + caller + "...");
 		this.setLayout(new BorderLayout(5, 5));
 
 		Font font = new Font("Courier", Font.PLAIN, 11);
@@ -147,7 +147,7 @@ public class ErrorMessagePanel extends JPanel {
 			this.add(scrollPaneException, BorderLayout.CENTER);
 		}
 
-		logger.debug("Done.");
+		System.out.println("IQM:  Done.");
 	}
 
 	/**

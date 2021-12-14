@@ -49,8 +49,8 @@ import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 import javax.swing.border.EmptyBorder;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+ 
+ 
 
 import at.mug.iqm.api.events.OperatorCancelledEvent;
 import at.mug.iqm.api.events.OperatorProgressEvent;
@@ -76,7 +76,7 @@ public class StatusPanel extends JPanel implements ActionListener, IStatusPanel 
 	private static final long serialVersionUID = 1823147602305885117L;
 
 	// class specific logger
-	private static final Logger logger = LogManager.getLogger(StatusPanel.class);
+	  
 
 	// class variable declaration
 	private JPanel statusPanelContent;
@@ -99,7 +99,7 @@ public class StatusPanel extends JPanel implements ActionListener, IStatusPanel 
 	public StatusPanel() {
 		super();
 
-		logger.debug("Constructing '" + this.getClass().getName() + "'...");
+		System.out.println("IQM:  Constructing '" + this.getClass().getName() + "'...");
 
 		this.statusPanelContent = new JPanel();
 		statusPanelContent.setBorder(new EmptyBorder(2, 0, 0, 0));
@@ -123,7 +123,7 @@ public class StatusPanel extends JPanel implements ActionListener, IStatusPanel 
 
 		this.validate();
 
-		logger.debug("Done.");
+		System.out.println("IQM:  Done.");
 	}
 
 	private void createAndAssemble() {
@@ -162,7 +162,7 @@ public class StatusPanel extends JPanel implements ActionListener, IStatusPanel 
 		leftPanel.add(this.ioProcessingLabel, BorderLayout.EAST);
 		leftPanel.revalidate();
 		leftPanel.repaint();
-		logger.debug("Showing I/O processing label.");
+		System.out.println("IQM:  Showing I/O processing label.");
 	}
 
 	/**
@@ -173,7 +173,7 @@ public class StatusPanel extends JPanel implements ActionListener, IStatusPanel 
 		leftPanel.remove(this.ioProcessingLabel);
 		leftPanel.revalidate();
 		leftPanel.repaint();
-		logger.debug("Hiding I/O processing label.");
+		System.out.println("IQM:  Hiding I/O processing label.");
 	}
 
 	/**
@@ -245,7 +245,7 @@ public class StatusPanel extends JPanel implements ActionListener, IStatusPanel 
 	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		logger.debug(e.getActionCommand());
+		System.out.println("IQM:  "+e.getActionCommand());
 	}
 
 	/**
@@ -491,7 +491,7 @@ public class StatusPanel extends JPanel implements ActionListener, IStatusPanel 
 				}
 
 			} catch (Exception e) {
-				logger.error("An error occurred: ", e);
+				System.out.println("IQM Error: An error occurred: " + e);
 			} finally {
 				// set the bar invisible
 				try {
@@ -502,7 +502,7 @@ public class StatusPanel extends JPanel implements ActionListener, IStatusPanel 
 								true);
 					}
 				} catch (Throwable t) {
-					logger.error("An error occurred: ", t);
+					System.out.println("IQM Error: An error occurred: " + t);
 				} finally {
 					this.getProgressBarSingleOperation().setVisible(false);
 				}
@@ -515,7 +515,7 @@ public class StatusPanel extends JPanel implements ActionListener, IStatusPanel 
 		else if ("progress".equals(evt.getPropertyName())) {
 			if (!getProgressBarStack().isIndeterminate()) {
 				int progress = (Integer) evt.getNewValue();
-				logger.debug(progress + "% processed by "
+				System.out.println("IQM:  "+progress + "% processed by "
 						+ evt.getSource().toString());
 				this.setProgressBarValueStack(progress);
 			}
@@ -526,7 +526,7 @@ public class StatusPanel extends JPanel implements ActionListener, IStatusPanel 
 		 * SwingWorker task.
 		 */
 		else if (evt instanceof OperatorProgressEvent) {
-			logger.debug(evt.getSource() + " --- " + evt.getPropertyName()
+			System.out.println("IQM:  "+evt.getSource() + " --- " + evt.getPropertyName()
 					+ ": " + evt.getNewValue());
 			// paint the value
 			this.getProgressBarSingleOperation().setStringPainted(true);
@@ -544,13 +544,13 @@ public class StatusPanel extends JPanel implements ActionListener, IStatusPanel 
 						&& this.processingTask instanceof PreviewProcessingTask
 						&& this.processingTask.getChildTask().getOperator()
 								.isCancelable()) {
-					logger.info("Canceling: " + this.processingTask.toString());
+					System.out.println("IQM Info: Canceling: " + this.processingTask.toString());
 					boolean cancelSuccess = this.processingTask.cancel(true);
 					if (cancelSuccess) {
-						logger.info("Successfully cancelled: "
+						System.out.println("IQM Info: Successfully cancelled: "
 								+ this.processingTask.getOperator().getName());
 					} else {
-						logger.info("Cancellation failed for "
+						System.out.println("IQM Info: Cancellation failed for "
 								+ this.processingTask.getOperator().getName());
 					}
 					this.getProgressBarSingleOperation().setValue(0);
@@ -566,7 +566,7 @@ public class StatusPanel extends JPanel implements ActionListener, IStatusPanel 
 									"This operator is not declared cancelable, please wait until it finishes!");
 				}
 			} catch (Exception e) {
-				logger.error("An error occurred: " + e);
+				System.out.println("IQM Error: An error occurred: " + e);
 			}
 		}
 
@@ -576,7 +576,7 @@ public class StatusPanel extends JPanel implements ActionListener, IStatusPanel 
 	public void forceRepaint() {
 		RepaintManager mgr = RepaintManager.currentManager(this);
 		mgr.markCompletelyDirty(this);
-		logger.trace("Complete repainting of the GUI.");
+		System.out.println("IQM Trace: Complete repainting of the GUI.");
 		mgr.paintDirtyRegions();
 	}
 

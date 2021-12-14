@@ -52,8 +52,8 @@ import javax.swing.JMenuItem;
 import javax.swing.KeyStroke;
 import javax.swing.SwingUtilities;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+ 
+ 
 
 import at.mug.iqm.api.Application;
 import at.mug.iqm.api.gui.BoardPanel;
@@ -90,7 +90,7 @@ public class EditMenu extends DeactivatableMenu implements ActionListener {
 
 	// class specific logger
 	private static Class<?> caller = EditMenu.class;
-	private static final Logger logger = LogManager.getLogger(EditMenu.class);
+	  
 
 	// class variable declaration
 	private JMenuItem copyToClipMenuItem;
@@ -109,7 +109,7 @@ public class EditMenu extends DeactivatableMenu implements ActionListener {
 	 * equipped EditMenu.
 	 */
 	public EditMenu() {
-		logger.debug("Generating new instance of 'edit' menu.");
+		System.out.println("IQM:  Generating new instance of 'edit' menu.");
 
 		// set menu attributes
 		this.setText(I18N.getGUILabelText("menu.edit.text"));
@@ -130,14 +130,14 @@ public class EditMenu extends DeactivatableMenu implements ActionListener {
 		// assemble the gui elements to a JMenu
 		this.createAndAssembleMenu();
 
-		logger.debug("Menu 'edit' generated.");
+		System.out.println("IQM:  Menu 'edit' generated.");
 	}
 
 	/**
 	 * This method constructs the items.
 	 */
 	private void createAndAssembleMenu() {
-		logger.debug("Assembling menu items in 'edit' menu.");
+		System.out.println("IQM:  Assembling menu items in 'edit' menu.");
 
 		// assemble: add created elements to the JMenu
 		this.add(this.createCopyToClipMenuItem());
@@ -337,7 +337,7 @@ public class EditMenu extends DeactivatableMenu implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 
-		logger.debug(e.getActionCommand());
+		System.out.println("IQM:  "+e.getActionCommand());
 
 		if ("copytoclip".equals(e.getActionCommand())) {
 			Object ob = Look.getInstance().getCurrentImage();
@@ -443,7 +443,7 @@ public class EditMenu extends DeactivatableMenu implements ActionListener {
 							imageJ.setVisible(true);
 						} catch (Exception ex) {
 							imageJ = new ImageJ();
-							logger.error(ex);
+							System.out.println("IQM Error: "+ ex);
 							DialogUtil.getInstance().showErrorMessage(null, ex);
 						}
 					} else {

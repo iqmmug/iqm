@@ -50,8 +50,8 @@ import javax.swing.border.TitledBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+ 
+ 
 
 import at.mug.iqm.api.operator.AbstractImageOperatorGUI;
 import at.mug.iqm.api.operator.ParameterBlockIQM;
@@ -70,7 +70,7 @@ public class OperatorGUI_KMeansFuzzy extends AbstractImageOperatorGUI implements
 	 */
 	private static final long serialVersionUID = -5569861273634595903L;
 	// class specific logger
-	private static final Logger logger = LogManager.getLogger(OperatorGUI_KMeansFuzzy.class);
+	  
 
 	private ParameterBlockIQM pb = null; // @jve:decl-index=0:
 
@@ -124,7 +124,7 @@ public class OperatorGUI_KMeansFuzzy extends AbstractImageOperatorGUI implements
 	 * constructor
 	 */
 	public OperatorGUI_KMeansFuzzy() {
-		logger.debug("Now initializing...");
+		System.out.println("IQM:  Now initializing...");
 
 		this.setOpName(new IqmOpKMeansFuzzyDescriptor().getName());
 
@@ -246,7 +246,7 @@ public class OperatorGUI_KMeansFuzzy extends AbstractImageOperatorGUI implements
 	 */
 	@Override
 	public void update() {
-		logger.debug("Updating GUI...");
+		System.out.println("IQM:  Updating GUI...");
 		// here, it does nothing
 	}
 
@@ -563,7 +563,7 @@ public class OperatorGUI_KMeansFuzzy extends AbstractImageOperatorGUI implements
 
 		// preview if selected
 		if (this.isAutoPreviewSelected()) {
-			logger.debug("Performing AutoPreview");
+			System.out.println("IQM:  Performing AutoPreview");
 			this.showPreview();
 		}
 
@@ -596,7 +596,7 @@ public class OperatorGUI_KMeansFuzzy extends AbstractImageOperatorGUI implements
 			}
 			if (obE == jSpinnerEps) {
 				eps = Math.pow(10d, ((Integer)jSpinnerEps.getValue() - 7));
-				logger.debug("jSpinnerEps.getValue()" + jSpinnerEps.getValue());
+				System.out.println("IQM:  jSpinnerEps.getValue()" + jSpinnerEps.getValue());
 				// System.out.println("OperatorGUI_KMeansFuzzy: eps " + eps );
 				// if (jSpinnerEps.getValue() == 2) eps = Math.pow(10d, -5d);
 				// //10 hoch -5 wird nicht richtig dargestellt??
@@ -627,7 +627,7 @@ public class OperatorGUI_KMeansFuzzy extends AbstractImageOperatorGUI implements
 
 		// preview if selected
 		if (this.isAutoPreviewSelected()) {
-			logger.debug("Performing AutoPreview");
+			System.out.println("IQM:  Performing AutoPreview");
 			this.showPreview();
 		}
 		

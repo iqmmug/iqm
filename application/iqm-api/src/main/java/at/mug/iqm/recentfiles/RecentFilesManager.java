@@ -47,8 +47,8 @@ import javax.xml.transform.stream.StreamSource;
 import javax.xml.validation.Schema;
 import javax.xml.validation.SchemaFactory;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+ 
+ 
 import org.xml.sax.SAXException;
 
 import at.mug.iqm.api.operator.DataType;
@@ -68,7 +68,7 @@ import at.mug.iqm.recentfiles.jaxb.RecentFiles;
 public class RecentFilesManager {
 
 	// private logger
-	private static final Logger logger = LogManager.getLogger(RecentFilesManager.class);
+	  
 
 	private static RecentFilesManager currentManager = null;
 
@@ -252,13 +252,13 @@ public class RecentFilesManager {
 			this.unmarshaller.setSchema(schema);
 		} catch (SAXException e) {
 			// log the error message
-			logger.error("An error occurred: ", e);
+			System.out.println("IQM Error: An error occurred: " + e);
 		} catch (NullPointerException e) {
 			// log the error message
-			logger.error("An error occurred: ", e);
+			System.out.println("IQM Error: An error occurred: " + e);
 		} catch (JAXBException e) {
 			// log the error message
-			logger.error("An error occurred: ", e);
+			System.out.println("IQM Error: An error occurred: " + e);
 		}
 	}
 	
@@ -279,7 +279,7 @@ public class RecentFilesManager {
 	 */
 	protected void readXML() throws JAXBException {
 		// load from XML bean using ObjectFactory
-		logger.debug("Loading recent file list from file "
+		System.out.println("IQM:  Loading recent file list from file "
 				+ this.xmlFile.toString() + "...");
 		this.validate();
 		this.recentFiles = (RecentFiles) unmarshaller.unmarshal(this.xmlFile);
@@ -289,7 +289,7 @@ public class RecentFilesManager {
 	 * Writes an XML file to the specified path in the file system.
 	 */
 	protected synchronized void writeXML() {
-		logger.debug("Writing recent files...");
+		System.out.println("IQM:  Writing recent files...");
 
 		OutputStreamWriter out;
 		try {
@@ -304,12 +304,12 @@ public class RecentFilesManager {
 						true);
 				this.marshaller.marshal(recentFiles, out);
 			} catch (JAXBException ex) {
-				logger.error(ex);
+				System.out.println("IQM Error: "+ ex);
 			}
 			out.flush();
 			out.close();
 		} catch (IOException ex) {
-			logger.error(ex);
+			System.out.println("IQM Error: "+ ex);
 		}
 	}
 
@@ -317,7 +317,7 @@ public class RecentFilesManager {
 	 * Writes an initial XML file to the specified path in the file system.
 	 */
 	protected synchronized void writeInitialXML(RecentFiles empty) {
-		logger.debug("Writing configuration...");
+		System.out.println("IQM:  Writing configuration...");
 
 		OutputStreamWriter out;
 		try {
@@ -332,12 +332,12 @@ public class RecentFilesManager {
 						true);
 				this.marshaller.marshal(empty, out);
 			} catch (JAXBException ex) {
-				logger.error(ex);
+				System.out.println("IQM Error: "+ ex);
 			}
 			out.flush();
 			out.close();
 		} catch (IOException ex) {
-			logger.error(ex);
+			System.out.println("IQM Error: "+ ex);
 		}
 	}
 	

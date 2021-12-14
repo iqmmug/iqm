@@ -40,12 +40,12 @@ import java.util.Set;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+ 
+ 
 
 public class DynamicResourceLoader {
 
-	private static final Logger logger = LogManager.getLogger(DynamicResourceLoader.class);
+	  
 	
 	public DynamicResourceLoader() {
 	}
@@ -105,7 +105,7 @@ public class DynamicResourceLoader {
 						entry = entry.substring(0, checkSubdir);
 					}
 					if (!entry.equals("")){
-						logger.debug("Adding [" + entry + "] dynamic resource array.");
+						System.out.println("IQM:  Adding [" + entry + "] dynamic resource array.");
 						result.add(entry);
 					}
 				}

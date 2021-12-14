@@ -40,8 +40,8 @@ import javax.swing.JPanel;
 import javax.swing.JTable;
 import javax.swing.SwingUtilities;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+ 
+ 
 
 import at.mug.iqm.api.gui.ITablePanel;
 import at.mug.iqm.api.model.TableModel;
@@ -63,7 +63,7 @@ public class TableDisplayFrame extends JFrame implements WindowListener {
 	private static final long serialVersionUID = 7026605668014295502L;
 
 	// class specific logger
-	private static final Logger logger = LogManager.getLogger(TableDisplayFrame.class);
+	  
 
 	/**
 	 * The table panel class is used in this frame as container.
@@ -125,7 +125,7 @@ public class TableDisplayFrame extends JFrame implements WindowListener {
 			this.destroy();
 		} catch (Exception e1) {
 			e1.printStackTrace();
-			logger.error(e1);
+			System.out.println("IQM Error: "+ e1);
 		}
 	}
 

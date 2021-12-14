@@ -59,8 +59,8 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.text.InternationalFormatter;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+ 
+ 
 
 import at.mug.iqm.api.Application;
 import at.mug.iqm.api.gui.BoardPanel;
@@ -86,7 +86,7 @@ public class OperatorGUI_Border extends AbstractImageOperatorGUI
 	private static final long serialVersionUID = -480694124676367697L;
 
 	// class specific logger
-	private static final Logger logger = LogManager.getLogger(OperatorGUI_Border.class);
+	  
 
 	private ParameterBlockIQM pb = null;
 
@@ -147,7 +147,7 @@ public class OperatorGUI_Border extends AbstractImageOperatorGUI
 	 * constructor
 	 */
 	public OperatorGUI_Border() {
-		logger.debug("Now initializing...");
+		System.out.println("IQM:  Now initializing...");
 
 		this.setOpName(new IqmOpBorderDescriptor().getName());
 		this.initialize();
@@ -893,7 +893,7 @@ public class OperatorGUI_Border extends AbstractImageOperatorGUI
 	// --------------------------------------------------------------------------------------------
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		logger.debug(e.getActionCommand() + " event has been triggered.");
+		System.out.println("IQM:  "+e.getActionCommand() + " event has been triggered.");
 		if ("parameter".equals(e.getActionCommand())) {
 			if (buttConst == e.getSource()) {
 		
@@ -948,7 +948,7 @@ public class OperatorGUI_Border extends AbstractImageOperatorGUI
 
 		// preview if selected
 		if (this.isAutoPreviewSelected()) {
-			logger.debug("Performing AutoPreview");
+			System.out.println("IQM:  Performing AutoPreview");
 			this.showPreview();
 		}
 
@@ -1052,7 +1052,7 @@ public class OperatorGUI_Border extends AbstractImageOperatorGUI
 
 		// preview if selected
 		if (this.isAutoPreviewSelected()) {
-			logger.debug("Performing AutoPreview");
+			System.out.println("IQM:  Performing AutoPreview");
 			this.showPreview();
 		}
 

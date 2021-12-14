@@ -37,8 +37,8 @@ import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+ 
+ 
 
 import at.mug.iqm.api.I18N;
 import at.mug.iqm.api.IQMConstants;
@@ -69,7 +69,7 @@ public class OpenImageDialog extends JFileChooser {
 	 */
 	private static final long serialVersionUID = 8349949857606692581L;
 	// Logging variables
-	private static final Logger logger = LogManager.getLogger(OpenImageDialog.class);
+	  
 
 	private File currImgDir = null;
 
@@ -104,7 +104,7 @@ public class OpenImageDialog extends JFileChooser {
 		int returnVal = this.showOpenDialog(frame);
 
 		if (returnVal != JFileChooser.APPROVE_OPTION) {
-			logger.info(I18N.getMessage("application.noImagesOpened"));
+			System.out.println("IQM Info: "+I18N.getMessage("application.noImagesOpened"));
 			return null;
 		}
 

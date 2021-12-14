@@ -55,8 +55,8 @@ import javax.swing.border.MatteBorder;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+ 
+ 
 
 import at.mug.iqm.api.Application;
 import at.mug.iqm.api.I18N;
@@ -88,7 +88,7 @@ public class MultiResultSelectorPanel extends JPanel implements
 	 */
 	private static final long serialVersionUID = 7548348452978754466L;
 
-	private static final Logger logger = LogManager.getLogger(MultiResultSelectorPanel.class);
+	  
 
 	/**
 	 * This is the {@link Result} element which has to be visualized.
@@ -500,12 +500,12 @@ public class MultiResultSelectorPanel extends JPanel implements
 	 * Takes the first available item from the result and displays the item.
 	 */
 	public void displayFirstAvailableItem() {
-		logger.debug("Displaying results from [" + result.toString() + "].");
+		System.out.println("IQM:  Displaying results from [" + result.toString() + "].");
 
 		selectAllItems();
 
 		if (result.hasImages()) {
-			logger.debug("The image list contains " + imageResults.size()
+			System.out.println("IQM:  The image list contains " + imageResults.size()
 					+ " element" + (imageResults.size() > 1 ? "s" : "") + ".");
 
 			int firstIndex = resultListImage.getSelectedIndices()[0];
@@ -522,7 +522,7 @@ public class MultiResultSelectorPanel extends JPanel implements
 		if (result.hasPlots()) {
 			Iterator<IqmDataBox> plotIterator = plotResults.iterator();
 
-			logger.debug("The plot list contains " + plotResults.size()
+			System.out.println("IQM:  The plot list contains " + plotResults.size()
 					+ " element" + (plotResults.size() > 1 ? "s" : "") + ".");
 
 			List<PlotModel> models = new Vector<PlotModel>(plotResults.size());
@@ -542,7 +542,7 @@ public class MultiResultSelectorPanel extends JPanel implements
 		// display the merged table results
 		if (result.hasTables()) {
 
-			logger.debug("The table list contains " + tableResults.size()
+			System.out.println("IQM:  The table list contains " + tableResults.size()
 					+ " element" + (tableResults.size() > 1 ? "s" : "") + ".");
 
 			TableModel tm = TableTools.mergeBoxes(tableResults);
@@ -556,7 +556,7 @@ public class MultiResultSelectorPanel extends JPanel implements
 		// display the first custom result
 		if (result.hasCustomResults()) {
 
-			logger.debug("The custom list contains " + customResults.size()
+			System.out.println("IQM:  The custom list contains " + customResults.size()
 					+ " element" + (customResults.size() > 1 ? "s" : "") + ".");
 
 			int firstIndex = resultListCustom.getSelectedIndices()[0];

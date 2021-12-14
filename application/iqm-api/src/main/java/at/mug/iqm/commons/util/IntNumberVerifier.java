@@ -33,8 +33,8 @@ import javax.swing.InputVerifier;
 import javax.swing.JComponent;
 import javax.swing.JFormattedTextField;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+ 
+ 
 
 /**
  * This class checks whether an input can be parsed as an Integer or not. 
@@ -43,7 +43,7 @@ import org.apache.logging.log4j.Logger;
  */
 public class IntNumberVerifier extends InputVerifier { 
 	// class specific logger
-	private static final Logger logger = LogManager.getLogger(IntNumberVerifier.class);
+	  
 
 	/**
 	 * Overrides the InputVerifier.verify method.
@@ -51,7 +51,7 @@ public class IntNumberVerifier extends InputVerifier {
 	 */
 	@Override
 	public boolean verify(JComponent input) {
-		logger.debug("Verifying an input (JComponent)"); 
+		System.out.println("IQM:  Verifying an input (JComponent)"); 
 		JFormattedTextField ftf = (JFormattedTextField)input;
 		JFormattedTextField.AbstractFormatter formatter = ftf.getFormatter();
 		if (formatter != null) {
@@ -62,7 +62,7 @@ public class IntNumberVerifier extends InputVerifier {
 				//Float.valueOf(text);
 				return true;
 			} catch (NumberFormatException e) {
-				logger.error("String cannot be parsed as an integer! ", e);
+				System.out.println("IQM Error: String cannot be parsed as an integer! "+ e);
 				return false;
 			}	 
 		}

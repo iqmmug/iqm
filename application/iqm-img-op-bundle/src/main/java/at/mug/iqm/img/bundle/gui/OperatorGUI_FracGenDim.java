@@ -61,8 +61,8 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.text.InternationalFormatter;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+ 
+ 
 
 import at.mug.iqm.api.model.IqmDataBox;
 import at.mug.iqm.api.operator.AbstractImageOperatorGUI;
@@ -83,7 +83,7 @@ public class OperatorGUI_FracGenDim extends AbstractImageOperatorGUI implements
 	private static final long serialVersionUID = 47978534483668000L;
 
 	// class specific logger
-	private static final Logger logger = LogManager.getLogger(OperatorGUI_FracGenDim.class);
+	  
 
 	private ParameterBlockIQM pb = null;
 
@@ -138,7 +138,7 @@ public class OperatorGUI_FracGenDim extends AbstractImageOperatorGUI implements
 	 * constructor
 	 */
 	public OperatorGUI_FracGenDim() {
-		logger.debug("Now initializing...");
+		System.out.println("IQM:  Now initializing...");
 
 		this.setOpName(new IqmOpFracGenDimDescriptor().getName());
 
@@ -308,7 +308,7 @@ public class OperatorGUI_FracGenDim extends AbstractImageOperatorGUI implements
 	 */
 	@Override
 	public void update() {
-		logger.debug("Updating GUI...");
+		System.out.println("IQM:  Updating GUI...");
 		PlanarImage pi = ((IqmDataBox) this.pb.getSources().firstElement())
 				.getImage();
 		int width = pi.getWidth();
@@ -718,7 +718,7 @@ public class OperatorGUI_FracGenDim extends AbstractImageOperatorGUI implements
 	// ----------------------------------------------------------------------------------------------------------
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		logger.debug(e.getActionCommand() + " event has been triggered.");
+		System.out.println("IQM:  "+e.getActionCommand() + " event has been triggered.");
 		if ("parameter".equals(e.getActionCommand())) {
 			if (e.getSource() == buttGlidingBox) {
 				buttLin.setEnabled(true);
@@ -738,7 +738,7 @@ public class OperatorGUI_FracGenDim extends AbstractImageOperatorGUI implements
 
 		// preview if selected
 		if (this.isAutoPreviewSelected()) {
-			logger.debug("Performing AutoPreview");
+			System.out.println("IQM:  Performing AutoPreview");
 			this.showPreview();
 		}
 
@@ -836,7 +836,7 @@ public class OperatorGUI_FracGenDim extends AbstractImageOperatorGUI implements
 
 		// preview if selected
 		if (this.isAutoPreviewSelected()) {
-			logger.debug("Performing AutoPreview");
+			System.out.println("IQM:  Performing AutoPreview");
 			this.showPreview();
 		}
 

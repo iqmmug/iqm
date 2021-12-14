@@ -34,8 +34,8 @@ import java.util.Vector;
 import javax.swing.AbstractButton;
 import javax.swing.JFrame;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+ 
+ 
 
 import at.mug.iqm.api.Application;
 import at.mug.iqm.api.events.handler.IGUIUpdateEmitter;
@@ -88,7 +88,7 @@ public class ExecutionProxy implements IExecutionProtocol {
 	/**
 	 * Custom class logger.
 	 */
-	private static final Logger logger = LogManager.getLogger(ExecutionProxy.class);
+	  
 
 	/**
 	 * Set the default state to {@link ExecutionState#IDLE}.
@@ -260,7 +260,7 @@ public class ExecutionProxy implements IExecutionProtocol {
 	 */
 	public int launchProtocol() {
 		try {
-			logger.debug("Execution protocol for operator ["
+			System.out.println("IQM:  Execution protocol for operator ["
 					+ this.operatorName + "] is launching...");
 			System.out.println("Execution protocol for operator ["
 					+ this.operatorName + "] is launching...");
@@ -415,7 +415,7 @@ public class ExecutionProxy implements IExecutionProtocol {
 		try {
 			this.state = ExecutionState.VALIDATING_PARAMETERS;
 
-			logger.debug("Validating work package for operator ["
+			System.out.println("IQM:  Validating work package for operator ["
 					+ this.operatorName + "]");
 
 			boolean valid = this.operatorValidator.validate(this.workPackage);
@@ -1127,7 +1127,7 @@ public class ExecutionProxy implements IExecutionProtocol {
 	 */
 	@Override
 	public void disableInputs(final AbstractOperatorGUI window) {
-		logger.trace("Setting wait cursor on dialog.");
+		System.out.println("IQM Trace: Setting wait cursor on dialog.");
 		window.disableInputs();
 		CursorToolkit.startWaitCursor(window.getRootPane());
 	}
@@ -1139,7 +1139,7 @@ public class ExecutionProxy implements IExecutionProtocol {
 	 */
 	@Override
 	public void enableInputs(final AbstractOperatorGUI window) {
-		logger.trace("Setting default cursor on dialog.");
+		System.out.println("IQM Trace: Setting default cursor on dialog.");
 		window.enableInputs();
 		CursorToolkit.stopWaitCursor(window.getRootPane());
 	}
@@ -1151,7 +1151,7 @@ public class ExecutionProxy implements IExecutionProtocol {
 	 */
 	public int getState() {
 		System.out.println("IExecutionProtocol.STATE=" + this.state);
-		logger.debug("IExecutionProtocol.STATE=" + this.state);
+		System.out.println("IQM:  IExecutionProtocol.STATE=" + this.state);
 		return this.state;
 	}
 
@@ -1297,7 +1297,7 @@ public class ExecutionProxy implements IExecutionProtocol {
 				.getControlPanel().getButtonCopies();
 		b.setText(I18N.getGUILabelText("options.buttCreateCopies.text"));
 
-		logger.debug("Protocol for operator [" + this.operatorName
+		System.out.println("IQM:  Protocol for operator [" + this.operatorName
 				+ "] finished.");
 		System.out.println("Protocol for operator [" + this.operatorName
 				+ "] finished.");

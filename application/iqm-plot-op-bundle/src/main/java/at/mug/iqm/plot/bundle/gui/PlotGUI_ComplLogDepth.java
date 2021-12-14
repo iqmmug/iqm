@@ -53,8 +53,8 @@ import javax.swing.border.TitledBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.text.InternationalFormatter;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+ 
+ 
 import at.mug.iqm.api.operator.AbstractPlotOperatorGUI;
 import at.mug.iqm.api.operator.ParameterBlockIQM;
 import at.mug.iqm.commons.util.plot.Surrogate;
@@ -75,7 +75,7 @@ public class PlotGUI_ComplLogDepth extends AbstractPlotOperatorGUI implements
 	 */
 	private static final long serialVersionUID = 2173029778894918284L;
 
-	private static final Logger logger = LogManager.getLogger(PlotGUI_ComplLogDepth.class);
+	  
 
 	private ParameterBlockIQM pb;
 	
@@ -118,7 +118,7 @@ public class PlotGUI_ComplLogDepth extends AbstractPlotOperatorGUI implements
 
 	public PlotGUI_ComplLogDepth() {
 		getOpGUIContent().setBorder(new EmptyBorder(10, 10, 10, 10));
-		logger.debug("Now initializing...");
+		System.out.println("IQM:  Now initializing...");
 
 		this.setOpName(new PlotOpComplLogDepthDescriptor().getName());
 		this.initialize();
@@ -608,7 +608,7 @@ public class PlotGUI_ComplLogDepth extends AbstractPlotOperatorGUI implements
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		logger.debug(e.getActionCommand() + " event has been triggered.");
+		System.out.println("IQM:  "+e.getActionCommand() + " event has been triggered.");
 		if ("parameter".equals(e.getActionCommand())) {
 			this.update();
 		}

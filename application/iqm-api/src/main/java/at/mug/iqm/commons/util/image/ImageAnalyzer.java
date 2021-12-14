@@ -45,8 +45,8 @@ import java.util.Map;
 import javax.media.jai.JAI;
 import javax.media.jai.PlanarImage;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+ 
+ 
 
 /**
  * This class analyzes an image. Its methods return e.g. the color model or the
@@ -59,7 +59,7 @@ public final class ImageAnalyzer {
 	/**
 	 * Custom class logger.
 	 */
-	private static final Logger logger = LogManager.getLogger(ImageAnalyzer.class);
+	  
 
 	/**
 	 * Read the most common properties of an image.
@@ -80,7 +80,7 @@ public final class ImageAnalyzer {
 			properties.put(infos[i][0], infos[i][1]);
 		}
 
-		logger.trace("Analyzed the image properties, done.");
+		System.out.println("IQM Trace: Analyzed the image properties, done.");
 
 		return properties;
 	}
@@ -94,7 +94,7 @@ public final class ImageAnalyzer {
 	 */
 	public static synchronized Map<String, Object> getProperties(
 			final PlanarImage img) {
-		logger.trace("Retrieving image properties...");
+		System.out.println("IQM Trace: Retrieving image properties...");
 		return getProperties(img.getAsBufferedImage());
 	}
 
@@ -131,7 +131,7 @@ public final class ImageAnalyzer {
 	 * @return the sample model
 	 */
 	public static synchronized SampleModel getSampleModel(final PlanarImage img) {
-		logger.trace("SampleModel is " + img.getSampleModel().toString());
+		System.out.println("IQM Trace: SampleModel is " + img.getSampleModel().toString());
 		return img.getSampleModel();
 	}
 
@@ -143,7 +143,7 @@ public final class ImageAnalyzer {
 	 * @return the data buffer type
 	 */
 	public static synchronized int getDataBufferType(final PlanarImage img) {
-		logger.trace("DataBuffer is of TYPE: "
+		System.out.println("IQM Trace: DataBuffer is of TYPE: "
 				+ img.getSampleModel().getDataType());
 		return img.getSampleModel().getDataType();
 	}
@@ -155,7 +155,7 @@ public final class ImageAnalyzer {
 	 * @return the number of bands
 	 */
 	public static synchronized int getNumberOfBands(final PlanarImage img) {
-		logger.trace("The number of bands is: " + img.getNumBands());
+		System.out.println("IQM Trace: The number of bands is: " + img.getNumBands());
 		return img.getNumBands();
 	}
 
@@ -166,7 +166,7 @@ public final class ImageAnalyzer {
 	 * @return the color model
 	 */
 	public static synchronized ColorModel getColorModel(final PlanarImage img) {
-		logger.trace("The ColorModel is " + img.getColorModel().toString());
+		System.out.println("IQM Trace: The ColorModel is " + img.getColorModel().toString());
 		return img.getColorModel();
 	}
 
@@ -180,7 +180,7 @@ public final class ImageAnalyzer {
 	public static synchronized boolean isIndexed(final PlanarImage img) {
 		boolean idx = (img.getColorModel() instanceof IndexColorModel) ? true
 				: false;
-		logger.trace("The image uses an IndexColorModel? " + idx);
+		System.out.println("IQM Trace: The image uses an IndexColorModel? " + idx);
 		return idx;
 	}
 
@@ -195,7 +195,7 @@ public final class ImageAnalyzer {
 			final PlanarImage img) {
 		IndexColorModel icm = (img.getColorModel() instanceof IndexColorModel) ? (IndexColorModel) img
 				.getColorModel() : null;
-		logger.trace("The image has an IndexColorModel (null = no)? " + icm);
+		System.out.println("IQM Trace: The image has an IndexColorModel (null = no)? " + icm);
 		return icm;
 	}
 
@@ -262,7 +262,7 @@ public final class ImageAnalyzer {
 	 */
 	public static synchronized ColorSpace getColorSpace(final PlanarImage img) {
 		ColorSpace cs = img.getColorModel().getColorSpace();
-		logger.trace("The image's ColorModel has the ColorSpace: " + cs);
+		System.out.println("IQM Trace: The image's ColorModel has the ColorSpace: " + cs);
 		return cs;
 	}
 	// TODO http://docs.oracle.com/javase/6/docs/api/java/awt/color/ColorSpace.html
@@ -279,7 +279,7 @@ public final class ImageAnalyzer {
 	 * @return the bit per pixel
 	 */
 	public static synchronized int getPixelBits(final PlanarImage img) {
-		logger.trace("PixelBits per channel="
+		System.out.println("IQM Trace: PixelBits per channel="
 				+ img.getColorModel().getPixelSize());
 		return img.getColorModel().getPixelSize();
 	}
@@ -360,13 +360,13 @@ public final class ImageAnalyzer {
 		// log the output
 		switch (getColorModel(img).getTransparency()) {
 		case Transparency.OPAQUE:
-			logger.trace("Transparency='opaque'");
+			System.out.println("IQM Trace: Transparency='opaque'");
 			break;
 		case Transparency.BITMASK:
-			logger.trace("Transparency='bitmask'");
+			System.out.println("IQM Trace: Transparency='bitmask'");
 			break;
 		case Transparency.TRANSLUCENT:
-			logger.trace("Transparency='translucent'");
+			System.out.println("IQM Trace: Transparency='translucent'");
 			break;
 		}
 
@@ -530,26 +530,26 @@ public final class ImageAnalyzer {
 		// load an image and try to read the properties.
 		PlanarImage pi = JAI.create("fileload",
 				"C:\\Users\\phil\\Pictures\\eclipse.PNG");
-		// logger.trace(getColorModel(pi));
-		logger.trace(is8Bit4Band(pi));
+		// System.out.println("IQM Trace: "+ getColorModel(pi));
+		System.out.println("IQM Trace: "+ is8Bit4Band(pi));
 		printProperties(pi);
 		pi = JAI.create("fileload",
 				"C:\\Users\\phil\\Pictures\\FluorescentCells.jpg");
-		logger.trace(getColorModel(pi));
-		logger.trace(is8BitGrey(pi));
+		System.out.println("IQM Trace: "+ getColorModel(pi));
+		System.out.println("IQM Trace: "+ is8BitGrey(pi));
 		pi = JAI.create("fileload",
 				"C:\\Users\\phil\\Pictures\\FluorescentCells_8bit.jpg");
-		// logger.trace(getColorModel(pi));
-		logger.trace(is8BitGrey(pi));
+		// System.out.println("IQM Trace: "+ getColorModel(pi));
+		System.out.println("IQM Trace: "+ is8BitGrey(pi));
 		printProperties(pi);
 		pi = JAI.create("fileload",
 				"C:\\Users\\phil\\Pictures\\Head_Original.jpg");
-		// logger.trace(getColorModel(pi));
-		logger.trace(is8BitGrey(pi));
+		// System.out.println("IQM Trace: "+ getColorModel(pi));
+		System.out.println("IQM Trace: "+ is8BitGrey(pi));
 		printProperties(pi);
 		pi = JAI.create("fileload", "C:\\Users\\phil\\Pictures\\16bitGrey.tif");
-		// logger.trace(getColorModel(pi));
-		logger.trace(is16BitGrey(pi));
+		// System.out.println("IQM Trace: "+ getColorModel(pi));
+		System.out.println("IQM Trace: "+ is16BitGrey(pi));
 		printProperties(pi);
 	}
 }

@@ -45,8 +45,8 @@ import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.border.TitledBorder;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+ 
+ 
 
 import at.mug.iqm.api.operator.AbstractImageOperatorGUI;
 import at.mug.iqm.api.operator.ParameterBlockIQM;
@@ -68,7 +68,7 @@ AdjustmentListener {
 	private static final long serialVersionUID = -4782882532625875921L;
 
 	// class specific logger
-	private static final Logger logger = LogManager.getLogger(OperatorGUI_DFT.class);
+	  
 
 	private  ParameterBlockIQM    pb         = null; 
 
@@ -92,7 +92,7 @@ AdjustmentListener {
 	 */
 	public OperatorGUI_DFT() {
 		getOpGUIContent().setBorder(null);
-		logger.debug("Now initializing...");
+		System.out.println("IQM:  Now initializing...");
 		
 		this.setOpName(new IqmOpDFTDescriptor().getName());	
 		this.initialize(); 	
@@ -173,7 +173,7 @@ AdjustmentListener {
 	 */
 	@Override
 	public void update(){
-		logger.debug("Updating GUI...");
+		System.out.println("IQM:  Updating GUI...");
 		// here, it does nothing
 	}
 	
@@ -342,14 +342,14 @@ AdjustmentListener {
 	//--------------------------------------------------------------------------------------------
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		logger.debug(e.getActionCommand() + " event has been triggered.");
+		System.out.println("IQM:  "+e.getActionCommand() + " event has been triggered.");
 		if ("parameter".equals(e.getActionCommand())) {
 			this.updateParameterBlock();
 		}
 
 		//preview if selected
 		if (this.isAutoPreviewSelected()){
-			logger.debug("Performing AutoPreview");
+			System.out.println("IQM:  Performing AutoPreview");
 			this.showPreview();
 		}
 
@@ -362,7 +362,7 @@ AdjustmentListener {
 
 		//preview if selected
 		if (this.isAutoPreviewSelected()){
-			logger.debug("Performing AutoPreview");
+			System.out.println("IQM:  Performing AutoPreview");
 			this.showPreview();
 		}
 	}

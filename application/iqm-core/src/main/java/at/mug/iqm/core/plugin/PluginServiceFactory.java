@@ -32,8 +32,8 @@ package at.mug.iqm.core.plugin;
 import java.io.File;
 import java.io.IOException;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+ 
+ 
 
 import at.mug.iqm.api.ClasspathUtils;
 import at.mug.iqm.api.plugin.IPluginService;
@@ -49,7 +49,7 @@ import at.mug.iqm.api.plugin.IPluginService;
  */
 public class PluginServiceFactory {
 
-	private static final Logger logger = LogManager.getLogger(PluginServiceFactory.class);
+	  
 
 	/**
 	 * Creates a new {@link DefaultPluginService}.
@@ -68,12 +68,12 @@ public class PluginServiceFactory {
 			// get the directory of the iqm-app.jar file
 			File pluginDir = new File(System.getProperty("iqmrootdir")
 					+ File.separator + "plugins");
-			logger.info("Trying to locate plugins in: [" + pluginDir + "]...");
+			System.out.println("IQM Info: Trying to locate plugins in: [" + pluginDir + "]...");
 
 			// search recursively for the plugins in the "plugins" directory
 			ClasspathUtils.addDirToClasspath(pluginDir);
 		} catch (IOException ex) {
-			logger.error("", ex);
+			System.out.println("IQM Error: " + ex);
 		}
 	}
 }

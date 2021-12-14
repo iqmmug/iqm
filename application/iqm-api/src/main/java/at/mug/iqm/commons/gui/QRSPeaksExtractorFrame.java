@@ -54,8 +54,8 @@ import javax.swing.border.TitledBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.table.DefaultTableModel;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+ 
+ 
 import at.mug.iqm.api.Application;
 import at.mug.iqm.api.Resources;
 import at.mug.iqm.api.exception.UnreadableECGFileException;
@@ -81,7 +81,7 @@ public class QRSPeaksExtractorFrame extends JFrame implements ActionListener,
 	private static final long serialVersionUID = 8821328371974838675L;
 
 	// Logging variables
-	private static final Logger logger = LogManager.getLogger(QRSPeaksExtractorFrame.class);
+	  
 
 	private int offSet       = 0;   // starting offset
 	private int sampleRate   = 180; // sampel rate in Hz  180 Herbert Syncope, 125 Helena
@@ -210,7 +210,7 @@ public class QRSPeaksExtractorFrame extends JFrame implements ActionListener,
 			this.tableData = qrsPeaksExtractor.readECGMetaData(file);
 			return true;
 		} catch (UnreadableECGFileException e) {
-			logger.error("An error occurred: ", e);
+			System.out.println("IQM Error: An error occurred: " + e);
 			DialogUtil.getInstance().showErrorMessage(
 					"An error occurred, this ECG file may be corrupt: \n"
 							+ file.toString(), e);
@@ -268,10 +268,10 @@ public class QRSPeaksExtractorFrame extends JFrame implements ActionListener,
 	 * @return an <code>int[4]</code> of the selected values
 	 */
 	private int[] getParametersFromGUI() {
-		logger.debug("Selected offset : " + offSet);
-		logger.debug("Selected sample rate : " + sampleRate);
-		logger.debug("Selected osea method: " + oseaMethod);
-		logger.debug("Output option: " + outputOption);
+		System.out.println("IQM:  Selected offset : " + offSet);
+		System.out.println("IQM:  Selected sample rate : " + sampleRate);
+		System.out.println("IQM:  Selected osea method: " + oseaMethod);
+		System.out.println("IQM:  Output option: " + outputOption);
 		return new int[] { offSet, sampleRate, oseaMethod, outputOption };
 	}
 
@@ -493,7 +493,7 @@ public class QRSPeaksExtractorFrame extends JFrame implements ActionListener,
 			// "application.dialog.largeQRSPeaksWarning",
 			// null, null));
 			// if (selection != IDialogUtil.YES_OPTION) {
-			// logger.info("User cancelled the extraction process.");
+			// System.out.println("IQM Info: User cancelled the extraction process.");
 			// return;
 			// }
 			// }

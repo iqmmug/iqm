@@ -58,8 +58,8 @@ import javax.swing.border.TitledBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.text.InternationalFormatter;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+ 
+ 
 import at.mug.iqm.api.Application;
 import at.mug.iqm.api.gui.BoardPanel;
 import at.mug.iqm.api.model.IqmDataBox;
@@ -82,7 +82,7 @@ public class OperatorGUI_Crop extends AbstractImageOperatorGUI implements
 
 	// class specific logger
 	private static Class<?> caller = OperatorGUI_Crop.class;
-	private static final Logger logger = LogManager.getLogger(OperatorGUI_Crop.class);
+	  
 
 	private ParameterBlockIQM pb = null;
 
@@ -134,7 +134,7 @@ public class OperatorGUI_Crop extends AbstractImageOperatorGUI implements
 	 * constructor
 	 */
 	public OperatorGUI_Crop() {
-		logger.debug("Now initializing...");
+		System.out.println("IQM:  Now initializing...");
 
 		this.setOpName(new IqmOpCropDescriptor().getName());
 		this.initialize();
@@ -330,7 +330,7 @@ public class OperatorGUI_Crop extends AbstractImageOperatorGUI implements
 	 */
 	@Override
 	public void update() {
-		logger.debug("Updating GUI...");
+		System.out.println("IQM:  Updating GUI...");
 		
 //		//already implemented in ActionPerformed event
 //		if (buttManual.isSelected()){					
@@ -747,7 +747,7 @@ public class OperatorGUI_Crop extends AbstractImageOperatorGUI implements
 	// --------------------------------------------------------------------------------------------
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		logger.debug(e.getActionCommand() + " event has been triggered.");
+		System.out.println("IQM:  "+e.getActionCommand() + " event has been triggered.");
 		if ("parameter".equals(e.getActionCommand())) {
 
 			if (buttManual == e.getSource()) {
@@ -858,7 +858,7 @@ public class OperatorGUI_Crop extends AbstractImageOperatorGUI implements
 
 		// preview if selected
 		if (this.isAutoPreviewSelected()) {
-			logger.debug("Performing AutoPreview");
+			System.out.println("IQM:  Performing AutoPreview");
 			this.showPreview();
 		}
 
@@ -873,7 +873,7 @@ public class OperatorGUI_Crop extends AbstractImageOperatorGUI implements
 
 		// preview if selected
 		if (this.isAutoPreviewSelected()) {
-			logger.debug("Performing AutoPreview");
+			System.out.println("IQM:  Performing AutoPreview");
 			this.showPreview();
 		}
 	}
@@ -917,7 +917,7 @@ public class OperatorGUI_Crop extends AbstractImageOperatorGUI implements
 
 		// preview if selected
 		if (this.isAutoPreviewSelected()) {
-			logger.debug("Performing AutoPreview");
+			System.out.println("IQM:  Performing AutoPreview");
 			this.showPreview();
 		}
 

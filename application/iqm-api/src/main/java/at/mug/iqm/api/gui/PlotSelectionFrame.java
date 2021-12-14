@@ -58,8 +58,8 @@ import javax.swing.table.JTableHeader;
 import javax.swing.table.TableColumn;
 import javax.swing.text.InternationalFormatter;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+ 
+ 
 
 import at.mug.iqm.api.Application;
 import at.mug.iqm.api.I18N;
@@ -93,7 +93,7 @@ public class PlotSelectionFrame extends JFrame implements ActionListener,
 	private static final long serialVersionUID = 5939949181941247476L;
 
 	// Logging variables
-	private static final Logger logger = LogManager.getLogger(PlotSelectionFrame.class);
+	  
 
 	private JPanel jPanelRowHeader = null;
 	private JLabel jLabelRowHeader = null;
@@ -137,7 +137,7 @@ public class PlotSelectionFrame extends JFrame implements ActionListener,
 	private File file = null;
 
 	public PlotSelectionFrame() {
-		logger.debug("Creating a new instance of '" + this.getClass().getName()
+		System.out.println("IQM:  Creating a new instance of '" + this.getClass().getName()
 				+ "'...");
 		this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 	}
@@ -235,7 +235,7 @@ public class PlotSelectionFrame extends JFrame implements ActionListener,
 	}
 
 	private void createAndShowJTableGUI(JTableHeader preExistingHeader) {
-		logger.debug("Creating GUI and displaying table...");
+		System.out.println("IQM:  Creating GUI and displaying table...");
 
 		// Prepare table
 		model = new DefaultTableModel();
@@ -320,7 +320,7 @@ public class PlotSelectionFrame extends JFrame implements ActionListener,
 		this.pack();
 		CommonTools.centerFrameOnScreen(this);
 
-		logger.debug("Done.");
+		System.out.println("IQM:  Done.");
 	}
 
 	private JPanel getJPanelRowHeader() {
@@ -546,12 +546,12 @@ public class PlotSelectionFrame extends JFrame implements ActionListener,
 		if (checked) {
 			boolean success = columnSelection.add(Integer.valueOf(aButton
 					.getName()) - 1);
-			logger.debug("Added column " + Integer.valueOf(aButton.getName())
+			System.out.println("IQM:  Added column " + Integer.valueOf(aButton.getName())
 					+ ": " + success + ".");
 		} else {
 			boolean success = columnSelection.removeElement(Integer
 					.valueOf(aButton.getName()) - 1);
-			logger.debug("Removed column " + Integer.valueOf(aButton.getName())
+			System.out.println("IQM:  Removed column " + Integer.valueOf(aButton.getName())
 					+ ": " + success + ".");
 		}
 
@@ -687,12 +687,12 @@ public class PlotSelectionFrame extends JFrame implements ActionListener,
 						DialogUtil.getInstance().showErrorMessage(
 								I18N.getMessage("application.error.generic"),
 								ex, true);
-						logger.error("An error occurred: ", ex);
+						System.out.println("IQM Error: An error occurred: " + ex);
 					} catch (NumberFormatException ex) {
 						DialogUtil.getInstance().showErrorMessage(
 								I18N.getMessage("application.error.generic"),
 								ex, true);
-						logger.error("An error occurred: ", ex);
+						System.out.println("IQM Error: An error occurred: " + ex);
 					}
 					return null;
 				}

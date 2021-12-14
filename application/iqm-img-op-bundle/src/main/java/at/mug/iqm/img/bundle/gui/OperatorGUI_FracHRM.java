@@ -52,8 +52,8 @@ import javax.swing.SwingConstants;
 import javax.swing.border.TitledBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+ 
+ 
 import at.mug.iqm.api.operator.AbstractImageOperatorGUI;
 import at.mug.iqm.api.operator.ParameterBlockIQM;
 import at.mug.iqm.img.bundle.Resources;
@@ -74,7 +74,7 @@ public class OperatorGUI_FracHRM extends AbstractImageOperatorGUI implements
 	private static final long serialVersionUID = 4357820134181937876L;
 
 	// class specific logger
-	private static final Logger logger = LogManager.getLogger(OperatorGUI_FracHRM.class);
+	  
 
 	/**
 	 * The cached parameter block from the work package.
@@ -133,7 +133,7 @@ public class OperatorGUI_FracHRM extends AbstractImageOperatorGUI implements
 	 * constructor
 	 */
 	public OperatorGUI_FracHRM() {
-		logger.debug("Now initializing...");
+		System.out.println("IQM:  Now initializing...");
 
 		this.setOpName(new IqmOpFracHRMDescriptor().getName());
 
@@ -267,7 +267,7 @@ public class OperatorGUI_FracHRM extends AbstractImageOperatorGUI implements
 	 */
 	@Override
 	public void update() {
-		logger.debug("Updating GUI...");
+		System.out.println("IQM:  Updating GUI...");
 		
 		int initWidth   = ((Number) jSpinnerInitWidth.getValue()).intValue();
 		int initHeight  = ((Number) jSpinnerInitWidth.getValue()).intValue();
@@ -702,7 +702,7 @@ public class OperatorGUI_FracHRM extends AbstractImageOperatorGUI implements
 	
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		logger.debug(e.getActionCommand() + " event has been triggered.");
+		System.out.println("IQM:  "+e.getActionCommand() + " event has been triggered.");
 		if ("parameter".equals(e.getActionCommand())) {
 		
 			
@@ -711,7 +711,7 @@ public class OperatorGUI_FracHRM extends AbstractImageOperatorGUI implements
 
 		// preview if selected
 		if (this.isAutoPreviewSelected()) {
-			logger.debug("Performing AutoPreview");
+			System.out.println("IQM:  Performing AutoPreview");
 			this.showPreview();
 		}
 
@@ -818,7 +818,7 @@ public class OperatorGUI_FracHRM extends AbstractImageOperatorGUI implements
 
 		// preview if selected
 		if (this.isAutoPreviewSelected()) {
-			logger.debug("Performing AutoPreview");
+			System.out.println("IQM:  Performing AutoPreview");
 			this.showPreview();
 		}
 

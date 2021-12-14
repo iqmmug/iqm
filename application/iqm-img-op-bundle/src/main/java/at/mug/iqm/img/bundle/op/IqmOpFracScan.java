@@ -49,8 +49,8 @@ import javax.media.jai.RasterFactory;
 import javax.media.jai.RenderedOp;
 import javax.media.jai.TiledImage;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+ 
+ 
 
 import at.mug.iqm.api.Application;
 import at.mug.iqm.api.model.ImageModel;
@@ -83,7 +83,7 @@ import at.mug.iqm.img.bundle.descriptors.IqmOpFracScanDescriptor;
 @SuppressWarnings("unused")
 public class IqmOpFracScan extends AbstractOperator {
 	// class specific logger
-	private static final Logger logger = LogManager.getLogger(IqmOpFracScan.class);
+	  
 
 	private PlanarImage piSource;
 	private String imgName = "";
@@ -96,7 +96,7 @@ public class IqmOpFracScan extends AbstractOperator {
 	@Override
 	public IResult run(IWorkPackage wp) {
 
-		logger.debug("Running the operator...");
+		System.out.println("IQM:  Running the operator...");
 
 		PlanarImage piOut = null;
 		ParameterBlockIQM pb = null;
@@ -135,7 +135,7 @@ public class IqmOpFracScan extends AbstractOperator {
 		int numBands = this.piSource.getData().getNumBands();
 		this.imgName = String.valueOf(this.piSource.getProperty("image_name"));
 		this.fileName = String.valueOf(this.piSource.getProperty("file_name"));
-		logger.debug("Source image properties: " + this.imgName + " -- "
+		System.out.println("IQM:  Source image properties: " + this.imgName + " -- "
 				+ this.fileName);
 
 		// for nexel scan is a border necessary
@@ -180,7 +180,7 @@ public class IqmOpFracScan extends AbstractOperator {
 		TiledImage ti = new TiledImage(0, 0, width, height, 0, 0, sm, cm);
 		ti.setData(wr);
 
-		logger.debug("Generating the output...");
+		System.out.println("IQM:  Generating the output...");
 		// ----------------output
 		// generation--------------------------------------
 		ParameterBlock pbWork = new ParameterBlock();
@@ -255,7 +255,7 @@ public class IqmOpFracScan extends AbstractOperator {
 			piOut = JAI.create("format", pbWork);
 		}
 
-		logger.debug(this.fileName);
+		System.out.println("IQM:  "+this.fileName);
 		piOut.setProperty("image_name", this.imgName);
 		piOut.setProperty("file_name", this.fileName);
 		
@@ -294,7 +294,7 @@ public class IqmOpFracScan extends AbstractOperator {
 	 */
 	private PlanarImage addBorder(PlanarImage pi, int kernelSize,
 			int borderMethod, double[] borderValue) {
-		logger.debug("Adding a border to the image...");
+		System.out.println("IQM:  Adding a border to the image...");
 		int toadd = (kernelSize) / 2;
 		ParameterBlock pb = new ParameterBlock();
 		pb.addSource(pi);
@@ -330,7 +330,7 @@ public class IqmOpFracScan extends AbstractOperator {
 	 * @return Fractal dimension
 	 */
 	private double calcBoxDim(PlanarImage pi, int eps) {
-		logger.debug("Running Box operator on image ["
+		System.out.println("IQM:  Running Box operator on image ["
 				+ pi.getProperty("image_name") + "]...");
 		double dim = 0;
 
@@ -364,13 +364,13 @@ public class IqmOpFracScan extends AbstractOperator {
 				String colName = tableModel.getColumnName(5);
 				if (colName.contains("Db")) {
 					dim = (Double) tableModel.getValueAt(0, 5);
-					logger.debug("Box Dimension: " + dim);
+					System.out.println("IQM:  Box Dimension: " + dim);
 				} else {
-					logger.error("Could not find a proper value for Db");
+					System.out.println("IQM Error: Could not find a proper value for Db");
 				}
 			}
 		} catch (Exception e) {
-			logger.error("An error occured during processing: ", e);
+			System.out.println("IQM Error: An error occured during processing: "+ e);
 		}
 
 		return dim;
@@ -383,7 +383,7 @@ public class IqmOpFracScan extends AbstractOperator {
 	 * @return Fractal dimension
 	 */
 	private double calcPyrDim(PlanarImage pi, int eps) {
-		logger.debug("Running Pyramid operator on image ["
+		System.out.println("IQM:  Running Pyramid operator on image ["
 				+ pi.getProperty("image_name") + "]...");
 		double dim = 0;
 
@@ -419,13 +419,13 @@ public class IqmOpFracScan extends AbstractOperator {
 				String colName = tableModel.getColumnName(6);
 				if (colName.contains("Dp")) {
 					dim = (Double) tableModel.getValueAt(0, 6);
-					logger.debug("Pyramid Dimension: " + dim);
+					System.out.println("IQM:  Pyramid Dimension: " + dim);
 				} else {
-					logger.error("Could not find a proper value for Dp");
+					System.out.println("IQM Error: Could not find a proper value for Dp");
 				}
 			}
 		} catch (Exception e) {
-			logger.error("An error occured during processing: ", e);
+			System.out.println("IQM Error: An error occured during processing: "+ e);
 		}
 
 		return dim;
@@ -438,7 +438,7 @@ public class IqmOpFracScan extends AbstractOperator {
 	 * @return Fractal dimension
 	 */
 	private double calcMinkDim(PlanarImage pi, int eps) {
-		logger.debug("Running Minkowski operator on image ["
+		System.out.println("IQM:  Running Minkowski operator on image ["
 				+ pi.getProperty("image_name") + "]...");
 		double dim = 0;
 
@@ -470,13 +470,13 @@ public class IqmOpFracScan extends AbstractOperator {
 				String colName = tableModel.getColumnName(6);
 				if (colName.contains("Dm")) {
 					dim = (Double) tableModel.getValueAt(0, 6);
-					logger.debug("Minkowski Dimension: " + dim);
+					System.out.println("IQM:  Minkowski Dimension: " + dim);
 				} else {
-					logger.error("Could not find a proper value for Dm");
+					System.out.println("IQM Error: Could not find a proper value for Dm");
 				}
 			}
 		} catch (Exception e) {
-			logger.error("An error occured during processing: ", e);
+			System.out.println("IQM Error: An error occured during processing: "+ e);
 		}
 
 		return dim;
@@ -489,7 +489,7 @@ public class IqmOpFracScan extends AbstractOperator {
 	 * @return Fractal dimension
 	 */
 	private double calcFFTDim(PlanarImage pi, int eps) {
-		logger.debug("Running FFT operator on image ["
+		System.out.println("IQM:  Running FFT operator on image ["
 				+ pi.getProperty("image_name") + "]...");
 		double dim = 0;
 
@@ -520,13 +520,13 @@ public class IqmOpFracScan extends AbstractOperator {
 				String colName = tableModel.getColumnName(5);
 				if (colName.contains("Df")) {
 					dim = (Double) tableModel.getValueAt(0, 5);
-					logger.debug("FFT Dimension: " + dim);
+					System.out.println("IQM:  FFT Dimension: " + dim);
 				} else {
-					logger.error("Could not find a proper value for Df");
+					System.out.println("IQM Error: Could not find a proper value for Df");
 				}
 			}
 		} catch (Exception e) {
-			logger.error("An error occured during processing: ", e);
+			System.out.println("IQM Error: An error occured during processing: "+ e);
 		}
 
 		return dim;
@@ -543,7 +543,7 @@ public class IqmOpFracScan extends AbstractOperator {
 	 */
 	private void boxScan(WritableRaster wr, PlanarImage pi, int kernelSize,
 			int method, int eps, int boxSize) {
-		logger.debug("Running box scan on image ["
+		System.out.println("IQM:  Running box scan on image ["
 				+ pi.getProperty("image_name") + "]...");
 
 		int width = wr.getWidth(); // imgWidth of the final Image
@@ -564,10 +564,10 @@ public class IqmOpFracScan extends AbstractOperator {
 		// get the tiles
 		Raster[] tileRaster = pi.getTiles();
 
-		// logger.debug("IqmOpFracScan: tileRaster.length: " +
+		// System.out.println("IQM:  IqmOpFracScan: tileRaster.length: " +
 		// tileRaster.length);
 
-		logger.debug("Iterating through boxes in the tileRaster "
+		System.out.println("IQM:  Iterating through boxes in the tileRaster "
 				+ tileRaster.toString() + " of length " + tileRaster.length);
 		for (int r = 0; r < tileRaster.length; r++) { // tileRaster[]
 			int proz = (r + 1) * 100 / tileRaster.length;
@@ -580,7 +580,7 @@ public class IqmOpFracScan extends AbstractOperator {
 			int minY = tileRaster[r].getMinY();
 			int tileWidth = tileRaster[r].getWidth(); // ==imgWidth
 			int tileHeight = tileRaster[r].getHeight(); // ==imgWidth
-			logger.debug("Box#: " + r + " -- " + "minX: " + minX + "   minY: "
+			System.out.println("IQM:  Box#: " + r + " -- " + "minX: " + minX + "   minY: "
 					+ minY + "   tileWidth: " + tileWidth + "   tileHeight: "
 					+ tileHeight);
 
@@ -623,15 +623,15 @@ public class IqmOpFracScan extends AbstractOperator {
 				break;
 			}
 
-			logger.debug("-------------------------- Box# " + r
+			System.out.println("IQM:  -------------------------- Box# " + r
 					+ " --------------------------");
 			// set all pixels of a tile to the result
 			for (int x = 0; x < tileWidth; x++) {
 				for (int y = 0; y < tileHeight; y++) {
-					// logger.debug("For loop info: " + x + " -- " + y +
+					// System.out.println("IQM:  For loop info: " + x + " -- " + y +
 					// "    result: " + result);
 					if (((minX + x) < width) && ((minY + y) < height)) {
-						// if (r == 0) logger.debug("Box: " + r +
+						// if (r == 0) System.out.println("IQM:  Box: " + r +
 						// "      x: "+x+"   y: "+y+"  .getSample: "
 						// +piKernel.getData().getSample(x, y, 0));
 						wr.setSample(minX + x, minY + y, 0, result);
@@ -668,7 +668,7 @@ public class IqmOpFracScan extends AbstractOperator {
 	 */
 	private void nexelScan(WritableRaster wr, PlanarImage piWithBorder,
 			int kernelSize, int method, int eps) {
-		logger.debug("Running nexel scan on image ["
+		System.out.println("IQM:  Running nexel scan on image ["
 				+ piWithBorder.getProperty("image_name") + "]...");
 
 		int width = wr.getWidth(); // imgWidth of the final Image
@@ -740,7 +740,7 @@ public class IqmOpFracScan extends AbstractOperator {
 						wr.setSample(i, j, 0, result);
 					}
 				} catch (Exception e) {
-					logger.error("An error occurred: ", e);
+					System.out.println("IQM Error: An error occurred: " + e);
 				}
 			}
 		}

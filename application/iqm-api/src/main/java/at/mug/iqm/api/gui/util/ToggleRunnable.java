@@ -31,8 +31,8 @@ package at.mug.iqm.api.gui.util;
 
 import javax.media.jai.PlanarImage;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+ 
+ 
 
 import at.mug.iqm.api.Application;
 
@@ -45,7 +45,7 @@ public class ToggleRunnable implements Runnable {
 	
 	// class specific logger
 	private static Class<?> caller = ToggleRunnable.class;
-	private static final Logger logger = LogManager.getLogger(ToggleRunnable.class);
+	  
 
 	// class variable declaration
 	long delay = (long) 1.5 * 1000;
@@ -73,10 +73,10 @@ public class ToggleRunnable implements Runnable {
 				Thread.sleep(delay);
 			}
 			catch(InterruptedException e){
-				logger.debug("The thread has been interrupted while sleeping: " + e);
+				System.out.println("IQM:  The thread has been interrupted while sleeping: " + e);
 				break;
 			} catch (NullPointerException npe){
-				logger.error("No images pi1 and pi2 set!");
+				System.out.println("IQM Error: No images pi1 and pi2 set!");
 				break;
 			}
 		}    
@@ -89,15 +89,6 @@ public class ToggleRunnable implements Runnable {
 	public static Class<?> getCaller() {
 		return caller;
 	}
-
-
-	/**
-	 * @return the logger
-	 */
-	public static Logger getLogger() {
-		return logger;
-	}
-
 
 	/**
 	 * @return the delay

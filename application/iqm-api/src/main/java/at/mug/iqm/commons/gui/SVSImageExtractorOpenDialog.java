@@ -37,8 +37,8 @@ import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+ 
+ 
 
 import at.mug.iqm.api.I18N;
 import at.mug.iqm.api.IQMConstants;
@@ -65,7 +65,7 @@ import at.mug.iqm.config.ConfigManager;
 public class SVSImageExtractorOpenDialog extends Thread{
 
 	// Logging variables
-	private static final Logger logger = LogManager.getLogger(SVSImageExtractorOpenDialog.class);
+	  
 
 	private File currImgDir;
 
@@ -96,7 +96,7 @@ public class SVSImageExtractorOpenDialog extends Thread{
 
 		int returnVal = fc.showOpenDialog(frame);
 		if (returnVal!=JFileChooser.APPROVE_OPTION) {
-			logger.info("No image(s) selected for extraction.");
+			System.out.println("IQM Info: No image(s) selected for extraction.");
 			return;
 		} else{
 			currImgDir = fc.getCurrentDirectory();

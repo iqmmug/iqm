@@ -39,8 +39,8 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.RejectedExecutionException;
 import java.util.concurrent.TimeUnit;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+ 
+ 
 
 import at.mug.iqm.api.gui.BoardPanel;
 import at.mug.iqm.api.model.IVirtualizable;
@@ -72,7 +72,7 @@ public class ExecutorServiceProcessingTask extends AbstractProcessingTask
 implements IExplicitProcessingTask {
 	// class specific logger
 	private Class<?> caller = ExecutorServiceProcessingTask.class;
-	private static final Logger logger = LogManager.getLogger(ExecutorServiceProcessingTask.class);
+	  
 
 	// class variable declaration
 	private List<ArrayList<ArrayList<IqmDataBox>>> allResultLists;
@@ -147,16 +147,16 @@ implements IExplicitProcessingTask {
 			}
 		} catch (ExecutionException e) {
 			// log the error message
-			logger.error("An error occurred: ", e);
+			System.out.println("IQM Error: An error occurred: " + e);
 			e.printStackTrace();
 		} catch (InterruptedException e) {
 			// log the error message
-			logger.error("An error occurred: ", e);
+			System.out.println("IQM Error: An error occurred: " + e);
 			e.printStackTrace();
 
 		} catch (Exception e) {
 			// log the error message
-			logger.error("An error occurred: ", e);
+			System.out.println("IQM Error: An error occurred: " + e);
 			e.printStackTrace();
 		} finally {
 			// reset progress bar and collect garbage
@@ -297,9 +297,9 @@ implements IExplicitProcessingTask {
 				this.firePropertyChange("singleTaskRunning", 0, 1);
 				service.execute(worker);
 			} catch (RejectedExecutionException ree) {
-				logger.error("An error occurred: ", ree);
+				System.out.println("IQM Error: An error occurred: " + ree);
 			} catch (Exception e) {
-				logger.error("An error occurred: ", e);
+				System.out.println("IQM Error: An error occurred: " + e);
 			}
 
 		}
@@ -427,9 +427,9 @@ implements IExplicitProcessingTask {
 				service.execute(worker);
 
 			} catch (RejectedExecutionException ree) {
-				logger.error("An error occurred: ", ree);
+				System.out.println("IQM Error: An error occurred: " + ree);
 			} catch (Exception e) {
-				logger.error("An error occurred: ", e);
+				System.out.println("IQM Error: An error occurred: " + e);
 			}
 
 			// OPERATOR IS FINISHED
@@ -563,9 +563,9 @@ implements IExplicitProcessingTask {
 				service.execute(worker);
 
 			} catch (RejectedExecutionException ree) {
-				logger.error("An error occurred: ", ree);
+				System.out.println("IQM Error: An error occurred: " + ree);
 			} catch (Exception e) {
-				logger.error("An error occurred: ", e);
+				System.out.println("IQM Error: An error occurred: " + e);
 			}
 
 			// OPERATOR IS FINISHED
@@ -664,7 +664,7 @@ implements IExplicitProcessingTask {
 		if (!isVirtual()) {
 			if (singleResult.hasImages()) {
 				List<IqmDataBox> imageResults = singleResult.listImageResults();
-				logger.debug("Result has been retrieved and contains "
+				System.out.println("IQM:  Result has been retrieved and contains "
 						+ imageResults.size() + " image(s).");
 				ArrayList<IqmDataBox> existingElements = resultList.get(0);
 				existingElements.addAll(imageResults);
@@ -672,7 +672,7 @@ implements IExplicitProcessingTask {
 			}
 			if (singleResult.hasPlots()) {
 				List<IqmDataBox> plotResults = singleResult.listPlotResults();
-				logger.debug("Result has been retrieved and contains "
+				System.out.println("IQM:  Result has been retrieved and contains "
 						+ plotResults.size() + " plot(s).");
 				ArrayList<IqmDataBox> existingElements = resultList.get(1);
 				existingElements.addAll(plotResults);
@@ -680,7 +680,7 @@ implements IExplicitProcessingTask {
 			}
 			if (singleResult.hasTables()) {
 				List<IqmDataBox> tableResults = singleResult.listTableResults();
-				logger.debug("Result has been retrieved and contains "
+				System.out.println("IQM:  Result has been retrieved and contains "
 						+ tableResults.size() + " table(s).");
 				ArrayList<IqmDataBox> existingElements = resultList.get(2);
 				existingElements.addAll(tableResults);
@@ -689,7 +689,7 @@ implements IExplicitProcessingTask {
 			if (singleResult.hasCustomResults()) {
 				List<IqmDataBox> customResults = singleResult
 						.listImageResults();
-				logger.debug("Result has been retrieved and contains "
+				System.out.println("IQM:  Result has been retrieved and contains "
 						+ customResults.size() + " custom result(s).");
 				ArrayList<IqmDataBox> existingElements = resultList.get(3);
 				existingElements.addAll(customResults);
@@ -708,7 +708,7 @@ implements IExplicitProcessingTask {
 				List<IqmDataBox> vImageResults = VirtualDataManager
 						.getInstance().save(singleResult.listImageResults(),
 								virtDir);
-				logger.debug("Result has been retrieved, virtualized successfully to ["
+				System.out.println("IQM:  Result has been retrieved, virtualized successfully to ["
 						+ virtDir.toString()
 						+ "] and contains "
 						+ vImageResults.size() + " image(s).");
@@ -727,7 +727,7 @@ implements IExplicitProcessingTask {
 				List<IqmDataBox> vPlotResults = VirtualDataManager
 						.getInstance().save(singleResult.listPlotResults(),
 								virtDir);
-				logger.debug("Result has been retrieved, virtualized successfully to ["
+				System.out.println("IQM:  Result has been retrieved, virtualized successfully to ["
 						+ virtDir.toString()
 						+ "] and contains "
 						+ vPlotResults.size() + " plot(s).");
@@ -746,7 +746,7 @@ implements IExplicitProcessingTask {
 				List<IqmDataBox> vTableResults = VirtualDataManager
 						.getInstance().save(singleResult.listTableResults(),
 								virtDir);
-				logger.debug("Result has been retrieved, virtualized successfully to ["
+				System.out.println("IQM:  Result has been retrieved, virtualized successfully to ["
 						+ virtDir.toString()
 						+ "] and contains "
 						+ vTableResults.size() + " table(s).");
@@ -765,7 +765,7 @@ implements IExplicitProcessingTask {
 				List<IqmDataBox> vCustomResults = VirtualDataManager
 						.getInstance().save(singleResult.listImageResults(),
 								virtDir);
-				logger.debug("Result has been retrieved, virtualized successfully to ["
+				System.out.println("IQM:  Result has been retrieved, virtualized successfully to ["
 						+ virtDir.toString()
 						+ "] and contains "
 						+ vCustomResults.size() + " custom result(s).");
@@ -831,7 +831,7 @@ implements IExplicitProcessingTask {
 				singleTaskResult = (Result) task.processExplicit();
 			} catch (Exception e) {
 				// log the error message
-				logger.error("An error occurred: ", e);
+				System.out.println("IQM Error: An error occurred: " + e);
 				return;
 			}
 
@@ -857,7 +857,7 @@ implements IExplicitProcessingTask {
 				resultCollection = addResultsToList(singleTaskResult,
 						resultList, virtualDirectory);
 			} catch (Exception e) {
-				logger.error("Error on parallel execution thread: "
+				System.out.println("IQM Error: Error on parallel execution thread: "
 						+ Thread.currentThread().getName());
 				DialogUtil
 				.getInstance()

@@ -59,8 +59,8 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.text.InternationalFormatter;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+ 
+ 
 
 import at.mug.iqm.api.operator.AbstractImageOperatorGUI;
 import at.mug.iqm.api.operator.IWorkPackage;
@@ -85,7 +85,7 @@ public class OperatorGUI_CreateFracSurf extends AbstractImageOperatorGUI
 
 	// class specific logger
 	private static Class<?> caller = OperatorGUI_CreateFracSurf.class;
-	private static final Logger logger = LogManager.getLogger(OperatorGUI_CreateFracSurf.class);
+	  
 
 	/**
 	 * The cached parameter block within the work package.
@@ -122,7 +122,7 @@ public class OperatorGUI_CreateFracSurf extends AbstractImageOperatorGUI
 	 * constructor
 	 */
 	public OperatorGUI_CreateFracSurf() {
-		logger.debug("Now initializing...");
+		System.out.println("IQM:  Now initializing...");
 
 		this.setOpName(new IqmOpCreateFracSurfDescriptor().getName());
 
@@ -166,7 +166,7 @@ public class OperatorGUI_CreateFracSurf extends AbstractImageOperatorGUI
 		if (butt16Bit.isSelected())      pb.setParameter("OutBit", 1);
 		if (buttRGB.isSelected())        pb.setParameter("OutBit", 2);
 		
-		logger.debug(pb);
+		System.out.println("IQM:  "+pb);
 	}
 
 	/**
@@ -243,7 +243,7 @@ public class OperatorGUI_CreateFracSurf extends AbstractImageOperatorGUI
 	 */
 	@Override
 	public void update() {
-		logger.debug("Updating GUI...");
+		System.out.println("IQM:  Updating GUI...");
 		if (buttFFT.isSelected()) {
 			spnrFracD.setEnabled(true);
 			tbFracD.setTitleColor(Color.BLACK);
@@ -511,7 +511,7 @@ public class OperatorGUI_CreateFracSurf extends AbstractImageOperatorGUI
 	// --------------------------------------------------------------------------------------------
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		logger.debug(e.getActionCommand() + " event has been triggered.");
+		System.out.println("IQM:  "+e.getActionCommand() + " event has been triggered.");
 		if ("parameter".equals(e.getActionCommand())) {
 			if (buttFFT == e.getSource()) {		
 			}
@@ -532,7 +532,7 @@ public class OperatorGUI_CreateFracSurf extends AbstractImageOperatorGUI
 
 		// preview if selected
 		if (this.isAutoPreviewSelected()) {
-			logger.debug("Performing AutoPreview");
+			System.out.println("IQM:  Performing AutoPreview");
 			this.showPreview();
 		}
 
@@ -546,7 +546,7 @@ public class OperatorGUI_CreateFracSurf extends AbstractImageOperatorGUI
 
 		// preview if selected
 		if (this.isAutoPreviewSelected()) {
-			logger.debug("Performing AutoPreview");
+			System.out.println("IQM:  Performing AutoPreview");
 			this.showPreview();
 		}
 	}
@@ -559,7 +559,7 @@ public class OperatorGUI_CreateFracSurf extends AbstractImageOperatorGUI
 
 		// preview if selected
 		if (this.isAutoPreviewSelected()) {
-			logger.debug("Performing AutoPreview");
+			System.out.println("IQM:  Performing AutoPreview");
 			this.showPreview();
 		}
 

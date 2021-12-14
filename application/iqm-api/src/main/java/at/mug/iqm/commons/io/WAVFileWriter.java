@@ -34,8 +34,8 @@ import java.text.SimpleDateFormat;
 import java.util.TimeZone;
 
 import javax.swing.table.DefaultTableModel;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+ 
+ 
 
 import at.mug.iqm.api.gui.BoardPanel;
 import at.mug.iqm.api.model.TableModel;
@@ -50,7 +50,7 @@ import at.mug.iqm.commons.util.plot.WavFile;
  */
 public class WAVFileWriter implements Runnable {
 	
-	private static final Logger logger = LogManager.getLogger(PlainTextFileWriter.class);
+	  
 			
 	private File file;
 	private DefaultTableModel content;
@@ -181,7 +181,7 @@ public class WAVFileWriter implements Runnable {
 		try {
 			write();
 		} catch (IOException e) {
-			logger.error("Error writing file!", e);
+			System.out.println("IQM Error: Error writing file!"+ e);
 		}
 	}
 }

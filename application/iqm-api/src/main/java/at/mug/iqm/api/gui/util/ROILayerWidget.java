@@ -55,8 +55,8 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 import javax.swing.border.MatteBorder;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+ 
+ 
 
 import at.mug.iqm.api.I18N;
 import at.mug.iqm.api.gui.IDrawingLayer;
@@ -80,7 +80,7 @@ public class ROILayerWidget extends JPanel {
 	/**
 	 * A custom class logger.
 	 */
-	private static final Logger logger = LogManager.getLogger(ROILayerWidget.class);
+	  
 
 	private JTextField txtName;
 	private JCheckBox chckbxVisible;
@@ -155,7 +155,7 @@ public class ROILayerWidget extends JPanel {
 					if (name.equals("")) {
 						name = "default";
 					}
-					logger.debug("ENTER: setting name to " + name);
+					System.out.println("IQM:  ENTER: setting name to " + name);
 					setLayerName(name);
 				}
 			}
@@ -175,7 +175,7 @@ public class ROILayerWidget extends JPanel {
 				if (name.equals("")) {
 					name = "default";
 				}
-				logger.debug("Focus lost: setting name to " + name);
+				System.out.println("IQM:  Focus lost: setting name to " + name);
 				setLayerName(name);
 			}
 		});
@@ -302,7 +302,7 @@ public class ROILayerWidget extends JPanel {
 	 *            <code>false</code> otherwise
 	 */
 	public void setVisibility(boolean visibility) {
-		logger.debug("Setting layer visibility of [" + this.layer + "] to ["
+		System.out.println("IQM:  Setting layer visibility of [" + this.layer + "] to ["
 				+ visibility + "]");
 		if (visibility == true) {
 			chckbxVisible.setSelected(true);

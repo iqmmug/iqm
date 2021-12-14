@@ -33,8 +33,8 @@ import java.net.URL;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+ 
+ 
 
 /**
  * This class gets resources by identifier.
@@ -43,7 +43,7 @@ import org.apache.logging.log4j.Logger;
  */
 public class Resources {
 	// class specific logger
-	private static final Logger logger = LogManager.getLogger(Resources.class);
+	  
 
 	// class variable declaration
 	private static final ClassLoader loader = Resources.class.getClassLoader();
@@ -60,19 +60,19 @@ public class Resources {
 	 */
 	private static URL fetchURLfor(final String resName) {
 		try {
-			logger.trace("Trying to fetch an URL from resource folder: '"
+			System.out.println("IQM Trace: Trying to fetch an URL from resource folder: '"
 					+ resName + "'");
 			URL tmp = loader.getResource(resName);
 			if (tmp != null) {
-				logger.trace("'" + tmp + "': success.");
+				System.out.println("IQM Trace: '" + tmp + "': success.");
 				return tmp;
 			} else {
-				logger.error("'" + resName
+				System.out.println("IQM Error: '" + resName
 						+ "': failed. Could not find resource.");
 				return null;
 			}
 		} catch (Exception e) {
-			logger.error("'" + resName + "': failed: " + e);
+			System.out.println("IQM Error: '" + resName + "': failed: " + e);
 			return null;
 		}
 	}

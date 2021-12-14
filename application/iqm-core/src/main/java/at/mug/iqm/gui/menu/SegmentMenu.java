@@ -34,8 +34,8 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JMenuItem;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+ 
+ 
 
 import at.mug.iqm.api.gui.OperatorMenuItem;
 import at.mug.iqm.api.operator.OperatorType;
@@ -66,7 +66,7 @@ public class SegmentMenu extends DeactivatableMenu implements ActionListener {
 	private static final long serialVersionUID = 3188458597762637574L;
 
 	// class specific logger
-	private static final Logger logger = LogManager.getLogger(SegmentMenu.class);
+	  
 
 	// class variable declaration
 	private OperatorMenuItem colDeconMenuItem;
@@ -88,7 +88,7 @@ public class SegmentMenu extends DeactivatableMenu implements ActionListener {
 	 * equipped SegmentMenu.
 	 */
 	public SegmentMenu() {
-		logger.debug("Generating new instance of 'segment' menu.");
+		System.out.println("IQM:  Generating new instance of 'segment' menu.");
 
 		// initialize the variables
 		this.colDeconMenuItem = new OperatorMenuItem(OperatorType.IMAGE);
@@ -107,14 +107,14 @@ public class SegmentMenu extends DeactivatableMenu implements ActionListener {
 		// assemble the gui elements to a JMenu
 		this.createAndAssembleMenu();
 
-		logger.debug("Menu 'segment' generated.");
+		System.out.println("IQM:  Menu 'segment' generated.");
 	}
 
 	/**
 	 * This method constructs the items.
 	 */
 	private void createAndAssembleMenu() {
-		logger.debug("Assembling menu items to 'segment' menu.");
+		System.out.println("IQM:  Assembling menu items to 'segment' menu.");
 
 		// set menu attributes
 		this.setText(I18N.getGUILabelText("menu.segment.text"));
@@ -327,7 +327,7 @@ public class SegmentMenu extends DeactivatableMenu implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 
-		logger.debug(e.getActionCommand());
+		System.out.println("IQM:  "+e.getActionCommand());
 
 		if ("coldecon".equals(e.getActionCommand())) {
 			ExecutionProxy.launchInstance(new IqmOpColDeconDescriptor());

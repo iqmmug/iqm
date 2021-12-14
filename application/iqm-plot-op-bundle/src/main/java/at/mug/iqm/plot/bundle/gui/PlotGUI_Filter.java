@@ -47,8 +47,8 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.text.InternationalFormatter;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+ 
+ 
 
 import at.mug.iqm.api.Application;
 import at.mug.iqm.api.model.IqmDataBox;
@@ -73,7 +73,7 @@ public class PlotGUI_Filter extends AbstractPlotOperatorGUI implements
 	 */
 	private static final long serialVersionUID = -2129126866758754431L;
 
-	private static final Logger logger = LogManager.getLogger(PlotGUI_Filter.class);
+	  
 
 	private ParameterBlockIQM pb;
 
@@ -84,7 +84,7 @@ public class PlotGUI_Filter extends AbstractPlotOperatorGUI implements
 	JSpinner spnRange = null;
 
 	public PlotGUI_Filter() {
-		logger.debug("Now initializing...");
+		System.out.println("IQM:  Now initializing...");
 
 		this.setOpName(new PlotOpFilterDescriptor().getName());
 		this.initialize();
@@ -216,7 +216,7 @@ public class PlotGUI_Filter extends AbstractPlotOperatorGUI implements
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		logger.debug(e.getActionCommand() + " event has been triggered.");
+		System.out.println("IQM:  "+e.getActionCommand() + " event has been triggered.");
 
 		this.updateParameterBlock();
 	}

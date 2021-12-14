@@ -39,8 +39,8 @@ import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+ 
+ 
 
 import at.mug.iqm.api.I18N;
 import at.mug.iqm.api.IQMConstants;
@@ -69,7 +69,7 @@ public class IQM {
 	// defining a static logger for THIS CLASS
 	// this line must occur in every class which shall log to file and console
 	// Logging variables
-	private static final Logger logger = LogManager.getLogger(IQM.class);
+	  
 
 	private static File f;
 	private static FileChannel channel;
@@ -146,7 +146,7 @@ public class IQM {
 						+ (success ? "successful." : "not successful."));
 			}
 		} catch (IOException e) {
-			logger.error("An error occurred: ", e);
+			System.out.println("IQM Error: An error occurred: " + e);
 		}
 	}
 
@@ -178,25 +178,25 @@ public class IQM {
 		} catch (ClassNotFoundException e) {
 			// log the error message
 			DialogUtil.getInstance().showErrorMessage(null, e, true);
-			logger.error("An error occurred: ", e);
+			System.out.println("IQM Error: An error occurred: " + e);
 			e.printStackTrace();
 			System.exit(-1);
 		} catch (InstantiationException e) {
 			// log the error message
 			DialogUtil.getInstance().showErrorMessage(null, e, true);
-			logger.error("An error occurred: ", e);
+			System.out.println("IQM Error: An error occurred: " + e);
 			e.printStackTrace();
 			System.exit(-1);
 		} catch (IllegalAccessException e) {
 			// log the error message
 			DialogUtil.getInstance().showErrorMessage(null, e, true);
-			logger.error("An error occurred: ", e);
+			System.out.println("IQM Error: An error occurred: " + e);
 			e.printStackTrace();
 			System.exit(-1);
 		} catch (UnsupportedLookAndFeelException e) {
 			// log the error message
 			DialogUtil.getInstance().showErrorMessage(null, e, true);
-			logger.error("An error occurred: ", e);
+			System.out.println("IQM Error: An error occurred: " + e);
 			e.printStackTrace();
 			System.exit(-1);
 		}
@@ -214,7 +214,7 @@ public class IQM {
 		System.setProperty("iqmrootdir", new File(IQM.class
 				.getProtectionDomain().getCodeSource().getLocation().toURI())
 				.getParentFile().getCanonicalPath());
-		logger.debug("Hey there, IQM core is starting up, scheduling a new GUI creation task in the EventDispatcherThread...");
+		System.out.println("IQM:  Hey there, IQM core is starting up, scheduling a new GUI creation task in the EventDispatcherThread...");
 
 		// add initial properties for macintosh environments
 		if (OperatingSystem.isMac()) {
@@ -246,8 +246,8 @@ public class IQM {
 								GUITools.getMainFrame().windowClosing(null);
 							} catch (Exception e1) {
 								// log the error message
-								logger.error("", e1);
-								logger.info("Exit code: -1.");
+								System.out.println("IQM Error: " + e1);
+								System.out.println("IQM Info: Exit code: -1.");
 								System.exit(-1);
 							}
 						}
@@ -266,9 +266,8 @@ public class IQM {
 					Thread.currentThread().setName("IQM-AWT-Event-Queue");
 					new IQM(true);
 				} catch (Exception e) {
-					logger.error(
-							"Oops, We're sorry, but something went wrong. Informing user and shutting down.",
-							e);
+					System.out.println("IQM Error: "+ 
+							"Oops, We're sorry, but something went wrong. Informing user and shutting down."+ e);
 					DialogUtil.getInstance().showErrorMessage(
 							I18N.getMessage("application.exception.fatalError",
 									System.getProperty("user.home")
@@ -288,7 +287,7 @@ public class IQM {
 		// and runs it asynchronously
 		SwingUtilities.invokeLater(application);
 
-		logger.debug("Scheduling done, main thread is exiting, now everything runs in the EventDispatcherThread. Have fun!");
+		System.out.println("IQM:  Scheduling done, main thread is exiting, now everything runs in the EventDispatcherThread. Have fun!");
 	}
 
 	protected static void checkJavaVersion() {

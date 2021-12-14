@@ -40,8 +40,8 @@ import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 import javax.xml.bind.JAXBException;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+ 
+ 
 
 import at.mug.iqm.api.IQMConstants;
 import at.mug.iqm.api.Resources;
@@ -64,9 +64,6 @@ public class RecentFilesMenu extends JMenu implements ActionListener {
 	 * The UID for serialization.
 	 */
 	private static final long serialVersionUID = -7445651388124491594L;
-
-	// private logger
-	public static final Logger logger = LogManager.getLogger(RecentFilesMenu.class);
 
 	/**
 	 * The menu items for recently opened files.
@@ -139,9 +136,8 @@ public class RecentFilesMenu extends JMenu implements ActionListener {
 					dataType, maxItems);
 			createMenu();
 		} catch (Exception e) {
-			logger.error(
-					"An error occurred, could not add the file to list of recent files. ",
-					e);
+			System.out.println("IQM Error: "+ 
+					"An error occurred, could not add the file to list of recent files. "+ e);
 		}
 	}
 
@@ -309,7 +305,7 @@ public class RecentFilesMenu extends JMenu implements ActionListener {
 			// rebuild the menu entries
 			createMenu();
 		} catch (Exception e) {
-			logger.error("An error occurred: ", e);
+			System.out.println("IQM Error: An error occurred: " + e);
 		}
 	}
 

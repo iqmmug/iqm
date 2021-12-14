@@ -37,8 +37,8 @@ import java.util.TimeZone;
 import java.util.Vector;
 import java.util.concurrent.ExecutionException;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+ 
+ 
 
 import at.mug.iqm.api.Application;
 import at.mug.iqm.api.gui.BoardPanel;
@@ -68,7 +68,7 @@ import at.mug.iqm.gui.util.GUITools;
 public class CreateCopiesTask extends AbstractProcessingTask {
 	// class specific logger
 	private Class<?> caller = CreateCopiesTask.class;
-	private static final Logger logger = LogManager.getLogger(CreateCopiesTask.class);
+	  
 
 	// class variable declaration
 	private int numCopies;
@@ -135,7 +135,7 @@ public class CreateCopiesTask extends AbstractProcessingTask {
 
 		// no operator is launched but an item is displayed
 		if (this.getWorkPackage() == null && currentManagerItemIndex != -1) {
-			logger.debug("Getting the item from the manager.");
+			System.out.println("IQM:  Getting the item from the manager.");
 			original = Tank.getInstance().getCurrentTankIqmDataBoxAt(
 					currentManagerItemIndex);
 			if (original instanceof IVirtualizable) {
@@ -152,10 +152,10 @@ public class CreateCopiesTask extends AbstractProcessingTask {
 			switch (getOperator().getType()) {
 			case IMAGE_GENERATOR:
 			case PLOT_GENERATOR:
-				logger.debug("Creating new samples with the parameters from the launched generator.");
+				System.out.println("IQM:  Creating new samples with the parameters from the launched generator.");
 				break;
 			default:
-				logger.debug("Getting the item from the manager.");
+				System.out.println("IQM:  Getting the item from the manager.");
 				if (!isVirtual()) {
 					original = Tank.getInstance().getCurrentTankIqmDataBoxAt(
 							currentManagerItemIndex);
@@ -169,7 +169,7 @@ public class CreateCopiesTask extends AbstractProcessingTask {
 			}
 		}
 
-		logger.debug("Processing copies of item #"
+		System.out.println("IQM:  Processing copies of item #"
 				+ (currentManagerItemIndex + 1) + " from current manager.");
 
 		// IqmDataBox processedResults = null;
@@ -238,7 +238,7 @@ public class CreateCopiesTask extends AbstractProcessingTask {
 			} catch (NullPointerException npe) {
 				// this null-pointer is thrown, if the copies task has been
 				// called without a work package
-				logger.trace("No operator is launched, creating a copy instead of a new sample: "
+				System.out.println("IQM Trace: No operator is launched, creating a copy instead of a new sample: "
 						+ npe);
 			}
 
@@ -332,11 +332,11 @@ public class CreateCopiesTask extends AbstractProcessingTask {
 
 		} catch (ExecutionException e) {
 			// log the error message
-			logger.error("An error occurred: ", e);
+			System.out.println("IQM Error: An error occurred: " + e);
 			e.printStackTrace();
 		} catch (InterruptedException e) {
 			// log the error message
-			logger.error("An error occurred: ", e);
+			System.out.println("IQM Error: An error occurred: " + e);
 			e.printStackTrace();
 		} finally {
 			GUITools.getStatusPanel().setProcessingTask(null);

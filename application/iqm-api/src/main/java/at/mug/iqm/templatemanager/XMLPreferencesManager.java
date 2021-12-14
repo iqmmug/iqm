@@ -44,8 +44,8 @@ import javax.xml.transform.stream.StreamSource;
 import javax.xml.validation.Schema;
 import javax.xml.validation.SchemaFactory;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+ 
+ 
 import org.xml.sax.SAXException;
 
 import at.mug.iqm.api.operator.IOperatorDescriptor;
@@ -66,7 +66,7 @@ import at.mug.iqm.templatemanager.jaxb.ObjectFactory;
 public final class XMLPreferencesManager {
 
 	// class specific logger
-	private static final Logger logger = LogManager.getLogger(XMLPreferencesManager.class);
+	  
 
 	private Marshaller marshaller;
 	private Unmarshaller unmarshaller;
@@ -92,7 +92,7 @@ public final class XMLPreferencesManager {
 			try {
 				this.readXML(xmlFile);
 			} catch (JAXBException e) {
-				logger.error("An error occurred: ", e);
+				System.out.println("IQM Error: An error occurred: " + e);
 				// DialogUtil.getCurrentInstance().showErrorMessage(TemplateManagerResources.getMessage("application.exception.templates.validation.failed",
 				// ConfigManager.getCurrentInstance().getRootPath().toString() +
 				// IqmConstants.FILE_SEPARATOR + "logs"
@@ -101,7 +101,7 @@ public final class XMLPreferencesManager {
 				return;
 
 			} catch (NullPointerException e) {
-				logger.error("An error occurred: ", e);
+				System.out.println("IQM Error: An error occurred: " + e);
 				// DialogUtil.getCurrentInstance().showErrorMessage(TemplateManagerResources.getMessage("application.exception.templates.validation.failed",
 				// ConfigManager.getCurrentInstance().getRootPath().toString() +
 				// IqmConstants.FILE_SEPARATOR + "logs"
@@ -169,12 +169,12 @@ public final class XMLPreferencesManager {
 						javax.xml.bind.Marshaller.JAXB_FORMATTED_OUTPUT, true);
 				this.marshaller.marshal(getXMLDoc(), out);
 			} catch (JAXBException ex) {
-				logger.error(ex);
+				System.out.println("IQM Error: "+ ex);
 			}
 			out.flush();
 			out.close();
 		} catch (IOException ex) {
-			logger.error(ex);
+			System.out.println("IQM Error: "+ ex);
 		}
 	}
 
@@ -187,7 +187,7 @@ public final class XMLPreferencesManager {
 	 */
 	public synchronized void readXML(File xmlFile) throws JAXBException,
 			NullPointerException {
-		logger.debug("Validating and reading from XML file...");
+		System.out.println("IQM:  Validating and reading from XML file...");
 		this.validate();
 		propertyXML = (IqmOperatorTemplates) unmarshaller.unmarshal(xmlFile); // NOI18N
 	}
@@ -212,13 +212,13 @@ public final class XMLPreferencesManager {
 			this.unmarshaller.setSchema(schema);
 		} catch (SAXException e) {
 			// log the error message
-			logger.error("An error occurred: ", e);
+			System.out.println("IQM Error: An error occurred: " + e);
 		} catch (NullPointerException e) {
 			// log the error message
-			logger.error("An error occurred: ", e);
+			System.out.println("IQM Error: An error occurred: " + e);
 		} catch (JAXBException e) {
 			// log the error message
-			logger.error("An error occurred: ", e);
+			System.out.println("IQM Error: An error occurred: " + e);
 		}
 	}
 
@@ -310,7 +310,7 @@ public final class XMLPreferencesManager {
 			pb = loadParameterBlockFromTemplate(pb, template);
 		} catch (Exception e) {
 			// log the error message
-			logger.error("Cannot load template '" + templateName
+			System.out.println("IQM Error: Cannot load template '" + templateName
 					+ "' for operator [" + operatorName +"], using default settings!");
 		}
 
@@ -431,7 +431,7 @@ public final class XMLPreferencesManager {
 				for (String pn : block.getParamNames()) {
 					String className = classes[block.indexOfParameter(pn)]
 							.getName();
-					logger.debug("Write to IQMOperatorTemplates.xml " + pn
+					System.out.println("IQM:  Write to IQMOperatorTemplates.xml " + pn
 							+ " :: " + className + " @ " + parameterblockname
 							+ "." + templatename);
 					Parameters newparam = new Parameters();
@@ -460,7 +460,7 @@ public final class XMLPreferencesManager {
 
 			writeXML();
 		} catch (Exception e) {
-			logger.error("An error occurred: ", e);
+			System.out.println("IQM Error: An error occurred: " + e);
 		}
 	}
 

@@ -38,8 +38,8 @@ import javax.media.jai.PlanarImage;
 import javax.swing.JComponent;
 import javax.swing.UIManager;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+ 
+ 
 
 import at.mug.iqm.api.Application;
 import at.mug.iqm.api.IQMConstants;
@@ -64,11 +64,6 @@ import at.mug.iqm.gui.util.GUITools;
  * 
  */
 public final class Look implements ILook {
-
-	/**
-	 * Custom class logger.
-	 */
-	private final Logger logger = LogManager.getLogger(Look.class);
 
 	/**
 	 * An {@link ArrayList} of {@link LookPanel}s, initially constructed of size
@@ -115,7 +110,7 @@ public final class Look implements ILook {
 	@Override
 	public void setCurrentLookPanel(ILookPanel lookPanel) {
 		currentLookPanel = (LookPanel) lookPanel;
-		logger.debug("The currently active LookPanel is: " + currentLookPanel);
+		System.out.println("IQM:  The currently active LookPanel is: " + currentLookPanel);
 		// draw a color top border in the active panel
 		for (ILookPanel lp : lookPanels) {
 			if (lp == currentLookPanel) {
@@ -165,15 +160,15 @@ public final class Look implements ILook {
 						.appendTextln(
 								"There is no image available, creating an empty panel.",
 								Look.class);
-				logger.debug("There is no image available, creating a new empty LookPanel.");
+				System.out.println("IQM:  There is no image available, creating a new empty LookPanel.");
 			} else {
-				logger.debug("An image has been found, creating a new LookPanel and pass the image on to that panel.");
+				System.out.println("IQM:  An image has been found, creating a new LookPanel and pass the image on to that panel.");
 				this.setImage(pi);
 				iqmLookExtraFrame.pack();
 				iqmLookExtraFrame.validate();
 			}
 		} catch (Exception ex) {
-			logger.debug("There is no image available, creating a new empty LookPanel.");
+			System.out.println("IQM:  There is no image available, creating a new empty LookPanel.");
 		}
 		// finally show the look extra frame
 		iqmLookExtraFrame.setVisible(true);
@@ -268,7 +263,7 @@ public final class Look implements ILook {
 			boolean indexed = ImageAnalyzer.isIndexed(pi);
 			currentLookPanel.setIndexed(indexed);
 
-			logger.trace("PlanarImage is indexed: " + indexed);
+			System.out.println("IQM Trace: PlanarImage is indexed: " + indexed);
 
 			if (indexed) {
 				// short table: all values >=0
@@ -295,7 +290,7 @@ public final class Look implements ILook {
 
 			// #####################################################
 			// ZOOM the image
-			logger.trace("The current zoom of the current LookPanel="
+			System.out.println("IQM Trace: The current zoom of the current LookPanel="
 					+ String.format("%2s",
 							Double.valueOf(currentLookPanel.getZoom() * 100.0d))
 					+ "%");
@@ -340,7 +335,7 @@ public final class Look implements ILook {
 	@Override
 	public void reset() {
 		if (currentLookPanel != null) {
-			logger.debug("LookPanel is resetting");
+			System.out.println("IQM:  LookPanel is resetting");
 
 			setImage(null);
 			
@@ -376,7 +371,7 @@ public final class Look implements ILook {
 		this.lookPanels.add(lookPanel);
 		this.setCurrentLookPanel(lookPanel);
 
-		logger.debug("Total # of LookPanels=[" + lookPanels.size() + "]:"
+		System.out.println("IQM:  Total # of LookPanels=[" + lookPanels.size() + "]:"
 				+ lookPanels);
 	}
 
@@ -394,7 +389,7 @@ public final class Look implements ILook {
 			this.setCurrentLookPanel(this.lookPanels.get(this.lookPanels.size() - 1));
 		}
 
-		logger.debug("Total # of LookPanels=[" + lookPanels.size() + "]:"
+		System.out.println("IQM:  Total # of LookPanels=[" + lookPanels.size() + "]:"
 				+ lookPanels);
 	}
 

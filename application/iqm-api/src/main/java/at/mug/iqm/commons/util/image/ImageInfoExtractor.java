@@ -37,8 +37,8 @@ import java.awt.image.SampleModel;
 
 import javax.media.jai.PlanarImage;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+ 
+ 
 
 /**
  * @author Helmut Ahammer
@@ -47,7 +47,7 @@ import org.apache.logging.log4j.Logger;
 public class ImageInfoExtractor {
 
 	// class specific logger
-	private static final Logger logger = LogManager.getLogger(ImageHeaderExtractor.class);
+	  
 
 	private StringBuffer imageInfo = new StringBuffer();
 	private PlanarImage 	    pi = null;
@@ -61,7 +61,7 @@ public class ImageInfoExtractor {
 	public String getImageInfo(PlanarImage pi){
 		this.pi = pi;
 		if (this.pi == null){
-			logger.info("No image and therefore no information!");
+			System.out.println("IQM Info: No image and therefore no information!");
 			return null;
 		}
 		this.constructInfo(this.pi);

@@ -32,8 +32,8 @@ package at.mug.iqm.core.plugin;
 import java.util.Iterator;
 import java.util.ServiceLoader;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+ 
+ 
 
 import at.mug.iqm.api.Application;
 import at.mug.iqm.api.ClasspathUtils;
@@ -53,7 +53,7 @@ public class DefaultPluginService implements IPluginService {
 	/**
 	 * Custom class logger.
 	 */
-	private static final Logger logger = LogManager.getLogger(DefaultPluginService.class);
+	  
 
 	/**
 	 * The singleton reference.
@@ -126,8 +126,8 @@ public class DefaultPluginService implements IPluginService {
 						Application.getPluginMenu().addMenuItem(plugin, menuStructure);
 					}
 				} catch (Exception e) {
-					logger.error(
-							"Cannot load plugin " + plugin.getName() + ".", e);
+					System.out.println("IQM Error: "+ 
+							"Cannot load plugin " + plugin.getName() + "."+ e);
 				}
 			}
 		}

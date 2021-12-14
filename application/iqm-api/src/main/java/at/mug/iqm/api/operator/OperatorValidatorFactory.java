@@ -31,8 +31,8 @@ package at.mug.iqm.api.operator;
 
 import java.util.NoSuchElementException;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+ 
+ 
 
 import at.mug.iqm.api.Application;
 
@@ -44,9 +44,9 @@ import at.mug.iqm.api.Application;
 public final class OperatorValidatorFactory{
 
 	/**
-	 * Class specific logger.
+	 *  
 	 */
-	private static final Logger logger = LogManager.getLogger(OperatorValidatorFactory.class);
+	  
 
 	/**
 	 * This method creates an instance of a specified operator.
@@ -56,7 +56,7 @@ public final class OperatorValidatorFactory{
 	 */
 	public static IOperatorValidator createValidator(String name){
 		try{
-			logger.debug("Initializing operator validator '" + name + "'...");
+			System.out.println("IQM:  Initializing operator validator '" + name + "'...");
 
 			// find the class in the registry
 			String className = Application.getOperatorRegistry().getOperatorValidator(name).getName();
@@ -69,23 +69,23 @@ public final class OperatorValidatorFactory{
 
 		}catch (NullPointerException e){
 			e.printStackTrace();
-			logger.error("No operation found with name: '" + name + "'.", e);
+			System.out.println("IQM Error: No operation found with name: '" + name + "'." + e);
 			return null;
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
-			logger.error("No operation found with name: '" + name + "'.", e);
+			System.out.println("IQM Error: No operation found with name: '" + name + "'." + e);
 			return null;
 		} catch (InstantiationException e) {
 			e.printStackTrace();
-			logger.error("No operation found with name: '" + name + "'.", e);
+			System.out.println("IQM Error: No operation found with name: '" + name + "'." + e);
 			return null;
 		} catch (IllegalAccessException e) {
 			e.printStackTrace();
-			logger.error("No operation found with name: '" + name + "'.", e);
+			System.out.println("IQM Error: No operation found with name: '" + name + "'." + e);
 			return null;
 		} catch (NoSuchElementException e) {
 			e.printStackTrace();
-			logger.error("No operation found with name: '" + name + "'.", e);
+			System.out.println("IQM Error: No operation found with name: '" + name + "'." + e);
 			return null;
 		} 
 	}

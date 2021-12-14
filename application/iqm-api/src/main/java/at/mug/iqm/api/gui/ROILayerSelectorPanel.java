@@ -59,8 +59,8 @@ import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 import javax.swing.border.EmptyBorder;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+ 
+ 
 
 import at.mug.iqm.api.I18N;
 import at.mug.iqm.api.Resources;
@@ -83,7 +83,7 @@ public class ROILayerSelectorPanel extends JPanel {
 	/**
 	 * A custom class logger.
 	 */
-	private static final Logger logger = LogManager.getLogger(ROILayerSelectorPanel.class);
+	  
 
 	// control elements
 	private JLabel lblAdd;
@@ -474,7 +474,7 @@ public class ROILayerSelectorPanel extends JPanel {
 			final DefaultDrawingLayer layer = (DefaultDrawingLayer) layers
 					.get(idx);
 
-			logger.debug("Adding layer: " + layer.getName());
+			System.out.println("IQM:  Adding layer: " + layer.getName());
 
 			// bind the layer to a specific display panel
 			layer.setDisplayPanel(this.displayPanel);
@@ -493,7 +493,7 @@ public class ROILayerSelectorPanel extends JPanel {
 						imgLayer.getSource().getWidth(), imgLayer.getSource()
 								.getHeight());
 			} catch (NullPointerException ex) {
-				logger.warn("There is no image loaded yet. " + ex);
+				System.out.println("IQM Warning: There is no image loaded yet. " + ex);
 				layerBounds = new Rectangle(0, 0, 0, 0);
 			}
 			layer.setBounds(layerBounds);
@@ -547,11 +547,11 @@ public class ROILayerSelectorPanel extends JPanel {
 		// repaint the component
 		selectorContainer.repaint();
 
-		logger.debug("layers.size: " + layers.size());
-		logger.debug("layerSelectors.size: " + widgets.size());
-		logger.debug("selectorContainer.components: "
+		System.out.println("IQM:  layers.size: " + layers.size());
+		System.out.println("IQM:  layerSelectors.size: " + widgets.size());
+		System.out.println("IQM:  selectorContainer.components: "
 				+ selectorContainer.getComponentCount());
-		logger.debug("layeredPane.components: " + layerPane.getComponentCount());
+		System.out.println("IQM:  layeredPane.components: " + layerPane.getComponentCount());
 
 		return activeLayer;
 	}
@@ -569,7 +569,7 @@ public class ROILayerSelectorPanel extends JPanel {
 	protected IDrawingLayer addLayer(String name, boolean immediateRepaint) {
 		// get new layer index
 		int zOrder = layers.size();
-		logger.debug("Adding layer: " + name);
+		System.out.println("IQM:  Adding layer: " + name);
 
 		// generate new layer
 		final TransparentROILayer layer = new TransparentROILayer(displayPanel);
@@ -589,7 +589,7 @@ public class ROILayerSelectorPanel extends JPanel {
 					imgLayer.getOrigin().y, imgLayer.getSource().getWidth(),
 					imgLayer.getSource().getHeight());
 		} catch (NullPointerException ex) {
-			logger.warn("There is no image loaded yet. " + ex);
+			System.out.println("IQM Warning: There is no image loaded yet. " + ex);
 			layerBounds = new Rectangle(0, 0, 0, 0);
 		}
 		layer.setBounds(layerBounds);
@@ -637,11 +637,11 @@ public class ROILayerSelectorPanel extends JPanel {
 		if (immediateRepaint)
 			selectorContainer.repaint();
 
-		logger.debug("layers.size: " + layers.size());
-		logger.debug("layerSelectors.size: " + widgets.size());
-		logger.debug("selectorContainer.components: "
+		System.out.println("IQM:  layers.size: " + layers.size());
+		System.out.println("IQM:  layerSelectors.size: " + widgets.size());
+		System.out.println("IQM:  selectorContainer.components: "
 				+ selectorContainer.getComponentCount());
-		logger.debug("layeredPane.components: " + layerPane.getComponentCount());
+		System.out.println("IQM:  layeredPane.components: " + layerPane.getComponentCount());
 
 		return layer;
 	}
@@ -685,10 +685,10 @@ public class ROILayerSelectorPanel extends JPanel {
 	 */
 	public IDrawingLayer getLayer(int zOrder) {
 		if (zOrder < layers.size()) {
-			logger.debug("Getting layer [" + zOrder + "].");
+			System.out.println("IQM:  Getting layer [" + zOrder + "].");
 			return layers.get(zOrder);
 		} else {
-			logger.debug("Layer [" + zOrder
+			System.out.println("IQM:  Layer [" + zOrder
 					+ "] is not accessible, creating a new one.");
 			return this.createLayer();
 		}
@@ -702,11 +702,11 @@ public class ROILayerSelectorPanel extends JPanel {
 	 */
 	public void removeLayer(int zOrder) {
 		if (layers.size() == 1) {
-			logger.info("There is just one layer left, which will not be removed.");
+			System.out.println("IQM Info: There is just one layer left, which will not be removed.");
 			return;
 		}
 		if (zOrder < layers.size()) {
-			logger.debug("Attempting to remove layer [" + zOrder
+			System.out.println("IQM:  Attempting to remove layer [" + zOrder
 					+ "] and corresponding widget.");
 
 			cleanUp(zOrder);
@@ -718,14 +718,14 @@ public class ROILayerSelectorPanel extends JPanel {
 				selectLayer(zOrder - 1);
 			}
 		} else {
-			logger.debug("No layer registered for z-order [" + zOrder + "]!");
+			System.out.println("IQM:  No layer registered for z-order [" + zOrder + "]!");
 		}
 
-		logger.debug("layers.size: " + layers.size());
-		logger.debug("layerSelectors.size: " + widgets.size());
-		logger.debug("selectorContainer.components: "
+		System.out.println("IQM:  layers.size: " + layers.size());
+		System.out.println("IQM:  layerSelectors.size: " + widgets.size());
+		System.out.println("IQM:  selectorContainer.components: "
 				+ selectorContainer.getComponentCount());
-		logger.debug("layeredPane.components: " + layerPane.getComponentCount());
+		System.out.println("IQM:  layeredPane.components: " + layerPane.getComponentCount());
 	}
 
 	/**

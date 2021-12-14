@@ -40,8 +40,8 @@ import javax.swing.JFrame;
 import javax.swing.JScrollPane;
 import javax.swing.WindowConstants;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+ 
+ 
 
 import at.mug.iqm.api.gui.BoardPanel;
 import at.mug.iqm.core.I18N;
@@ -62,13 +62,13 @@ public class LogFrame extends JFrame implements WindowListener{
 	private static final long serialVersionUID = 3348559897504047466L;
 	
 	// Standard class logger
-	private static final Logger logger = LogManager.getLogger(LogFrame.class);
+	  
 
 	/**
 	 * Constructs a new log frame.
 	 */
 	public LogFrame() {
-		logger.debug("Constructing log frame...");
+		System.out.println("IQM:  Constructing log frame...");
 		this.setTitle(I18N.getGUILabelText("board.frame.title"));
 		// custom window closing handler
 		this.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);

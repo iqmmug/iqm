@@ -36,8 +36,8 @@ import java.util.ListIterator;
 
 import javax.media.jai.ROIShape;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+ 
+ 
 
 import at.mug.iqm.api.gui.DefaultDrawingLayer;
 import at.mug.iqm.api.gui.ILookPanel;
@@ -56,7 +56,7 @@ import at.mug.iqm.commons.util.CursorFactory;
 public class ROILayerCursorChanger extends MouseMotionAdapter {
 
 	// class specific logger
-	private static final Logger logger = LogManager.getLogger(ROILayerCursorChanger.class);
+	  
 
 	/**
 	 * The reference to the {@link ILookPanel}.
@@ -75,7 +75,7 @@ public class ROILayerCursorChanger extends MouseMotionAdapter {
 	 * @param displayPanel
 	 */
 	public ROILayerCursorChanger(ILookPanel displayPanel) {
-		logger.debug("Creating a new instance...");
+		System.out.println("IQM:  Creating a new instance...");
 		this.displayPanel = displayPanel;
 	}
 

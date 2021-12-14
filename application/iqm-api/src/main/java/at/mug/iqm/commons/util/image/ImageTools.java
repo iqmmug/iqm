@@ -60,8 +60,8 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.WindowConstants;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+ 
+ 
 
 import at.mug.iqm.api.Resources;
 import at.mug.iqm.api.gui.IDrawingLayer;
@@ -74,7 +74,7 @@ import at.mug.iqm.commons.util.BASE64Helper;
  */
 public final class ImageTools {
 
-	private static final Logger logger = LogManager.getLogger(ImageTools.class);
+	  
 
 	/**
 	 * Copies the image properties
@@ -203,7 +203,7 @@ public final class ImageTools {
 	 * @return an image icon for the tank list, scaled to fit 60x60 px
 	 */
 	public static Thumbnail createTankThumb(PlanarImage pi) {
-		logger.trace("Creating tank thumb nail.");
+		System.out.println("IQM Trace: Creating tank thumb nail.");
 		return new Thumbnail(createThumbnail(pi, 60, 60, true, true).getImage());
 	}
 
@@ -215,7 +215,7 @@ public final class ImageTools {
 	 * @return ImageIcon
 	 */
 	public static Thumbnail createManagerThumb(PlanarImage pi) {
-		logger.trace("Creating manager thumb nail.");
+		System.out.println("IQM Trace: Creating manager thumb nail.");
 		return new Thumbnail(createThumbnail(pi, 40, 40, true, true).getImage());
 	}
 
@@ -291,9 +291,8 @@ public final class ImageTools {
 				BufferedImage bi = pi.getAsBufferedImage();
 				ic = new ImageIcon(bi);
 			} catch (Exception e) {
-				logger.error(
-						"An error occurred, the ImageIcon could not be generated!",
-						e);
+				System.out.println("IQM Error: "+ 
+						"An error occurred, the ImageIcon could not be generated!"+ e);
 				BufferedImage bi;
 				try {
 					bi = ImageIO.read(Resources
@@ -302,9 +301,8 @@ public final class ImageTools {
 							PlanarImage.wrapRenderedImage(bi), targetWidth);
 					ic = new ImageIcon(pi.getAsBufferedImage());
 				} catch (IOException e1) {
-					logger.error(
-							"An error occurred, the ImageIcon could not be generated!",
-							e1);
+					System.out.println("IQM Error: "+ 
+							"An error occurred, the ImageIcon could not be generated!"+ e1);
 					ic = null;
 				}
 			}
@@ -826,7 +824,7 @@ public final class ImageTools {
 			g2d.drawImage(image, 0, 0, null);
 			g2d.dispose();
 
-			logger.info("Image optimization done in: "
+			System.out.println("IQM Info: Image optimization done in: "
 					+ (System.currentTimeMillis() - start) / 1000.0d + " s.");
 
 			// return the new optimized image

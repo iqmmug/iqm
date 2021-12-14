@@ -56,8 +56,8 @@ import at.mug.iqm.api.Resources;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.event.ListSelectionEvent;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+ 
+ 
 
 /**
  * This class is used to select a file from a list.
@@ -69,7 +69,7 @@ import org.apache.logging.log4j.Logger;
 public class FileSelectionDialog extends JDialog {
 
 	// private logger
-	private static final Logger logger = LogManager.getLogger(FileSelectionDialog.class);
+	  
 
 	/**
 	 * The UID for serialization.
@@ -133,7 +133,7 @@ public class FileSelectionDialog extends JDialog {
 				// when selection is finished
 				if (e.getValueIsAdjusting() == false) {
 					selectedItem = (File) fileNameList.getSelectedValue();
-					logger.debug(selectedItem);
+					System.out.println("IQM:  "+selectedItem);
 				}
 			}
 		});
@@ -157,7 +157,7 @@ public class FileSelectionDialog extends JDialog {
 				try {
 					eventHandler.setSelectedFile(null);
 				} catch (NullPointerException ex) {
-					logger.error(ex);
+					System.out.println("IQM Error: "+ ex);
 				}
 				dispose();
 			}
@@ -170,7 +170,7 @@ public class FileSelectionDialog extends JDialog {
 				try {
 					eventHandler.setSelectedFile(getSelectedItem());
 				} catch (NullPointerException ex) {
-					logger.error(ex);
+					System.out.println("IQM Error: "+ ex);
 				}
 				dispose();
 			}

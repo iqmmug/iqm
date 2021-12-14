@@ -44,8 +44,8 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+ 
+ 
 
 import at.mug.iqm.api.I18N;
 import at.mug.iqm.api.IQMConstants;
@@ -70,7 +70,7 @@ public abstract class AbstractTableSavingDialog extends JFileChooser implements
 	 * The UID for serialization.
 	 */
 	private static final long serialVersionUID = 3879770302565940024L;
-	private static final Logger logger = LogManager.getLogger(AbstractTableSavingDialog.class);
+	  
 
 	protected File currImgDir;
 	protected boolean extensionExists = false;
@@ -99,7 +99,7 @@ public abstract class AbstractTableSavingDialog extends JFileChooser implements
 
 		// react to the user's choice
 		if (returnVal != APPROVE_OPTION) {
-			logger.info("No table(s) saved.");
+			System.out.println("IQM Info: No table(s) saved.");
 			return null;
 		}
 
@@ -143,10 +143,10 @@ public abstract class AbstractTableSavingDialog extends JFileChooser implements
 			}
 		} catch (NullPointerException npe) {
 			extensionExists = false;
-			logger.debug(npe);
+			System.out.println("IQM:  "+npe);
 		} catch (StringIndexOutOfBoundsException se) {
 			extensionExists = false;
-			logger.debug(se);
+			System.out.println("IQM:  "+se);
 		}
 
 		
@@ -254,7 +254,7 @@ public abstract class AbstractTableSavingDialog extends JFileChooser implements
 	
 	@Override
 	public void propertyChange(PropertyChangeEvent evt) {
-		logger.debug(evt.getSource() + ", " + evt.getPropertyName() + ", " + evt.getNewValue());
+		System.out.println("IQM:  "+evt.getSource() + ", " + evt.getPropertyName() + ", " + evt.getNewValue());
 		if (evt.getPropertyName().equals(
 				JFileChooser.FILE_FILTER_CHANGED_PROPERTY)) {
 			if (((FileNameExtensionFilter) evt.getNewValue()).getDescription().equals(IQMConstants.JTB_FILTER_DESCRIPTION)) {

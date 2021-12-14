@@ -53,8 +53,8 @@ import javax.swing.border.TitledBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+ 
+ 
 
 import at.mug.iqm.api.operator.AbstractImageOperatorGUI;
 import at.mug.iqm.api.operator.ParameterBlockIQM;
@@ -74,7 +74,7 @@ public class OperatorGUI_ImgStabilizer extends AbstractImageOperatorGUI
 	private static final long serialVersionUID = 5721437365950286003L;
 
 	// class specific logger
-	private static final Logger logger = LogManager.getLogger(OperatorGUI_ImgStabilizer.class);
+	  
 
 	private ParameterBlockIQM pb = null; // @jve:decl-index=0:
 
@@ -110,7 +110,7 @@ public class OperatorGUI_ImgStabilizer extends AbstractImageOperatorGUI
 	 * constructor
 	 */
 	public OperatorGUI_ImgStabilizer() {
-		logger.debug("Now initializing...");
+		System.out.println("IQM:  Now initializing...");
 
 		this.setOpName(new IqmOpImgStabilizerDescriptor().getName());
 		this.initialize();
@@ -209,7 +209,7 @@ public class OperatorGUI_ImgStabilizer extends AbstractImageOperatorGUI
 	 */
 	@Override
 	public void update() {
-		logger.debug("Updating GUI...");
+		System.out.println("IQM:  Updating GUI...");
 		// here, it does nothing
 	}
 
@@ -459,14 +459,14 @@ public class OperatorGUI_ImgStabilizer extends AbstractImageOperatorGUI
 	// --------------------------------------------------------------------------------------------
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		logger.debug(e.getActionCommand() + " event has been triggered.");
+		System.out.println("IQM:  "+e.getActionCommand() + " event has been triggered.");
 		if ("parameter".equals(e.getActionCommand())) {
 			this.updateParameterBlock();
 		}
 
 		// preview if selected
 		if (this.isAutoPreviewSelected()) {
-			logger.debug("Performing AutoPreview");
+			System.out.println("IQM:  Performing AutoPreview");
 			this.showPreview();
 		}
 
@@ -482,7 +482,7 @@ public class OperatorGUI_ImgStabilizer extends AbstractImageOperatorGUI
 		this.updateParameterBlock();
 
 		if (this.isAutoPreviewSelected()) {
-			logger.debug("Performing AutoPreview");
+			System.out.println("IQM:  Performing AutoPreview");
 			this.showPreview();
 		}
 	}
@@ -493,7 +493,7 @@ public class OperatorGUI_ImgStabilizer extends AbstractImageOperatorGUI
 
 		// preview if selected
 		if (this.isAutoPreviewSelected()) {
-			logger.debug("Performing AutoPreview");
+			System.out.println("IQM:  Performing AutoPreview");
 			this.showPreview();
 		}
 	}

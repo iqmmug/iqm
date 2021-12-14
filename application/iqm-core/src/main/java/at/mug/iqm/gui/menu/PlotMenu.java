@@ -41,8 +41,8 @@ import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 import javax.swing.table.JTableHeader;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+ 
+ 
 
 import at.mug.iqm.api.Application;
 import at.mug.iqm.api.IQMConstants;
@@ -85,7 +85,7 @@ public class PlotMenu extends DeactivatableMenu implements ActionListener {
 
 	// class specific logger
 	private static Class<?> caller = PlotMenu.class;
-	private static final Logger logger = LogManager.getLogger(PlotMenu.class);
+	  
 
 	// class variable declaration
 	private OperatorMenuItem projectToXMenuItem;
@@ -107,7 +107,7 @@ public class PlotMenu extends DeactivatableMenu implements ActionListener {
 	 * equipped PlotMenu.
 	 */
 	public PlotMenu() {
-		logger.debug("Generating new instance of 'plot' menu.");
+		System.out.println("IQM:  Generating new instance of 'plot' menu.");
 
 		// initialize the variables
 		this.projectToXMenuItem = new OperatorMenuItem(OperatorType.IMAGE);
@@ -127,14 +127,14 @@ public class PlotMenu extends DeactivatableMenu implements ActionListener {
 		// assemble the gui elements to a JMenu
 		this.createAndAssembleMenu();
 
-		logger.debug("Menu 'plot' generated.");
+		System.out.println("IQM:  Menu 'plot' generated.");
 	}
 
 	/**
 	 * This method constructs the items.
 	 */
 	private void createAndAssembleMenu() {
-		logger.debug("Assembling menu items in 'plot' menu.");
+		System.out.println("IQM:  Assembling menu items in 'plot' menu.");
 
 		// set menu attributes
 		this.setText(I18N.getGUILabelText("menu.plot.text"));
@@ -299,7 +299,7 @@ public class PlotMenu extends DeactivatableMenu implements ActionListener {
 	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		logger.debug(e.getActionCommand() + " -- Modifiers: "
+		System.out.println("IQM:  "+e.getActionCommand() + " -- Modifiers: "
 				+ e.getModifiers());
 
 		if ("histogram".equals(e.getActionCommand())) {
@@ -352,7 +352,7 @@ public class PlotMenu extends DeactivatableMenu implements ActionListener {
 				int sel = DialogUtil.getInstance().showDefaultWarnMessage(
 						I18N.getMessage("warn.roiNotRectangular"));
 				if (sel != DialogUtil.YES_OPTION) {
-					logger.info("User cancelled creating ROI histogram.");
+					System.out.println("IQM Info: User cancelled creating ROI histogram.");
 					return;
 				}
 			}

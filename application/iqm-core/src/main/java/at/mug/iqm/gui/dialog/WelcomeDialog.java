@@ -48,8 +48,8 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+ 
+ 
 
 import at.mug.iqm.api.IQMConstants;
 import at.mug.iqm.commons.util.CommonTools;
@@ -70,7 +70,7 @@ public class WelcomeDialog extends JDialog {
 	private static final long serialVersionUID = 7588942388984507473L;
 
 	// class specific logger
-	private static final Logger logger = LogManager.getLogger(WelcomeDialog.class);
+	  
 
 	private JPanel welcomePanel;
 
@@ -88,7 +88,7 @@ public class WelcomeDialog extends JDialog {
 		this.getContentPane().setBackground(Color.black);
 		this.getContentPane().add(this.createContent());
 		this.pack();
-		logger.debug("Packing done.");
+		System.out.println("IQM:  Packing done.");
 		CommonTools.centerFrameOnScreen(this);
 	}
 
@@ -183,7 +183,7 @@ public class WelcomeDialog extends JDialog {
 	 * @param text the String to be displayed
 	 */
 	public void updateDynamicText(String text) {
-		logger.trace(text);
+		System.out.println("IQM Trace: "+ text);
 		this.dynamicText.setText(text);
 	}
 }

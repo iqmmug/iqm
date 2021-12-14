@@ -51,8 +51,8 @@ import javax.swing.JMenuItem;
 import javax.swing.KeyStroke;
 import javax.swing.SwingUtilities;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+ 
+ 
 
 import at.mug.iqm.api.Application;
 import at.mug.iqm.api.IQMConstants;
@@ -102,7 +102,7 @@ public class FileMenu extends DeactivatableMenu implements ActionListener {
 	 */
 	private static final long serialVersionUID = -3340271210580280839L;
 	// class specific logger
-	private static final Logger logger = LogManager.getLogger(FileMenu.class);
+	  
 
 	// class variable declaration
 	private JMenuItem openMenuItem;
@@ -133,7 +133,7 @@ public class FileMenu extends DeactivatableMenu implements ActionListener {
 	 * equipped FileMenu.
 	 */
 	public FileMenu() {
-		logger.debug("Generating new instance.");
+		System.out.println("IQM:  Generating new instance.");
 
 		// initialize the variables
 		this.openMenuItem = new JMenuItem();
@@ -162,14 +162,14 @@ public class FileMenu extends DeactivatableMenu implements ActionListener {
 		// assemble the gui elements to a JMenu
 		this.createAndAssembleMenu();
 
-		logger.debug("Done.");
+		System.out.println("IQM:  Done.");
 	}
 
 	/**
 	 * This method constructs the items.
 	 */
 	private void createAndAssembleMenu() {
-		logger.debug("Assembling menu items to a menu.");
+		System.out.println("IQM:  Assembling menu items to a menu.");
 
 		// set menu attributes
 		this.setText(I18N.getGUILabelText("menu.file.text"));
@@ -432,7 +432,7 @@ public class FileMenu extends DeactivatableMenu implements ActionListener {
 					@Override
 					public void actionPerformed(ActionEvent e) {
 						// load the image to the tank/look panel
-						logger.debug("Clicked on '" + item.getText() + "'");
+						System.out.println("IQM:  Clicked on '" + item.getText() + "'");
 						InputStream is = null;
 						OutputStream out = null;
 						try {
@@ -466,7 +466,7 @@ public class FileMenu extends DeactivatableMenu implements ActionListener {
 
 							File f = new File(targetDir + File.separator + item.getText());
 
-							logger.debug("File exists? -> " + f.exists());
+							System.out.println("IQM:  File exists? -> " + f.exists());
 
 							// using a PlotParser to read file and show content
 							// for selection of data:
@@ -545,7 +545,7 @@ public class FileMenu extends DeactivatableMenu implements ActionListener {
 					@Override
 					public void actionPerformed(ActionEvent e) {
 						// load the image to the tank/look panel
-						logger.debug("Clicked on '" + item.getText() + "'");
+						System.out.println("IQM:  Clicked on '" + item.getText() + "'");
 						InputStream is = null;
 						OutputStream out = null;
 						try {
@@ -579,13 +579,13 @@ public class FileMenu extends DeactivatableMenu implements ActionListener {
 
 							File f = new File(targetDir + File.separator + item.getText());
 
-							logger.debug("File exists? -> " + f.exists());
+							System.out.println("IQM:  File exists? -> " + f.exists());
 
 							Tank.getInstance().loadImagesFromHD(
 									new File[] { f });
 
 						} catch (IOException ex) {
-							logger.error(ex);
+							System.out.println("IQM Error: "+ ex);
 						} finally {
 							try {
 								is.close();
@@ -645,7 +645,7 @@ public class FileMenu extends DeactivatableMenu implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if ("open".equals(e.getActionCommand())) {
-			logger.debug("Image opening dialog");
+			System.out.println("IQM:  Image opening dialog");
 			SwingUtilities.invokeLater(new Runnable() {
 
 				@Override
@@ -660,7 +660,7 @@ public class FileMenu extends DeactivatableMenu implements ActionListener {
 					}
 
 					// log ALL loaded files anyway
-					logger.info("Selected image(s) for loading: " + Arrays.asList(files).toString());
+					System.out.println("IQM Info: Selected image(s) for loading: " + Arrays.asList(files).toString());
 
 					Application.getTank().loadImagesFromHD(files);
 				}
@@ -668,7 +668,7 @@ public class FileMenu extends DeactivatableMenu implements ActionListener {
 
 		}
 		if ("savesingle".equals(e.getActionCommand())) {
-			logger.debug("Launching single image saving dialog.");
+			System.out.println("IQM:  Launching single image saving dialog.");
 			SwingUtilities.invokeLater(new Runnable() {
 
 				@Override
@@ -699,7 +699,7 @@ public class FileMenu extends DeactivatableMenu implements ActionListener {
 
 		}
 		if ("savesequ".equals(e.getActionCommand())) {
-			logger.debug("Image sequence saving dialog");
+			System.out.println("IQM:  Image sequence saving dialog");
 			SwingUtilities.invokeLater(new Runnable() {
 
 				@Override
@@ -734,7 +734,7 @@ public class FileMenu extends DeactivatableMenu implements ActionListener {
 
 		}
 		if ("savestack".equals(e.getActionCommand())) {
-			logger.debug("Image stack saving dialog");
+			System.out.println("IQM:  Image stack saving dialog");
 			SwingUtilities.invokeLater(new Runnable() {
 
 				@Override
@@ -768,7 +768,7 @@ public class FileMenu extends DeactivatableMenu implements ActionListener {
 
 		}
 		if ("openheader".equals(e.getActionCommand())) {
-			logger.debug("Header opening dialog");
+			System.out.println("IQM:  Header opening dialog");
 			SwingUtilities.invokeLater(new Runnable() {
 
 				@Override
@@ -779,7 +779,7 @@ public class FileMenu extends DeactivatableMenu implements ActionListener {
 
 		}
 		if ("extractsvs".equals(e.getActionCommand())) {
-			logger.debug("Extract svs file(s)");
+			System.out.println("IQM:  Extract svs file(s)");
 			SwingUtilities.invokeLater(new Runnable() {
 
 				@Override
@@ -790,7 +790,7 @@ public class FileMenu extends DeactivatableMenu implements ActionListener {
 
 		}
 		if ("extractqrspeaks".equals(e.getActionCommand())) {
-			logger.debug("Extract QRS peaks of a file");
+			System.out.println("IQM:  Extract QRS peaks of a file");
 			SwingUtilities.invokeLater(new Runnable() {
 
 				@Override
@@ -801,7 +801,7 @@ public class FileMenu extends DeactivatableMenu implements ActionListener {
 
 		}
 		if ("openplot".equals(e.getActionCommand())) {
-			logger.debug("Plot opening dialog");
+			System.out.println("IQM:  Plot opening dialog");
 			SwingUtilities.invokeLater(new Runnable() {
 
 				@Override
@@ -812,7 +812,7 @@ public class FileMenu extends DeactivatableMenu implements ActionListener {
 
 		}
 		if ("opentable".equals(e.getActionCommand())) {
-			logger.debug("Table opening dialog");
+			System.out.println("IQM:  Table opening dialog");
 			SwingUtilities.invokeLater(new Runnable() {
 
 				@Override
@@ -823,7 +823,7 @@ public class FileMenu extends DeactivatableMenu implements ActionListener {
 
 		}
 		if ("savetable".equals(e.getActionCommand())) {
-			logger.debug("Table saving dialog");
+			System.out.println("IQM:  Table saving dialog");
 			if (Table.getInstance().getTablePanel().isEmpty())
 				return;
 			SwingUtilities.invokeLater(new Runnable() {
@@ -878,7 +878,7 @@ public class FileMenu extends DeactivatableMenu implements ActionListener {
 		}
 
 		if ("saveplotdata".equals(e.getActionCommand())) {
-			logger.debug("Plot data saving dialog");
+			System.out.println("IQM:  Plot data saving dialog");
 			if (Plot.getInstance().isEmpty())
 				return;
 			SwingUtilities.invokeLater(new Runnable() {
@@ -940,7 +940,7 @@ public class FileMenu extends DeactivatableMenu implements ActionListener {
 
 		}
 		if ("savetablesequ".equals(e.getActionCommand())) {
-			logger.debug("Table sequence saving dialog");
+			System.out.println("IQM:  Table sequence saving dialog");
 			if (Table.getInstance().getTablePanel().isEmpty())
 				return;
 
@@ -988,8 +988,8 @@ public class FileMenu extends DeactivatableMenu implements ActionListener {
 						GUITools.getMainFrame().windowClosing(null);
 					} catch (Exception e1) {
 						// log the error message
-						logger.error("", e1);
-						logger.info("Exit code: -1.");
+						System.out.println("IQM Error: " + e1);
+						System.out.println("IQM Info: Exit code: -1.");
 						System.exit(-1);
 					}
 				}

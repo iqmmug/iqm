@@ -50,8 +50,8 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.border.MatteBorder;
 import javax.swing.table.DefaultTableModel;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+ 
+ 
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
 import org.jfree.data.xy.XYDataset;
@@ -86,7 +86,7 @@ public class PlotPanel extends JPanel implements IPlotPanel {
 	private static final long serialVersionUID = -3912758686700608387L;
 
 	// class specific logger
-	private static final Logger logger = LogManager.getLogger(PlotPanel.class);
+	  
 	/**
 	 * The panel, where the chart is displayed.
 	 */
@@ -116,7 +116,7 @@ public class PlotPanel extends JPanel implements IPlotPanel {
 
 		setBorder(new MatteBorder(5, 1, 1, 1, (Color) Color.GRAY));
 
-		logger.debug("Creating new instance...");
+		System.out.println("IQM:  Creating new instance...");
 
 		BorderLayout borderLayout = new BorderLayout();
 		borderLayout.setVgap(2);
@@ -245,7 +245,7 @@ public class PlotPanel extends JPanel implements IPlotPanel {
 		this.revalidate();
 		this.repaint();
 
-		logger.debug("isEmpty? --> " + isEmpty());
+		System.out.println("IQM:  isEmpty? --> " + isEmpty());
 	}
 
 	/**
@@ -438,7 +438,7 @@ public class PlotPanel extends JPanel implements IPlotPanel {
 		this.revalidate();
 		this.repaint();
 
-		logger.debug("is empty? --> " + isEmpty());
+		System.out.println("IQM:  is empty? --> " + isEmpty());
 	}
 
 	@Override
@@ -460,7 +460,7 @@ public class PlotPanel extends JPanel implements IPlotPanel {
 		try {
 			return (JFreeChart) chart.clone();
 		} catch (CloneNotSupportedException e) {
-			logger.error("The chart cannot be cloned! ", e);
+			System.out.println("IQM Error: The chart cannot be cloned! "+ e);
 		}
 		return null;
 	}

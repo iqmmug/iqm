@@ -38,8 +38,8 @@ import javax.swing.JFrame;
 import javax.swing.JTextArea;
 import javax.swing.WindowConstants;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+ 
+ 
 
 import at.mug.iqm.core.I18N;
 import at.mug.iqm.core.Resources;
@@ -56,7 +56,7 @@ public class TextDisplayFrame extends JFrame{
 	private static final long serialVersionUID = -985683849398150097L;
 	
 	// class specific logger
-	private static final Logger logger = LogManager.getLogger(TextDisplayFrame.class);
+	  
 	
 	/**
 	 * The panel containing the {@link JTextArea} and the text.
@@ -68,7 +68,7 @@ public class TextDisplayFrame extends JFrame{
 	 */
     public TextDisplayFrame(TextPanel tp) {
         super();
-        logger.debug("Constructing new instance...");
+        System.out.println("IQM:  Constructing new instance...");
         this.textPanel = tp;
         this.createAndAssemble();                              
     }

@@ -34,8 +34,8 @@ import java.awt.Window;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+ 
+ 
 
 import at.mug.iqm.api.Application;
 import at.mug.iqm.api.I18N;
@@ -50,7 +50,7 @@ import at.mug.iqm.api.gui.IDialogUtil;
 public class DialogUtil implements IDialogUtil {
 
 	// Logging variables
-	private static final Logger logger = LogManager.getLogger(DialogUtil.class);
+	  
 
 	private DialogUtil() {
 		Application.setDialogUtil(this);
@@ -79,7 +79,7 @@ public class DialogUtil implements IDialogUtil {
 	 */
 	@Override
 	public void showDefaultInfoMessage(String infoMessage) {
-		logger.debug("Creating a new default information dialog.");
+		System.out.println("IQM:  Creating a new default information dialog.");
 
 		JOptionPane
 				.showMessageDialog(
@@ -88,7 +88,7 @@ public class DialogUtil implements IDialogUtil {
 						I18N.getGUILabelText("application.dialog.information.generic.title"),
 						JOptionPane.INFORMATION_MESSAGE);
 
-		logger.info(infoMessage);
+		System.out.println("IQM Info: "+infoMessage);
 	}
 
 	/**
@@ -102,7 +102,7 @@ public class DialogUtil implements IDialogUtil {
 	 */
 	@Override
 	public int showDefaultWarnMessage(String warnMessage) {
-		logger.debug("Creating a new default warning dialog.");
+		System.out.println("IQM:  Creating a new default warning dialog.");
 
 		int userSelection = JOptionPane
 				.showConfirmDialog(
@@ -112,7 +112,7 @@ public class DialogUtil implements IDialogUtil {
 						JOptionPane.YES_NO_CANCEL_OPTION,
 						JOptionPane.WARNING_MESSAGE);
 
-		logger.warn(warnMessage);
+		System.out.println("IQM Warning: "+warnMessage);
 
 		return userSelection;
 	}
@@ -132,7 +132,7 @@ public class DialogUtil implements IDialogUtil {
 	 */
 	@Override
 	public int showWarnMessage(Component window, String warnMessage, String title) {
-		logger.debug("Creating a new default warning dialog.");
+		System.out.println("IQM:  Creating a new default warning dialog.");
 
 		int userSelection = JOptionPane
 				.showConfirmDialog(
@@ -142,7 +142,7 @@ public class DialogUtil implements IDialogUtil {
 						JOptionPane.YES_NO_CANCEL_OPTION,
 						JOptionPane.WARNING_MESSAGE);
 
-		logger.warn(warnMessage);
+		System.out.println("IQM Warning: "+warnMessage);
 
 		return userSelection;
 	}
@@ -156,13 +156,13 @@ public class DialogUtil implements IDialogUtil {
 	 */
 	@Override
 	public void showDefaultErrorMessage(String errMessage) {
-		logger.debug("Creating a new default error dialog.");
+		System.out.println("IQM:  Creating a new default error dialog.");
 
 		JOptionPane.showMessageDialog(null, errMessage,
 				I18N.getGUILabelText("application.dialog.error.generic.title"),
 				JOptionPane.ERROR_MESSAGE);
 
-		logger.error(errMessage);
+		System.out.println("IQM Error: "+ errMessage);
 	}
 
 	/**
@@ -179,7 +179,7 @@ public class DialogUtil implements IDialogUtil {
 	@Override
 	public void showErrorMessage(String errMessage, Exception exception,
 			boolean withStackTrace) {
-		logger.debug("Creating a new error dialog with message and exception.");
+		System.out.println("IQM:  Creating a new error dialog with message and exception.");
 		ErrorMessagePanel emp;
 
 		try {
@@ -189,10 +189,10 @@ public class DialogUtil implements IDialogUtil {
 					.getGUILabelText("application.dialog.error.generic.title"),
 					JOptionPane.ERROR_MESSAGE);
 		} catch (NullPointerException e) {
-			logger.error("An error occurred: ", e);
+			System.out.println("IQM Error: An error occurred: " + e);
 		}
 
-		logger.error(exception.getLocalizedMessage());
+		System.out.println("IQM Error: "+ exception.getLocalizedMessage());
 	}
 
 	/**
@@ -226,13 +226,13 @@ public class DialogUtil implements IDialogUtil {
 	 */
 	@Override
 	public int showDefaultQuestionMessage(String question) {
-		logger.debug("Creating a new default question dialog.");
+		System.out.println("IQM:  Creating a new default question dialog.");
 
 		int userSelection = JOptionPane.showConfirmDialog(null, question, I18N
 				.getGUILabelText("application.dialog.question.generic.title"),
 				JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE);
 
-		logger.info(question);
+		System.out.println("IQM Info: "+question);
 
 		return userSelection;
 	}
@@ -250,7 +250,7 @@ public class DialogUtil implements IDialogUtil {
 	 */
 	@Override
 	public int showQuestionMessage(Window parent, String question) {
-		logger.debug("Creating a new default question dialog.");
+		System.out.println("IQM:  Creating a new default question dialog.");
 
 		int userSelection = JOptionPane
 				.showConfirmDialog(
@@ -260,7 +260,7 @@ public class DialogUtil implements IDialogUtil {
 						JOptionPane.YES_NO_CANCEL_OPTION,
 						JOptionPane.QUESTION_MESSAGE);
 
-		logger.info(question);
+		System.out.println("IQM Info: "+question);
 
 		return userSelection;
 	}

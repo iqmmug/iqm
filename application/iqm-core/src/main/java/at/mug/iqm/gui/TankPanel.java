@@ -54,8 +54,8 @@ import javax.swing.JPanel;
 import javax.swing.JRadioButtonMenuItem;
 import javax.swing.JScrollPane;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+ 
+ 
 
 import at.mug.iqm.api.gui.IDialogUtil;
 import at.mug.iqm.api.gui.ITankPanel;
@@ -95,7 +95,7 @@ public class TankPanel extends JPanel implements ITankPanel, ActionListener,
 	private static final long serialVersionUID = -4927390300874649683L;
 
 	// class specific logger
-	private static final Logger logger = LogManager.getLogger(TankPanel.class);
+	  
 
 	private int keepNumber = -1;
 
@@ -391,7 +391,7 @@ public class TankPanel extends JPanel implements ITankPanel, ActionListener,
 	@Override
 	public void deleteAllIndices() {
 		int size = this.model.getSize();
-		logger.debug("Deleting " + size + " items.");
+		System.out.println("IQM:  Deleting " + size + " items.");
 		if (size > 0) { // only if there are really items to delete
 			int[] indices = new int[size];
 			for (int i = 0; i < size; i++) {
@@ -426,7 +426,7 @@ public class TankPanel extends JPanel implements ITankPanel, ActionListener,
 	 */
 	private void deleteSelectedIndex(int index) {
 		if (index == -1) {
-			logger.debug("No items available to delete.");
+			System.out.println("IQM:  No items available to delete.");
 			return;
 		}
 		int items = ((List<IqmDataBox>) this.model.getElementAt(index)).size();
@@ -457,7 +457,7 @@ public class TankPanel extends JPanel implements ITankPanel, ActionListener,
 						dft.execute();
 						dialog.setVisible(true);
 					} catch (Exception e1) {
-						logger.error(e1);
+						System.out.println("IQM Error: "+ e1);
 						this.setCursor(CursorFactory.getDefaultCursor());
 					}
 				}
@@ -483,7 +483,7 @@ public class TankPanel extends JPanel implements ITankPanel, ActionListener,
 												// list
 		Manager.getInstance().resetRightModel(); // for an empty right manager
 													// list
-		logger.debug("Removed item(s) from tank index " + (idx + 1));
+		System.out.println("IQM:  Removed item(s) from tank index " + (idx + 1));
 		Tank.getInstance().setCurrIndex(-1);
 		System.gc();
 	}
@@ -573,11 +573,11 @@ public class TankPanel extends JPanel implements ITankPanel, ActionListener,
 						Tank.getInstance().getTankDataAt(index).size(), "["
 								+ (index + 1) + "]"));
 		if (selection == IDialogUtil.YES_OPTION) {
-			logger.debug("User selected >YES< on confirmation dialog for deleting tank items. Items will be deleted from tank ["
+			System.out.println("IQM:  User selected >YES< on confirmation dialog for deleting tank items. Items will be deleted from tank ["
 					+ (index + 1) + "].");
 			this.deleteSelectedIndex(index);
 		} else {
-			logger.debug("User selected >NO< on confirmation dialog for deleting tank items. Items will not be deleted.");
+			System.out.println("IQM:  User selected >NO< on confirmation dialog for deleting tank items. Items will not be deleted.");
 		}
 	}
 
@@ -601,15 +601,15 @@ public class TankPanel extends JPanel implements ITankPanel, ActionListener,
 													strIndices.length() - 2)
 											+ "]"));
 			if (selection == IDialogUtil.YES_OPTION) {
-				logger.debug("User selected >YES< on confirmation dialog for deleting tank images. Images will be deleted from tank ["
+				System.out.println("IQM:  User selected >YES< on confirmation dialog for deleting tank images. Images will be deleted from tank ["
 						+ strIndices.substring(0, strIndices.length() - 2)
 						+ "].");
 				this.deleteSelectedIndices(indices);
 			} else {
-				logger.debug("User selected >NO< on confirmation dialog for deleting tank images. Images will not be deleted.");
+				System.out.println("IQM:  User selected >NO< on confirmation dialog for deleting tank images. Images will not be deleted.");
 			}
 		} catch (StringIndexOutOfBoundsException err) {
-			logger.error("An error occurred: ", err);
+			System.out.println("IQM Error: An error occurred: " + err);
 		}
 	}
 
@@ -653,7 +653,7 @@ public class TankPanel extends JPanel implements ITankPanel, ActionListener,
 					String msg = "Cannot merge tank items, since the data types are heterogeneous: ["
 							+ firstType + "<>" + toCheck + "].";
 					DialogUtil.getInstance().showDefaultErrorMessage(msg);
-					logger.info(msg);
+					System.out.println("IQM Info: "+msg);
 					return;
 				} else {
 					try {
@@ -665,7 +665,7 @@ public class TankPanel extends JPanel implements ITankPanel, ActionListener,
 						mergedItems.add(box.clone());
 					} catch (CloneNotSupportedException e) {
 						e.printStackTrace();
-						logger.error("An error occurred: ", e);
+						System.out.println("IQM Error: An error occurred: " + e);
 						return;
 					}
 				}

@@ -51,8 +51,8 @@ import javax.swing.SwingWorker;
 import loci.formats.FormatException;
 import loci.formats.gui.BufferedImageReader;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+ 
+ 
 
 import at.mug.iqm.api.Application;
 import at.mug.iqm.api.IQMConstants;
@@ -71,7 +71,7 @@ import at.mug.iqm.commons.util.DialogUtil;
 public class SVSImageExtractor extends SwingWorker<Boolean, Void> {
 	// Logging variables
 	private static Class<?> caller = SVSImageExtractor.class;
-	private static final Logger logger = LogManager.getLogger(SVSImageExtractor.class);
+	  
 
 	/**
 	 * Default parameters for the image extraction: first image, no rescale,
@@ -120,7 +120,7 @@ public class SVSImageExtractor extends SwingWorker<Boolean, Void> {
 		StringBuffer sb = new StringBuffer();
 		Object[][] data = null;
 		try {
-			logger.debug("Reading Meta Data of SVS image...");
+			System.out.println("IQM:  Reading Meta Data of SVS image...");
 
 			ImageInputStream iis = ImageIO.createImageInputStream(file);
 			Iterator<ImageReader> readers = ImageIO.getImageReaders(iis);
@@ -192,10 +192,10 @@ public class SVSImageExtractor extends SwingWorker<Boolean, Void> {
 							+ " Expected Size: " + strExpFileSize + "\n");
 				}
 				BoardPanel.appendTextln(new String(sb));
-				logger.debug(new String(sb));
+				System.out.println("IQM:  "+new String(sb));
 			}
 		} catch (IOException e) {
-			logger.error("An error occurred: ", e);
+			System.out.println("IQM Error: An error occurred: " + e);
 			throw new UnreadableSVSFileException();
 		}
 		return data;
@@ -212,7 +212,7 @@ public class SVSImageExtractor extends SwingWorker<Boolean, Void> {
 	 */
 	private PlanarImage rescaleImage(PlanarImage pi, int rescale, int optIntP) {
 		if (rescale > 1) {
-			logger.debug("Rescaling SVS image with parameters [rescale="
+			System.out.println("IQM:  Rescaling SVS image with parameters [rescale="
 					+ rescale + "], [interpolationMethod=" + optIntP + "]");
 			ParameterBlock pb = new ParameterBlock();
 			pb.addSource(pi);
@@ -267,7 +267,7 @@ public class SVSImageExtractor extends SwingWorker<Boolean, Void> {
 
 			}
 		} catch (Exception e) {
-			logger.error("An error occurred: ", e);
+			System.out.println("IQM Error: An error occurred: " + e);
 		}
 		return new int[] { firstWidth, firstHeight };
 
@@ -298,7 +298,7 @@ public class SVSImageExtractor extends SwingWorker<Boolean, Void> {
 		}
 
 		imageToLoad = params[0] - 1; // index at the image array (image number)
-		logger.debug("Extracting image number [" + imageToLoad
+		System.out.println("IQM:  Extracting image number [" + imageToLoad
 				+ "] from the specified SVS files.");
 
 		rescale = params[1];
@@ -333,7 +333,7 @@ public class SVSImageExtractor extends SwingWorker<Boolean, Void> {
 				pi = PlanarImage.wrapRenderedImage(bi);
 				
 			} catch (IOException e) { // try another method e.g for Aperio jpeg 2000 compressed images
-				logger.error("An error occurred: ", e);
+				System.out.println("IQM Error: An error occurred: " + e);
 
 				BoardPanel.appendTextln("Standard method (jpeg compressed,...) failed, trying another method (e.g. for jpeg2000 compression,...)", caller);
 
@@ -403,7 +403,7 @@ public class SVSImageExtractor extends SwingWorker<Boolean, Void> {
 			// DEBUG ONLY
 			// CommonTools.showImage(pi.getAsBufferedImage(), null);
 
-			logger.debug("Image ["
+			System.out.println("IQM:  Image ["
 					+ (imageToLoad + 1)
 					+ "] for file ["
 					+ newFile.getName()
@@ -416,7 +416,7 @@ public class SVSImageExtractor extends SwingWorker<Boolean, Void> {
 					try { // try imageIO
 						ImageIO.write(pi, "jpg", newFile);
 					} catch (Exception ex) {
-						logger.error("It was not possible to write this image to: " + newFile.toString());
+						System.out.println("IQM Error: It was not possible to write this image to: " + newFile.toString());
 					}
 				    //JAI does not work any more for jpg since Java9+
 					//JAI.create("filestore", pi, newFile.toString(), "JPEG");
@@ -425,7 +425,7 @@ public class SVSImageExtractor extends SwingWorker<Boolean, Void> {
 				if (extension == 3)
 					JAI.create("filestore", pi, newFile.toString(), "BMP");
 
-				logger.debug("Image ["
+				System.out.println("IQM:  Image ["
 						+ (imageToLoad + 1)
 						+ "] for file ["
 						+ newFile.getName()
@@ -524,7 +524,7 @@ public class SVSImageExtractor extends SwingWorker<Boolean, Void> {
 		this.firePropertyChange("singleTaskRunning", 0, 1);
 		boolean success = this.extract(this.files, this.params);
 		this.firePropertyChange("singleTaskRunning", 1, 0);
-		logger.info("The extraction was " + (success ? "" : "NOT")
+		System.out.println("IQM Info: The extraction was " + (success ? "" : "NOT")
 				+ " successful, returning [" + (success ? "true" : "false")
 				+ "].");
 		return success;
@@ -556,7 +556,7 @@ public class SVSImageExtractor extends SwingWorker<Boolean, Void> {
 				}
 			}
 		} catch (Exception e) {
-			logger.error("An error occurred: ", e);
+			System.out.println("IQM Error: An error occurred: " + e);
 			e.printStackTrace();
 		} finally {
 			System.gc();

@@ -46,8 +46,8 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+ 
+ 
 
 import at.mug.iqm.api.Application;
 import at.mug.iqm.api.Resources;
@@ -68,7 +68,7 @@ public class ImageInfoPanel extends JPanel {
 	/**
 	 * Custom class logger
 	 */
-	private static final Logger logger = LogManager.getLogger(ImageInfoPanel.class);
+	  
 
 	/**
 	 * The instance of {@link ILookPanel} where this {@link ImageInfoPanel}
@@ -103,7 +103,7 @@ public class ImageInfoPanel extends JPanel {
 	 *            the listener
 	 */
 	public ImageInfoPanel(ContextPopupListener contextPopupListener) {
-		logger.debug("Creating a new instance...");
+		System.out.println("IQM:  Creating a new instance...");
 		this.setContextPopupListener(contextPopupListener);
 		this.addMouseListener(new MouseAdapter() {
 			@Override

@@ -41,8 +41,8 @@ import javax.swing.JList;
 import javax.swing.ListCellRenderer;
 import javax.swing.SwingUtilities;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+ 
+ 
 
 import at.mug.iqm.api.Application;
 import at.mug.iqm.api.gui.BoardPanel;
@@ -85,7 +85,7 @@ public final class Manager implements IManager {
 
 	// class specific logger
 	private static Class<?> caller = Manager.class;
-	private static final Logger logger = LogManager.getLogger(Manager.class);
+	  
 
 	/**
 	 * The GUI element to administer.
@@ -193,7 +193,7 @@ public final class Manager implements IManager {
 	 */
 	@Override
 	public void resetLeftModel() {
-		logger.debug("Left manager is resetting.");
+		System.out.println("IQM:  Left manager is resetting.");
 
 		managerPanel.setCursor(CursorFactory.getWaitCursor());
 
@@ -227,7 +227,7 @@ public final class Manager implements IManager {
 	 */
 	@Override
 	public void resetRightModel() {
-		logger.debug("Right manager is resetting.");
+		System.out.println("IQM:  Right manager is resetting.");
 
 		managerPanel.setCursor(CursorFactory.getWaitCursor());
 
@@ -495,12 +495,12 @@ public final class Manager implements IManager {
 			int tankIndex = this.getTankIndexInMainLeft();
 			Tank.getInstance().setCurrIndex(tankIndex);
 			nItems = managerModelLeft.getSize();
-			logger.debug("Left Manager List is selected.");
+			System.out.println("IQM:  Left Manager List is selected.");
 		} else if (isRightListActive()) {
 			int tankIndex = this.getTankIndexInMainRight();
 			Tank.getInstance().setCurrIndex(tankIndex);
 			nItems = managerModelRight.getSize();
-			logger.debug("Right Manager List is selected.");
+			System.out.println("IQM:  Right Manager List is selected.");
 		}
 
 		// get the data box at the mgrIndex position of the tank index
@@ -521,7 +521,7 @@ public final class Manager implements IManager {
 							caller);
 		} else {
 
-			logger.debug("Manager.displayItem(int)" + " -- box type = "
+			System.out.println("IQM:  Manager.displayItem(int)" + " -- box type = "
 					+ boxReference.getDataTypeAsString());
 
 			// load the data box from the disk if it is virtual
@@ -622,12 +622,12 @@ public final class Manager implements IManager {
 			int tankIndex = this.getTankIndexInMainLeft();
 			Tank.getInstance().setCurrIndex(tankIndex);
 			nItems = managerModelLeft.getSize();
-			logger.debug("Left Manager List is selected.");
+			System.out.println("IQM:  Left Manager List is selected.");
 		} else if (isRightListActive()) {
 			int tankIndex = this.getTankIndexInMainRight();
 			Tank.getInstance().setCurrIndex(tankIndex);
 			nItems = managerModelRight.getSize();
-			logger.debug("Right Manager List is selected.");
+			System.out.println("IQM:  Right Manager List is selected.");
 		}
 
 		IqmDataBox iqmDataBox = Tank.getInstance().getCurrentTankIqmDataBoxAt(
@@ -646,7 +646,7 @@ public final class Manager implements IManager {
 				plotModelsForDisplay.add(ix, box.getPlotModel());
 			}
 
-			logger.debug("Manager.displayPlotItems(int[]) -- box type = "
+			System.out.println("IQM:  Manager.displayPlotItems(int[]) -- box type = "
 					+ iqmDataBox.getDataTypeAsString());
 
 			Plot.getInstance().setNewData(plotModelsForDisplay,
@@ -690,12 +690,12 @@ public final class Manager implements IManager {
 			int tankIndex = this.getTankIndexInMainLeft();
 			Tank.getInstance().setCurrIndex(tankIndex);
 			nItems = managerModelLeft.getSize();
-			logger.debug("Left Manager List is selected.");
+			System.out.println("IQM:  Left Manager List is selected.");
 		} else if (isRightListActive()) {
 			int tankIndex = this.getTankIndexInMainRight();
 			Tank.getInstance().setCurrIndex(tankIndex);
 			nItems = managerModelRight.getSize();
-			logger.debug("Right Manager List is selected.");
+			System.out.println("IQM:  Right Manager List is selected.");
 		}
 
 		IqmDataBox iqmDataBox = Tank.getInstance().getCurrentTankIqmDataBoxAt(
@@ -714,7 +714,7 @@ public final class Manager implements IManager {
 				tableModelsForDisplay.add(ix, box.getTableModel());
 			}
 
-			logger.debug("Manager.displayTableItems(int[]) -- box type = "
+			System.out.println("IQM:  Manager.displayTableItems(int[]) -- box type = "
 					+ iqmDataBox.getDataTypeAsString());
 
 			Table.getInstance().setNewData(tableModelsForDisplay);

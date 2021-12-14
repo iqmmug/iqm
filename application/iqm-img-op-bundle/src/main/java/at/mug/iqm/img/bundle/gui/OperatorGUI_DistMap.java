@@ -50,8 +50,8 @@ import javax.swing.border.TitledBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+ 
+ 
 
 import at.mug.iqm.api.gui.BoardPanel;
 import at.mug.iqm.api.operator.AbstractImageOperatorGUI;
@@ -77,7 +77,7 @@ public class OperatorGUI_DistMap extends AbstractImageOperatorGUI implements
 	private static final long serialVersionUID = 983558953077917123L;
 
 	// class specific logger
-	private static final Logger logger = LogManager.getLogger(OperatorGUI_DistMap.class);
+	  
 
 	private ParameterBlockIQM pb = null;
 
@@ -112,7 +112,7 @@ public class OperatorGUI_DistMap extends AbstractImageOperatorGUI implements
 	 * constructor
 	 */
 	public OperatorGUI_DistMap() {
-		logger.debug("Now initializing...");
+		System.out.println("IQM:  Now initializing...");
 
 		this.setOpName(new IqmOpDistMapDescriptor().getName());
 		this.initialize();
@@ -221,7 +221,7 @@ public class OperatorGUI_DistMap extends AbstractImageOperatorGUI implements
 	 */
 	@Override
 	public void update() {
-		logger.debug("Updating GUI...");
+		System.out.println("IQM:  Updating GUI...");
 		if (buttErode.isSelected()) {
 			buttRectangle.setEnabled(true);
 			buttCircle.setEnabled(false); // Circle always disabled!!!!
@@ -514,7 +514,7 @@ public class OperatorGUI_DistMap extends AbstractImageOperatorGUI implements
 	// --------------------------------------------------------------------------------------------
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		logger.debug(e.getActionCommand() + " event has been triggered.");
+		System.out.println("IQM:  "+e.getActionCommand() + " event has been triggered.");
 		if ("parameter".equals(e.getActionCommand())) {
 
 			if (e.getSource() == buttErode) {
@@ -546,7 +546,7 @@ public class OperatorGUI_DistMap extends AbstractImageOperatorGUI implements
 
 		// preview if selected
 		if (this.isAutoPreviewSelected()) {
-			logger.debug("Performing AutoPreview");
+			System.out.println("IQM:  Performing AutoPreview");
 			this.showPreview();
 		}
 
@@ -563,7 +563,7 @@ public class OperatorGUI_DistMap extends AbstractImageOperatorGUI implements
 		this.updateParameterBlock();
 
 		if (this.isAutoPreviewSelected()) {
-			logger.debug("Performing AutoPreview");
+			System.out.println("IQM:  Performing AutoPreview");
 			this.showPreview();
 		}
 	}

@@ -44,8 +44,8 @@ import javax.swing.ImageIcon;
 import javax.swing.JCheckBox;
 import javax.swing.JSeparator;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+ 
+ 
 
 import at.mug.iqm.api.Application;
 import at.mug.iqm.api.I18N;
@@ -67,7 +67,7 @@ public abstract class AbstractPlotOperatorGUI extends AbstractOperatorGUI
 	 */
 	private static final long serialVersionUID = 15646846846212L;
 
-	protected static final Logger logger = LogManager.getLogger(AbstractPlotOperatorGUI.class);
+	 
 
 	private PreferencesPanel preferencesPanel;
 	private JCheckBox chckbxVirtual;
@@ -192,7 +192,7 @@ public abstract class AbstractPlotOperatorGUI extends AbstractOperatorGUI
 		// set the virtual check box automatically to true
 		// on closing set it to the state of before opening the GUI
 		isVirtualBefore = Application.isVirtual();
-		logger.debug("Window opened. Is now virtual (before operator GUI launch): "
+		System.out.println("IQM:  Window opened. Is now virtual (before operator GUI launch): "
 				+ isVirtualBefore);
 		chckbxVirtual.setSelected(isVirtualBefore);
 	}
@@ -212,7 +212,7 @@ public abstract class AbstractPlotOperatorGUI extends AbstractOperatorGUI
 	public abstract void update();
 
 	public void destroy() {
-		logger.debug("Destroying...");
+		System.out.println("IQM:  Destroying...");
 		this.getCustomPlotOptions().getChckbxAutoPreview().setSelected(false);
 		this.reset();
 		if (this != null) {
@@ -225,14 +225,14 @@ public abstract class AbstractPlotOperatorGUI extends AbstractOperatorGUI
 			try {
 				Application.getCurrentExecutionProtocol().finishProtocol();
 			} catch (NullPointerException e) {
-				logger.error("The execution proxy is not available! " + e);
+				System.out.println("IQM Error: The execution proxy is not available! " + e);
 			}
 		}
 	}
 
 	public void reset() {
 		// set GUI elements to default
-		logger.debug("########################## Resetting Starting");
+		System.out.println("IQM:  ########################## Resetting Starting");
 		System.out.println("########################## Resetting Starting");
 
 		// execute common reset behavior
@@ -328,7 +328,7 @@ public abstract class AbstractPlotOperatorGUI extends AbstractOperatorGUI
 	 * This method handles an action event.
 	 */
 	protected void actionEventVirtual(ActionEvent e) {
-		logger.debug("Virtual Checkbox isSelected --> " + chckbxVirtual.isSelected());
+		System.out.println("IQM:  Virtual Checkbox isSelected --> " + chckbxVirtual.isSelected());
 		this.fireVirtualFlagChanged(chckbxVirtual.isSelected());
 	}
 

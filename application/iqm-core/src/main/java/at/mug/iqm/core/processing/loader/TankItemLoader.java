@@ -38,8 +38,8 @@ import java.util.concurrent.ExecutionException;
 import javax.swing.DefaultListModel;
 import javax.swing.JList;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+ 
+ 
 
 import at.mug.iqm.api.Application;
 import at.mug.iqm.api.gui.BoardPanel;
@@ -78,7 +78,7 @@ public class TankItemLoader extends AbstractProcessingTask {
 	/**
 	 * Logging variable.
 	 */
-	private static final Logger logger = LogManager.getLogger(TankItemLoader.class);
+	  
 
 	/**
 	 * The list to load.
@@ -144,9 +144,9 @@ public class TankItemLoader extends AbstractProcessingTask {
 			virtDir = VirtualDataManager.getNewVirtualDirectory();
 			boolean success = virtDir.mkdir();
 			if (success) {
-				logger.info("Created directory: " + virtDir.toString());
+				System.out.println("IQM Info: Created directory: " + virtDir.toString());
 			} else {
-				logger.error("Unable to create directory:  "
+				System.out.println("IQM Error: Unable to create directory:  "
 						+ virtDir.toString());
 				DialogUtil.getInstance().showDefaultErrorMessage(
 						I18N.getMessage(
@@ -158,8 +158,8 @@ public class TankItemLoader extends AbstractProcessingTask {
 		List<IqmDataBox> result = this.addNewItems(this.getList(), isVirtual, virtDir);
 
 		this.duration = System.currentTimeMillis() - this.startTime;
-		logger.info("Processed " + result.size() + " item" + (result.size() > 1 ? "s" : "") + " in " + this.duration/ 1000.0F + " seconds.");
-		//logger.debug("Processed " + result.size() + " item" + (result.size() > 1 ? "s" : "") + " in " + this.duration/ 1000.0F + " seconds.");
+		System.out.println("IQM Info: Processed " + result.size() + " item" + (result.size() > 1 ? "s" : "") + " in " + this.duration/ 1000.0F + " seconds.");
+		//System.out.println("IQM:  Processed " + result.size() + " item" + (result.size() > 1 ? "s" : "") + " in " + this.duration/ 1000.0F + " seconds.");
 
 		
 		//TimeZone.setDefault(TimeZone.getTimeZone("GMT"));
@@ -179,14 +179,14 @@ public class TankItemLoader extends AbstractProcessingTask {
 			setTankAndManager(list);
 		} catch (ExecutionException e) {
 			// log the error message
-			logger.error("An error occurred: ", e);
+			System.out.println("IQM Error: An error occurred: " + e);
 			e.printStackTrace();
 		} catch (InterruptedException e) {
 			// log the error message
-			logger.error("An error occurred: ", e);
+			System.out.println("IQM Error: An error occurred: " + e);
 			e.printStackTrace();
 		} catch (Exception e) {
-			logger.error("An error occurred: ", e);
+			System.out.println("IQM Error: An error occurred: " + e);
 			e.printStackTrace();
 		} finally {
 			GUITools.getStatusPanel().resetProgressBarValueStack();
@@ -307,7 +307,7 @@ public class TankItemLoader extends AbstractProcessingTask {
 				try {
 					Thread.sleep(2L);
 				} catch (InterruptedException e) {
-					logger.error("An error occurred: ", e);
+					System.out.println("IQM Error: An error occurred: " + e);
 				}
 			}
 			break;

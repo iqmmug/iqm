@@ -70,8 +70,8 @@ import javax.swing.event.ChangeListener;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+ 
+ 
 
 import at.mug.iqm.api.Application;
 import at.mug.iqm.api.gui.BoardPanel;
@@ -118,7 +118,7 @@ public class ManagerPanel extends JPanel implements IManagerPanel,
 
 	// class specific logger
 	private static Class<?> caller = ManagerPanel.class;
-	private static final Logger logger = LogManager.getLogger(ManagerPanel.class);
+	  
 
 	public static final int MANAGER_LIST_LEFT = 0;
 	public static final int MANAGER_LIST_RIGHT = 1;
@@ -231,7 +231,7 @@ public class ManagerPanel extends JPanel implements IManagerPanel,
 	 * @return javax.swing.JPanel
 	 */
 	private void createAndAssemble() {
-		logger.debug("Creating subcomponents and assembling '"
+		System.out.println("IQM:  Creating subcomponents and assembling '"
 				+ this.getClass().getName() + "'...");
 
 		// set the gridbagConstraints for each component in controlsPanel
@@ -511,15 +511,15 @@ public class ManagerPanel extends JPanel implements IManagerPanel,
 	 */
 	protected void handleExportAction(ActionEvent e) {
 		if (managerModelLeft.isEmpty() && managerModelRight.isEmpty()) {
-			logger.info("No items are available for export.");
+			System.out.println("IQM Info: No items are available for export.");
 			return;
 		}
 		if (isRadioButtonMainLeftSelected() && managerModelLeft.isEmpty()) {
-			logger.info("No items are available for export.");
+			System.out.println("IQM Info: No items are available for export.");
 			return;
 		}
 		if (isRadioButtonMainRightSelected() && managerModelRight.isEmpty()) {
-			logger.info("No items are available for export.");
+			System.out.println("IQM Info: No items are available for export.");
 			return;
 		}
 
@@ -620,7 +620,7 @@ public class ManagerPanel extends JPanel implements IManagerPanel,
 								+ box1.getDataType() + "<>"
 								+ box2.getDataType() + "].";
 						DialogUtil.getInstance().showDefaultErrorMessage(msg);
-						logger.info(msg);
+						System.out.println("IQM Info: "+msg);
 						return;
 					}
 
@@ -741,7 +741,7 @@ public class ManagerPanel extends JPanel implements IManagerPanel,
 		managerListLeft.addKeyListener(new java.awt.event.KeyAdapter() {
 			@Override
 			public void keyReleased(KeyEvent evt) {
-				logger.debug(KeyEvent.getKeyText(evt.getKeyCode()));
+				System.out.println("IQM:  "+KeyEvent.getKeyText(evt.getKeyCode()));
 				if (evt.getKeyCode() == KeyEvent.VK_DELETE) {
 					if (currMgrIdxs[0] != -1) {
 						confirmDeletionOfItems(currMgrIdxs);
@@ -767,14 +767,14 @@ public class ManagerPanel extends JPanel implements IManagerPanel,
 				I18N.getMessage("application.dialog.managerDelete.text",
 						idxs.length));
 		if (selection == IDialogUtil.YES_OPTION) {
-			logger.debug("User selected >YES< on confirmation dialog for deleting manager item(s) "
+			System.out.println("IQM:  User selected >YES< on confirmation dialog for deleting manager item(s) "
 					+ CommonTools.intArrayToString(idxs) + ".");
 
 			removeSelectedItems(currMgrIdxs, Manager.getInstance()
 					.getActiveListIndex());
 
 		} else {
-			logger.debug("User selected >NO< on confirmation dialog for deleting manager items. Items will not be deleted.");
+			System.out.println("IQM:  User selected >NO< on confirmation dialog for deleting manager items. Items will not be deleted.");
 		}
 	}
 
@@ -855,7 +855,7 @@ public class ManagerPanel extends JPanel implements IManagerPanel,
 		managerListRight.addKeyListener(new java.awt.event.KeyAdapter() {
 			@Override
 			public void keyReleased(KeyEvent evt) {
-				logger.debug(KeyEvent.getKeyText(evt.getKeyCode()));
+				System.out.println("IQM:  "+KeyEvent.getKeyText(evt.getKeyCode()));
 				if (evt.getKeyCode() == KeyEvent.VK_DELETE) {
 					if (currMgrIdxs[0] != -1) {
 						confirmDeletionOfItems(currMgrIdxs);
@@ -887,7 +887,7 @@ public class ManagerPanel extends JPanel implements IManagerPanel,
 	@Override
 	public void startTogglePreviewIfSelected() {
 		if (isCheckBoxTogglePreviewSelected()) {
-			logger.debug("Performing toggle preview");
+			System.out.println("IQM:  Performing toggle preview");
 
 			if (Tank.getInstance().getCurrentTankIqmDataBoxAt(
 					Manager.getInstance().getCurrItemIndex()) == null) {
@@ -929,19 +929,19 @@ public class ManagerPanel extends JPanel implements IManagerPanel,
 						execToggle.shutdownNow();
 						execToggle.awaitTermination(1, TimeUnit.SECONDS);
 					} catch (NullPointerException npe) {
-						logger.debug("Executor service 'execToggle' is currently not running");
+						System.out.println("IQM:  Executor service 'execToggle' is currently not running");
 					} catch (InterruptedException e) {
-						logger.error("An error occurred: ", e);
+						System.out.println("IQM Error: An error occurred: " + e);
 					} finally {
 						// eventually start the service as a thread
-						logger.info("Creating new executor service 'execToggle'");
+						System.out.println("IQM Info: Creating new executor service 'execToggle'");
 						execToggle = Executors.newSingleThreadExecutor();
 						this.toggleStatusPanel.setVisible(true);
 						execToggle.execute(new ToggleRunnable(pi1, pi2));
 					}
 
 				} catch (NullPointerException npe) {
-					logger.error("Cannot create toggle service", npe);
+					System.out.println("IQM Error: Cannot create toggle service"+ npe);
 				}
 			}
 		}
@@ -958,9 +958,9 @@ public class ManagerPanel extends JPanel implements IManagerPanel,
 			execToggle.awaitTermination(1, TimeUnit.SECONDS);
 			chbxTogglePreview.setSelected(false);
 		} catch (NullPointerException e) {
-			logger.trace("There is currently no toggle service running.");
+			System.out.println("IQM Trace: There is currently no toggle service running.");
 		} catch (InterruptedException e) {
-			logger.warn("Toggle service has been interrupted. ", e);
+			System.out.println("IQM Warning: Toggle service has been interrupted. "+ e);
 		} finally {
 			execToggle = null;
 			this.toggleStatusPanel.setVisible(false);
@@ -969,7 +969,7 @@ public class ManagerPanel extends JPanel implements IManagerPanel,
 
 	public void setManagerForIndex(int index) throws NullPointerException,
 			Exception {
-		logger.debug("SetManagerForIndex(" + index + ")");
+		System.out.println("IQM:  SetManagerForIndex(" + index + ")");
 		this.setManagerForIndex(new int[] { index }, index);
 	}
 
@@ -977,8 +977,8 @@ public class ManagerPanel extends JPanel implements IManagerPanel,
 			throws NullPointerException, Exception {
 		// System.out.println(chbxAutoPreview.isSelected());
 		// System.out.println(chbxTogglePreview.isSelected());
-		logger.debug("indexForDisplay=" + indexForDisplay);
-		logger.debug("this.indexForDisplay=" + this.indexForDisplay);
+		System.out.println("IQM:  indexForDisplay=" + indexForDisplay);
+		System.out.println("IQM:  this.indexForDisplay=" + this.indexForDisplay);
 
 		this.resetTogglePreviewIfRunning();
 
@@ -988,11 +988,11 @@ public class ManagerPanel extends JPanel implements IManagerPanel,
 		if (isRadioButtonMainLeftSelected()) {
 			int tankIndex = Manager.getInstance().getTankIndexInMainLeft();
 			Tank.getInstance().setCurrIndex(tankIndex);
-			logger.debug("Left Manager List is selected.");
+			System.out.println("IQM:  Left Manager List is selected.");
 		} else if (isRadioButtonMainRightSelected()) {
 			int tankIndex = Manager.getInstance().getTankIndexInMainRight();
 			Tank.getInstance().setCurrIndex(tankIndex);
-			logger.debug("Right Manager List is selected.");
+			System.out.println("IQM:  Right Manager List is selected.");
 		}
 
 		// ensure, that the item you selected is visible in the list
@@ -1038,7 +1038,7 @@ public class ManagerPanel extends JPanel implements IManagerPanel,
 
 		// remember the currently selected indices in the panel
 		this.currMgrIdxs = indices;
-		logger.debug("SELECTED INDICES: "
+		System.out.println("IQM:  SELECTED INDICES: "
 				+ CommonTools.intArrayToString(this.currMgrIdxs));
 
 		// display the clicked item
@@ -1089,7 +1089,7 @@ public class ManagerPanel extends JPanel implements IManagerPanel,
 
 					this.setManagerForIndex(targetMgrIdx);
 				} catch (Exception ex) {
-					logger.debug("An error occurred: ", ex);
+					System.out.println("IQM:  An error occurred: "+ ex);
 				}
 			}
 		}
@@ -1130,7 +1130,7 @@ public class ManagerPanel extends JPanel implements IManagerPanel,
 			case IMAGE:
 			case PLOT:
 			case TABLE:
-				logger.debug("Multiple Interval Selection enabled on both manager lists.");
+				System.out.println("IQM:  Multiple Interval Selection enabled on both manager lists.");
 				managerListLeft
 						.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
 				managerListRight
@@ -1138,7 +1138,7 @@ public class ManagerPanel extends JPanel implements IManagerPanel,
 				break;
 			case CUSTOM:
 			default:
-				logger.debug("Single Selection enabled on both manager lists.");
+				System.out.println("IQM:  Single Selection enabled on both manager lists.");
 				managerListLeft
 						.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 				managerListRight
@@ -1146,12 +1146,12 @@ public class ManagerPanel extends JPanel implements IManagerPanel,
 				break;
 			}
 		} catch (NullPointerException npe) {
-			logger.debug("There is no data box selected: " + npe);
+			System.out.println("IQM:  There is no data box selected: " + npe);
 		}
 
 		// at double left click on the same item, reload it
 		if (e.getClickCount() == 2 && (e.getButton() == MouseEvent.BUTTON1)) {
-			logger.debug("Double click detected.");
+			System.out.println("IQM:  Double click detected.");
 			try {
 				// enable the correct tab for the clicked item
 				this.setTabForDataBoxType(Tank.getInstance()
@@ -1173,7 +1173,7 @@ public class ManagerPanel extends JPanel implements IManagerPanel,
 						// re-set the highlighted tank cell
 						Tank.getInstance().setCurrIndex(
 								Tank.getInstance().getCurrIndex());
-						logger.debug("Reloading the same item in the left list, returning.");
+						System.out.println("IQM:  Reloading the same item in the left list, returning.");
 						return;
 					}
 				}
@@ -1192,7 +1192,7 @@ public class ManagerPanel extends JPanel implements IManagerPanel,
 						// re-set the highlighted tank cell
 						Tank.getInstance().setCurrIndex(
 								Tank.getInstance().getCurrIndex());
-						logger.debug("Reloading the same item in the right list, returning.");
+						System.out.println("IQM:  Reloading the same item in the right list, returning.");
 						return;
 					}
 				}
@@ -1207,7 +1207,7 @@ public class ManagerPanel extends JPanel implements IManagerPanel,
 				this.setTabForDataBoxType(Tank.getInstance()
 						.getSelectedIqmDataBox().getDataType());
 			} catch (NullPointerException ignored) {
-				logger.debug(ignored);
+				System.out.println("IQM:  "+ignored);
 			}
 
 			if (e.getSource() == managerListLeft) {
@@ -1220,7 +1220,7 @@ public class ManagerPanel extends JPanel implements IManagerPanel,
 						// re-set the highlighted tank cell
 						Tank.getInstance().setCurrIndex(
 								Tank.getInstance().getCurrIndex());
-						logger.debug("Nothing changed in the left list, returning.");
+						System.out.println("IQM:  Nothing changed in the left list, returning.");
 						return;
 					}
 				}
@@ -1228,12 +1228,12 @@ public class ManagerPanel extends JPanel implements IManagerPanel,
 				else if (isRadioButtonMainRightSelected()) {
 					indexForDisplay = managerListLeft.locationToIndex(e
 							.getPoint());
-					logger.debug("Clicked on index [" + indexForDisplay
+					System.out.println("IQM:  Clicked on index [" + indexForDisplay
 							+ "] in the left manager list.");
 
-					logger.debug("Right selected index="
+					System.out.println("IQM:  Right selected index="
 							+ managerListRight.getSelectedIndex());
-					logger.debug("LeftModelSize-1     ="
+					System.out.println("IQM:  LeftModelSize-1     ="
 							+ (managerModelLeft.getSize() - 1)
 							+ "-->"
 							+ (managerListRight.getSelectedIndex() > managerModelLeft
@@ -1266,18 +1266,18 @@ public class ManagerPanel extends JPanel implements IManagerPanel,
 						// re-set the highlighted tank cell
 						Tank.getInstance().setCurrIndex(
 								Tank.getInstance().getCurrIndex());
-						logger.debug("Nothing changed in the right list, returning.");
+						System.out.println("IQM:  Nothing changed in the right list, returning.");
 						return;
 					}
 				} else if (isRadioButtonMainLeftSelected()) {
 					indexForDisplay = managerListRight.locationToIndex(e
 							.getPoint());
-					logger.debug("Clicked on index [" + indexForDisplay
+					System.out.println("IQM:  Clicked on index [" + indexForDisplay
 							+ "] in the right manager list.");
 
-					logger.debug("Left selected index="
+					System.out.println("IQM:  Left selected index="
 							+ managerListLeft.getSelectedIndex());
-					logger.debug("RightModelSize-1   ="
+					System.out.println("IQM:  RightModelSize-1   ="
 							+ (managerModelRight.getSize() - 1)
 							+ "-->"
 							+ (managerListLeft.getSelectedIndex() < managerModelRight
@@ -1302,11 +1302,11 @@ public class ManagerPanel extends JPanel implements IManagerPanel,
 
 		if ((e.getClickCount() == 1) && (e.getButton() == MouseEvent.BUTTON3)) {
 			if (e.getSource() == managerListLeft) {
-				logger.debug("Deleting the entire left manager");
+				System.out.println("IQM:  Deleting the entire left manager");
 				Manager.getInstance().resetLeftModel();
 			}
 			if (e.getSource() == managerListRight) {
-				logger.debug("Deleting the entire right manager");
+				System.out.println("IQM:  Deleting the entire right manager");
 				Manager.getInstance().resetRightModel();
 			}
 		}
@@ -1342,7 +1342,7 @@ public class ManagerPanel extends JPanel implements IManagerPanel,
 				break;
 			}
 		} catch (Exception e) {
-			logger.trace("Not updating work package: ", e);
+			System.out.println("IQM Trace: Not updating work package: "+ e);
 		}
 
 		int[] newIndices = null;
@@ -1382,7 +1382,7 @@ public class ManagerPanel extends JPanel implements IManagerPanel,
 //				newIndices = targetMgrIdxs;
 //			}
 //		} catch (NullPointerException ex) {
-//			logger.error(ex);
+//			System.out.println("IQM Error: "+ ex);
 //		}
 		
 		//This solves ticket #55  2017-04 AH
@@ -1395,17 +1395,17 @@ public class ManagerPanel extends JPanel implements IManagerPanel,
 			String opType = OperatorType.operatorTypeAsString(protocol.getOperatorDescriptor().getType());		
 			//get type of data (tank) item
 			String dataType = DataType.dataTypeAsString(box.getDataType());
-			logger.debug("operator type: " + opType);
-			logger.debug("data type type: " + dataType);
+			System.out.println("IQM:  operator type: " + opType);
+			System.out.println("IQM:  data type type: " + dataType);
 			if (dataType.equals("TYPE_" +opType)){
 				newIndices = protocol.updateSources(currMgrIdxs, targetMgrIdxs);
-				logger.debug("Operator type matches data (tank) item type: GUI has been updated");
+				System.out.println("IQM:  Operator type matches data (tank) item type: GUI has been updated");
 			} else{	
-				logger.debug("Operator type does not match data (tank) item type: GUI has not been updated");
+				System.out.println("IQM:  Operator type does not match data (tank) item type: GUI has not been updated");
 				newIndices = targetMgrIdxs;
 			}		
 		} else {
-			logger.debug("ExecutionProxy or IqmDataBox is null");
+			System.out.println("IQM:  ExecutionProxy or IqmDataBox is null");
 			newIndices = targetMgrIdxs;
 		}		
 		return newIndices;
@@ -1440,7 +1440,7 @@ public class ManagerPanel extends JPanel implements IManagerPanel,
 //				}
 //			}
 //		} catch (NullPointerException ex) {
-//			logger.trace(ex);
+//			System.out.println("IQM Trace: "+ ex);
 //		}
 		//This solves ticket #55  2017-04 AH
 		IExecutionProtocol protocol = ExecutionProxy.getCurrentInstance();
@@ -1453,16 +1453,16 @@ public class ManagerPanel extends JPanel implements IManagerPanel,
 				String opType = OperatorType.operatorTypeAsString(protocol.getOperatorDescriptor().getType());		
 				//get type of data (tank) item
 				String dataType = DataType.dataTypeAsString(box.getDataType());
-				logger.debug("operator type: " + opType);
-				logger.debug("data type type: " + dataType);
+				System.out.println("IQM:  operator type: " + opType);
+				System.out.println("IQM:  data type type: " + dataType);
 				if (dataType.equals("TYPE_" +opType)){
 					protocol.updateGUI();
-					logger.debug("Operator type matches data (tank) item type: GUI has been updated");
+					System.out.println("IQM:  Operator type matches data (tank) item type: GUI has been updated");
 				} else{	
-					logger.debug("Operator type does not match data (tank) item type: GUI has not been updated");	
+					System.out.println("IQM:  Operator type does not match data (tank) item type: GUI has not been updated");	
 				}		
 			} else {
-				logger.debug("ExecutionProxy or IqmDataBox is null");		
+				System.out.println("IQM:  ExecutionProxy or IqmDataBox is null");		
 			}
 		} catch (Exception e) {
 			//e.printStackTrace();
@@ -1477,7 +1477,7 @@ public class ManagerPanel extends JPanel implements IManagerPanel,
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		// logger.debug(e.getClass() + " --> " + e.getActionCommand());
+		// System.out.println("IQM:  "+e.getClass() + " --> " + e.getActionCommand());
 		// System.err.println(e.getClass());
 
 		// action event if the user selects one item from the manager list
@@ -1485,7 +1485,7 @@ public class ManagerPanel extends JPanel implements IManagerPanel,
 		if ("buttmain".equals(e.getActionCommand())) {
 			this.resetItemSlider();
 			if (managerModelLeft.isEmpty()) {
-				logger.debug("The left manager list is empty.");
+				System.out.println("IQM:  The left manager list is empty.");
 				// disable inappropriate menu items
 				ApplicationObserver.setInitialMenuActivation();
 				updateWorkPackage(null, null);
@@ -1511,7 +1511,7 @@ public class ManagerPanel extends JPanel implements IManagerPanel,
 			try {
 				this.setManagerForIndex(targetMgrIdxs, indexForDisplay);
 			} catch (Exception ex) {
-				logger.error("An error occurred: ", ex);
+				System.out.println("IQM Error: An error occurred: " + ex);
 			}
 		}
 
@@ -1519,7 +1519,7 @@ public class ManagerPanel extends JPanel implements IManagerPanel,
 		if ("buttmain2".equals(e.getActionCommand())) {
 			this.resetItemSlider();
 			if (managerModelRight.isEmpty()) {
-				logger.debug("The right manager list is empty.");
+				System.out.println("IQM:  The right manager list is empty.");
 				// disable inappropriate menu items
 				ApplicationObserver.setInitialMenuActivation();
 				updateWorkPackage(null, null);
@@ -1546,7 +1546,7 @@ public class ManagerPanel extends JPanel implements IManagerPanel,
 			try {
 				this.setManagerForIndex(targetMgrIdxs, indexForDisplay);
 			} catch (Exception ex) {
-				logger.error("An error occurred: ", ex);
+				System.out.println("IQM Error: An error occurred: " + ex);
 			}
 		}
 
@@ -1572,7 +1572,7 @@ public class ManagerPanel extends JPanel implements IManagerPanel,
 			try {
 				this.setManagerForIndex(this.currMgrIdxs, indexForDisplay);
 			} catch (Exception ex) {
-				logger.error("An error occurred: ", ex);
+				System.out.println("IQM Error: An error occurred: " + ex);
 			}
 
 			if (this.isRadioButtonMainLeftSelected()) { // set back to initial
@@ -1606,7 +1606,7 @@ public class ManagerPanel extends JPanel implements IManagerPanel,
 			try {
 				this.setManagerForIndex(this.currMgrIdxs, indexForDisplay);
 			} catch (Exception ex) {
-				logger.error("An error occurred: ", ex);
+				System.out.println("IQM Error: An error occurred: " + ex);
 			}
 
 			if (this.isRadioButtonMainRightSelected()) { // set back to initial
@@ -1665,10 +1665,10 @@ public class ManagerPanel extends JPanel implements IManagerPanel,
 
 	@Override
 	public void valueChanged(ListSelectionEvent e) {
-		// logger.debug(e.getClass() + " --> " + e.getValueIsAdjusting());
+		// System.out.println("IQM:  "+e.getClass() + " --> " + e.getValueIsAdjusting());
 		String source = (e.getSource() == managerListLeft ? "managerListLeft"
 				: "managerListRight");
-		logger.debug(source + " -- " + e.getClass() + " --> "
+		System.out.println("IQM:  "+source + " -- " + e.getClass() + " --> "
 				+ e.getValueIsAdjusting());
 
 		// listen to mouse click events on one of the lists
@@ -1722,28 +1722,28 @@ public class ManagerPanel extends JPanel implements IManagerPanel,
 
 			if (targetMgrIdxs.length > 1) {
 				try {
-					logger.debug("More items selected, at indices ["
+					System.out.println("IQM:  More items selected, at indices ["
 							+ s.substring(0, s.length() - 1) + "]");
 				} catch (Exception ex) {
-					logger.error("", ex);
+					System.out.println("IQM Error: " + ex);
 				}
 				try {
 					this.setManagerForIndex(targetMgrIdxs, indexForDisplay);
 				} catch (Exception ex) {
-					logger.error("An error occurred: ", ex);
+					System.out.println("IQM Error: An error occurred: " + ex);
 				}
 			} else {
 				try {
-					logger.debug("One item selected, at index ["
+					System.out.println("IQM:  One item selected, at index ["
 							+ s.substring(0, s.length() - 1) + "]");
 				} catch (Exception ex) {
-					logger.error("", ex);
+					System.out.println("IQM Error: " + ex);
 				}
 				try {
 					this.indexForDisplay = targetMgrIdxs[0];
 					this.setManagerForIndex(targetMgrIdxs[0]);
 				} catch (Exception ex) {
-					logger.error("An error occurred: ", ex);
+					System.out.println("IQM Error: An error occurred: " + ex);
 				}
 			}
 		}

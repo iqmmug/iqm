@@ -56,8 +56,8 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.text.InternationalFormatter;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+ 
+ 
 
 import at.mug.iqm.api.operator.AbstractImageOperatorGUI;
 import at.mug.iqm.api.operator.ParameterBlockIQM;
@@ -77,7 +77,7 @@ public class OperatorGUI_Watershed extends AbstractImageOperatorGUI implements
 	private static final long serialVersionUID = 7499171872308073521L;
 
 	// class specific logger
-	private static final Logger logger = LogManager.getLogger(OperatorGUI_Watershed.class);
+	  
 
 	private ParameterBlockIQM pb = null;
 
@@ -120,7 +120,7 @@ public class OperatorGUI_Watershed extends AbstractImageOperatorGUI implements
 	 * constructor
 	 */
 	public OperatorGUI_Watershed() {
-		logger.debug("Now initializing...");
+		System.out.println("IQM:  Now initializing...");
 
 		this.setOpName(new IqmOpWatershedDescriptor().getName());
 		this.initialize();
@@ -244,7 +244,7 @@ public class OperatorGUI_Watershed extends AbstractImageOperatorGUI implements
 	 */
 	@Override
 	public void update() {
-		logger.debug("Updating GUI...");
+		System.out.println("IQM:  Updating GUI...");
 		// here, it does nothing
 	}
 
@@ -635,7 +635,7 @@ public class OperatorGUI_Watershed extends AbstractImageOperatorGUI implements
 	// --------------------------------------------------------------------------------------------
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		logger.debug(e.getActionCommand() + " event has been triggered.");
+		System.out.println("IQM:  "+e.getActionCommand() + " event has been triggered.");
 		if ("parameter".equals(e.getActionCommand())) {
 
 			if (buttNone == e.getSource()) {
@@ -654,7 +654,7 @@ public class OperatorGUI_Watershed extends AbstractImageOperatorGUI implements
 
 		// preview if selected
 		if (this.isAutoPreviewSelected()) {
-			logger.debug("Performing AutoPreview");
+			System.out.println("IQM:  Performing AutoPreview");
 			this.showPreview();
 		}
 
@@ -673,7 +673,7 @@ public class OperatorGUI_Watershed extends AbstractImageOperatorGUI implements
 
 		// preview if selected
 		if (this.isAutoPreviewSelected()) {
-			logger.debug("Performing AutoPreview");
+			System.out.println("IQM:  Performing AutoPreview");
 			this.showPreview();
 		}
 	}
@@ -717,7 +717,7 @@ public class OperatorGUI_Watershed extends AbstractImageOperatorGUI implements
 
 		// preview if selected
 		if (this.isAutoPreviewSelected()) {
-			logger.debug("Performing AutoPreview");
+			System.out.println("IQM:  Performing AutoPreview");
 			this.showPreview();
 		}
 

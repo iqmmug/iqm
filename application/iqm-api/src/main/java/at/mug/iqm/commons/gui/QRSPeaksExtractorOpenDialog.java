@@ -37,8 +37,8 @@ import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+ 
+ 
 
 import at.mug.iqm.api.I18N;
 import at.mug.iqm.api.IQMConstants;
@@ -63,7 +63,7 @@ import at.mug.iqm.config.ConfigManager;
 public class QRSPeaksExtractorOpenDialog extends Thread{
 
 	// Logging variables
-	private static final Logger logger = LogManager.getLogger(QRSPeaksExtractorOpenDialog.class);
+	  
 
 	private File currImgDir;
 
@@ -98,7 +98,7 @@ public class QRSPeaksExtractorOpenDialog extends Thread{
 
 		int returnVal = fc.showOpenDialog(frame);
 		if (returnVal!=JFileChooser.APPROVE_OPTION) {
-			logger.info("No ECG files(s) selected for extraction.");
+			System.out.println("IQM Info: No ECG files(s) selected for extraction.");
 			return;
 		} else{
 			currImgDir = fc.getCurrentDirectory();

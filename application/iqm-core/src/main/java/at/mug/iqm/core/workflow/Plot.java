@@ -32,8 +32,8 @@ package at.mug.iqm.core.workflow;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+ 
+ 
 import org.jfree.chart.ChartPanel;
 
 import at.mug.iqm.api.Application;
@@ -53,9 +53,6 @@ import at.mug.iqm.gui.util.GUITools;
  * @since 2012 10 21
  */
 public final class Plot implements IPlot {
-
-	// class specific logger
-	private final Logger logger = LogManager.getLogger(Plot.class);
 
 	/**
 	 * The current {@link PlotPanel} instance to control.
@@ -110,7 +107,7 @@ public final class Plot implements IPlot {
 	 */
 	@Override
 	public void setNewData(List<PlotModel> plotModels, ChartType type) {
-		logger.debug("Setting new data...");
+		System.out.println("IQM:  Setting new data...");
 
 		plotPanel.setPlotModels(plotModels, type);
 
@@ -133,7 +130,7 @@ public final class Plot implements IPlot {
 	 */
 	@Override
 	public void setNewData(PlotModel plotModel, ChartType type) {
-		logger.debug("Setting new data...");
+		System.out.println("IQM:  Setting new data...");
 
 		ArrayList<PlotModel> wrapper = new ArrayList<PlotModel>(1);
 		wrapper.add(0, plotModel);
@@ -155,7 +152,7 @@ public final class Plot implements IPlot {
 	 */
 	@Override
 	public void setChartData(ChartPanel chartPanel, ChartType type) {
-		logger.debug("Setting new data...");
+		System.out.println("IQM:  Setting new data...");
 
 		plotPanel.setChart(chartPanel, type);
 	}
@@ -201,7 +198,7 @@ public final class Plot implements IPlot {
 							IQMConstants.APPLICATION_VERSION, modelName));
 			
 		} catch (Exception ex) {
-			logger.error("Cannot update main frame title from plots: ", ex);
+			System.out.println("IQM Error: Cannot update main frame title from plots: "+ ex);
 		}
 	}
 } // End of Plot

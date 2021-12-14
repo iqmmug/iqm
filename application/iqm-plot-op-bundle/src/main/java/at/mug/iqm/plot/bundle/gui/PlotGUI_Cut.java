@@ -47,8 +47,8 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.text.InternationalFormatter;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+ 
+ 
 
 import at.mug.iqm.api.model.IqmDataBox;
 import at.mug.iqm.api.model.PlotModel;
@@ -69,7 +69,7 @@ public class PlotGUI_Cut extends AbstractPlotOperatorGUI implements
 	*/
 	private static final long serialVersionUID = 2449971939385375939L;
 
-	private static final Logger logger = LogManager.getLogger(PlotGUI_Cut.class);
+	  
 
 	private ParameterBlockIQM pb;
 
@@ -83,7 +83,7 @@ public class PlotGUI_Cut extends AbstractPlotOperatorGUI implements
 	private JPanel   jPanelOptions = null;
 
 	public PlotGUI_Cut() {
-		logger.debug("Now initializing...");
+		System.out.println("IQM:  Now initializing...");
 
 		this.setOpName(new PlotOpCutDescriptor().getName());
 		this.initialize();
@@ -198,7 +198,7 @@ public class PlotGUI_Cut extends AbstractPlotOperatorGUI implements
 
 	@Override
 	public void update() {
-		logger.debug("Updating GUI...");
+		System.out.println("IQM:  Updating GUI...");
 		
 		IqmDataBox box = (IqmDataBox) this.workPackage.getSources().get(0);
 		PlotModel plotModel = box.getPlotModel();

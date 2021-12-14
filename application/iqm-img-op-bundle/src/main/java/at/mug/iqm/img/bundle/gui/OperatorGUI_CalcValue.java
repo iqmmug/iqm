@@ -53,8 +53,8 @@ import javax.swing.JRadioButton;
 import javax.swing.border.TitledBorder;
 import javax.swing.text.InternationalFormatter;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+ 
+ 
 
 import at.mug.iqm.api.operator.AbstractImageOperatorGUI;
 import at.mug.iqm.api.operator.ParameterBlockIQM;
@@ -74,7 +74,7 @@ public class OperatorGUI_CalcValue extends AbstractImageOperatorGUI implements
 	private static final long serialVersionUID = -419828425410763232L;
 
 	// class specific logger
-	private static final Logger logger = LogManager.getLogger(OperatorGUI_CalcValue.class);
+	  
 
 	private ParameterBlockIQM pb = null;
 
@@ -104,7 +104,7 @@ public class OperatorGUI_CalcValue extends AbstractImageOperatorGUI implements
 	 * constructor
 	 */
 	public OperatorGUI_CalcValue() {
-		logger.debug("Now initializing...");
+		System.out.println("IQM:  Now initializing...");
 
 		this.setOpName(new IqmOpCalcValueDescriptor().getName());
 		this.initialize();
@@ -200,7 +200,7 @@ public class OperatorGUI_CalcValue extends AbstractImageOperatorGUI implements
 
 	@Override
 	public void update() {
-		logger.debug("Updating GUI...");
+		System.out.println("IQM:  Updating GUI...");
 		// here, it does nothing
 	}
 
@@ -540,7 +540,7 @@ public class OperatorGUI_CalcValue extends AbstractImageOperatorGUI implements
 
 		// preview if selected
 		if (this.isAutoPreviewSelected()) {
-			logger.debug("Performing AutoPreview");
+			System.out.println("IQM:  Performing AutoPreview");
 			this.showPreview();
 		}
 
@@ -552,7 +552,7 @@ public class OperatorGUI_CalcValue extends AbstractImageOperatorGUI implements
 
 		// preview if selected
 		if (this.isAutoPreviewSelected()) {
-			logger.debug("Performing AutoPreview");
+			System.out.println("IQM:  Performing AutoPreview");
 			this.showPreview();
 		}
 	}
@@ -565,7 +565,7 @@ public class OperatorGUI_CalcValue extends AbstractImageOperatorGUI implements
 		}
 		// preview if selected
 		if (this.isAutoPreviewSelected()) {
-			logger.debug("Performing AutoPreview");
+			System.out.println("IQM:  Performing AutoPreview");
 			this.showPreview();
 		}
 

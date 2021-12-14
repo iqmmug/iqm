@@ -29,8 +29,8 @@ package at.mug.iqm.api.gui.util;
  */
 
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+ 
+ 
 
 import at.mug.iqm.api.Application;
 import at.mug.iqm.api.gui.IMainFrame;
@@ -43,7 +43,7 @@ import at.mug.iqm.api.gui.IMainFrame;
 public class MemoryMonitor implements Runnable {
 
 	// class specific logger
-	private static final Logger logger = LogManager.getLogger(MemoryMonitor.class);
+	  
 
 	/**
 	 * The sleep sleepDelay for this thread in Milliseconds. Default is 5.000
@@ -79,7 +79,7 @@ public class MemoryMonitor implements Runnable {
 	 */
 	@Override
 	public void run() {
-		logger.debug("Memory Monitor thread is being executed.");
+		System.out.println("IQM:  Memory Monitor thread is being executed.");
 
 		while (!isStopped) {
 			try {
@@ -95,7 +95,7 @@ public class MemoryMonitor implements Runnable {
 				double usedMem = totMem - freeMem;
 				double usedMemPercent = Math.ceil((usedMem / maxMem) * 100);
 
-				logger.trace("Updating memory information: " + "Memory: "
+				System.out.println("IQM Trace: Updating memory information: " + "Memory: "
 						+ (int) usedMem + "M (" + (int) usedMemPercent
 						+ "%) used / " + (int) totMem + "M tot / "
 						+ (int) maxMem + "M max ");
@@ -110,7 +110,7 @@ public class MemoryMonitor implements Runnable {
 
 			} catch (InterruptedException e) {
 				// log the message
-				logger.error("Thread has been interrupted. ", e);
+				System.out.println("IQM Error: Thread has been interrupted. " +  e);
 			}
 		}
 	}

@@ -47,8 +47,8 @@ import java.util.concurrent.ExecutionException;
 
 import javax.swing.SwingWorker;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+ 
+ 
 
 import at.mug.iqm.api.I18N;
 import at.mug.iqm.api.IQMConstants;
@@ -76,7 +76,7 @@ import at.mug.iqm.commons.util.DialogUtil;
 public class PlotParser extends SwingWorker<Vector<Vector<String>>, Void> {
 
 	// Logging variables
-	private static final Logger logger = LogManager.getLogger(PlotParser.class);
+	  
 
 	private File file = null;
 
@@ -96,7 +96,7 @@ public class PlotParser extends SwingWorker<Vector<Vector<String>>, Void> {
 	 * Default constructor.
 	 */
 	public PlotParser() {
-		logger.debug("Creating new instance...");
+		System.out.println("IQM:  Creating new instance...");
 	}
 
 	/**
@@ -286,17 +286,17 @@ public class PlotParser extends SwingWorker<Vector<Vector<String>>, Void> {
 			fis.close();
 
 		} catch (FileNotFoundException e) {
-			logger.error("An error occurred: ", e);
+			System.out.println("IQM Error: An error occurred: " + e);
 			DialogUtil.getInstance().showErrorMessage(
 					I18N.getMessage("application.error.generic"), e, true);
 			this.dataString = null;
 		} catch (IOException e) {
-			logger.error("An error occurred: ", e);
+			System.out.println("IQM Error: An error occurred: " + e);
 			DialogUtil.getInstance().showErrorMessage(
 					I18N.getMessage("application.error.generic"), e, true);
 			this.dataString = null;
 		} catch (Exception e) {
-			logger.error("An error occurred: ", e);
+			System.out.println("IQM Error: An error occurred: " + e);
 			DialogUtil.getInstance().showErrorMessage(
 					I18N.getMessage("application.error.generic"), e, true);
 			this.dataString = null;
@@ -385,17 +385,17 @@ public class PlotParser extends SwingWorker<Vector<Vector<String>>, Void> {
 	          wavFile.close();
 
 		} catch (FileNotFoundException e) {
-			logger.error("An error occurred: ", e);
+			System.out.println("IQM Error: An error occurred: " + e);
 			DialogUtil.getInstance().showErrorMessage(
 					I18N.getMessage("application.error.generic"), e, true);
 			this.dataString = null;
 		} catch (IOException e) {
-			logger.error("An error occurred: ", e);
+			System.out.println("IQM Error: An error occurred: " + e);
 			DialogUtil.getInstance().showErrorMessage(
 					I18N.getMessage("application.error.generic"), e, true);
 			this.dataString = null;
 		} catch (Exception e) {
-			logger.error("An error occurred: ", e);
+			System.out.println("IQM Error: An error occurred: " + e);
 			DialogUtil.getInstance().showErrorMessage(
 					I18N.getMessage("application.error.generic"), e, true);
 			this.dataString = null;
@@ -468,17 +468,17 @@ public class PlotParser extends SwingWorker<Vector<Vector<String>>, Void> {
 			 fis.close();
 	
 		} catch (FileNotFoundException e) {
-			logger.error("An error occurred: ", e);
+			System.out.println("IQM Error: An error occurred: " + e);
 			DialogUtil.getInstance().showErrorMessage(
 					I18N.getMessage("application.error.generic"), e, true);
 			this.dataString = null;
 		} catch (IOException e) {
-			logger.error("An error occurred: ", e);
+			System.out.println("IQM Error: An error occurred: " + e);
 			DialogUtil.getInstance().showErrorMessage(
 					I18N.getMessage("application.error.generic"), e, true);
 			this.dataString = null;
 		} catch (Exception e) {
-			logger.error("An error occurred: ", e);
+			System.out.println("IQM Error: An error occurred: " + e);
 			DialogUtil.getInstance().showErrorMessage(
 					I18N.getMessage("application.error.generic"), e, true);
 			this.dataString = null;
@@ -610,7 +610,7 @@ public class PlotParser extends SwingWorker<Vector<Vector<String>>, Void> {
 		String fileName = f.getAbsolutePath();
 		int length = fileName.length();
 		String extension =  this.getFile().getAbsolutePath().substring(length-3, length);
-		logger.info("Detected file extension: " + extension);
+		System.out.println("IQM Info: Detected file extension: " + extension);
 		long startTime = System.currentTimeMillis();
 		
 		if (fileName.endsWith(IQMConstants.TXT_EXTENSION)) {
@@ -628,7 +628,7 @@ public class PlotParser extends SwingWorker<Vector<Vector<String>>, Void> {
 		TimeZone.setDefault(TimeZone.getTimeZone("GMT"));
 		SimpleDateFormat sdf = new SimpleDateFormat();
 		sdf.applyPattern("HHH:mm:ss:SSS");
-		logger.info("PlotParser: Time for reading plot file: "+ sdf.format(duration));
+		System.out.println("IQM Info: PlotParser: Time for reading plot file: "+ sdf.format(duration));
 		//BoardPanel.appendTextln("PlotParser: Time for reading plot file: "+ sdf.format(duration));
 		
 		return dataString ;

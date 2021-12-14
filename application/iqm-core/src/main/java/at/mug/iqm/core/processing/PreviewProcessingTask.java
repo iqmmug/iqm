@@ -34,8 +34,8 @@ import java.util.Vector;
 import java.util.concurrent.CancellationException;
 import java.util.concurrent.ExecutionException;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+ 
+ 
 
 import at.mug.iqm.api.gui.BoardPanel;
 import at.mug.iqm.api.model.IqmDataBox;
@@ -59,7 +59,7 @@ import at.mug.iqm.gui.util.GUITools;
 public class PreviewProcessingTask extends AbstractProcessingTask {
 
 	// class specific logger
-	private static final Logger logger = LogManager.getLogger(PreviewProcessingTask.class);
+	  
 
 	/**
 	 * Default constructor.
@@ -174,7 +174,7 @@ public class PreviewProcessingTask extends AbstractProcessingTask {
 						+ ": Post-Execute");
 
 			} catch (Exception e) {
-				logger.error("An error occurred: ", e);
+				System.out.println("IQM Error: An error occurred: " + e);
 				return null;
 			}
 		}
@@ -210,7 +210,7 @@ public class PreviewProcessingTask extends AbstractProcessingTask {
 	protected void done() {
 		Result result = null;
 		try {
-			logger.debug("Retrieving result from preview processing. Task# "
+			System.out.println("IQM:  Retrieving result from preview processing. Task# "
 					+ this.toString());
 			// get the result when processing is done
 			result = (Result) this.get();
@@ -223,15 +223,15 @@ public class PreviewProcessingTask extends AbstractProcessingTask {
 				BoardPanel.appendTextln("Result is NULL, nothing to display.");
 			}
 		} catch (InterruptedException e) {
-			logger.error("An error occurred: ", e);
+			System.out.println("IQM Error: An error occurred: " + e);
 		} catch (ExecutionException e) {
-			logger.error("An error occurred: ", e);
+			System.out.println("IQM Error: An error occurred: " + e);
 		} catch (CancellationException e) {
-			logger.error("The task has been cancelled.");
+			System.out.println("IQM Error: The task has been cancelled.");
 		} catch (Exception e) {
-			logger.error("An error occurred: ", e);
+			System.out.println("IQM Error: An error occurred: " + e);
 		} finally {
-			logger.debug("Done preview processing. Task# " + this.toString());
+			System.out.println("IQM:  Done preview processing. Task# " + this.toString());
 
 			// turn off the progress bar in the status panel
 			this.firePropertyChange("singleTaskRunning", 1, 0);

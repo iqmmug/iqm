@@ -55,8 +55,8 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.text.InternationalFormatter;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+ 
+ 
 
 import at.mug.iqm.api.operator.AbstractPlotOperatorGUI;
 import at.mug.iqm.api.operator.ParameterBlockIQM;
@@ -72,7 +72,7 @@ public class PlotGUI_FracHiguchi extends AbstractPlotOperatorGUI implements
 
 	private static final long serialVersionUID = 3273196002797739135L;
 
-	private static final Logger logger = LogManager.getLogger(PlotGUI_FracHiguchi.class);
+	  
 
 	private ParameterBlockIQM pb;
 
@@ -122,7 +122,7 @@ public class PlotGUI_FracHiguchi extends AbstractPlotOperatorGUI implements
 	
 
 	public PlotGUI_FracHiguchi() {
-		logger.debug("Now initializing...");
+		System.out.println("IQM:  Now initializing...");
 
 		this.setOpName(new PlotOpFracHiguchiDescriptor().getName());
 
@@ -683,7 +683,7 @@ public class PlotGUI_FracHiguchi extends AbstractPlotOperatorGUI implements
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		logger.debug(e.getActionCommand() + " event has been triggered.");
+		System.out.println("IQM:  "+e.getActionCommand() + " event has been triggered.");
 		if ("parameter".equals(e.getActionCommand())) {
 			if (e.getSource() == buttSingleValue) {
 				jLabelBoxLength.setEnabled(false);

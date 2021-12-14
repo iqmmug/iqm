@@ -37,21 +37,15 @@ import java.net.URLClassLoader;
 import java.util.ArrayList;
 import java.util.Collections;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+ 
+ 
 
 /**
  * @author Philipp Kainz
  * 
  */
 @SuppressWarnings({ "rawtypes", "unchecked" })
-public class ClasspathUtils {
-
-	/**
-	 * Class specific logger.
-	 */
-	//private static Logger logger = LogManager.getLogger(ClasspathUtils.class);
-	private static Logger logger = LogManager.getLogger(ClasspathUtils.class);
+public class ClasspathUtils {  
 
 	/**
 	 * Parameters for the URL class loader.
@@ -79,7 +73,7 @@ public class ClasspathUtils {
 				addURL(file.toURI().toURL());
 			}
 		} else {
-			logger.warn("The directory \"" + rootDirectory
+			System.out.println("IQM Warning: The directory \"" + rootDirectory
 					+ "\" does not exist!");
 		}
 	}
@@ -98,7 +92,7 @@ public class ClasspathUtils {
 		URL urls[] = sysLoader.getURLs();
 		for (int i = 0; i < urls.length; i++) {
 			if (urls[i].toString().equalsIgnoreCase(url.toString())) {
-				logger.info("URL " + url + " is already in the CLASSPATH");
+				System.out.println("IQM Info: URL " + url + " is already in the CLASSPATH");
 				return;
 			}
 		}
@@ -150,11 +144,11 @@ public class ClasspathUtils {
 			}
 			relativeTargetPath = relativeTargetPath.replace("\\", "/");
 			relativeTargetPath = relativeTargetPath.replace("%20", " ");
-			logger.debug("Extracted relative path to [" + rootDir + "] from ["
+			System.out.println("IQM:  Extracted relative path to [" + rootDir + "] from ["
 					+ path + "]: [" + relativeTargetPath + "]");
 			return relativeTargetPath;
 		} catch (Exception ex) {
-			logger.debug("Loading plugins into plugin root, application may be in development mode.");
+			System.out.println("IQM:  Loading plugins into plugin root, application may be in development mode.");
 			return "";
 		}
 	}

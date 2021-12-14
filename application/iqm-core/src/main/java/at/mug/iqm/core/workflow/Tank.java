@@ -39,8 +39,8 @@ import java.util.concurrent.ExecutionException;
 import javax.swing.JList;
 import javax.swing.SwingUtilities;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+ 
+ 
 
 import at.mug.iqm.api.Application;
 import at.mug.iqm.api.exception.MultipleMIMETypesException;
@@ -90,7 +90,7 @@ import at.mug.iqm.gui.util.GUITools;
 public final class Tank implements ITank {
 
 	// Logging variables
-	private static final Logger logger = LogManager.getLogger(Tank.class);
+	  
 	/**
 	 * The tank panel.
 	 */
@@ -297,7 +297,7 @@ public final class Tank implements ITank {
 		case PLOT:
 		case TABLE:
 		case CUSTOM:
-			logger.debug("Displayable object detected for the tank!");
+			System.out.println("IQM:  Displayable object detected for the tank!");
 			break;
 
 		default:
@@ -368,7 +368,7 @@ public final class Tank implements ITank {
 				dialog.setVisible(true);
 			}
 		}
-		logger.debug("Finished sequential loading of images.");
+		System.out.println("IQM:  Finished sequential loading of images.");
 	}
 
 	/**
@@ -476,21 +476,21 @@ public final class Tank implements ITank {
 	public IqmDataBox getCurrentTankIqmDataBoxAt(int mgrIndex) {
 		IqmDataBox result = null;
 		if (mgrIndex == -1) {
-			logger.warn("Tank is empty: Index '-1' not allowed, returning null.");
+			System.out.println("IQM Warning: Tank is empty: Index '-1' not allowed, returning null.");
 		} else {
 			int curr = getCurrIndex();
 			if (curr == -1) {
-				logger.warn("Current tank index not available, returning null.");
+				System.out.println("IQM Warning: Current tank index not available, returning null.");
 			} else {
 				try {
 					result = ((List<IqmDataBox>) tankPanel.getModel()
 							.getElementAt(curr)).get(mgrIndex);
 
 				} catch (IndexOutOfBoundsException e) {
-					logger.error("Current item index not available", e);
+					System.out.println("IQM Error: Current item index not available"+ e);
 					result = null;
 				} catch (NullPointerException e) {
-					logger.error("Current item index not available", e);
+					System.out.println("IQM Error: Current item index not available"+ e);
 					result = null;
 				}
 			}
@@ -514,22 +514,22 @@ public final class Tank implements ITank {
 	public IqmDataBox getTankIqmDataBoxAt(int tankIndex, int mgrIndex) {
 		IqmDataBox result = null;
 
-		// logger.debug("Requesting box #"+mgrIndex + " of tank #" + tankIndex);
+		// System.out.println("IQM:  Requesting box #"+mgrIndex + " of tank #" + tankIndex);
 
 		if (mgrIndex == -1) {
-			logger.warn("Manager is empty: Index '-1' not allowed, returning null.");
+			System.out.println("IQM Warning: Manager is empty: Index '-1' not allowed, returning null.");
 		} else {
 			if (tankIndex == -1) {
-				logger.warn("Current tank index not available, returning null.");
+				System.out.println("IQM Warning: Current tank index not available, returning null.");
 			} else {
 				try {
 					result = ((List<IqmDataBox>) tankPanel.getModel()
 							.getElementAt(tankIndex)).get(mgrIndex);
 				} catch (IndexOutOfBoundsException e) {
-					// logger.error("Current item index not available", e);
+					// System.out.println("IQM Error: Current item index not available", e);
 					result = null;
 				} catch (NullPointerException e) {
-					// logger.error("Current item index not available", e);
+					// System.out.println("IQM Error: Current item index not available", e);
 					result = null;
 				}
 			}
@@ -555,21 +555,21 @@ public final class Tank implements ITank {
 		int mgrIndex = Manager.getInstance().getCurrItemIndex();
 
 		if (mgrIndex == -1) {
-			logger.warn("Manager is empty: Index '-1' not allowed, returning null.");
+			System.out.println("IQM Warning: Manager is empty: Index '-1' not allowed, returning null.");
 		} else {
 			int curr = getCurrIndex();
 			if (curr == -1) {
-				logger.warn("Current tank index not available, returning null.");
+				System.out.println("IQM Warning: Current tank index not available, returning null.");
 			} else {
 				try {
 					result = ((List<IqmDataBox>) tankPanel.getModel()
 							.getElementAt(curr)).get(mgrIndex);
 
 				} catch (IndexOutOfBoundsException e) {
-					logger.error("Current item index not available: " + e);
+					System.out.println("IQM Error: Current item index not available: " + e);
 					result = null;
 				} catch (NullPointerException e) {
-					logger.error("Current item index not available: " + e);
+					System.out.println("IQM Error: Current item index not available: " + e);
 					result = null;
 				}
 			}
@@ -636,15 +636,15 @@ public final class Tank implements ITank {
 		DataType type = null;
 		try {
 			type = FileContentParser.parseContent(fileList);
-			logger.debug("File type detected for loading via drag'n'drop: ["
+			System.out.println("IQM:  File type detected for loading via drag'n'drop: ["
 					+ type.toString() + "]");
 		} catch (IllegalArgumentException e) {
-			logger.error("", e);
+			System.out.println("IQM Error: " + e);
 		} catch (MultipleMIMETypesException e) {
-			logger.error("", e);
+			System.out.println("IQM Error: " + e);
 			DialogUtil.getInstance().showErrorMessage("error.mime.multiple", e);
 		} catch (UnsupportedMIMETypeException e) {
-			logger.error("", e);
+			System.out.println("IQM Error: " + e);
 			DialogUtil.getInstance().showErrorMessage("error.mime.unsupported",
 					e);
 		}
@@ -687,7 +687,7 @@ public final class Tank implements ITank {
 		case PLOT:
 		case TABLE:
 		case CUSTOM:
-			logger.debug("Displayable object detected for the tank!");
+			System.out.println("IQM:  Displayable object detected for the tank!");
 			break;
 
 		default:

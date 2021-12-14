@@ -37,8 +37,8 @@ import javax.swing.ImageIcon;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+ 
+ 
 
 import at.mug.iqm.api.I18N;
 import at.mug.iqm.api.IQMConstants;
@@ -65,7 +65,7 @@ public class TemplateManagerGUI extends JFrame implements ITemplateManagerGUI {
 	private static final long serialVersionUID = -7603330014937360474L;
 
 	// class specific logger
-	private static final Logger logger = LogManager.getLogger(TemplateManagerGUI.class);
+	  
 
 	private String opName;
 
@@ -369,7 +369,7 @@ public class TemplateManagerGUI extends JFrame implements ITemplateManagerGUI {
 					.getInstance().getTemplateByName(this.opName, templatename);
 			if (template != null) {
 				String newTemplateName = txt_newTemplateName.getText();
-				logger.debug("TemplateManagerGUI Change template name: "
+				System.out.println("IQM:  TemplateManagerGUI Change template name: "
 						+ templatename + " to: " + newTemplateName);
 				// get data from current template
 				ParameterBlockIQM pb = new ParameterBlockIQM(this.opName);
@@ -378,7 +378,7 @@ public class TemplateManagerGUI extends JFrame implements ITemplateManagerGUI {
 							.loadParameterBlockFromTemplate(pb, template);
 				} catch (Exception e) {
 					// log the error message
-					logger.error("An error occurred: ", e);
+					System.out.println("IQM Error: An error occurred: " + e);
 					DialogUtil
 							.getInstance()
 							.showErrorMessage(
@@ -502,13 +502,13 @@ public class TemplateManagerGUI extends JFrame implements ITemplateManagerGUI {
 		} else {
 			templatename = (String) getTemplateComboBox().getSelectedItem();
 		}
-		logger.debug("Create template: " + templatename);
+		System.out.println("IQM:  Create template: " + templatename);
 		try {
 			XMLPreferencesManager.getInstance().setTemplate(this.opName,
 					templatename, templateSupport.getParameters());
 		} catch (Exception e) {
 			// log the error message
-			logger.error(e.getMessage().toString());
+			System.out.println("IQM Error: "+ e.getMessage().toString());
 		}
 		fillTemplateComboBox();
 		getTemplateComboBox().setSelectedItem(templatename);
@@ -564,7 +564,7 @@ public class TemplateManagerGUI extends JFrame implements ITemplateManagerGUI {
 
 	@Override
 	public void run() {
-		logger.debug("Starting a new runnable of '" + this.getClass().getName()
+		System.out.println("IQM:  Starting a new runnable of '" + this.getClass().getName()
 				+ "'");
 
 		int left = ((int) (Toolkit.getDefaultToolkit().getScreenSize()

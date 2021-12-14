@@ -57,8 +57,8 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.text.InternationalFormatter;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+ 
+ 
 
 import at.mug.iqm.api.gui.BoardPanel;
 import at.mug.iqm.api.operator.AbstractPlotOperatorGUI;
@@ -77,7 +77,7 @@ public class PlotGUI_FractalGenerator extends AbstractPlotOperatorGUI implements
 	 */
 	private static final long serialVersionUID = -8557561248409563634L;
 
-	private static final Logger logger = LogManager.getLogger(PlotGUI_FractalGenerator.class);
+	  
 
 	private ParameterBlockIQM pb;
 
@@ -109,7 +109,7 @@ public class PlotGUI_FractalGenerator extends AbstractPlotOperatorGUI implements
 	private JPanel    jPanelParameters   = null;
 
 	public PlotGUI_FractalGenerator() {
-		logger.debug("Now initializing...");
+		System.out.println("IQM:  Now initializing...");
 
 		this.initialize();
 		this.setTitle("Fractal Signal Generator");	
@@ -477,7 +477,7 @@ public class PlotGUI_FractalGenerator extends AbstractPlotOperatorGUI implements
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		logger.debug(e.getActionCommand() + " event has been triggered.");
+		System.out.println("IQM:  "+e.getActionCommand() + " event has been triggered.");
 		if ("parameter".equals(e.getActionCommand())) {
 
 			if (e.getSource() == buttDHM) {

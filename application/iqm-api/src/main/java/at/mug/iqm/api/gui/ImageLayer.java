@@ -44,8 +44,8 @@ import java.text.DecimalFormat;
 import javax.swing.JViewport;
 import javax.swing.SwingUtilities;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+ 
+ 
 
 import at.mug.iqm.commons.util.CommonTools;
 
@@ -67,7 +67,7 @@ public class ImageLayer extends DisplayJAI {
 	/**
 	 * Custom class logger.
 	 */
-	private static final Logger logger = LogManager.getLogger(ImageLayer.class);
+	  
 
 	/**
 	 * The raster of the displayed image.
@@ -84,7 +84,7 @@ public class ImageLayer extends DisplayJAI {
 	 */
 	public ImageLayer() {
 		super();
-		logger.debug("Constructing a new instance...");
+		System.out.println("IQM:  Constructing a new instance...");
 		addMouseMotionListener(this);
 		addMouseListener(this);
 	}
@@ -181,7 +181,7 @@ public class ImageLayer extends DisplayJAI {
 	 */
 	@Override
 	synchronized public void paintComponent(Graphics g) {
-		logger.debug(Thread.currentThread().getName() + " paints image...");
+		System.out.println("IQM:  "+Thread.currentThread().getName() + " paints image...");
 		long start = System.currentTimeMillis();
 
 		// restrict the area to be painted
@@ -210,10 +210,11 @@ public class ImageLayer extends DisplayJAI {
 			g2d.drawRenderedImage(source,
 					AffineTransform.getTranslateInstance(tx, ty));
 		} catch (OutOfMemoryError e) {
-			logger.fatal("The rendered image cannot be drawn! ", e);
+			System.out.println("IQM Fatal: The rendered image cannot be drawn! ");
+			System.out.println(e);
 		}
 
-		logger.debug("Painted image in milliseconds: "
+		System.out.println("IQM:  Painted image in milliseconds: "
 				+ (System.currentTimeMillis() - start) / 1.0d);
 	}
 
@@ -332,7 +333,8 @@ public class ImageLayer extends DisplayJAI {
 						.length() - 1));
 
 			} catch (Exception ee) {
-				logger.error("An error occurred: ", ee);
+				System.out.println("IQM Error: An error occurred: ");
+				System.out.println(ee);
 				return;
 			}
 		}
@@ -355,7 +357,7 @@ public class ImageLayer extends DisplayJAI {
 
 			// disable zooming on no present image
 			if (this.displayPanel.getCurrentImage() == null) {
-				logger.debug("There is no image available!");
+				System.out.println("IQM:  There is no image available!");
 				return;
 			}
 
@@ -376,7 +378,7 @@ public class ImageLayer extends DisplayJAI {
 		double zoom = this.displayPanel.getZoom();
 
 		if (SwingUtilities.isLeftMouseButton(e)) {
-			logger.debug("mouse pressed left on zoom button");
+			System.out.println("IQM:  mouse pressed left on zoom button");
 			if (zoom >= this.displayPanel.getZoomHelper().getZoomLevels()
 					.getLast()) {
 				return;
@@ -388,7 +390,7 @@ public class ImageLayer extends DisplayJAI {
 		}
 
 		else if (SwingUtilities.isRightMouseButton(e)) {
-			logger.debug("mouse pressed right on zoom button");
+			System.out.println("IQM:  mouse pressed right on zoom button");
 			// check, if lower zoom is allowed
 			double minDim = Math.min(this.displayPanel.getCurrentImage()
 					.getWidth(), this.displayPanel.getCurrentImage()
@@ -404,7 +406,7 @@ public class ImageLayer extends DisplayJAI {
 
 		if (SwingUtilities.isLeftMouseButton(e) && e.isControlDown()) {
 			// Reset to 1.0 PK 2012 03 08
-			logger.debug("Resetting zoom to 1.0d @ ctrl+left");
+			System.out.println("IQM:  Resetting zoom to 1.0d @ ctrl+left");
 			zoom = 1.0d;
 			this.displayPanel.setZoom(zoom);
 		}

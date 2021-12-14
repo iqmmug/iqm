@@ -43,8 +43,8 @@ import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
 import javax.swing.JTextArea;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+ 
+ 
 
 import at.mug.iqm.api.I18N;
 import at.mug.iqm.api.Resources;
@@ -66,7 +66,7 @@ public class BoardPanel extends JPanel implements ActionListener {
 	private static final long serialVersionUID = -536789050426854287L;
 
 	// Standard class logger
-	private static final Logger logger = LogManager.getLogger(BoardPanel.class);
+	  
 	
 	// Initialize class variables first
 	private static       JTextArea    textArea 		= new JTextArea();
@@ -88,7 +88,7 @@ public class BoardPanel extends JPanel implements ActionListener {
      */
     public static synchronized void appendTextln (String arg) {
     	textArea.append(arg + newline);
-    	logger.debug(arg);
+    	System.out.println("IQM:  "+arg);
     	System.out.println(arg);
     	
         //Make sure the new text is visible, even if there
@@ -103,7 +103,7 @@ public class BoardPanel extends JPanel implements ActionListener {
     public static synchronized void appendTextln (String arg, Class<?> caller) {
     	String clsName = caller.getName();
     	textArea.append(clsName.substring(clsName.lastIndexOf('.')+1) + ": " + arg + newline);
-    	logger.debug(clsName.substring(clsName.lastIndexOf('.')+1) + ": " + arg);
+    	System.out.println("IQM:  "+clsName.substring(clsName.lastIndexOf('.')+1) + ": " + arg);
     	System.out.println(arg);
     	
         //Make sure the new text is visible, even if there
@@ -117,7 +117,7 @@ public class BoardPanel extends JPanel implements ActionListener {
      */
     public static synchronized void appendText(String arg) {
     	textArea.append(arg);
-    	logger.debug(arg);
+    	System.out.println("IQM:  "+arg);
     	System.out.print(arg);
     	
         //Make sure the new text is visible, even if there
@@ -132,7 +132,7 @@ public class BoardPanel extends JPanel implements ActionListener {
     public static synchronized void appendText(String arg, Class<?> caller) {
     	String clsName = caller.getName();
     	textArea.append(clsName.substring(clsName.lastIndexOf('.')+1) + ": " + arg);
-    	logger.debug(clsName.substring(clsName.lastIndexOf('.')+1) + ": " + arg);
+    	System.out.println("IQM:  "+clsName.substring(clsName.lastIndexOf('.')+1) + ": " + arg);
     	System.out.print(arg);
     	
         //Make sure the new text is visible, even if there
@@ -190,7 +190,7 @@ public class BoardPanel extends JPanel implements ActionListener {
 			String s = textArea.getText();
 	        int end = s.length();
 	        textArea.replaceRange("", 0, end);
-	        logger.info("Board has been manually cleared.");
+	        System.out.println("IQM Info: Board has been manually cleared.");
 		}
 	}
     

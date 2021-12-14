@@ -52,8 +52,8 @@ import javax.swing.border.TitledBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+ 
+ 
 
 import at.mug.iqm.api.Application;
 import at.mug.iqm.api.model.IqmDataBox;
@@ -76,7 +76,7 @@ public class OperatorGUI_HistoModify extends AbstractImageOperatorGUI implements
 	private static final long serialVersionUID = 1628979061994057933L;
 
 	// class specific logger
-	private static final Logger logger = LogManager.getLogger(OperatorGUI_HistoModify.class);
+	  
 
 	private ParameterBlockIQM pbJAI = null; // @jve:decl-index=0:
 
@@ -108,7 +108,7 @@ public class OperatorGUI_HistoModify extends AbstractImageOperatorGUI implements
 	 * constructor
 	 */
 	public OperatorGUI_HistoModify() {
-		logger.debug("Now initializing...");
+		System.out.println("IQM:  Now initializing...");
 
 		this.setOpName(new IqmOpHistoModifyDescriptor().getName());
 
@@ -238,7 +238,7 @@ public class OperatorGUI_HistoModify extends AbstractImageOperatorGUI implements
 	 */
 	@Override
 	public void update() {
-		logger.debug("Updating GUI...");
+		System.out.println("IQM:  Updating GUI...");
 		// here, it does nothing
 	}
 
@@ -413,7 +413,7 @@ public class OperatorGUI_HistoModify extends AbstractImageOperatorGUI implements
 	// --------------------------------------------------------------------------------------------
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		logger.debug(e.getActionCommand() + " event has been triggered.");
+		System.out.println("IQM:  "+e.getActionCommand() + " event has been triggered.");
 		if ("parameter".equals(e.getActionCommand())) {
 			this.updateParameterBlock();
 		}
@@ -430,7 +430,7 @@ public class OperatorGUI_HistoModify extends AbstractImageOperatorGUI implements
 
 		// preview if selected
 		if (this.isAutoPreviewSelected()) {
-			logger.debug("Performing AutoPreview");
+			System.out.println("IQM:  Performing AutoPreview");
 			this.showPreview();
 		}
 
@@ -457,7 +457,7 @@ public class OperatorGUI_HistoModify extends AbstractImageOperatorGUI implements
 
 		// preview if selected
 		if (this.isAutoPreviewSelected()) {
-			logger.debug("Performing AutoPreview");
+			System.out.println("IQM:  Performing AutoPreview");
 			this.showPreview();
 		}
 	}

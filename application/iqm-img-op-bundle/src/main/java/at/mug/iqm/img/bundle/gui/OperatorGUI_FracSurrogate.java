@@ -45,8 +45,8 @@ import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.border.TitledBorder;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+ 
+ 
 
 import at.mug.iqm.api.operator.AbstractImageOperatorGUI;
 import at.mug.iqm.api.operator.ParameterBlockIQM;
@@ -69,7 +69,7 @@ public class OperatorGUI_FracSurrogate extends AbstractImageOperatorGUI
 	private static final long serialVersionUID = -6176765982911579660L;
 
 	// class specific logger
-	private static final Logger logger = LogManager.getLogger(OperatorGUI_FracSurrogate.class);
+	  
 
 	private ParameterBlockIQM pb = null;
 
@@ -86,7 +86,7 @@ public class OperatorGUI_FracSurrogate extends AbstractImageOperatorGUI
 	 */
 	public OperatorGUI_FracSurrogate() {
 		setResizable(false);
-		logger.debug("Now initializing...");
+		System.out.println("IQM:  Now initializing...");
 		
 		this.setOpName(new IqmOpFracSurrogateDescriptor().getName());
 		
@@ -147,7 +147,7 @@ public class OperatorGUI_FracSurrogate extends AbstractImageOperatorGUI
 	 */
 	@Override
 	public void update() {
-		logger.debug("Updating GUI...");
+		System.out.println("IQM:  Updating GUI...");
 		// here, it does nothing
 	}
 
@@ -271,14 +271,14 @@ public class OperatorGUI_FracSurrogate extends AbstractImageOperatorGUI
 	// --------------------------------------------------------------------------------------------
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		logger.debug(e.getActionCommand() + " event has been triggered.");
+		System.out.println("IQM:  "+e.getActionCommand() + " event has been triggered.");
 		if ("parameter".equals(e.getActionCommand())) {
 			this.updateParameterBlock();
 		}
 
 		// preview if selected
 		if (this.isAutoPreviewSelected()) {
-			logger.debug("Performing AutoPreview");
+			System.out.println("IQM:  Performing AutoPreview");
 			this.showPreview();
 		}
 

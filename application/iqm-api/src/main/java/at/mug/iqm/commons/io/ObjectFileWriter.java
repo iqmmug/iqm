@@ -34,8 +34,8 @@ import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.io.OutputStream;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+ 
+ 
 
 /**
  * This helper class writes a POJO to a file.
@@ -45,7 +45,7 @@ import org.apache.logging.log4j.Logger;
  */
 public class ObjectFileWriter implements Runnable {
 	
-	private static final Logger logger = LogManager.getLogger(ObjectFileWriter.class);
+	  
 
 	protected File file;
 	protected OutputStream fos = null;
@@ -85,7 +85,7 @@ public class ObjectFileWriter implements Runnable {
 		try {
 			write();
 		} catch (IOException e) {
-			logger.error("Error writing object to file!", e);
+			System.out.println("IQM Error: Error writing object to file!" + e);
 		}
 	}
 }

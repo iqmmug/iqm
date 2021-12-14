@@ -39,8 +39,8 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.WindowConstants;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+ 
+ 
 
 import at.mug.iqm.commons.util.CommonTools;
 import at.mug.iqm.core.I18N;
@@ -64,7 +64,7 @@ public class LookExtraFrame extends JFrame implements WindowListener{
 	/**
 	 * Custom class logger.
 	 */
-	private static final Logger logger = LogManager.getLogger(LookExtraFrame.class);
+	  
 	
 	/**
 	 * The container.
@@ -81,11 +81,11 @@ public class LookExtraFrame extends JFrame implements WindowListener{
 	 */
 	public LookExtraFrame() {
 		super();
-		logger.debug("Creating extra look frame...");
+		System.out.println("IQM:  Creating extra look frame...");
 		
 		this.createAndAssemble();
 	
-		logger.debug("Done.");
+		System.out.println("IQM:  Done.");
 	}
 
 	
@@ -93,13 +93,13 @@ public class LookExtraFrame extends JFrame implements WindowListener{
 	 * This method creates and assembles the GUI.
 	 */
 	public void createAndAssemble() {
-		logger.debug("Constructing GUI elements...");
+		System.out.println("IQM:  Constructing GUI elements...");
 		
 		this.setPreferredSize(new Dimension(800, 600));
 		this.setResizable(true);
 		this.setContentPane(this.createJContentPane());
 
-		logger.debug("ExtraLookFrame LookPanel instance: " + this.lookPanel);
+		System.out.println("IQM:  ExtraLookFrame LookPanel instance: " + this.lookPanel);
 		
 		this.setIconImage(new ImageIcon(Resources.getImageURL("icon.application.red.32x32")).getImage());
 		
@@ -149,16 +149,16 @@ public class LookExtraFrame extends JFrame implements WindowListener{
 		this.lookPanel.destroyGUI();
 		this.dispose();
 
-		logger.debug("Window destroyed, now running garbage collector.");	
+		System.out.println("IQM:  Window destroyed, now running garbage collector.");	
 		System.gc();
 	}
 	
 	@Override
 	public void windowActivated(WindowEvent arg0) {
-		logger.debug("Activated LookPanel instance, setting current instance in Look: " + this.getLookPanel());
+		System.out.println("IQM:  Activated LookPanel instance, setting current instance in Look: " + this.getLookPanel());
 		Look.getInstance().setCurrentLookPanel(this.getLookPanel());
 		
-//		logger.debug("Activated LookPanel instance, setting LookDisplayJAI in CoreTools: " + this.getLookPanel().getLookDisplayJAI());
+//		System.out.println("IQM:  Activated LookPanel instance, setting LookDisplayJAI in CoreTools: " + this.getLookPanel().getLookDisplayJAI());
 //		CoreTools.setLookDisplayJAI(this.getLookPanel().getLookDisplayJAI()); 
 	}
 	@Override
@@ -168,7 +168,7 @@ public class LookExtraFrame extends JFrame implements WindowListener{
 		try {
 			this.destroyGUI();
 		} catch (Exception e1) {	
-			logger.error("Error while destruction: ", e1);
+			System.out.println("IQM Error: Error while destruction: "+ e1);
 		}	
 	}
 	@Override

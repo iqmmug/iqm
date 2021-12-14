@@ -58,8 +58,8 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.text.InternationalFormatter;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+ 
+ 
 
 import at.mug.iqm.api.model.IqmDataBox;
 import at.mug.iqm.api.model.PlotModel;
@@ -95,7 +95,7 @@ public class PlotGUI_GenEntropy extends AbstractPlotOperatorGUI implements
 	 */
 	private static final long serialVersionUID = -6339691405570327547L;
 
-	private static final Logger logger = LogManager.getLogger(PlotGUI_GenEntropy.class);
+	  
 
 	private ParameterBlockIQM pb;
 
@@ -223,7 +223,7 @@ public class PlotGUI_GenEntropy extends AbstractPlotOperatorGUI implements
 
 	public PlotGUI_GenEntropy() {
 		getOpGUIContent().setBorder(new EmptyBorder(10, 10, 10, 10));
-		logger.debug("Now initializing...");
+		System.out.println("IQM:  Now initializing...");
 
 		this.setOpName(new PlotOpGenEntropyDescriptor().getName());
 		this.initialize();
@@ -1601,7 +1601,7 @@ public class PlotGUI_GenEntropy extends AbstractPlotOperatorGUI implements
 	@Override
 	public void update() {
 		
-		logger.debug("Updating GUI...");
+		System.out.println("IQM:  Updating GUI...");
 	
 //		minQ = -5;
 //		maxQ = 5;
@@ -1653,7 +1653,7 @@ public class PlotGUI_GenEntropy extends AbstractPlotOperatorGUI implements
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		logger.debug(e.getActionCommand() + " event has been triggered.");
+		System.out.println("IQM:  "+e.getActionCommand() + " event has been triggered.");
 		if ("parameter".equals(e.getActionCommand())) {
 			
 			if (buttProbabilityActual == e.getSource()) {
@@ -1782,7 +1782,7 @@ public class PlotGUI_GenEntropy extends AbstractPlotOperatorGUI implements
 			this.update();
 			// preview if selected
 			if (this.isAutoPreviewSelected()) {
-				logger.debug("Performing AutoPreview");
+				System.out.println("IQM:  Performing AutoPreview");
 				this.showPreview();
 			}
 		}
@@ -1920,7 +1920,7 @@ public class PlotGUI_GenEntropy extends AbstractPlotOperatorGUI implements
 		
 		// preview if selected
 		if (this.isAutoPreviewSelected()) {
-			logger.debug("Performing AutoPreview");
+			System.out.println("IQM:  Performing AutoPreview");
 			this.showPreview();
 		}
 	}

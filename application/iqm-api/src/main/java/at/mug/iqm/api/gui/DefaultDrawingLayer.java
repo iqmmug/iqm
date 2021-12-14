@@ -63,8 +63,8 @@ import javax.swing.JLabel;
 import javax.swing.JViewport;
 import javax.swing.SwingUtilities;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+ 
+ 
 
 import at.mug.iqm.api.Application;
 import at.mug.iqm.api.I18N;
@@ -111,7 +111,7 @@ public abstract class DefaultDrawingLayer extends JLabel implements
 	/**
 	 * A custom class logger
 	 */
-	private static final Logger logger = LogManager.getLogger(DefaultDrawingLayer.class);
+	  
 
 	/*
 	 * ### LAYER MANAGEMENT
@@ -1311,7 +1311,7 @@ public abstract class DefaultDrawingLayer extends JLabel implements
 					+ "px");
 
 			// log the line ROI length
-			logger.trace(lineRoi.toString());
+			System.out.println("IQM Trace: "+ lineRoi.toString());
 		} else if (roi instanceof AngleROI) {
 			AngleROI angleRoi = (AngleROI) roi;
 			// show the text in the imageinfopanel
@@ -1325,7 +1325,7 @@ public abstract class DefaultDrawingLayer extends JLabel implements
 					+ "px");
 
 			// log the angle ROI
-			logger.trace(angleRoi.toString());
+			System.out.println("IQM Trace: "+ angleRoi.toString());
 		} else if (roi instanceof AreaEnabledROI) {
 			AreaEnabledROI areaEnabledROI = (AreaEnabledROI) roi;
 
@@ -1346,7 +1346,7 @@ public abstract class DefaultDrawingLayer extends JLabel implements
 							.getHeight()) + "px");
 
 			// log the line ROI length
-			logger.trace(areaEnabledROI.toString());
+			System.out.println("IQM Trace: "+ areaEnabledROI.toString());
 		}
 	}
 
@@ -1957,8 +1957,8 @@ public abstract class DefaultDrawingLayer extends JLabel implements
 			g2.setComposite(composite);
 			g2.fillRect(0, 0, getWidth(), getHeight());
 		} else {
-			logger.debug("Layer " + getZOrder() + " is visible.");
-			logger.trace(Thread.currentThread().getName()
+			System.out.println("IQM:  Layer " + getZOrder() + " is visible.");
+			System.out.println("IQM Trace: "+ Thread.currentThread().getName()
 					+ " paints ROI Shapes of layer [" + this.getZOrder()
 					+ "]...");
 
@@ -1971,7 +1971,8 @@ public abstract class DefaultDrawingLayer extends JLabel implements
 			try {
 				zoom = displayPanel.getZoom();
 			} catch (NullPointerException npe) {
-				logger.error("An error occurred: ", npe);
+				System.out.println("IQM Error: An error occurred: ");
+				System.out.println(npe);
 				return;
 			}
 
@@ -2010,7 +2011,7 @@ public abstract class DefaultDrawingLayer extends JLabel implements
 								.isSelected())) {
 
 					// log the incoming ROI shape type
-					logger.trace(this.currentROIShape);
+					System.out.println("IQM Trace: "+ this.currentROIShape);
 
 					ROIShape roiShape = new ROIShape(this.currentROIShape
 							.transform(at).getAsShape());
@@ -2023,7 +2024,7 @@ public abstract class DefaultDrawingLayer extends JLabel implements
 						Point2D lineROIEndPoint = ((LineROI) currentROIShape)
 								.getEndPoint();
 
-						logger.trace(lineROIStartPoint + "|" + lineROIEndPoint);
+						System.out.println("IQM Trace: "+ lineROIStartPoint + "|" + lineROIEndPoint);
 
 						g2.setStroke(lineROIBoundaryStroke);
 						g2.setColor(lineROIBoundaryColor);
@@ -2044,7 +2045,7 @@ public abstract class DefaultDrawingLayer extends JLabel implements
 						// Calculate edit points in real coordinates
 						ROIShape[] rectShapesUntransformed = new ROIShape[2];
 						for (int i = 0; i < 2; i++) {
-							logger.trace("Bounds of LineROI element untransformed: "
+							System.out.println("IQM Trace: Bounds of LineROI element untransformed: "
 									+ rectArray[i].getBounds());
 							ROIShape rectShape = new ROIShape(rectArray[i]);
 							rectShapesUntransformed[i] = rectShape;
@@ -2065,7 +2066,7 @@ public abstract class DefaultDrawingLayer extends JLabel implements
 					} else if (this.currentROIShape instanceof PointROI) {
 						// draw boundaries without transformable edges
 						Rectangle bounds = roiShape.getBounds();
-						logger.trace(bounds);
+						System.out.println("IQM Trace: "+ bounds);
 						g2.setColor(roiBoundaryColor);
 						g2.setStroke(roiBoundaryStroke);
 						bounds.grow(6, 6);
@@ -2074,7 +2075,7 @@ public abstract class DefaultDrawingLayer extends JLabel implements
 						g2.draw(bounds);
 					} else {
 						Rectangle bounds = roiShape.getBounds();
-						logger.trace(bounds);
+						System.out.println("IQM Trace: "+ bounds);
 						g2.setColor(roiBoundaryColor);
 						g2.setStroke(roiBoundaryStroke);
 						g2.draw(bounds);
@@ -2121,7 +2122,7 @@ public abstract class DefaultDrawingLayer extends JLabel implements
 							// draw the rectangles
 							g2.draw(rectArray[i]);
 
-							logger.trace("Bounds of non-LineROI element untransformed: "
+							System.out.println("IQM Trace: Bounds of non-LineROI element untransformed: "
 									+ rectArray[i].getBounds());
 							ROIShape rectShape = new ROIShape(rectArray[i]);
 							rectShapesUntransformed[i] = rectShape;
@@ -2151,14 +2152,14 @@ public abstract class DefaultDrawingLayer extends JLabel implements
 								.getButtonArrow().isSelected())) {
 
 					// log the incoming roi shape type
-					logger.trace(this.roiShapeForHighlighting);
+					System.out.println("IQM Trace: "+ this.roiShapeForHighlighting);
 
 					ROIShape roiShape = new ROIShape(
 							this.roiShapeForHighlighting.transform(at)
 									.getAsShape());
 
 					Rectangle bounds = roiShape.getBounds();
-					logger.trace(bounds);
+					System.out.println("IQM Trace: "+ bounds);
 					g2.setColor(highlightColor);
 					g2.setStroke(highlightStroke);
 
@@ -2176,7 +2177,7 @@ public abstract class DefaultDrawingLayer extends JLabel implements
 
 			}
 		}
-		logger.debug("Painted all stuff on layer [name=" + getName()
+		System.out.println("IQM:  Painted all stuff on layer [name=" + getName()
 				+ ", zOrder=" + getZOrder() + "] in milliseconds: "
 				+ (System.currentTimeMillis() - start) / 1.0d);
 	}
@@ -2295,7 +2296,8 @@ public abstract class DefaultDrawingLayer extends JLabel implements
 				}
 			}
 		} catch (Exception ex) {
-			logger.error("An error occurred: ", ex);
+			System.out.println("IQM Error: An error occurred: ");
+			System.out.println(ex);
 		}
 	}
 
@@ -2307,7 +2309,7 @@ public abstract class DefaultDrawingLayer extends JLabel implements
 
 		if (this.displayPanel == Application.getLook().getCurrentLookPanel()) {
 			this.requestFocusInWindow();
-			logger.trace("got focus.");
+			System.out.println("IQM Trace: got focus.");
 		}
 
 		LookToolboxPanel toolbox = this.displayPanel.getToolboxPanel();
@@ -2343,8 +2345,8 @@ public abstract class DefaultDrawingLayer extends JLabel implements
 			// get the real point for the calculation, whether the click
 			// happened inside a ROI or not
 			Point screenP = e.getPoint();
-			logger.debug("Image pixel point: " + p);
-			logger.debug("Screen pixel point: " + screenP);
+			System.out.println("IQM:  Image pixel point: " + p);
+			System.out.println("IQM:  Screen pixel point: " + screenP);
 
 			// set the flag of dragging to true if the left mouse button is
 			// pressed
@@ -2373,7 +2375,7 @@ public abstract class DefaultDrawingLayer extends JLabel implements
 
 					if (!toDelete.isEmpty()) {
 						if (allROIShapes.removeAll(toDelete)) {
-							logger.debug("Removed existing line ROI element(s): "
+							System.out.println("IQM:  Removed existing line ROI element(s): "
 									+ toDelete);
 
 							// renew the line ROI vector
@@ -2383,7 +2385,7 @@ public abstract class DefaultDrawingLayer extends JLabel implements
 							repaint();
 						}
 					} else {
-						logger.debug("No line ROI element(s) present to remove!");
+						System.out.println("IQM:  No line ROI element(s) present to remove!");
 					}
 
 					// remove the line length text from the panel
@@ -2413,7 +2415,7 @@ public abstract class DefaultDrawingLayer extends JLabel implements
 
 					if (!toDelete.isEmpty()) {
 						if (allROIShapes.removeAll(toDelete)) {
-							logger.debug("Removed existing rectangle ROI element(s): "
+							System.out.println("IQM:  Removed existing rectangle ROI element(s): "
 									+ toDelete);
 
 							// renew the rectangle ROI vector
@@ -2423,7 +2425,7 @@ public abstract class DefaultDrawingLayer extends JLabel implements
 							repaint();
 						}
 					} else {
-						logger.debug("No rectangle ROI element(s) present to remove!");
+						System.out.println("IQM:  No rectangle ROI element(s) present to remove!");
 					}
 				}
 			}
@@ -2438,7 +2440,7 @@ public abstract class DefaultDrawingLayer extends JLabel implements
 				// adding multiple ellipse ROIs to vector, if the shift key is
 				// not pressed at the mouse event
 				if (e.isShiftDown()) {
-					logger.debug("Pressing left mouse button on the ellipse ROI, shift is down.");
+					System.out.println("IQM:  Pressing left mouse button on the ellipse ROI, shift is down.");
 					// remove existing ellipse ROIs
 					List<ROIShape> toDelete = new ArrayList<ROIShape>();
 					for (ROIShape ellipse : allROIShapes) {
@@ -2448,7 +2450,7 @@ public abstract class DefaultDrawingLayer extends JLabel implements
 					}
 					if (!toDelete.isEmpty()) {
 						if (allROIShapes.removeAll(toDelete)) {
-							logger.debug("Removed existing ellipse ROI element(s): "
+							System.out.println("IQM:  Removed existing ellipse ROI element(s): "
 									+ toDelete);
 
 							// renew the ellipse ROI vector
@@ -2458,10 +2460,10 @@ public abstract class DefaultDrawingLayer extends JLabel implements
 							repaint();
 						}
 					} else {
-						logger.debug("No ellipse ROI element(s) present to remove!");
+						System.out.println("IQM:  No ellipse ROI element(s) present to remove!");
 					}
 				} else {
-					logger.debug("Pressing left mouse button on the ellipse ROI, shift is not down.");
+					System.out.println("IQM:  Pressing left mouse button on the ellipse ROI, shift is not down.");
 				}
 			}
 
@@ -2471,7 +2473,7 @@ public abstract class DefaultDrawingLayer extends JLabel implements
 				// adding multiple freehand ROIs to vector, if the shift key is
 				// not pressed at the mouse event
 				if (e.isShiftDown()) {
-					logger.debug("Pressing left mouse button on the freehand ROI, shift is down.");
+					System.out.println("IQM:  Pressing left mouse button on the freehand ROI, shift is down.");
 					// remove existing freehand ROIs
 					List<ROIShape> toDelete = new ArrayList<ROIShape>();
 					for (ROIShape freehandROI : allROIShapes) {
@@ -2481,7 +2483,7 @@ public abstract class DefaultDrawingLayer extends JLabel implements
 					}
 					if (!toDelete.isEmpty()) {
 						if (allROIShapes.removeAll(toDelete)) {
-							logger.debug("Removed existing freehand ROI element(s): "
+							System.out.println("IQM:  Removed existing freehand ROI element(s): "
 									+ toDelete);
 
 							// renew the freehand ROI vector
@@ -2491,10 +2493,10 @@ public abstract class DefaultDrawingLayer extends JLabel implements
 							repaint();
 						}
 					} else {
-						logger.debug("No freehand ROI element(s) present to remove!");
+						System.out.println("IQM:  No freehand ROI element(s) present to remove!");
 					}
 				} else {
-					logger.debug("Pressing left mouse button on the freehand ROI, shift is not down.");
+					System.out.println("IQM:  Pressing left mouse button on the freehand ROI, shift is not down.");
 				}
 
 				// initialize a new path for the freehand object
@@ -2514,7 +2516,7 @@ public abstract class DefaultDrawingLayer extends JLabel implements
 					// adding multiple polygon ROIs to vector, if the shift key
 					// is not pressed at the mouse event
 					if (e.isShiftDown()) {
-						logger.debug("Pressing left mouse button on the polygon ROI, shift is down.");
+						System.out.println("IQM:  Pressing left mouse button on the polygon ROI, shift is down.");
 						// remove existing polygon ROIs
 						List<ROIShape> toDelete = new ArrayList<ROIShape>();
 						for (ROIShape polygonROI : allROIShapes) {
@@ -2524,7 +2526,7 @@ public abstract class DefaultDrawingLayer extends JLabel implements
 						}
 						if (!toDelete.isEmpty()) {
 							if (allROIShapes.removeAll(toDelete)) {
-								logger.debug("Removed existing polygon ROI element(s): "
+								System.out.println("IQM:  Removed existing polygon ROI element(s): "
 										+ toDelete);
 
 								// renew the polygon ROI vector
@@ -2536,10 +2538,10 @@ public abstract class DefaultDrawingLayer extends JLabel implements
 								deletedSomePolygonROIs = true;
 							}
 						} else {
-							logger.debug("No polygon ROI element(s) present to remove!");
+							System.out.println("IQM:  No polygon ROI element(s) present to remove!");
 						}
 					} else {
-						logger.debug("Pressing left mouse button on the polygon ROI, shift is not down.");
+						System.out.println("IQM:  Pressing left mouse button on the polygon ROI, shift is not down.");
 					}
 
 					if (!deletedSomePolygonROIs) {
@@ -2597,7 +2599,7 @@ public abstract class DefaultDrawingLayer extends JLabel implements
 					// adding multiple angle ROIs to vector, if the shift key is
 					// not pressed at the mouse event
 					if (e.isShiftDown()) {
-						logger.debug("Pressing left mouse button on the angle ROI, shift is down.");
+						System.out.println("IQM:  Pressing left mouse button on the angle ROI, shift is down.");
 						// remove existing angle ROIs
 						List<ROIShape> toDelete = new ArrayList<ROIShape>();
 						for (ROIShape angleROI : allROIShapes) {
@@ -2607,7 +2609,7 @@ public abstract class DefaultDrawingLayer extends JLabel implements
 						}
 						if (!toDelete.isEmpty()) {
 							if (allROIShapes.removeAll(toDelete)) {
-								logger.debug("Removed existing angle ROI element(s): "
+								System.out.println("IQM:  Removed existing angle ROI element(s): "
 										+ toDelete);
 
 								// renew the angle ROI vector
@@ -2619,14 +2621,14 @@ public abstract class DefaultDrawingLayer extends JLabel implements
 								deletedSomeAngleROIs = true;
 							}
 						} else {
-							logger.debug("No angle ROI element(s) present to remove!");
+							System.out.println("IQM:  No angle ROI element(s) present to remove!");
 						}
 					} else {
-						logger.debug("Pressing left mouse button on the angle ROI, shift is not down.");
+						System.out.println("IQM:  Pressing left mouse button on the angle ROI, shift is not down.");
 					}
 
 					if (!deletedSomeAngleROIs) {
-						logger.debug("mouse pressed (click #1) on angle button");
+						System.out.println("IQM:  mouse pressed (click #1) on angle button");
 
 						// initialize a new path for the angle object
 						setAngleShape(new GeneralPath());
@@ -2648,7 +2650,7 @@ public abstract class DefaultDrawingLayer extends JLabel implements
 				// there are up to 3 points possible
 				else if (currentAngleROI != null && numAnglePoints == 1) {
 
-					logger.debug("mouse pressed (click #2) on angle button");
+					System.out.println("IQM:  mouse pressed (click #2) on angle button");
 
 					// set the next point of the angle object
 					// to the current point
@@ -2700,7 +2702,7 @@ public abstract class DefaultDrawingLayer extends JLabel implements
 					// the add flag is just read, if the user does not press
 					// shift concurrently with the right mouse button.
 					if (!e.isShiftDown() || add) {
-						logger.debug("mouse pressed (last click #3) and shift not down on angle button");
+						System.out.println("IQM:  mouse pressed (last click #3) and shift not down on angle button");
 
 						// get the current angle path and finish the angle roi
 						angleShape.lineTo(p.x, p.y);
@@ -2736,7 +2738,7 @@ public abstract class DefaultDrawingLayer extends JLabel implements
 						setAngleShape(null);
 						setNumAnglePoints(0);
 					} else {
-						logger.debug("mouse pressed (last click #3) on angle button, shift is down");
+						System.out.println("IQM:  mouse pressed (last click #3) on angle button, shift is down");
 
 						// remove all existing angle ROIs
 						List<ROIShape> toDelete = new ArrayList<ROIShape>();
@@ -2747,11 +2749,11 @@ public abstract class DefaultDrawingLayer extends JLabel implements
 						}
 						if (!toDelete.isEmpty()) {
 							if (allROIShapes.removeAll(toDelete)) {
-								logger.debug("Removed existing angle ROI element(s): "
+								System.out.println("IQM:  Removed existing angle ROI element(s): "
 										+ toDelete);
 							}
 						} else {
-							logger.debug("No angle ROI element(s) present to remove!");
+							System.out.println("IQM:  No angle ROI element(s) present to remove!");
 						}
 
 						// renew the angle ROI vector
@@ -2812,7 +2814,7 @@ public abstract class DefaultDrawingLayer extends JLabel implements
 
 					if (!toDelete.isEmpty()) {
 						if (allROIShapes.removeAll(toDelete)) {
-							logger.debug("Removed existing point ROI element(s): "
+							System.out.println("IQM:  Removed existing point ROI element(s): "
 									+ toDelete);
 
 							// renew the point ROI vector
@@ -2822,7 +2824,7 @@ public abstract class DefaultDrawingLayer extends JLabel implements
 							repaint();
 						}
 					} else {
-						logger.debug("No point ROI element(s) present to remove!");
+						System.out.println("IQM:  No point ROI element(s) present to remove!");
 					}
 				}
 			}
@@ -2840,7 +2842,7 @@ public abstract class DefaultDrawingLayer extends JLabel implements
 			else if (toolbox.getButtonEditRoi().isSelected()) {
 
 				// check for a currently selected object
-				logger.debug("Current ROI Shape: " + currentROIShape);
+				System.out.println("IQM:  Current ROI Shape: " + currentROIShape);
 
 				// return, if no shapes are present
 				if (allROIShapes.isEmpty() || currentROIShape == null) {
@@ -2864,7 +2866,7 @@ public abstract class DefaultDrawingLayer extends JLabel implements
 
 					// print the boundary rectangles
 					// for (int i = 0; i < 2; i++)
-					// logger.debug("Boundary rectangle[" + i + "]: "
+					// System.out.println("IQM:  Boundary rectangle[" + i + "]: "
 					// + rectShapes[i].getBounds());
 
 					// Test the condition whether or not
@@ -2907,7 +2909,7 @@ public abstract class DefaultDrawingLayer extends JLabel implements
 						setRoiX0(origin.x);
 						setRoiY0(origin.y);
 
-						logger.debug("MouseEvent occured inside ROI boundary point: "
+						System.out.println("IQM:  MouseEvent occured inside ROI boundary point: "
 								+ strBoundaryPoint);
 
 						setClickedROIShape(currentROIShape);
@@ -2934,7 +2936,7 @@ public abstract class DefaultDrawingLayer extends JLabel implements
 				// for all other shapes
 				else {
 					// for (int i = 0; i < 8; i++)
-					// logger.debug("rectangle Bounds: "
+					// System.out.println("IQM:  rectangle Bounds: "
 					// + rectShapes[i].getBounds());
 
 					setInsidePtNorthWest(rectShapes[0].contains(screenP.x,
@@ -2980,7 +2982,7 @@ public abstract class DefaultDrawingLayer extends JLabel implements
 							boundaryPoint = "center left";
 						}
 
-						logger.debug("MouseEvent occured inside ROI boundary point: "
+						System.out.println("IQM:  MouseEvent occured inside ROI boundary point: "
 								+ boundaryPoint);
 
 						setClickedROIShape(currentROIShape);
@@ -3024,7 +3026,7 @@ public abstract class DefaultDrawingLayer extends JLabel implements
 		}
 
 		else if (SwingUtilities.isRightMouseButton(e)) {
-			// logger.debug("Right mouse button");
+			// System.out.println("IQM:  Right mouse button");
 
 			// FREEHAND (right mouse button, close path, if it isn't already
 			// closed)
@@ -3039,7 +3041,7 @@ public abstract class DefaultDrawingLayer extends JLabel implements
 				try {
 					firstROI = freehandROIs.get(0);
 				} catch (IndexOutOfBoundsException iobe) {
-					logger.debug("The index is out of bounds, no element present in the FreehandROIs.");
+					System.out.println("IQM:  The index is out of bounds, no element present in the FreehandROIs.");
 				}
 
 				if (e.isShiftDown() && firstROI != null
@@ -3069,7 +3071,7 @@ public abstract class DefaultDrawingLayer extends JLabel implements
 				// the add flag is just read, if the user does not press shift
 				// concurrently with the right mouse button.
 				if (!e.isShiftDown() || add) {
-					logger.debug("mouse pressed (right click) and shift not down on freehand button");
+					System.out.println("IQM:  mouse pressed (right click) and shift not down on freehand button");
 
 					// get the current freehand path and close it
 					freehandShape.closePath();
@@ -3100,7 +3102,7 @@ public abstract class DefaultDrawingLayer extends JLabel implements
 					setCurrentFreehandROI(null);
 					setFreehandShape(null);
 				} else {
-					logger.debug("mouse pressed (right click) on freehand button, shift is down");
+					System.out.println("IQM:  mouse pressed (right click) on freehand button, shift is down");
 
 					// remove all existing freehand ROIs
 					List<ROIShape> toDelete = new ArrayList<ROIShape>();
@@ -3111,11 +3113,11 @@ public abstract class DefaultDrawingLayer extends JLabel implements
 					}
 					if (!toDelete.isEmpty()) {
 						if (allROIShapes.removeAll(toDelete)) {
-							logger.debug("Removed existing freehand ROI element(s): "
+							System.out.println("IQM:  Removed existing freehand ROI element(s): "
 									+ toDelete);
 						}
 					} else {
-						logger.debug("No freehand ROI element(s) present to remove!");
+						System.out.println("IQM:  No freehand ROI element(s) present to remove!");
 					}
 
 					// get the current freehand path and close it
@@ -3186,7 +3188,7 @@ public abstract class DefaultDrawingLayer extends JLabel implements
 				// the add flag is just read, if the user does not press shift
 				// concurrently with the right mouse button.
 				if (!e.isShiftDown() || add) {
-					logger.debug("mouse pressed (right click) and shift not down on polygon button");
+					System.out.println("IQM:  mouse pressed (right click) and shift not down on polygon button");
 
 					// get the current polygon path and close it
 					polygonShape.closePath();
@@ -3219,7 +3221,7 @@ public abstract class DefaultDrawingLayer extends JLabel implements
 					setPolygonShape(null);
 					setNumPolyPoints(0);
 				} else {
-					logger.debug("mouse pressed (right click) on polygon button, shift is down");
+					System.out.println("IQM:  mouse pressed (right click) on polygon button, shift is down");
 
 					// remove all existing polygon ROIs
 					List<ROIShape> toDelete = new ArrayList<ROIShape>();
@@ -3230,11 +3232,11 @@ public abstract class DefaultDrawingLayer extends JLabel implements
 					}
 					if (!toDelete.isEmpty()) {
 						if (allROIShapes.removeAll(toDelete)) {
-							logger.debug("Removed existing polygon ROI element(s): "
+							System.out.println("IQM:  Removed existing polygon ROI element(s): "
 									+ toDelete);
 						}
 					} else {
-						logger.debug("No polygon ROI element(s) present to remove!");
+						System.out.println("IQM:  No polygon ROI element(s) present to remove!");
 					}
 
 					// renew the polygon ROI vector
@@ -3290,11 +3292,11 @@ public abstract class DefaultDrawingLayer extends JLabel implements
 
 		// LINE (released)
 		if (toolbox.getButtonLine().isSelected() && currentLineROI != null) {
-			logger.debug("mouse released on line ROI button");
+			System.out.println("IQM:  mouse released on line ROI button");
 
 			// add the new line ROI to the existing ones
 			if (!e.isShiftDown()) {
-				logger.debug("mouse released and shift down on line ROI button");
+				System.out.println("IQM:  mouse released and shift down on line ROI button");
 				lineROIs.add(currentLineROI);
 				allROIShapes.add(currentLineROI);
 
@@ -3310,7 +3312,7 @@ public abstract class DefaultDrawingLayer extends JLabel implements
 			}
 
 			else {
-				logger.debug("mouse released on line ROI button");
+				System.out.println("IQM:  mouse released on line ROI button");
 				// remove all existing line ROI elements
 				List<ROIShape> toDelete = new ArrayList<ROIShape>();
 				for (ROIShape lineROI : allROIShapes) {
@@ -3320,11 +3322,11 @@ public abstract class DefaultDrawingLayer extends JLabel implements
 				}
 				if (!toDelete.isEmpty()) {
 					if (allROIShapes.removeAll(toDelete)) {
-						logger.debug("Removed existing line ROI element(s): "
+						System.out.println("IQM:  Removed existing line ROI element(s): "
 								+ toDelete);
 					}
 				} else {
-					logger.debug("No line ROI element(s) present to remove!");
+					System.out.println("IQM:  No line ROI element(s) present to remove!");
 				}
 
 				// renew the line ROI vector
@@ -3350,10 +3352,10 @@ public abstract class DefaultDrawingLayer extends JLabel implements
 		// RECTANGLE (released)
 		if (toolbox.getButtonRectangle().isSelected()
 				&& currentRectangleROI != null) {
-			logger.debug("mouse released on rectangle button");
+			System.out.println("IQM:  mouse released on rectangle button");
 
 			if (!e.isShiftDown()) {
-				logger.debug("mouse released and shift not down on rectangle button");
+				System.out.println("IQM:  mouse released and shift not down on rectangle button");
 				rectangleROIs.add(currentRectangleROI);
 				allROIShapes.add(currentRectangleROI);
 
@@ -3370,7 +3372,7 @@ public abstract class DefaultDrawingLayer extends JLabel implements
 			}
 
 			else {
-				logger.debug("mouse released with shift down on rectangle button");
+				System.out.println("IQM:  mouse released with shift down on rectangle button");
 				// remove all existing rectangle ROIs
 				List<ROIShape> toDelete = new ArrayList<ROIShape>();
 				for (ROIShape shape : allROIShapes) {
@@ -3380,11 +3382,11 @@ public abstract class DefaultDrawingLayer extends JLabel implements
 				}
 				if (!toDelete.isEmpty()) {
 					if (allROIShapes.removeAll(toDelete)) {
-						logger.debug("Removed existing rectangle ROI element(s): "
+						System.out.println("IQM:  Removed existing rectangle ROI element(s): "
 								+ toDelete);
 					}
 				} else {
-					logger.debug("No rectangle ROI element(s) present to remove!");
+					System.out.println("IQM:  No rectangle ROI element(s) present to remove!");
 				}
 
 				// renew the rectangle ROI vector
@@ -3427,7 +3429,7 @@ public abstract class DefaultDrawingLayer extends JLabel implements
 		if (toolbox.getButtonOval().isSelected() && currentEllipseROI != null) {
 
 			if (!e.isShiftDown()) {
-				logger.debug("mouse released and shift not down on oval button");
+				System.out.println("IQM:  mouse released and shift not down on oval button");
 				ellipseROIs.add(currentEllipseROI);
 				allROIShapes.add(currentEllipseROI);
 
@@ -3439,7 +3441,7 @@ public abstract class DefaultDrawingLayer extends JLabel implements
 
 				repaint();
 			} else {
-				logger.debug("mouse released on ellipse button, shift is down");
+				System.out.println("IQM:  mouse released on ellipse button, shift is down");
 				// remove all existing ellipse ROIs
 				List<ROIShape> toDelete = new ArrayList<ROIShape>();
 				for (ROIShape ellipse : allROIShapes) {
@@ -3449,11 +3451,11 @@ public abstract class DefaultDrawingLayer extends JLabel implements
 				}
 				if (!toDelete.isEmpty()) {
 					if (allROIShapes.removeAll(toDelete)) {
-						logger.debug("Removed existing ellipse ROI element(s): "
+						System.out.println("IQM:  Removed existing ellipse ROI element(s): "
 								+ toDelete);
 					}
 				} else {
-					logger.debug("No ellipse ROI element(s) present to remove!");
+					System.out.println("IQM:  No ellipse ROI element(s) present to remove!");
 				}
 
 				// renew the ellipse ROI vector
@@ -3483,7 +3485,7 @@ public abstract class DefaultDrawingLayer extends JLabel implements
 				&& currentFreehandROI != null) {
 
 			if (!e.isShiftDown()) {
-				logger.debug("mouse released and shift not down on freehand button");
+				System.out.println("IQM:  mouse released and shift not down on freehand button");
 
 				freehandROIs.add(currentFreehandROI);
 				allROIShapes.add(currentFreehandROI);
@@ -3496,7 +3498,7 @@ public abstract class DefaultDrawingLayer extends JLabel implements
 
 				repaint();
 			} else {
-				logger.debug("mouse released on freehand button, shift is down");
+				System.out.println("IQM:  mouse released on freehand button, shift is down");
 				// remove all existing freehand ROIs
 				List<ROIShape> toDelete = new ArrayList<ROIShape>();
 				for (ROIShape freehand : allROIShapes) {
@@ -3506,11 +3508,11 @@ public abstract class DefaultDrawingLayer extends JLabel implements
 				}
 				if (!toDelete.isEmpty()) {
 					if (allROIShapes.removeAll(toDelete)) {
-						logger.debug("Removed existing freehand ROI element(s): "
+						System.out.println("IQM:  Removed existing freehand ROI element(s): "
 								+ toDelete);
 					}
 				} else {
-					logger.debug("No freehand ROI element(s) present to remove!");
+					System.out.println("IQM:  No freehand ROI element(s) present to remove!");
 				}
 
 				// renew the freehand ROI vector
@@ -3535,11 +3537,11 @@ public abstract class DefaultDrawingLayer extends JLabel implements
 		// POINT (released)
 		else if (toolbox.getButtonPoint().isSelected()
 				&& SwingUtilities.isLeftMouseButton(e)) {
-			logger.debug("mouse released on point ROI button");
+			System.out.println("IQM:  mouse released on point ROI button");
 
 			// add the new point ROI to the existing ones
 			if (!e.isShiftDown()) {
-				logger.debug("mouse released and shift not down on point ROI button");
+				System.out.println("IQM:  mouse released and shift not down on point ROI button");
 				// create a new PointROI instance
 				PointROI pointROI = new PointROI(p);
 
@@ -3559,7 +3561,7 @@ public abstract class DefaultDrawingLayer extends JLabel implements
 			}
 
 			else {
-				logger.debug("mouse released on point ROI button");
+				System.out.println("IQM:  mouse released on point ROI button");
 				// remove all existing line ROI elements
 				List<ROIShape> toDelete = new ArrayList<ROIShape>();
 				for (ROIShape pointROI : allROIShapes) {
@@ -3569,11 +3571,11 @@ public abstract class DefaultDrawingLayer extends JLabel implements
 				}
 				if (!toDelete.isEmpty()) {
 					if (allROIShapes.removeAll(toDelete)) {
-						logger.debug("Removed existing point ROI element(s): "
+						System.out.println("IQM:  Removed existing point ROI element(s): "
 								+ toDelete);
 					}
 				} else {
-					logger.debug("No point ROI element(s) present to remove!");
+					System.out.println("IQM:  No point ROI element(s) present to remove!");
 				}
 
 				// renew the point ROI vector
@@ -3602,21 +3604,21 @@ public abstract class DefaultDrawingLayer extends JLabel implements
 		// EDIT ROI (release)
 		else if (toolbox.getButtonEditRoi().isSelected()
 				&& !allROIShapes.isEmpty()) {
-			logger.debug("EDIT ROI RELEASE");
+			System.out.println("IQM:  EDIT ROI RELEASE");
 
-			logger.debug(currentROIShape);
+			System.out.println("IQM:  "+currentROIShape);
 
 		}
 
 		// ARROW (release)
 		else if (toolbox.getButtonArrow().isSelected()
 				&& !allROIShapes.isEmpty()) {
-			logger.debug("BUTTON ARROW RELEASE");
+			System.out.println("IQM:  BUTTON ARROW RELEASE");
 
-			logger.debug(currentROIShape);
+			System.out.println("IQM:  "+currentROIShape);
 		}
 
-		logger.debug("The vector 'allROIShapes' of layer " + this.getName()
+		System.out.println("IQM:  The vector 'allROIShapes' of layer " + this.getName()
 				+ " contains: " + allROIShapes);
 	}
 
@@ -3706,7 +3708,7 @@ public abstract class DefaultDrawingLayer extends JLabel implements
 				// selected button
 				ROIShape tmpROI = null;
 				if (toolbox.getButtonRectangle().isSelected()) {
-					// logger.debug("Rectangle dragging...");
+					// System.out.println("IQM:  Rectangle dragging...");
 					tmpROI = new RectangleROI(new Rectangle2D.Double(x0, y0,
 							dX, dY));
 
@@ -3716,7 +3718,7 @@ public abstract class DefaultDrawingLayer extends JLabel implements
 					fireNewProperties(currentRectangleROI);
 
 				} else if (toolbox.getButtonOval().isSelected()) {
-					// logger.debug("Ellipse dragging...");
+					// System.out.println("IQM:  Ellipse dragging...");
 					tmpROI = new EllipseROI(
 							new Ellipse2D.Double(x0, y0, dX, dY));
 					setCurrentEllipseROI((EllipseROI) tmpROI);
@@ -3735,7 +3737,7 @@ public abstract class DefaultDrawingLayer extends JLabel implements
 
 			// FREEHAND (dragging)
 			else if (toolbox.getButtonFreehand().isSelected()) {
-				// logger.debug("Freehand ROI mouse dragged...");
+				// System.out.println("IQM:  Freehand ROI mouse dragged...");
 
 				// draw in the temporary poly line object of the look panel
 				// using the previous node of the GeneralPath object
@@ -3798,7 +3800,7 @@ public abstract class DefaultDrawingLayer extends JLabel implements
 						LineROI alteredLineROI = new LineROI(new Line2D.Double(
 								p1, p2));
 
-						logger.debug("Clicked ROI Shape exists?: "
+						System.out.println("IQM:  Clicked ROI Shape exists?: "
 								+ getAllROIShapes().contains(
 										getClickedROIShape()));
 
@@ -3961,7 +3963,7 @@ public abstract class DefaultDrawingLayer extends JLabel implements
 			double deltaY = ((double) p.y - (double) getRoiShiftY0());
 			at = new AffineTransform(1.0d, 0.0d, 0.0d, 1.0d, deltaX, deltaY);
 			isBeingShifted = true;
-			logger.debug("Shifting: " + at);
+			System.out.println("IQM:  Shifting: " + at);
 		}
 
 		// DRAG THE SELECTED ROI SHAPE
@@ -3980,16 +3982,16 @@ public abstract class DefaultDrawingLayer extends JLabel implements
 			ROIShape testRoiShape = new ROIShape(clickedROIShape.transform(at)
 					.getAsShape());
 
-			logger.trace("Clicked ROI Shape: " + getClickedROIShape());
-			logger.trace("Current ROI Shape: " + getCurrentROIShape());
+			System.out.println("IQM Trace: Clicked ROI Shape: " + getClickedROIShape());
+			System.out.println("IQM Trace: Current ROI Shape: " + getCurrentROIShape());
 
-			logger.trace("Entire image bounds: " + entireImage.getBounds());
-			logger.trace("Test ROIShape bounds: " + testRoiShape.getBounds());
+			System.out.println("IQM Trace: Entire image bounds: " + entireImage.getBounds());
+			System.out.println("IQM Trace: Test ROIShape bounds: " + testRoiShape.getBounds());
 
 			if (!entireImage.contains(testRoiShape.getBounds())
 			// this clause is ESSENTIAL for LineROI translation
 					&& !entireImage.contains(p)) {
-				logger.trace("ROIShape bounds does not lie within image bounds!");
+				System.out.println("IQM Trace: ROIShape bounds does not lie within image bounds!");
 				repaint();
 				return;
 			}
@@ -3998,7 +4000,7 @@ public abstract class DefaultDrawingLayer extends JLabel implements
 			// this clause is ESSENTIAL for LineROI translation
 					|| ((currentROIShape instanceof LineROI) ? entireImage
 							.contains(p) : false)) {
-				logger.debug("ROIShape bounds lies within image bounds.");
+				System.out.println("IQM:  ROIShape bounds lies within image bounds.");
 
 				// remove the current ROI shape from the ALL ROIs vector
 				// otherwise every shape is added to the vector and drawn by
@@ -4178,7 +4180,7 @@ public abstract class DefaultDrawingLayer extends JLabel implements
 				.size());
 		while (itr.hasPrevious()) {
 			ROIShape shapeToTest = itr.previous();
-			logger.debug("ShapeToTest.bounds: " + shapeToTest.getBounds()
+			System.out.println("IQM:  ShapeToTest.bounds: " + shapeToTest.getBounds()
 					+ " contains point: " + p + "? ->"
 					+ shapeToTest.contains(p.x, p.y));
 			setInsideRoi(shapeToTest.contains(p.x, p.y));
@@ -4190,7 +4192,7 @@ public abstract class DefaultDrawingLayer extends JLabel implements
 																				// lines
 																				// true
 
-			logger.debug("ShapeToTest.bounds: " + shapeToTest.getBounds()
+			System.out.println("IQM:  ShapeToTest.bounds: " + shapeToTest.getBounds()
 					+ " intersects point: " + p + "? ->"
 					+ shapeToTest.intersects(p.x - 1, p.y - 1, 2, 2));
 
@@ -4198,12 +4200,12 @@ public abstract class DefaultDrawingLayer extends JLabel implements
 
 				int index = allROIShapes.indexOf(shapeToTest);
 
-				logger.debug("PRE: ROIShape from AllROIShapes ArrayList: "
+				System.out.println("IQM:  PRE: ROIShape from AllROIShapes ArrayList: "
 						+ currentROIShape);
 
 				setCurrentROIShape(allROIShapes.get(index));
 
-				logger.debug("POST: ROIShape from AllROIShapes ArrayList: "
+				System.out.println("IQM:  POST: ROIShape from AllROIShapes ArrayList: "
 						+ currentROIShape);
 
 				// determine the type of the selected ROI
@@ -4241,9 +4243,9 @@ public abstract class DefaultDrawingLayer extends JLabel implements
 					setCurrentPointROI((PointROI) currentROIShape);
 				}
 
-				logger.debug("ROIShape has been selected: " + currentROIShape);
+				System.out.println("IQM:  ROIShape has been selected: " + currentROIShape);
 
-				logger.debug("Click on ROI resulted [" + isInsideRoi()
+				System.out.println("IQM:  Click on ROI resulted [" + isInsideRoi()
 						+ "] at index [" + index + "]: " + currentROIShape);
 				break; // a valid ROI found
 			}
@@ -4251,13 +4253,13 @@ public abstract class DefaultDrawingLayer extends JLabel implements
 
 		// shift (translate) ROI if inside
 		if (isInsideRoi()) {
-			logger.debug("Click occured inside of ROI shape: "
+			System.out.println("IQM:  Click occured inside of ROI shape: "
 					+ currentROIShape);
 			// set the starting points for the translation
 			setRoiShiftX0(p.x);
 			setRoiShiftY0(p.y);
 
-			logger.debug("Starting point for shifting a ROI: " + p);
+			System.out.println("IQM:  Starting point for shifting a ROI: " + p);
 
 			setClickedROIShape(currentROIShape);
 

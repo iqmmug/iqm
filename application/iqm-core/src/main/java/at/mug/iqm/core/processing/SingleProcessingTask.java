@@ -33,8 +33,8 @@ import java.util.TimeZone;
 
 import javax.media.jai.PlanarImage;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+ 
+ 
 
 import at.mug.iqm.api.gui.BoardPanel;
 import at.mug.iqm.api.gui.IImageInvertible;
@@ -63,7 +63,7 @@ public class SingleProcessingTask extends AbstractProcessingTask implements
 		IExplicitProcessingTask {
 	// class specific logger
 	private Class<?> caller = SingleProcessingTask.class;
-	private static final Logger logger = LogManager.getLogger(SingleProcessingTask.class);
+	  
 
 	public SingleProcessingTask() {
 		this.setHeadless(true);
@@ -129,10 +129,10 @@ public class SingleProcessingTask extends AbstractProcessingTask implements
 			result = (Result) this.getOperator().run(this.getWorkPackage());
 
 			if (result == null) {
-				logger.debug("Result is null, operator may have been cancelled.");
+				System.out.println("IQM:  Result is null, operator may have been cancelled.");
 				return null;
 			}
-			logger.trace("Finished operator '" + this.getOperator().getName()
+			System.out.println("IQM Trace: Finished operator '" + this.getOperator().getName()
 					+ "'");
 
 			try {
@@ -146,7 +146,7 @@ public class SingleProcessingTask extends AbstractProcessingTask implements
 								&& ((IImageInvertible) getOperatorGUI())
 										.isInvertSelected()) {
 							for (IqmDataBox box : result.listImageResults()) {
-								logger.debug("Inverting image: "
+								System.out.println("IQM:  Inverting image: "
 										+ box.getImageModel().getModelName());
 
 								String opName = new IqmOpInvertDescriptor()
@@ -179,9 +179,9 @@ public class SingleProcessingTask extends AbstractProcessingTask implements
 			BoardPanel.appendTextln(
 					"Processing finished, elapsed time: "
 							+ sdf.format(this.duration), caller);
-			logger.trace("Done single processing.");
+			System.out.println("IQM Trace: Done single processing.");
 		} catch (Exception e) {
-			logger.error("An error occured: ", e);
+			System.out.println("IQM Error: An error occured: "+ e);
 			BoardPanel.appendTextln("Processing failed.", caller);
 			DialogUtil.getInstance().showErrorMessage(
 					"Image or plot processing failed!", e, true);

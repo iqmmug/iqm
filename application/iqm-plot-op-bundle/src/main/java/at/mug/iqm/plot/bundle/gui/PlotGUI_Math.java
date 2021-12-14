@@ -43,8 +43,8 @@ import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.border.TitledBorder;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+ 
+ 
 
 import at.mug.iqm.api.operator.AbstractPlotOperatorGUI;
 import at.mug.iqm.api.operator.ParameterBlockIQM;
@@ -62,7 +62,7 @@ public class PlotGUI_Math extends AbstractPlotOperatorGUI {
 	 */
 	private static final long serialVersionUID = 8050400556849306323L;
 
-	private static final Logger logger = LogManager.getLogger(PlotGUI_Math.class);
+	  
 
 	public static final int DIFF_Y_PLUS = 0;
 	public static final int DIFF_Y_MINUS = 1;
@@ -88,7 +88,7 @@ public class PlotGUI_Math extends AbstractPlotOperatorGUI {
 	private JRadioButton buttDelta_X_Unity  = null;
 
 	public PlotGUI_Math() {
-		logger.debug("Now initializing...");
+		System.out.println("IQM:  Now initializing...");
 		
 		this.setOpName(new PlotOpMathDescriptor().getName());	
 		this.initialize();	
@@ -319,7 +319,7 @@ public class PlotGUI_Math extends AbstractPlotOperatorGUI {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		logger.debug(e.getActionCommand() + " event has been triggered.");
+		System.out.println("IQM:  "+e.getActionCommand() + " event has been triggered.");
 		if ("parameter".equals(e.getActionCommand())) {
 			if (e.getSource() == buttDiff_Y_Plus) {
 			}

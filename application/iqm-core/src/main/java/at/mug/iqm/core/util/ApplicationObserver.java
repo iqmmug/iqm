@@ -33,8 +33,8 @@ import java.io.File;
 
 import javax.swing.JMenu;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+ 
+ 
 
 import at.mug.iqm.api.gui.IDeactivatableMenu;
 import at.mug.iqm.api.gui.OperatorMenuItem;
@@ -53,7 +53,7 @@ import at.mug.iqm.gui.util.GUITools;
  */
 public final class ApplicationObserver {
 
-	private static final Logger logger = LogManager.getLogger(ApplicationObserver.class);
+	  
 
 	/**
 	 * Enables all menu items where {@link OperatorType#IMAGE} is assigned to.
@@ -108,7 +108,7 @@ public final class ApplicationObserver {
 					enableMenu((JMenu) c, type);
 			}
 		} catch (Exception e) {
-			logger.error("An error occurred when activating the " + type
+			System.out.println("IQM Error: An error occurred when activating the " + type
 					+ " menu items: " + e.getMessage());
 		}
 	}
@@ -136,7 +136,7 @@ public final class ApplicationObserver {
 					disableMenu((JMenu) c, type);
 			}
 		} catch (Exception e) {
-			logger.error("An error occurred when de-activating the " + type
+			System.out.println("IQM Error: An error occurred when de-activating the " + type
 					+ " menu items: " + e.getMessage());
 		}
 	}

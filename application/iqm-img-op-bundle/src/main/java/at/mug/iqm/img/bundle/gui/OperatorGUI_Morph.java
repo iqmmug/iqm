@@ -55,8 +55,8 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.text.InternationalFormatter;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+ 
+ 
 
 import at.mug.iqm.api.operator.AbstractImageOperatorGUI;
 import at.mug.iqm.api.operator.ParameterBlockIQM;
@@ -77,7 +77,7 @@ public class OperatorGUI_Morph extends AbstractImageOperatorGUI implements
 	private static final long serialVersionUID = 9055982407935426185L;
 
 	// class specific logger
-	private static final Logger logger = LogManager.getLogger(OperatorGUI_Morph.class);
+	  
 
 	private ParameterBlockIQM pb = null;
 
@@ -126,7 +126,7 @@ public class OperatorGUI_Morph extends AbstractImageOperatorGUI implements
 	 * constructor
 	 */
 	public OperatorGUI_Morph() {
-		logger.debug("Now initializing...");
+		System.out.println("IQM:  Now initializing...");
 
 		this.setOpName(new IqmOpMorphDescriptor().getName());
 
@@ -817,7 +817,7 @@ public class OperatorGUI_Morph extends AbstractImageOperatorGUI implements
 
 		// preview if selected
 		if (this.isAutoPreviewSelected()) {
-			logger.debug("Performing AutoPreview");
+			System.out.println("IQM:  Performing AutoPreview");
 			this.showPreview();
 		}
 	}
@@ -882,7 +882,7 @@ public class OperatorGUI_Morph extends AbstractImageOperatorGUI implements
 
 		// preview if selected
 		if (this.isAutoPreviewSelected()) {
-			logger.debug("Performing AutoPreview");
+			System.out.println("IQM:  Performing AutoPreview");
 			this.showPreview();
 		}
 	}

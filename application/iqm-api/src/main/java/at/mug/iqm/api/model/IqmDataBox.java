@@ -39,8 +39,8 @@ import javax.imageio.ImageIO;
 import javax.media.jai.PlanarImage;
 import javax.swing.JTable;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+ 
+ 
 
 import at.mug.iqm.api.Resources;
 import at.mug.iqm.api.gui.IThumbnailSupport;
@@ -72,11 +72,6 @@ public class IqmDataBox implements Serializable, IThumbnailSupport, Cloneable {
 	 * The UID for object serialization.
 	 */
 	private static final long serialVersionUID = 8167169441592033240L;
-
-	/**
-	 * Class specific logger.
-	 */
-	private transient static final Logger logger = LogManager.getLogger(IqmDataBox.class);
 
 	/**
 	 * The unique ID of this object.
@@ -608,23 +603,22 @@ public class IqmDataBox implements Serializable, IThumbnailSupport, Cloneable {
 
 		switch (iqmDataBox.getDataType()) {
 		case IMAGE:
-			logger.trace("Found an image in the IqmDataBox, returning image unchanged.");
+			System.out.println("IQM Trace: Found an image in the IqmDataBox, returning image unchanged.");
 			pi = iqmDataBox.getImageModel().getImage();
 			break;
 
 		case PLOT:
-			logger.trace("Found a PlotModel in the IqmDataBox, producing and returning an image of the plot.");
+			System.out.println("IQM Trace: Found a PlotModel in the IqmDataBox, producing and returning an image of the plot.");
 			try {
 				pi = PlotTools.toPlanarImage(iqmDataBox.getPlotModel(), false);
 			} catch (Exception e1) {
-				logger.error(
-						"An error occurred, the plot model cannot be converted to a PlanarImage!",
-						e1);
+				System.out.println("IQM Error: An error occurred, the plot model cannot be converted to a PlanarImage!");
+				System.out.println(e1);
 			}
 			break;
 
 		case TABLE:
-			logger.trace("Found a TableModel in the IqmDataBox, producing and returning a generic icon.");
+			System.out.println("IQM Trace: Found a TableModel in the IqmDataBox, producing and returning a generic icon.");
 			// load the PNG thumb nail for the table
 			try {
 				BufferedImage bi = ImageIO.read(Resources

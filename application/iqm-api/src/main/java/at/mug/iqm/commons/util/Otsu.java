@@ -31,8 +31,8 @@ package at.mug.iqm.commons.util;
 
 import javax.media.jai.Histogram;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+ 
+ 
 
 
 /**
@@ -41,12 +41,12 @@ import org.apache.logging.log4j.Logger;
  *
  */
 public class Otsu {
-	private static final Logger logger = LogManager.getLogger(Otsu.class);
+	  
 	
 	Histogram histo;
 	
 	public Otsu() {
-		logger.debug("Constructing a new instance of '" + Otsu.class + "'...");
+		System.out.println("IQM:  Constructing a new instance of '" + Otsu.class + "'...");
 	}
 	
 	public Otsu(Histogram histo) {

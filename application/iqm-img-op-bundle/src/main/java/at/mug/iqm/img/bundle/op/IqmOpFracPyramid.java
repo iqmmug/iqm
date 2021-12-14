@@ -55,8 +55,8 @@ import javax.media.jai.PlanarImage;
 import javax.media.jai.RenderedOp;
 
 import org.apache.commons.math3.stat.descriptive.DescriptiveStatistics;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+ 
+ 
 
 import com.sun.media.jai.codec.ImageCodec;
 import com.sun.media.jai.codec.ImageEncoder;
@@ -112,7 +112,7 @@ public class IqmOpFracPyramid extends AbstractOperator {
 	/**
 	 * Logging variable.
 	 */
-	private static final Logger logger = LogManager.getLogger(IqmOpFracPyramid.class);
+	  
 	
 	private File logicalDepthDir;
 	
@@ -130,10 +130,10 @@ public class IqmOpFracPyramid extends AbstractOperator {
 		for (int i = 0; i < files.length; i++) {
 			if (files[i].isFile()) {
 				if (files[i].toString().contains(fileName)) {
-					logger.info(fileName + " already exists");
+					System.out.println("IQM Info: "+fileName + " already exists");
 					boolean success = files[i].delete();
-					if (success)  logger.info("Successfully deleted " + fileName);
-					if (!success) logger.info("Could not delete " + fileName);
+					if (success)  System.out.println("IQM Info: Successfully deleted " + fileName);
+					if (!success) System.out.println("IQM Info: Could not delete " + fileName);
 				}
 			}
 		}	
@@ -318,7 +318,7 @@ public class IqmOpFracPyramid extends AbstractOperator {
 				if (files[i].toString().contains("LogicalDepth")) {
 					found = true;
 					logicalDepthDir = files[i]; 
-					logger.info("Directory " + logicalDepthDir.toString() + " already exists");
+					System.out.println("IQM Info: Directory " + logicalDepthDir.toString() + " already exists");
 				}
 			}
 		}
@@ -333,9 +333,9 @@ public class IqmOpFracPyramid extends AbstractOperator {
 			logicalDepthDir = new File(newFolder);
 			boolean success = logicalDepthDir.mkdir();
 			if (success) {
-				logger.info("Created directory: " + logicalDepthDir.toString());
+				System.out.println("IQM Info: Created directory: " + logicalDepthDir.toString());
 			} else {
-				logger.error("Unable to create directory:  " + logicalDepthDir.toString());
+				System.out.println("IQM Error: Unable to create directory:  " + logicalDepthDir.toString());
 				return null;
 			}
 		}
@@ -528,8 +528,8 @@ public class IqmOpFracPyramid extends AbstractOperator {
 		boolean success1 = false;
 		if (targetFile.exists()){
 			//success1 = targetFile.delete();
-			if (success1)  logger.info("Successfully deleted temp target image");
-			if (!success1) logger.info("Could not delete temp targetimage");
+			if (success1)  System.out.println("IQM Info: Successfully deleted temp target image");
+			if (!success1) System.out.println("IQM Info: Could not delete temp targetimage");
 		}
 		
 		
@@ -537,8 +537,8 @@ public class IqmOpFracPyramid extends AbstractOperator {
 		ld         = durationTarget;
 		ld         = ld         * 1000.0;
 		
-		logger.info("Iterations: " +iterations+ "   Duration Image: "     + durationTarget +     "   ld: " + ld + "   Duration Reference: " + durationReference + "   ldCorr: " + ldCorr );
-		logger.info("megabytesTarget: " +megabytesTarget + "     megabytesReference: " + megabytesReference);
+		System.out.println("IQM Info: Iterations: " +iterations+ "   Duration Image: "     + durationTarget +     "   ld: " + ld + "   Duration Reference: " + durationReference + "   ldCorr: " + ldCorr );
+		System.out.println("IQM Info: megabytesTarget: " +megabytesTarget + "     megabytesReference: " + megabytesReference);
 		kc = megabytesTarget;
 		
 		for (int b = 0; b < numBands; b++) {

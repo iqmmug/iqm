@@ -47,8 +47,8 @@ import javax.swing.SwingConstants;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+ 
+ 
 
 import at.mug.iqm.api.operator.AbstractImageOperatorGUI;
 import at.mug.iqm.api.operator.ParameterBlockIQM;
@@ -67,7 +67,7 @@ public class OperatorGUI_UnsharpMask extends AbstractImageOperatorGUI implements
 	private static final long serialVersionUID = 8987583671390606215L;
 
 	// class specific logger
-	private static final Logger logger = LogManager.getLogger(OperatorGUI_UnsharpMask.class);
+	  
 
 	private ParameterBlockIQM pb = null;
 
@@ -86,7 +86,7 @@ public class OperatorGUI_UnsharpMask extends AbstractImageOperatorGUI implements
 	 * constructor
 	 */
 	public OperatorGUI_UnsharpMask() {
-		logger.debug("Now initializing...");
+		System.out.println("IQM:  Now initializing...");
 
 		this.setOpName(new IqmOpUnsharpMaskDescriptor().getName());
 
@@ -160,7 +160,7 @@ public class OperatorGUI_UnsharpMask extends AbstractImageOperatorGUI implements
 	 */
 	@Override
 	public void update() {
-		logger.debug("Updating GUI...");
+		System.out.println("IQM:  Updating GUI...");
 		// here, it does nothing
 	}
 
@@ -221,14 +221,14 @@ public class OperatorGUI_UnsharpMask extends AbstractImageOperatorGUI implements
 	// --------------------------------------------------------------------------------------------
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		logger.debug(e.getActionCommand() + " event has been triggered.");
+		System.out.println("IQM:  "+e.getActionCommand() + " event has been triggered.");
 		if ("parameter".equals(e.getActionCommand())) {
 			this.updateParameterBlock();
 		}
 
 		// preview if selected
 		if (this.isAutoPreviewSelected()) {
-			logger.debug("Performing AutoPreview");
+			System.out.println("IQM:  Performing AutoPreview");
 			this.showPreview();
 		}
 
@@ -237,7 +237,7 @@ public class OperatorGUI_UnsharpMask extends AbstractImageOperatorGUI implements
 	@Override
 	public void stateChanged(ChangeEvent e) {
 		
-		logger.debug(e.getSource());
+		System.out.println("IQM:  "+e.getSource());
 		
 		Object obE = e.getSource();
 		if (obE instanceof JSpinner) {
@@ -263,7 +263,7 @@ public class OperatorGUI_UnsharpMask extends AbstractImageOperatorGUI implements
 		// this.update(); //if necessary here or some lines above
 
 		if (this.isAutoPreviewSelected()) {
-			logger.debug("Performing AutoPreview");
+			System.out.println("IQM:  Performing AutoPreview");
 			this.showPreview();
 		}
 	}

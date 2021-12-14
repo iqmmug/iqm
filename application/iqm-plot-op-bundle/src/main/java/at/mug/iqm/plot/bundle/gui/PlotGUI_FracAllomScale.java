@@ -53,8 +53,8 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.text.InternationalFormatter;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+ 
+ 
 
 import at.mug.iqm.api.model.IqmDataBox;
 import at.mug.iqm.api.model.PlotModel;
@@ -72,7 +72,7 @@ public class PlotGUI_FracAllomScale extends AbstractPlotOperatorGUI implements
 
 	private static final long serialVersionUID = 3273196002797739135L;
 
-	private static final Logger logger = LogManager.getLogger(PlotGUI_FracAllomScale.class);
+	  
 
 	private ParameterBlockIQM pb;
 
@@ -92,7 +92,7 @@ public class PlotGUI_FracAllomScale extends AbstractPlotOperatorGUI implements
 	private JPanel    jPanelPlotOptions           = null;
 
 	public PlotGUI_FracAllomScale() {
-		logger.debug("Now initializing...");
+		System.out.println("IQM:  Now initializing...");
 
 		this.setOpName(new PlotOpFracAllomScaleDescriptor().getName());
 		this.initialize();
@@ -322,7 +322,7 @@ public class PlotGUI_FracAllomScale extends AbstractPlotOperatorGUI implements
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		logger.debug(e.getActionCommand() + " event has been triggered.");
+		System.out.println("IQM:  "+e.getActionCommand() + " event has been triggered.");
 		if ("parameter".equals(e.getActionCommand())) {
 			
 			this.updateParameterBlock();

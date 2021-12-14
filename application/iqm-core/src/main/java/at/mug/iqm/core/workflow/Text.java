@@ -29,8 +29,8 @@ package at.mug.iqm.core.workflow;
  */
 
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+ 
+ 
 
 import at.mug.iqm.api.Application;
 import at.mug.iqm.api.gui.ITextPanel;
@@ -47,7 +47,7 @@ import at.mug.iqm.gui.util.GUITools;
 public final class Text implements IText {
 
 	// class specific logger
-	private static final Logger logger = LogManager.getLogger(Text.class);
+	  
 
 	/**
 	 * The current {@link TextPanel} instance to control.
@@ -94,7 +94,7 @@ public final class Text implements IText {
 	 */
 	@Override
 	public void setNewData(String model) {
-		logger.debug("Setting new data...");
+		System.out.println("IQM:  Setting new data...");
 		textPanel.writeText(model);
 		// TODO implement model name display in the title bar
 		GUITools.getMainFrame().resetTitleBar();

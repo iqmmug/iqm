@@ -33,8 +33,8 @@ import java.io.File;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+ 
+ 
 
 import at.mug.iqm.api.I18N;
 import at.mug.iqm.api.Resources;
@@ -62,7 +62,7 @@ public class SaveImageSequenceDialog extends AbstractImageSavingDialog {
 	private static final long serialVersionUID = -7949304658347822868L;
 
 	// Logging variables
-	private static final Logger logger = LogManager.getLogger(SaveImageSequenceDialog.class);
+	  
 
 	/**
 	 * Standard constructor.
@@ -91,7 +91,7 @@ public class SaveImageSequenceDialog extends AbstractImageSavingDialog {
 
 		// react to the user's choice
 		if (returnVal != APPROVE_OPTION) {
-			logger.info("No image(s) saved.");
+			System.out.println("IQM Info: No image(s) saved.");
 			return null;
 		}
 

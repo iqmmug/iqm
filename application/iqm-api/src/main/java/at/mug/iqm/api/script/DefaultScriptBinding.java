@@ -35,8 +35,8 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+ 
+ 
 
 import at.mug.iqm.api.Application;
 import at.mug.iqm.commons.util.DialogUtil;
@@ -55,7 +55,7 @@ import at.mug.iqm.commons.util.DialogUtil;
 public class DefaultScriptBinding extends Binding {
 
 	// private logging variable
-	private static final Logger logger = LogManager.getLogger(DefaultScriptBinding.class);
+	  
 
 	/**
 	 * Creates a default binding object common to all scripts.
@@ -84,7 +84,7 @@ public class DefaultScriptBinding extends Binding {
 	 *            the value, i.e. the class or a concrete object/instance
 	 */
 	public void setEnvVar(String varName, Object o) {
-		logger.debug("Setting script variable  [" + varName + "=" + o + "]");
+		System.out.println("IQM:  Setting script variable  [" + varName + "=" + o + "]");
 		setVariable(varName, o);
 	}
 
@@ -101,7 +101,7 @@ public class DefaultScriptBinding extends Binding {
 	 * @throws IOException
 	 */
 	public Process exec(String command) throws IOException {
-		logger.info("Executing command...");
+		System.out.println("IQM Info: Executing command...");
 		Process proc = null;
 		try {
 			String line;
@@ -128,7 +128,7 @@ public class DefaultScriptBinding extends Binding {
 	 * @throws IOException
 	 */
 	public Process exec(String command, File inDir) throws IOException {
-		logger.info("Executing command...");
+		System.out.println("IQM Info: Executing command...");
 		Process proc = null;
 		try {
 			String line;

@@ -43,8 +43,8 @@ import java.util.Vector;
 import javax.swing.JTable;
 import javax.swing.SwingWorker;
 import javax.swing.table.DefaultTableModel;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+ 
+ 
 import at.mug.iqm.api.IQMConstants;
 import at.mug.iqm.api.exception.UnreadableECGFileException;
 import at.mug.iqm.api.gui.BoardPanel;
@@ -69,7 +69,7 @@ import at.mug.iqm.config.ConfigManager;
 public class QRSPeaksExtractor extends SwingWorker<Boolean, Void> {
 	// Logging variables
 	private static Class<?> caller = QRSPeaksExtractor.class;
-	private static final Logger logger = LogManager.getLogger(QRSPeaksExtractor.class);
+	  
 
 	/**
 	 * Default parameters for the QRSPeaks extraction: offset, sample rate, oseaMethod,  output option.
@@ -138,13 +138,13 @@ public class QRSPeaksExtractor extends SwingWorker<Boolean, Void> {
 		StringBuffer sb = new StringBuffer();
 		Object[][] data = null;
 		try {
-			logger.debug("Reading Meta Data of ECG plot...");
+			System.out.println("IQM:  Reading Meta Data of ECG plot...");
 
 			//fis = FileInputStream(file);	
 			//fis.close();
 			
 		} catch (Exception e) {
-			logger.error("An error occurred: ", e);
+			System.out.println("IQM Error: An error occurred: " + e);
 			throw new UnreadableECGFileException();
 		}
 		return data;
@@ -174,7 +174,7 @@ public class QRSPeaksExtractor extends SwingWorker<Boolean, Void> {
 //			params = this.params;
 //		}
 
-		logger.debug("Extracting QRS peaks from the specified ECG files.");
+		System.out.println("IQM:  Extracting QRS peaks from the specified ECG files.");
 		
 		File currImgDir = ConfigManager.getCurrentInstance().getImagePath();
 
@@ -441,7 +441,7 @@ public class QRSPeaksExtractor extends SwingWorker<Boolean, Void> {
 				}//Method 3-------------------------------------------------------------------------------------
 		    	
 			} catch (IOException e) { //
-				logger.error("An error occurred: ", e);
+				System.out.println("IQM Error: An error occurred: " + e);
 			}
 			
 //			if (!coordinateY.isEmpty()) {
@@ -457,7 +457,7 @@ public class QRSPeaksExtractor extends SwingWorker<Boolean, Void> {
 			if (saveToFile) {
 				try {
 					//save QRS peaks file 
-					logger.debug("QRS peaks have been detected, now storing to disk.");
+					System.out.println("IQM:  QRS peaks have been detected, now storing to disk.");
 					BoardPanel.appendTextln("QRS peaks have been detected, now storing to disk.");
 					// construct the filename
 					String newFileName = null;
@@ -470,7 +470,7 @@ public class QRSPeaksExtractor extends SwingWorker<Boolean, Void> {
 					
 					Files.write(Paths.get(newFileName), stringTable.getBytes(StandardCharsets.UTF_8));
 					
-					logger.debug(newFileName +" has been stored to disk.");
+					System.out.println("IQM:  "+newFileName +" has been stored to disk.");
 	
 					//This is for displaying files in IQM
 					//extractedFiles.add(newFile);
@@ -521,7 +521,7 @@ public class QRSPeaksExtractor extends SwingWorker<Boolean, Void> {
 		this.firePropertyChange("singleTaskRunning", 0, 1);
 		boolean success = this.extract(this.files, this.params);
 		this.firePropertyChange("singleTaskRunning", 1, 0);
-		logger.info("The extraction was " + (success ? "" : "NOT")
+		System.out.println("IQM Info: The extraction was " + (success ? "" : "NOT")
 				+ " successful, returning [" + (success ? "true" : "false")
 				+ "].");
 		return success;
@@ -541,8 +541,8 @@ public class QRSPeaksExtractor extends SwingWorker<Boolean, Void> {
 //								message
 //										+ "\nDo you want to load the extracted files now?");
 //				if (selection == IDialogUtil.YES_OPTION) {
-//					logger.debug("Loading of files selected");
-//					logger.debug("Loading of files not implemented yet");
+//					System.out.println("IQM:  Loading of files selected");
+//					System.out.println("IQM:  Loading of files not implemented yet");
 //					BoardPanel.appendTextln("QRSPeakExtractor: Loading of files not implemented yet");
 ////					File[] newFiles = new File[this.extractedFiles.size()];
 ////					for (int i = 0; i < newFiles.length; i++) {
@@ -555,13 +555,13 @@ public class QRSPeaksExtractor extends SwingWorker<Boolean, Void> {
 ////					Application.getTank().addNewItems(itemList);;
 //				}
 //				if (selection == IDialogUtil.NO_OPTION) {
-//					logger.debug("No loading of files selected");
+//					System.out.println("IQM:  No loading of files selected");
 //				}
 //				this.setProgress(0);
 				this.setProgress(0);
 		}
 		} catch (Exception e) {
-			logger.error("An error occurred: ", e);
+			System.out.println("IQM Error: An error occurred: " + e);
 			e.printStackTrace();
 		} finally {
 			System.gc();

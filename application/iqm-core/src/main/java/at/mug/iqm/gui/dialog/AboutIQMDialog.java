@@ -48,8 +48,8 @@ import javax.swing.JTable;
 import javax.swing.WindowConstants;
 import javax.swing.table.DefaultTableModel;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+ 
+ 
 
 import at.mug.iqm.api.IQMConstants;
 import at.mug.iqm.core.I18N;
@@ -71,7 +71,7 @@ public class AboutIQMDialog extends JDialog implements ActionListener{
 	private static final long serialVersionUID = 5253005190743054657L;
 
 	// class specific logger
-	private static final Logger logger = LogManager.getLogger(AboutIQMDialog.class);
+	  
 
 	private JPanel dialogContent = null;
 	private JPanel textContent   = null;
@@ -96,7 +96,7 @@ public class AboutIQMDialog extends JDialog implements ActionListener{
 	public AboutIQMDialog() {
 		super(new JFrame(), I18N.getGUILabelText("application.dialog.about.title"));
 
-		logger.debug("Initializing...");
+		System.out.println("IQM:  Initializing...");
 
 		this.dialogContent = new JPanel();
 		this.textContent   = new JPanel(new GridLayout(6, 1, 0, 2));
@@ -117,14 +117,14 @@ public class AboutIQMDialog extends JDialog implements ActionListener{
 		this.createAndAssemble();
 		this.setModal(true);
 		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-		logger.debug("Done.");
+		System.out.println("IQM:  Done.");
 	}
 
 	/**
 	 * Creates subcomponents and assembles the dialog.
 	 */
 	private void createAndAssemble() {
-		logger.debug("Creating new 'About' dialog...");
+		System.out.println("IQM:  Creating new 'About' dialog...");
 
 		this.setLayout(new GridLayout());
 		this.dialogContent.setBorder(BorderFactory.createEmptyBorder(5,5,5,5));

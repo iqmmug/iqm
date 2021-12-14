@@ -35,8 +35,8 @@ import java.io.InputStream;
 import java.util.HashMap;
 import java.util.List;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+ 
+ 
 import org.apache.tika.exception.TikaException;
 import org.apache.tika.metadata.HttpHeaders;
 import org.apache.tika.metadata.Metadata;
@@ -61,7 +61,7 @@ import at.mug.iqm.api.operator.DataType;
 public class FileContentParser {
 
 	// private logger
-	private static final Logger logger = LogManager.getLogger(FileContentParser.class);
+	  
 
 	public static DataType parseContent(List<File> fileList)
 			throws IllegalArgumentException, MultipleMIMETypesException,
@@ -90,11 +90,11 @@ public class FileContentParser {
 						new ParseContext());
 				stream.close();
 			} catch (IOException e) {
-				logger.error("", e);
+				System.out.println("IQM Error: " + e);
 			} catch (SAXException e) {
-				logger.error("", e);
+				System.out.println("IQM Error: " + e);
 			} catch (TikaException e) {
-				logger.error("", e);
+				System.out.println("IQM Error: " + e);
 			}
 
 			// read the mime type
@@ -120,7 +120,7 @@ public class FileContentParser {
 						+ mimeType + "] is not supported in IQM.");
 			}
 
-			logger.debug("MIME type of [" + f.toString() + "]: " + mimeType);
+			System.out.println("IQM:  MIME type of [" + f.toString() + "]: " + mimeType);
 
 			// check if mime type changed
 			if (!firstType.equals(mimeType)) {
@@ -151,17 +151,17 @@ public class FileContentParser {
 					new ParseContext());
 			stream.close();
 		} catch (IOException e) {
-			logger.error("", e);
+			System.out.println("IQM Error: " + e);
 		} catch (SAXException e) {
-			logger.error("", e);
+			System.out.println("IQM Error: " + e);
 		} catch (TikaException e) {
-			logger.error("", e);
+			System.out.println("IQM Error: " + e);
 		}
 
 		// read the mime type
 		String mimeType = metadata.get(HttpHeaders.CONTENT_TYPE);
 
-		logger.debug("MIME type of [" + f.toString() + "]: " + mimeType);
+		System.out.println("IQM:  MIME type of [" + f.toString() + "]: " + mimeType);
 
 		return mimeType;
 	}

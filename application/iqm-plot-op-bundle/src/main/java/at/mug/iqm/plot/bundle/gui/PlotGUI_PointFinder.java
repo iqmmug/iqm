@@ -51,8 +51,8 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.text.InternationalFormatter;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+ 
+ 
 
 import at.mug.iqm.api.gui.BoardPanel;
 import at.mug.iqm.api.model.IqmDataBox;
@@ -77,7 +77,7 @@ public class PlotGUI_PointFinder extends AbstractPlotOperatorGUI implements Chan
 	 */
 	private static final long serialVersionUID = 6129126866758754431L;
 
-	private static final Logger logger = LogManager.getLogger(PlotGUI_PointFinder.class);
+	  
 
 	private ParameterBlockIQM pb;
 
@@ -150,7 +150,7 @@ public class PlotGUI_PointFinder extends AbstractPlotOperatorGUI implements Chan
 
 	public PlotGUI_PointFinder() {
 		//getOpGUIContent().setBorder(new EmptyBorder(10, 0, 0, 0));
-		logger.debug("Now initializing...");
+		System.out.println("IQM:  Now initializing...");
 
 		this.setOpName(new PlotOpPointFinderDescriptor().getName());
 		this.initialize();
@@ -1421,7 +1421,7 @@ public class PlotGUI_PointFinder extends AbstractPlotOperatorGUI implements Chan
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		logger.debug(e.getActionCommand() + " event has been triggered.");
+		System.out.println("IQM:  "+e.getActionCommand() + " event has been triggered.");
 		if ("parameter".equals(e.getActionCommand())) {
 		
 //			if (e.getSource() == buttSlope) {

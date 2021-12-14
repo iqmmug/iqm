@@ -34,8 +34,8 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JMenuItem;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+ 
+ 
 
 import at.mug.iqm.api.gui.OperatorMenuItem;
 import at.mug.iqm.api.operator.OperatorType;
@@ -68,7 +68,7 @@ public class ProcessMenu extends DeactivatableMenu implements ActionListener {
 	private static final long serialVersionUID = 2572007859398471886L;
 
 	// class specific logger
-	private static final Logger logger = LogManager.getLogger(ProcessMenu.class);
+	  
 
 	// class variable declaration
 	private OperatorMenuItem alignMenuItem;
@@ -92,7 +92,7 @@ public class ProcessMenu extends DeactivatableMenu implements ActionListener {
 	 * equipped ProcessMenu.
 	 */
 	public ProcessMenu() {
-		logger.debug("Generating new instance of 'process' menu.");
+		System.out.println("IQM:  Generating new instance of 'process' menu.");
 
 		// initialize the variables
 		this.alignMenuItem = new OperatorMenuItem(OperatorType.IMAGE);
@@ -113,14 +113,14 @@ public class ProcessMenu extends DeactivatableMenu implements ActionListener {
 		// assemble the gui elements to a JMenu
 		this.createAndAssembleMenu();
 
-		logger.debug("Menu 'process' generated.");
+		System.out.println("IQM:  Menu 'process' generated.");
 	}
 
 	/**
 	 * This method constructs the items.
 	 */
 	private void createAndAssembleMenu() {
-		logger.debug("Assembling menu items to 'process' menu.");
+		System.out.println("IQM:  Assembling menu items to 'process' menu.");
 
 		// set menu attributes
 		this.setText(I18N.getGUILabelText("menu.process.text"));
@@ -369,7 +369,7 @@ public class ProcessMenu extends DeactivatableMenu implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 
-		logger.debug(e.getActionCommand());
+		System.out.println("IQM:  "+e.getActionCommand());
 
 		if ("align".equals(e.getActionCommand())) {
 			ExecutionProxy.launchInstance(new IqmOpAlignDescriptor());

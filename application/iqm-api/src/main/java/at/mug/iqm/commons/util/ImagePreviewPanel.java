@@ -52,8 +52,8 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingWorker;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+ 
+ 
 
 import at.mug.iqm.api.IQMConstants;
 import at.mug.iqm.api.Resources;
@@ -82,7 +82,7 @@ public class ImagePreviewPanel extends JPanel implements PropertyChangeListener 
 	/**
 	 * Custom class logger.
 	 */
-	private static final Logger logger = LogManager.getLogger(ImagePreviewPanel.class);
+	  
 
 	private int width, height;
 	private Image image;
@@ -119,7 +119,7 @@ public class ImagePreviewPanel extends JPanel implements PropertyChangeListener 
 
 			icon = new ImageIcon(Resources.getImageURL("icon.processing"));
 		} catch (IOException e) {
-			logger.error("", e);
+			System.out.println("IQM Error: " + e);
 		}
 
 		setLayout(new BorderLayout());
@@ -135,7 +135,7 @@ public class ImagePreviewPanel extends JPanel implements PropertyChangeListener 
 				// do nothing
 				return;
 			} else {
-				logger.trace("SELECTED_FILE_CHANGED_PROPERTY: "
+				System.out.println("IQM Trace: SELECTED_FILE_CHANGED_PROPERTY: "
 						+ ((File) e.getNewValue()));
 			}
 		} else if (propertyName
@@ -149,7 +149,7 @@ public class ImagePreviewPanel extends JPanel implements PropertyChangeListener 
 				for (File f : files)
 					s += (f + ", ");
 
-				logger.trace("SELECTED_FILES_CHANGED_PROPERTY: ["
+				System.out.println("IQM Trace: SELECTED_FILES_CHANGED_PROPERTY: ["
 						+ s.substring(0, s.length() - 2) + "]");
 			}
 		}
@@ -229,8 +229,8 @@ public class ImagePreviewPanel extends JPanel implements PropertyChangeListener 
 //						try {
 //							image = pi.getAsBufferedImage();
 //						} catch (Throwable e1) {
-//							//logger.error("Fileload not possible, trying ImageIO. " + e1); //opening of a jpg image will yield a huge list of errors
-//							logger.error("Fileload not possible, trying ImageIO. ");
+//							//System.out.println("IQM Error: Fileload not possible, trying ImageIO. " + e1); //opening of a jpg image will yield a huge list of errors
+//							System.out.println("IQM Error: Fileload not possible, trying ImageIO. ");
 //							image = null;
 //							doShowErrorAtTheEnd(true);
 //						}
@@ -238,11 +238,11 @@ public class ImagePreviewPanel extends JPanel implements PropertyChangeListener 
 							try { // try imageIO
 								image = ImageIO.read(new File(name)); // tiff only with newest JAI_imageio.jar version
 							} catch (IOException e2) {
-								logger.error("It is not possible to perform a preview!");
+								System.out.println("IQM Error: It is not possible to perform a preview!");
 								doShowErrorAtTheEnd(true);
 								return null;
 							} catch (Exception e2) {
-								logger.error("It is not possible to perform a preview!");
+								System.out.println("IQM Error: It is not possible to perform a preview!");
 								doShowErrorAtTheEnd(true);
 								return null;
 							}

@@ -69,8 +69,8 @@ import javax.swing.event.ChangeListener;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.text.BadLocationException;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+ 
+ 
 import org.fife.rsta.ui.GoToDialog;
 import org.fife.rsta.ui.search.FindDialog;
 import org.fife.rsta.ui.search.ReplaceDialog;
@@ -99,7 +99,7 @@ import at.mug.iqm.config.ConfigManager;
 public class ScriptEditor extends JFrame implements ActionListener,
 		PropertyChangeListener, WindowListener {
 
-	private static final Logger logger = LogManager.getLogger(ScriptEditor.class);
+	  
 
 	/**
 	 * The UID for serialization.
@@ -495,7 +495,7 @@ public class ScriptEditor extends JFrame implements ActionListener,
 	private void validateMenuState() {
 		try {
 			// set the menu state for the currently selected tab
-			logger.debug("Validating menu for SelectedTabIndex: "
+			System.out.println("IQM:  Validating menu for SelectedTabIndex: "
 					+ tabbedPane.getSelectedIndex());
 
 			ScriptEditorTab tab = getSelectedTab();
@@ -510,7 +510,7 @@ public class ScriptEditor extends JFrame implements ActionListener,
 				mntmSave.setEnabled(false);
 			}
 		} catch (Exception e) {
-			logger.debug("No tab available yet: " + e);
+			System.out.println("IQM:  No tab available yet: " + e);
 		}
 	}
 
@@ -555,7 +555,7 @@ public class ScriptEditor extends JFrame implements ActionListener,
 		GroovyTextArea textArea = getSelectedTab().getTextArea();
 
 		String command = e.getActionCommand();
-		logger.debug("Action: " + command);
+		System.out.println("IQM:  Action: " + command);
 		SearchDialogSearchContext context = findDialog.getSearchContext();
 
 		if (FindDialog.ACTION_FIND.equals(command)) {
@@ -595,7 +595,7 @@ public class ScriptEditor extends JFrame implements ActionListener,
 				}
 			}
 		} catch (NullPointerException e) {
-			logger.debug("Current tab does not have a valid file object.");
+			System.out.println("IQM:  Current tab does not have a valid file object.");
 			return -1;
 		}
 		return -1;
@@ -677,7 +677,7 @@ public class ScriptEditor extends JFrame implements ActionListener,
 				cd = new File(path);
 			}
 		} catch (NullPointerException e) {
-			logger.info("No configuration manager loaded, "
+			System.out.println("IQM Info: No configuration manager loaded, "
 					+ "defaulting to current directory.");
 		}
 		return cd;
@@ -794,7 +794,7 @@ public class ScriptEditor extends JFrame implements ActionListener,
 
 		// check, if the tab has been modified
 		if (tab.isEdited()) {
-			logger.info("File in tab is edited and not saved yet.");
+			System.out.println("IQM Info: File in tab is edited and not saved yet.");
 			int ans = DialogUtil.getInstance().showDefaultQuestionMessage(
 					I18N.getMessage("script.close.notsavedyet"));
 
@@ -808,7 +808,7 @@ public class ScriptEditor extends JFrame implements ActionListener,
 		// remove the tab
 		removeTab(tab);
 
-		logger.info("Script file closed.");
+		System.out.println("IQM Info: Script file closed.");
 	}
 
 	private void save(ScriptEditorTab tab) {
@@ -1011,7 +1011,7 @@ public class ScriptEditor extends JFrame implements ActionListener,
 				}
 
 			} catch (Exception e) {
-				logger.error("No tab available yet: " + e);
+				System.out.println("IQM Error: No tab available yet: " + e);
 			}
 		}
 	}
@@ -1022,7 +1022,7 @@ public class ScriptEditor extends JFrame implements ActionListener,
 			ScriptEditorTab curTab = getSelectedTab();
 			curTab.getTextArea().requestFocusInWindow();
 		} catch (NullPointerException npe) {
-			logger.error("", npe);
+			System.out.println("IQM Error: " + npe);
 		}
 	}
 

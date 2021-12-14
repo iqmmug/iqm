@@ -51,8 +51,8 @@ import javax.swing.ScrollPaneConstants;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+ 
+ 
 
 import at.mug.iqm.api.I18N;
 import at.mug.iqm.api.Resources;
@@ -77,7 +77,7 @@ public class ColorChannelSelectorPanel extends JPanel implements ActionListener 
 	/**
 	 * A custom class logger.
 	 */
-	private static final Logger logger = LogManager.getLogger(ColorChannelSelectorPanel.class);
+	  
 
 	// GUI elements
 	private ILookPanel displayPanel;
@@ -257,7 +257,7 @@ public class ColorChannelSelectorPanel extends JPanel implements ActionListener 
 	 * @return a reference to the menu
 	 */
 	public List<ColorChannelWidget> updateChannelWidgets() {
-		logger.debug("Updating channel widgets...");
+		System.out.println("IQM:  Updating channel widgets...");
 		// get the # of bands from the current image
 		PlanarImage pi;
 		try {
@@ -346,7 +346,7 @@ public class ColorChannelSelectorPanel extends JPanel implements ActionListener 
 
 		} catch (NullPointerException e) {
 			// System.out.println("No image loaded.");
-			logger.debug("No image loaded yet.");
+			System.out.println("IQM:  No image loaded yet.");
 		}
 		return widgets;
 	}
@@ -396,7 +396,7 @@ public class ColorChannelSelectorPanel extends JPanel implements ActionListener 
 
 			
 
-			logger.debug("Clicked on: " + index
+			System.out.println("IQM:  Clicked on: " + index
 					+ (alt ? " with ALT modifier" : "")
 					+ (shift ? ", with SHIFT modifier" : ""));
 

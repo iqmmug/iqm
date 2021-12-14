@@ -56,8 +56,8 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.text.InternationalFormatter;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+ 
+ 
 
 import at.mug.iqm.api.operator.AbstractImageOperatorGUI;
 import at.mug.iqm.api.operator.ParameterBlockIQM;
@@ -79,7 +79,7 @@ public class OperatorGUI_CreateImage extends AbstractImageOperatorGUI implements
 
 	// class specific logger
 	private static Class<?> caller = OperatorGUI_CreateImage.class;
-	private static final Logger logger = LogManager.getLogger(OperatorGUI_CreateImage.class);
+	  
 
 	/**
 	 * The cached parameter block within the work package.
@@ -136,7 +136,7 @@ public class OperatorGUI_CreateImage extends AbstractImageOperatorGUI implements
 	 * constructor
 	 */
 	public OperatorGUI_CreateImage() {
-		logger.debug("Now initializing...");
+		System.out.println("IQM:  Now initializing...");
 
 		this.setOpName(new IqmOpCreateImageDescriptor().getName());
 
@@ -163,7 +163,7 @@ public class OperatorGUI_CreateImage extends AbstractImageOperatorGUI implements
 	public void setParameterValuesToGUI() {
 		// get the parameters from the work package
 		this.pb = this.workPackage.getParameters();
-		logger.debug("setParameterValuesToGUI(): pb=" + pb);
+		System.out.println("IQM:  setParameterValuesToGUI(): pb=" + pb);
 
 		// there is no need for a current image
 		if (pb.getIntParameter("Method") == IqmOpCreateImageDescriptor.CREATERANDOM)   buttRandom.setSelected(true);
@@ -220,7 +220,7 @@ public class OperatorGUI_CreateImage extends AbstractImageOperatorGUI implements
 
 	@Override
 	public void updateParameterBlock() {
-		logger.debug("updateParameterBlock(): pb=" + pb);
+		System.out.println("IQM:  updateParameterBlock(): pb=" + pb);
 
 		pb.setParameter("Width", ((Number) jSpinnerWidth.getValue()).intValue());
 		pb.setParameter("Height",
@@ -298,7 +298,7 @@ public class OperatorGUI_CreateImage extends AbstractImageOperatorGUI implements
 	 */
 	@Override
 	public void update() {
-		logger.debug("Updating GUI...");
+		System.out.println("IQM:  Updating GUI...");
 		// here, it does nothing
 	}
 
@@ -704,7 +704,7 @@ public class OperatorGUI_CreateImage extends AbstractImageOperatorGUI implements
 	// --------------------------------------------------------------------------------------------
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		logger.debug(e.getActionCommand() + " event has been triggered.");
+		System.out.println("IQM:  "+e.getActionCommand() + " event has been triggered.");
 		if ("parameter".equals(e.getActionCommand())) {
 			if (buttConst.isSelected()) {
 				jSpinnerConst1.setEnabled(true);
@@ -756,7 +756,7 @@ public class OperatorGUI_CreateImage extends AbstractImageOperatorGUI implements
 
 		// preview if selected
 		if (this.isAutoPreviewSelected()) {
-			logger.debug("Performing AutoPreview");
+			System.out.println("IQM:  Performing AutoPreview");
 			this.showPreview();
 		}
 
@@ -789,7 +789,7 @@ public class OperatorGUI_CreateImage extends AbstractImageOperatorGUI implements
 
 		// preview if selected
 		if (this.isAutoPreviewSelected()) {
-			logger.debug("Performing AutoPreview");
+			System.out.println("IQM:  Performing AutoPreview");
 			this.showPreview();
 		}
 

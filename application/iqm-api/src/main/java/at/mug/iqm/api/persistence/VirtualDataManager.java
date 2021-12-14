@@ -39,8 +39,8 @@ import java.util.UUID;
 
 import javax.media.jai.JAI;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+ 
+ 
 
 import at.mug.iqm.api.Application;
 import at.mug.iqm.api.IQMConstants;
@@ -67,7 +67,7 @@ public class VirtualDataManager {
 	/**
 	 * Custom class logger.
 	 */
-	private static final Logger logger = LogManager.getLogger(VirtualDataManager.class);
+	  
 
 	/**
 	 * A serializer for I/O tasks of the manager.
@@ -153,7 +153,7 @@ public class VirtualDataManager {
 							// set found to true and do this for all files.
 							// if the number n is not found, found stays false
 							found = true;
-							logger.trace("Found item stack: "
+							System.out.println("IQM Trace: Found item stack: "
 									+ files[i].getAbsolutePath());
 						}
 					}
@@ -171,7 +171,7 @@ public class VirtualDataManager {
 			newVirtDir = new File(userTempDir.toString()
 					+ IQMConstants.FILE_SEPARATOR + "Stack_"
 					+ String.format("%05d", n));
-			logger.debug("Returning the name of a new (subsequent) virtual sub-directory: ["
+			System.out.println("IQM:  Returning the name of a new (subsequent) virtual sub-directory: ["
 					+ newVirtDir + "]");
 		}
 
@@ -289,9 +289,9 @@ public class VirtualDataManager {
 
 			return vBox;
 		} catch (FileNotFoundException e) {
-			logger.error("An error occurred: ", e);
+			System.out.println("IQM Error: An error occurred: " + e);
 		} catch (IOException e) {
-			logger.error("An error occurred: ", e);
+			System.out.println("IQM Error: An error occurred: " + e);
 		} finally {
 			// hide the io processing icon
 			Application.getMainFrame().getStatusPanel().hideIOProcessingIcon();
@@ -333,11 +333,11 @@ public class VirtualDataManager {
 			// create thumbnails on demand, if you clone the deserialized box!
 
 		} catch (FileNotFoundException e) {
-			logger.error("An error occurred: ", e);
+			System.out.println("IQM Error: An error occurred: " + e);
 		} catch (IOException e) {
-			logger.error("An error occurred: ", e);
+			System.out.println("IQM Error: An error occurred: " + e);
 		} catch (ClassNotFoundException e) {
-			logger.error("An error occurred: ", e);
+			System.out.println("IQM Error: An error occurred: " + e);
 		} finally {
 			// hide the io processing icon
 			Application.getMainFrame().getStatusPanel().hideIOProcessingIcon();
@@ -363,11 +363,11 @@ public class VirtualDataManager {
 		// display the IO processing icon
 		Application.getMainFrame().getStatusPanel().showIOProcessingIcon();
 		try {
-			logger.debug("Removing target ID [" + target.getID()
+			System.out.println("IQM:  Removing target ID [" + target.getID()
 					+ "] from the box cache.");
 			this.boxCache.remove(target.getID());
 		} catch (Exception e) {
-			logger.error("An error occurred: ", e);
+			System.out.println("IQM Error: An error occurred: " + e);
 		} finally {
 			// hide the io processing icon
 			Application.getMainFrame().getStatusPanel().hideIOProcessingIcon();
@@ -413,8 +413,8 @@ public class VirtualDataManager {
 			}
 			return vList;
 		} catch (Exception e) {
-			logger.error(
-					"An error occurred when saving the list of IqmDataBoxes: ",
+			System.out.println("IQM Error: "+ 
+					"An error occurred when saving the list of IqmDataBoxes: " + 
 					e);
 			return null;
 		}

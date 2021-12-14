@@ -35,8 +35,8 @@ import java.util.List;
 import java.util.TimeZone;
 import java.util.concurrent.ExecutionException;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+ 
+ 
 
 import at.mug.iqm.api.gui.BoardPanel;
 import at.mug.iqm.api.model.IVirtualizable;
@@ -71,7 +71,7 @@ public class SerialProcessingTask extends AbstractProcessingTask implements
 
 	// class specific logger
 	private Class<?> caller = SerialProcessingTask.class;
-	private static final Logger logger = LogManager.getLogger(SerialProcessingTask.class);
+	  
 
 	/**
 	 * The number of items to be processed.
@@ -153,7 +153,7 @@ public class SerialProcessingTask extends AbstractProcessingTask implements
 		List<ArrayList<IqmDataBox>> result = null;
 		try {
 			if (!this.isHeadless()) {
-				logger.debug("Retrieving result list from serial processing.");
+				System.out.println("IQM:  Retrieving result list from serial processing.");
 				result = (List<ArrayList<IqmDataBox>>) this.get();
 
 				if (result != null) {
@@ -185,14 +185,14 @@ public class SerialProcessingTask extends AbstractProcessingTask implements
 			}
 		} catch (ExecutionException e) {
 			// log the error message
-			logger.error("An error occurred: ", e);
+			System.out.println("IQM Error: An error occurred: " + e);
 			e.printStackTrace();
 		} catch (InterruptedException e) {
 			// log the error message
-			logger.error("An error occurred: ", e);
+			System.out.println("IQM Error: An error occurred: " + e);
 			e.printStackTrace();
 		} catch (Exception e) {
-			logger.error("An error occurred: ", e);
+			System.out.println("IQM Error: An error occurred: " + e);
 			DialogUtil.getInstance().showErrorMessage(
 					"Could not finish serial stack processing!", e, true);
 		} finally {
@@ -296,7 +296,7 @@ public class SerialProcessingTask extends AbstractProcessingTask implements
 
 			// get result
 			// wait for the completion and gather the result
-			logger.debug("Waiting for a result from a single worker... ");
+			System.out.println("IQM:  Waiting for a result from a single worker... ");
 			this.firePropertyChange("singleTaskRunning", 0, 1);
 			singleResult = (Result) task.processExplicit();
 			this.firePropertyChange("singleTaskRunning", 1, 0);
@@ -449,7 +449,7 @@ public class SerialProcessingTask extends AbstractProcessingTask implements
 
 			// get result
 			// wait for the completion and gather the result
-			logger.debug("Waiting for a result from a single worker... ");
+			System.out.println("IQM:  Waiting for a result from a single worker... ");
 			this.firePropertyChange("singleTaskRunning", 0, 1);
 			result = (Result) task.processExplicit();
 			this.firePropertyChange("singleTaskRunning", 1, 0);
@@ -584,7 +584,7 @@ public class SerialProcessingTask extends AbstractProcessingTask implements
 
 			// get result
 			// wait for the completion and gather the result
-			logger.debug("Waiting for a result from a single worker... ");
+			System.out.println("IQM:  Waiting for a result from a single worker... ");
 			this.firePropertyChange("singleTaskRunning", 0, 1);
 			result = (Result) task.processExplicit();
 			this.firePropertyChange("singleTaskRunning", 1, 0);
@@ -722,7 +722,7 @@ public class SerialProcessingTask extends AbstractProcessingTask implements
 
 			// get result
 			// wait for the completion and gather the result
-			logger.debug("Waiting for a result from a single worker... ");
+			System.out.println("IQM:  Waiting for a result from a single worker... ");
 			this.firePropertyChange("singleTaskRunning", 0, 1);
 			result = (Result) task.processExplicit();
 			this.firePropertyChange("singleTaskRunning", 1, 0);
@@ -768,7 +768,7 @@ public class SerialProcessingTask extends AbstractProcessingTask implements
 		if (!isVirtual()) {
 			if (singleResult.hasImages()) {
 				List<IqmDataBox> imageResults = singleResult.listImageResults();
-				logger.debug("Result has been retrieved and contains "
+				System.out.println("IQM:  Result has been retrieved and contains "
 						+ imageResults.size() + " image(s).");
 				ArrayList<IqmDataBox> existingElements = resultList.get(0);
 				existingElements.addAll(imageResults);
@@ -776,7 +776,7 @@ public class SerialProcessingTask extends AbstractProcessingTask implements
 			}
 			if (singleResult.hasPlots()) {
 				List<IqmDataBox> plotResults = singleResult.listPlotResults();
-				logger.debug("Result has been retrieved and contains "
+				System.out.println("IQM:  Result has been retrieved and contains "
 						+ plotResults.size() + " plot(s).");
 				ArrayList<IqmDataBox> existingElements = resultList.get(1);
 				existingElements.addAll(plotResults);
@@ -784,7 +784,7 @@ public class SerialProcessingTask extends AbstractProcessingTask implements
 			}
 			if (singleResult.hasTables()) {
 				List<IqmDataBox> tableResults = singleResult.listTableResults();
-				logger.debug("Result has been retrieved and contains "
+				System.out.println("IQM:  Result has been retrieved and contains "
 						+ tableResults.size() + " table(s).");
 				ArrayList<IqmDataBox> existingElements = resultList.get(2);
 				existingElements.addAll(tableResults);
@@ -793,7 +793,7 @@ public class SerialProcessingTask extends AbstractProcessingTask implements
 			if (singleResult.hasCustomResults()) {
 				List<IqmDataBox> customResults = singleResult
 						.listImageResults();
-				logger.debug("Result has been retrieved and contains "
+				System.out.println("IQM:  Result has been retrieved and contains "
 						+ customResults.size() + " custom result(s).");
 				ArrayList<IqmDataBox> existingElements = resultList.get(3);
 				existingElements.addAll(customResults);
@@ -812,7 +812,7 @@ public class SerialProcessingTask extends AbstractProcessingTask implements
 				List<IqmDataBox> vImageResults = VirtualDataManager
 						.getInstance().save(singleResult.listImageResults(),
 								virtDir);
-				logger.debug("Result has been retrieved, virtualized successfully to ["
+				System.out.println("IQM:  Result has been retrieved, virtualized successfully to ["
 						+ virtDir.toString()
 						+ "] and contains "
 						+ vImageResults.size() + " image(s).");
@@ -831,7 +831,7 @@ public class SerialProcessingTask extends AbstractProcessingTask implements
 				List<IqmDataBox> vPlotResults = VirtualDataManager
 						.getInstance().save(singleResult.listPlotResults(),
 								virtDir);
-				logger.debug("Result has been retrieved, virtualized successfully to ["
+				System.out.println("IQM:  Result has been retrieved, virtualized successfully to ["
 						+ virtDir.toString()
 						+ "] and contains "
 						+ vPlotResults.size() + " plot(s).");
@@ -850,7 +850,7 @@ public class SerialProcessingTask extends AbstractProcessingTask implements
 				List<IqmDataBox> vTableResults = VirtualDataManager
 						.getInstance().save(singleResult.listTableResults(),
 								virtDir);
-				logger.debug("Result has been retrieved, virtualized successfully to ["
+				System.out.println("IQM:  Result has been retrieved, virtualized successfully to ["
 						+ virtDir.toString()
 						+ "] and contains "
 						+ vTableResults.size() + " table(s).");
@@ -869,7 +869,7 @@ public class SerialProcessingTask extends AbstractProcessingTask implements
 				List<IqmDataBox> vCustomResults = VirtualDataManager
 						.getInstance().save(singleResult.listImageResults(),
 								virtDir);
-				logger.debug("Result has been retrieved, virtualized successfully to ["
+				System.out.println("IQM:  Result has been retrieved, virtualized successfully to ["
 						+ virtDir.toString()
 						+ "] and contains "
 						+ vCustomResults.size() + " custom result(s).");

@@ -32,8 +32,8 @@ package at.mug.iqm.gui.menu;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+ 
+ 
 
 import at.mug.iqm.api.Application;
 
@@ -52,7 +52,7 @@ public class CoreMenuBar extends AbstractMenuBar {
 	private static final long serialVersionUID = -8887845277353427355L;
 
 	// class specific logger
-	private static final Logger logger = LogManager.getLogger(CoreMenuBar.class);
+	  
 
 	// class variable declaration // menus inherit from JMenu
 	private JMenu fileMenu;
@@ -73,12 +73,12 @@ public class CoreMenuBar extends AbstractMenuBar {
 	 */
 	public CoreMenuBar() {
 		super();
-		logger.debug("Generating new instance of '" + this.getClass().getName()
+		System.out.println("IQM:  Generating new instance of '" + this.getClass().getName()
 				+ "'.");
 
 		this.createAndAssemble();
 
-		logger.debug("'" + this.getClass().getName() + "' generated.");
+		System.out.println("IQM:  '" + this.getClass().getName() + "' generated.");
 	}
 
 	/**
@@ -86,7 +86,7 @@ public class CoreMenuBar extends AbstractMenuBar {
 	 */
 	@Override
 	protected void createAndAssemble() {
-		logger.debug("Creating subcomponents and assembling '"
+		System.out.println("IQM:  Creating subcomponents and assembling '"
 				+ this.getClass().getName() + "'.");
 
 		this.fileMenu = new FileMenu();

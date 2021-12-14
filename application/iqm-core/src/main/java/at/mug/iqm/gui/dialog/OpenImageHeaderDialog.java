@@ -36,8 +36,8 @@ import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+ 
+ 
 
 import at.mug.iqm.api.IQMConstants;
 import at.mug.iqm.api.gui.BoardPanel;
@@ -69,7 +69,7 @@ public class OpenImageHeaderDialog {
 
 	// Logging variables
 	private static Class<?> caller = OpenImageHeaderDialog.class;
-	private static final Logger logger = LogManager.getLogger(OpenImageHeaderDialog.class);
+	  
 
 	/**
 	 * Standard constructor.
@@ -176,7 +176,7 @@ public class OpenImageHeaderDialog {
 				ConfigManager.getCurrentInstance().setImagePath(currImgDir);
 			}
 		} catch (Exception e) {
-			logger.error("An error occurred: ", e);
+			System.out.println("IQM Error: An error occurred: " + e);
 			DialogUtil.getInstance().showErrorMessage(
 					I18N.getMessage("application.error.generic"), e);
 		}

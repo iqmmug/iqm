@@ -34,8 +34,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+ 
+ 
 
 /**
  * This helper class writes a plain text UTF-8 (default) encoded file.
@@ -46,7 +46,7 @@ import org.apache.logging.log4j.Logger;
  */
 public class PlainTextFileWriter implements Runnable {
 	
-	private static final Logger logger = LogManager.getLogger(PlainTextFileWriter.class);
+	  
 			
 	private File file;
 	private String content;
@@ -100,7 +100,7 @@ public class PlainTextFileWriter implements Runnable {
 		try {
 			write();
 		} catch (IOException e) {
-			logger.error("Error writing file!", e);
+			System.out.println("IQM Error: Error writing file!"+ e);
 		}
 	}
 }

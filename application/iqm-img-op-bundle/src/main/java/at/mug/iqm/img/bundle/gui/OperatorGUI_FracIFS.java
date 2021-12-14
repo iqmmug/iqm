@@ -52,8 +52,8 @@ import javax.swing.border.TitledBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.text.InternationalFormatter;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+ 
+ 
 import at.mug.iqm.api.operator.AbstractImageOperatorGUI;
 import at.mug.iqm.api.operator.ParameterBlockIQM;
 import at.mug.iqm.img.bundle.Resources;
@@ -72,7 +72,7 @@ public class OperatorGUI_FracIFS extends AbstractImageOperatorGUI implements
 	private static final long serialVersionUID = 5589979392178850162L;
 
 	// class specific logger
-	private static final Logger logger = LogManager.getLogger(OperatorGUI_FracIFS.class);
+	  
 
 	/**
 	 * The cached parameter block from the work package.
@@ -110,7 +110,7 @@ public class OperatorGUI_FracIFS extends AbstractImageOperatorGUI implements
 	 * constructor
 	 */
 	public OperatorGUI_FracIFS() {
-		logger.debug("Now initializing...");
+		System.out.println("IQM:  Now initializing...");
 
 		this.setOpName(new IqmOpFracIFSDescriptor().getName());
 
@@ -219,7 +219,7 @@ public class OperatorGUI_FracIFS extends AbstractImageOperatorGUI implements
 	 */
 	@Override
 	public void update() {
-		logger.debug("Updating GUI...");
+		System.out.println("IQM:  Updating GUI...");
 		// here, it does nothing
 	}
 
@@ -520,7 +520,7 @@ public class OperatorGUI_FracIFS extends AbstractImageOperatorGUI implements
 	// --------------------------------------------------------------------------------------------
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		logger.debug(e.getActionCommand() + " event has been triggered.");
+		System.out.println("IQM:  "+e.getActionCommand() + " event has been triggered.");
 		if ("parameter".equals(e.getActionCommand())) {
 			int itMax = ((Number) jSpinnerItMax.getValue()).intValue();
 			if (buttSierpinski1 == e.getSource()) {
@@ -550,7 +550,7 @@ public class OperatorGUI_FracIFS extends AbstractImageOperatorGUI implements
 
 		// preview if selected
 		if (this.isAutoPreviewSelected()) {
-			logger.debug("Performing AutoPreview");
+			System.out.println("IQM:  Performing AutoPreview");
 			this.showPreview();
 		}
 
@@ -568,7 +568,7 @@ public class OperatorGUI_FracIFS extends AbstractImageOperatorGUI implements
 
 		// preview if selected
 		if (this.isAutoPreviewSelected()) {
-			logger.debug("Performing AutoPreview");
+			System.out.println("IQM:  Performing AutoPreview");
 			this.showPreview();
 		}
 

@@ -45,8 +45,8 @@ import javax.swing.JRadioButton;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+ 
+ 
 
 import at.mug.iqm.api.IQMConstants;
 import at.mug.iqm.api.model.IqmDataBox;
@@ -69,7 +69,7 @@ public class OperatorGUI_Convert extends AbstractImageOperatorGUI implements
 	private static final long serialVersionUID = -5007316734431004440L;
 
 	// class specific logger
-	private static final Logger logger = LogManager.getLogger(OperatorGUI_Convert.class);
+	  
 
 	private ParameterBlockIQM pb = null;
 
@@ -131,7 +131,7 @@ public class OperatorGUI_Convert extends AbstractImageOperatorGUI implements
 	 */
 	public OperatorGUI_Convert() {
 		getOpGUIContent().setBorder(new EmptyBorder(10, 10, 10, 10));
-		logger.debug("Now initializing...");
+		System.out.println("IQM:  Now initializing...");
 
 		this.setOpName(new IqmOpConvertDescriptor().getName());
 		this.initialize();
@@ -285,7 +285,7 @@ public class OperatorGUI_Convert extends AbstractImageOperatorGUI implements
 	 */
 	@Override
 	public void update() {
-		logger.debug("Updating GUI...");
+		System.out.println("IQM:  Updating GUI...");
 
 		IqmDataBox iqmDataBox = (IqmDataBox) this.workPackage.getSources().get(0);
 
@@ -341,7 +341,7 @@ public class OperatorGUI_Convert extends AbstractImageOperatorGUI implements
 		try {
 			this.setParameterValuesToGUI();
 		} catch (Exception e) {
-			logger.error(e);
+			System.out.println("IQM Error: "+ e);
 		}
 	}
 
@@ -888,7 +888,7 @@ public class OperatorGUI_Convert extends AbstractImageOperatorGUI implements
 
 		// preview if selected
 		if (this.isAutoPreviewSelected()) {
-			logger.debug("Performing AutoPreview");
+			System.out.println("IQM:  Performing AutoPreview");
 			this.showPreview();
 		}
 

@@ -31,8 +31,8 @@ package at.mug.iqm.img.bundle.gui;
 
 import java.awt.event.ActionEvent;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+ 
+ 
 
 import at.mug.iqm.api.operator.AbstractImageOperatorGUI;
 import at.mug.iqm.img.bundle.descriptors.IqmOpACFDescriptor;
@@ -49,13 +49,13 @@ public class OperatorGUI_ACF extends AbstractImageOperatorGUI  {
 	private static final long serialVersionUID = 842917659929312098L;
 
 	// class specific logger
-	private static final Logger logger = LogManager.getLogger(OperatorGUI_ACF.class);
+	  
 
 	/**
 	 * constructor
 	 */
 	public OperatorGUI_ACF() {
-		logger.debug("Now initializing...");
+		System.out.println("IQM:  Now initializing...");
 		
 		this.setOpName(new IqmOpACFDescriptor().getName());
 		
@@ -71,7 +71,7 @@ public class OperatorGUI_ACF extends AbstractImageOperatorGUI  {
 	 */
 	@Override
 	public void update() {
-		logger.debug("Updating GUI...");
+		System.out.println("IQM:  Updating GUI...");
 		// here, it does nothing
 	}
 

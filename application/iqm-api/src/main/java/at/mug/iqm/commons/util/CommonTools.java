@@ -56,8 +56,8 @@ import javax.swing.SwingUtilities;
 import javax.swing.ToolTipManager;
 import javax.swing.WindowConstants;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+ 
+ 
 
 import at.mug.iqm.api.Application;
 import at.mug.iqm.api.I18N;
@@ -76,7 +76,7 @@ public final class CommonTools {
 	/**
 	 * Custom class logger.
 	 */
-	private static final Logger logger = LogManager.getLogger(CommonTools.class);
+	  
 	/**
 	 * The re-show delay for the {@link ToolTipManager}. Default is '0'.
 	 */
@@ -349,7 +349,7 @@ public final class CommonTools {
 		zoomPB.setParameter("interpolation", new InterpolationNearest());
 		pi = JAI.create("scale", zoomPB);
 
-		logger.info("Image scaling [" + String.valueOf(zoom) + "] done in: "
+		System.out.println("IQM Info: Image scaling [" + String.valueOf(zoom) + "] done in: "
 				+ (System.currentTimeMillis() - start) / 1000.0d + " s.");
 
 		// showImage(pi.getAsBufferedImage(), "Zoom: " + String.valueOf(zoom));
@@ -398,9 +398,9 @@ public final class CommonTools {
 			double lx = coords.get(0) - coords.get(2);
 			double ly = coords.get(1) - coords.get(3);
 			lineLength = Math.sqrt(lx * lx + ly * ly); // Pythagoras
-			logger.trace("Line length: " + lineLength);
+			System.out.println("IQM Trace: Line length: " + lineLength);
 		} else {
-			logger.error("Length calculation not possible for this shape!");
+			System.out.println("IQM Error: Length calculation not possible for this shape!");
 		}
 		return lineLength;
 	}
@@ -417,7 +417,7 @@ public final class CommonTools {
 	 */
 	public static double[] calcAngleAndLegLenghts(AngleROI s) {
 		Vector<Float> coords = getShapeCoordinates(s);
-		logger.debug("Shape Coordinates: " + coords);
+		System.out.println("IQM:  Shape Coordinates: " + coords);
 		double[] result = { 0.0d, 0.0d, 0.0d, 0.0d };
 
 		// if the first line is moved
@@ -464,7 +464,7 @@ public final class CommonTools {
 			result[2] = length1;
 			result[3] = length2;
 		}
-		logger.debug("Angles and LegLengths: " + doubleArrayToString(result));
+		System.out.println("IQM:  Angles and LegLengths: " + doubleArrayToString(result));
 		return result;
 	}
 
@@ -602,7 +602,7 @@ public final class CommonTools {
 		} else if (dialogType == JFileChooser.OPEN_DIALOG){
 			selection = fc.showOpenDialog(frame);
 		} else {
-			logger.error("The option '" + dialogType + "' is not recognized for the file chooser dialog!");
+			System.out.println("IQM Error: The option '" + dialogType + "' is not recognized for the file chooser dialog!");
 			return null;
 		}
 		

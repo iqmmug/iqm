@@ -44,8 +44,8 @@ import javax.swing.JTable;
 import javax.swing.SwingWorker;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+ 
+ 
 
 import at.mug.iqm.api.Application;
 import at.mug.iqm.api.I18N;
@@ -72,7 +72,7 @@ public class OpenTableDialog extends Thread{
 
 	// Logging variables
 	private static Class<?> caller = OpenTableDialog.class;
-	private static final Logger logger = LogManager.getLogger(OpenTableDialog.class);
+	  
 
 	private FileInputStream fis;
 	private ObjectInputStream ois;
@@ -160,21 +160,21 @@ public class OpenTableDialog extends Thread{
 								table = (JTable) o;
 							}
 						} catch (EmptyFileException e) {
-							logger.error("An error occurred: ", e);
+							System.out.println("IQM Error: An error occurred: " + e);
 							DialogUtil
 									.getInstance()
 									.showErrorMessage(
 											I18N.getMessage("application.error.generic"),
 											e);
 						} catch (FileNotFoundException e) {
-							logger.error("An error occurred: ", e);
+							System.out.println("IQM Error: An error occurred: " + e);
 							DialogUtil
 									.getInstance()
 									.showErrorMessage(
 											I18N.getMessage("application.error.generic"),
 											e);
 						} catch (IOException e) {
-							logger.error("An error occurred: ", e);
+							System.out.println("IQM Error: An error occurred: " + e);
 							DialogUtil
 									.getInstance()
 									.showErrorMessage(
@@ -209,7 +209,7 @@ public class OpenTableDialog extends Thread{
 		}
 
 		catch (Exception e) {
-			logger.error("An error occurred: ", e);
+			System.out.println("IQM Error: An error occurred: " + e);
 			DialogUtil.getInstance().showErrorMessage(
 					I18N.getMessage("application.error.generic"), e);
 		}

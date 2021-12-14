@@ -62,8 +62,8 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.text.InternationalFormatter;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+ 
+ 
 
 import at.mug.iqm.api.Application;
 import at.mug.iqm.api.gui.BoardPanel;
@@ -86,7 +86,7 @@ public class OperatorGUI_WhiteBalance extends AbstractImageOperatorGUI
 	private static final long serialVersionUID = -2733479495382144465L;
 
 	// class specific logger
-	private static final Logger logger = LogManager.getLogger(OperatorGUI_WhiteBalance.class);
+	  
 
 	private ParameterBlockIQM pb = null; // @jve:decl-index=0:
 
@@ -124,7 +124,7 @@ public class OperatorGUI_WhiteBalance extends AbstractImageOperatorGUI
 	 * constructor
 	 */
 	public OperatorGUI_WhiteBalance() {
-		logger.debug("Now initializing...");
+		System.out.println("IQM:  Now initializing...");
 
 		this.setOpName(new IqmOpWhiteBalanceDescriptor().getName());
 
@@ -254,7 +254,7 @@ public class OperatorGUI_WhiteBalance extends AbstractImageOperatorGUI
 	 */
 	@Override
 	public void update() {
-		logger.debug("Updating GUI...");
+		System.out.println("IQM:  Updating GUI...");
 
 		PlanarImage pi = ((IqmDataBox) this.workPackage.getSources()
 				.get(0)).getImage();
@@ -575,7 +575,7 @@ public class OperatorGUI_WhiteBalance extends AbstractImageOperatorGUI
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		logger.debug(e.getActionCommand() + " event has been triggered.");
+		System.out.println("IQM:  "+e.getActionCommand() + " event has been triggered.");
 		if ("parameter".equals(e.getActionCommand())) {
 			if (e.getSource() == buttROI) { // get ROI information
 				jCheckBoxLinkIn.setSelected(false);
@@ -627,7 +627,7 @@ public class OperatorGUI_WhiteBalance extends AbstractImageOperatorGUI
 
 		// preview if selected
 		if (this.isAutoPreviewSelected()) {
-			logger.debug("Performing AutoPreview");
+			System.out.println("IQM:  Performing AutoPreview");
 			this.showPreview();
 		}
 
@@ -679,7 +679,7 @@ public class OperatorGUI_WhiteBalance extends AbstractImageOperatorGUI
 
 		// preview if selected
 		if (this.isAutoPreviewSelected()) {
-			logger.debug("Performing AutoPreview");
+			System.out.println("IQM:  Performing AutoPreview");
 			this.showPreview();
 		}
 	}

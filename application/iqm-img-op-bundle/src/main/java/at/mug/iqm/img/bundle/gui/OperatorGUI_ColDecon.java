@@ -37,8 +37,8 @@ import javax.swing.JRadioButton;
 import javax.swing.JPanel;
 import javax.swing.border.TitledBorder;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+ 
+ 
 
 import at.mug.iqm.api.operator.AbstractImageOperatorGUI;
 import at.mug.iqm.api.operator.ParameterBlockIQM;
@@ -57,7 +57,7 @@ public class OperatorGUI_ColDecon extends AbstractImageOperatorGUI implements
 	 */
 	private static final long serialVersionUID = 7696319497542112748L;
 	// class specific logger
-	private static final Logger logger = LogManager.getLogger(OperatorGUI_ColDecon.class);
+	  
 
 	private ParameterBlockIQM pb = null;
 
@@ -86,7 +86,7 @@ public class OperatorGUI_ColDecon extends AbstractImageOperatorGUI implements
 	 * constructor
 	 */
 	public OperatorGUI_ColDecon() {
-		logger.debug("Now initializing...");
+		System.out.println("IQM:  Now initializing...");
 
 		this.setOpName(new IqmOpColDeconDescriptor().getName());
 		this.initialize();
@@ -151,7 +151,7 @@ public class OperatorGUI_ColDecon extends AbstractImageOperatorGUI implements
 	 */
 	@Override
 	public void update() {
-		logger.debug("Updating GUI...");
+		System.out.println("IQM:  Updating GUI...");
 		// here, it does nothing
 	}
 
@@ -521,7 +521,7 @@ public class OperatorGUI_ColDecon extends AbstractImageOperatorGUI implements
 
 		// preview if selected
 		if (this.isAutoPreviewSelected()) {
-			logger.debug("Performing AutoPreview");
+			System.out.println("IQM:  Performing AutoPreview");
 			this.showPreview();
 		}
 

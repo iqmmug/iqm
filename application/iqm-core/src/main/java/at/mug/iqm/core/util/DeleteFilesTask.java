@@ -33,8 +33,8 @@ import java.io.File;
 
 import javax.swing.SwingWorker;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+ 
+ 
 
 import at.mug.iqm.config.ConfigManager;
 import at.mug.iqm.core.workflow.Manager;
@@ -50,7 +50,7 @@ import at.mug.iqm.core.workflow.Manager;
 public class DeleteFilesTask extends SwingWorker<Boolean, Void> {
 
 	// Logging variables
-	private static final Logger logger = LogManager.getLogger(DeleteFilesTask.class);
+	  
 
 	private String userDirName;
 
@@ -81,7 +81,7 @@ public class DeleteFilesTask extends SwingWorker<Boolean, Void> {
 	protected Boolean doInBackground() throws InterruptedException {
 		Thread.currentThread().setName("FileDeleter");
 		
-		logger.debug("Resetting GUI elements and releasing locks for temporary files...");
+		System.out.println("IQM:  Resetting GUI elements and releasing locks for temporary files...");
 		// release all locks for the files
 		Manager.getInstance().resetLeftModel(); // for an empty left manager
 												// list, this also resets the
@@ -97,7 +97,7 @@ public class DeleteFilesTask extends SwingWorker<Boolean, Void> {
 		// try 10 times, then exit
 		int attempts = 0;
 		while (success == false && attempts < 10) {
-			logger.debug("Attempt [" + attempts
+			System.out.println("IQM:  Attempt [" + attempts
 					+ " of 10] to delete the user data: [" + userDirName
 					+ "]...");
 			// count user files/directories in temp directory
@@ -110,11 +110,11 @@ public class DeleteFilesTask extends SwingWorker<Boolean, Void> {
 					Thread.sleep(500L);
 				} catch (InterruptedException e) {
 					// log the error message
-					logger.error("An error occurred: ", e);
+					System.out.println("IQM Error: An error occurred: " + e);
 					e.printStackTrace();
 				}
 			} else {
-				logger.info("Attempt [" + attempts
+				System.out.println("IQM Info: Attempt [" + attempts
 						+ " of 10] successfully deleted user data: ["
 						+ userDirName + "].");
 				success = true;
@@ -145,16 +145,16 @@ public class DeleteFilesTask extends SwingWorker<Boolean, Void> {
 					try {
 						boolean success = files[i].delete();
 						if (success) {
-							logger.trace("[" + files[i].getName()
+							System.out.println("IQM Trace: [" + files[i].getName()
 									+ "] has been deleted successfully!");
 						} else {
-							logger.error("["
+							System.out.println("IQM Error: ["
 									+ files[i].getName()
 									+ "] cannot be deleted! Maybe it is used by another process, "
 									+ "we'll try again at next application startup.");
 						}
 					} catch (SecurityException se) {
-						logger.error("Some temporary files could not be deleted! "
+						System.out.println("IQM Error: Some temporary files could not be deleted! "
 								+ "See log file for details. "
 								+ "We'll try again at next application startup.");
 					}
@@ -190,16 +190,16 @@ public class DeleteFilesTask extends SwingWorker<Boolean, Void> {
 			try {
 				success = dir.delete();
 				if (success) {
-					logger.trace("[" + dir.getName()
+					System.out.println("IQM Trace: [" + dir.getName()
 							+ "] has been deleted successfully!");
 				} else {
-					logger.error("["
+					System.out.println("IQM Error: ["
 							+ dir.getName()
 							+ "] cannot be deleted!  Maybe it is used by another process, "
 							+ "we'll try again at next application startup.");
 				}
 			} catch (SecurityException se) {
-				logger.error("Some temporary files could not be deleted! We'll try again at next application startup.");
+				System.out.println("IQM Error: Some temporary files could not be deleted! We'll try again at next application startup.");
 			}
 		} else {
 			success = false;

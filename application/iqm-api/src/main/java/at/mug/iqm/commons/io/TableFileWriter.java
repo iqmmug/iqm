@@ -38,8 +38,8 @@ import javax.swing.JTable;
 import javax.swing.event.TableModelListener;
 import javax.swing.table.DefaultTableModel;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+ 
+ 
 
 import at.mug.iqm.api.Application;
 import at.mug.iqm.api.I18N;
@@ -64,7 +64,7 @@ import at.mug.iqm.commons.util.table.TableTools;
 public class TableFileWriter implements Runnable {
 
 	// private logging
-	private static final Logger logger = LogManager.getLogger(TableFileWriter.class);
+	  
 
 	/**
 	 * Saves a table as single file.
@@ -335,7 +335,7 @@ public class TableFileWriter implements Runnable {
 
 			} catch (Exception e) {
 				e.printStackTrace();
-				logger.error("An error occurred: ", e);
+				System.out.println("IQM Error: An error occurred: " + e);
 				DialogUtil.getInstance().showErrorMessage(I18N.getMessage("application.error.generic"), e);
 			}
 		}
@@ -344,7 +344,7 @@ public class TableFileWriter implements Runnable {
 		BoardPanel.appendTextln(I18N.getMessage("application.tableSequSaved",
 				(storedFileNames.size() > 15) ? storedFileNames.subList(0, 15)+ ", ..." : storedFileNames));
 		// log ALL saved files anyway
-		logger.info("Saved image sequence with encoding " + ": "+ storedFileNames.toString());
+		System.out.println("IQM Info: Saved image sequence with encoding " + ": "+ storedFileNames.toString());
 
 		// reset progress bar
 		Application.getMainFrame().getStatusPanel().setProgressBarValueStack(0);
@@ -366,7 +366,7 @@ public class TableFileWriter implements Runnable {
 				break;
 			}
 		} catch (IOException e) {
-			logger.error("Error writing file!", e);
+			System.out.println("IQM Error: Error writing file!"+ e);
 		}
 	}
 

@@ -40,8 +40,8 @@ import javax.imageio.ImageIO;
 import javax.media.jai.JAI;
 import javax.media.jai.PlanarImage;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+ 
+ 
 
 import at.mug.iqm.api.Application;
 import at.mug.iqm.api.I18N;
@@ -69,7 +69,7 @@ import com.sun.media.jai.codec.TIFFEncodeParam;
 public class ImageFileWriter implements Runnable {
 
 	// private class logger
-	private static final Logger logger = LogManager.getLogger(ImageFileWriter.class);
+	  
 
 	public static final int MODE_SINGLE = 0;
 	public static final int MODE_SEQUENCE = 1;
@@ -245,7 +245,7 @@ public class ImageFileWriter implements Runnable {
 				break;
 			}
 		} catch (IOException e) {
-			logger.error("Error writing file!", e);
+			System.out.println("IQM Error: Error writing file!" + e);
 		}
 	}
 
@@ -265,7 +265,7 @@ public class ImageFileWriter implements Runnable {
 			}
 		}
 
-		logger.info("Saving single image with encoding: " + encoding);
+		System.out.println("IQM Info: Saving single image with encoding: " + encoding);
 
 		// write ROIs to file, if required
 		if (isWithROIs()) {
@@ -280,7 +280,7 @@ public class ImageFileWriter implements Runnable {
 		try { // try imageIO
 			ImageIO.write(image, encoding, destination);
 		} catch (Exception ex) {
-			logger.error("It was not possible to write this image to: " + destination.getPath());
+			System.out.println("IQM Error: It was not possible to write this image to: " + destination.getPath());
 		}
 		
 		//JAI does not work any more for jpg since Java9+
@@ -494,12 +494,12 @@ public class ImageFileWriter implements Runnable {
 			try { // try imageIO
 				ImageIO.write(pi, encoding, new File(fileName));
 			} catch (Exception ex) {
-				logger.error("It was not possible to write this image to: " + destination.getPath());
+				System.out.println("IQM Error: It was not possible to write this image to: " + destination.getPath());
 			}
 			// write the image  JAI does not work any more for jpg since Java9+
 			//JAI.create("filestore", pi, fileName, encoding);
 
-			logger.info("Successfully stored image [" + fileName + "].");
+			System.out.println("IQM Info: Successfully stored image [" + fileName + "].");
 		}
 
 		// print to board
@@ -523,7 +523,7 @@ public class ImageFileWriter implements Runnable {
 
 		int length = boxes.size();
 
-		logger.debug("Number of images to save to stack: " + length);
+		System.out.println("IQM:  Number of images to save to stack: " + length);
 
 		PlanarImage pi = null;
 		PlanarImage piFirst = null;

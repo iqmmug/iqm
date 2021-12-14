@@ -46,8 +46,8 @@ import javax.swing.SwingWorker;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+ 
+ 
 
 import at.mug.iqm.api.Application;
 import at.mug.iqm.api.IApplicationStarter;
@@ -93,7 +93,7 @@ import at.mug.iqm.gui.util.GUITools;
 public class ApplicationStarter extends SwingWorker<Void, Void> implements
 		IApplicationStarter {
 
-	private static final Logger logger = LogManager.getLogger(ApplicationStarter.class);
+	  
 
 	// define the partial title of the MainFrame
 	// set this to the project number e.g. 3.1 in IQMConstants
@@ -126,7 +126,7 @@ public class ApplicationStarter extends SwingWorker<Void, Void> implements
 	 */
 	@Override
 	protected Void doInBackground() throws Exception {
-		logger.debug("Initializing application and constructing GUI elements...");
+		System.out.println("IQM:  Initializing application and constructing GUI elements...");
 
 		// check for configuration files and its contents
 		this.initConfiguration();
@@ -156,7 +156,7 @@ public class ApplicationStarter extends SwingWorker<Void, Void> implements
 
 		this.updateDynamicWelcomeText("Done, application is launching...");
 
-		logger.debug("Done.");
+		System.out.println("IQM:  Done.");
 		return null;
 	}
 
@@ -178,11 +178,11 @@ public class ApplicationStarter extends SwingWorker<Void, Void> implements
 			Application.setMemoryMonitor(memoryMonitorThread);
 		} catch (SecurityException se) {
 			// log the message
-			logger.error("Could not start thread memory monitor. ", se);
+			System.out.println("IQM Error: Could not start thread memory monitor. "+ se);
 		} catch (IllegalThreadStateException itse) {
 			// log the message
-			logger.error("Thread " + memoryMonitorThread.getName()
-					+ " has already been started. ", itse);
+			System.out.println("IQM Error: Thread " + memoryMonitorThread.getName()
+					+ " has already been started. "+ itse);
 		}
 	}
 
@@ -242,15 +242,15 @@ public class ApplicationStarter extends SwingWorker<Void, Void> implements
 			System.gc();
 
 		} catch (InterruptedException e1) {
-			logger.fatal("", e1);
+			System.out.println("IQM Fatal: "+ e1);
 			DialogUtil.getInstance().showErrorMessage(null, e1, true);
 			System.exit(-1);
 		} catch (ExecutionException e1) {
-			logger.fatal("", e1);
+			System.out.println("IQM Fatal: "+ e1);
 			DialogUtil.getInstance().showErrorMessage(null, e1, true);
 			System.exit(-1);
 		} catch (Exception e) {
-			logger.fatal("", e);
+			System.out.println("IQM Fatal: "+ e);
 			DialogUtil.getInstance().showErrorMessage(null, e, true);
 			System.exit(-1);
 		}
@@ -365,7 +365,7 @@ public class ApplicationStarter extends SwingWorker<Void, Void> implements
 
 			} catch (Exception e) {
 				e.printStackTrace();
-				logger.error("An error occurred: ", e);
+				System.out.println("IQM Error: An error occurred: " + e);
 				DialogUtil.getInstance().showErrorMessage(
 						I18N.getMessage("application.exception.config.invalid",
 								System.getProperty("user.home")
@@ -406,25 +406,25 @@ public class ApplicationStarter extends SwingWorker<Void, Void> implements
 		} catch (ClassNotFoundException e) {
 			// log the error message
 			DialogUtil.getInstance().showErrorMessage(null, e, true);
-			logger.error("An error occurred: ", e);
+			System.out.println("IQM Error: An error occurred: " + e);
 			e.printStackTrace();
 			System.exit(-1);
 		} catch (InstantiationException e) {
 			// log the error message
 			DialogUtil.getInstance().showErrorMessage(null, e, true);
-			logger.error("An error occurred: ", e);
+			System.out.println("IQM Error: An error occurred: " + e);
 			e.printStackTrace();
 			System.exit(-1);
 		} catch (IllegalAccessException e) {
 			// log the error message
 			DialogUtil.getInstance().showErrorMessage(null, e, true);
-			logger.error("An error occurred: ", e);
+			System.out.println("IQM Error: An error occurred: " + e);
 			e.printStackTrace();
 			System.exit(-1);
 		} catch (UnsupportedLookAndFeelException e) {
 			// log the error message
 			DialogUtil.getInstance().showErrorMessage(null, e, true);
-			logger.error("An error occurred: ", e);
+			System.out.println("IQM Error: An error occurred: " + e);
 			e.printStackTrace();
 			System.exit(-1);
 		}
@@ -444,7 +444,7 @@ public class ApplicationStarter extends SwingWorker<Void, Void> implements
 			long interval = configManager.getIQMConfig()
 					.getApplication().getCleanerTask().getInterval();
 			
-			logger.debug("The cleaner task interval is set to " + interval);
+			System.out.println("IQM:  The cleaner task interval is set to " + interval);
 			
 			if (interval > 0){
 				this.updateDynamicWelcomeText("Running cleaner task...");
@@ -463,12 +463,12 @@ public class ApplicationStarter extends SwingWorker<Void, Void> implements
 		} catch (SecurityException se) {
 			// log the message
 			se.printStackTrace();
-			logger.error("Could not start thread cleaner task. ", se);
+			System.out.println("IQM Error: Could not start thread cleaner task. "+ se);
 		} catch (IllegalThreadStateException itse) {
 			// log the message
 			itse.printStackTrace();
-			logger.error("Thread " + cleanerTaskThread.getName()
-					+ " has already been started. ", itse);
+			System.out.println("IQM Error: Thread " + cleanerTaskThread.getName()
+					+ " has already been started. "+ itse);
 		} 
 	}
 

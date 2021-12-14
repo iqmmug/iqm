@@ -55,8 +55,8 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.text.InternationalFormatter;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+ 
+ 
 
 import at.mug.iqm.api.operator.AbstractImageOperatorGUI;
 import at.mug.iqm.api.operator.ParameterBlockIQM;
@@ -76,7 +76,7 @@ public class OperatorGUI_Statistics extends AbstractImageOperatorGUI implements
 	private static final long serialVersionUID = -8574040031822506518L;
 
 	// class specific logger
-	private static final Logger logger = LogManager.getLogger(OperatorGUI_Statistics.class);
+	  
 
 	private ParameterBlockIQM pb = null;
 
@@ -115,7 +115,7 @@ public class OperatorGUI_Statistics extends AbstractImageOperatorGUI implements
 	 * constructor
 	 */
 	public OperatorGUI_Statistics() {
-		logger.debug("Now initializing...");
+		System.out.println("IQM:  Now initializing...");
 
 		this.setOpName(new IqmOpStatisticsDescriptor().getName());
 		this.initialize();
@@ -278,7 +278,7 @@ public class OperatorGUI_Statistics extends AbstractImageOperatorGUI implements
 	 */
 	@Override
 	public void update() {
-		logger.debug("Updating GUI...");
+		System.out.println("IQM:  Updating GUI...");
 		// here, it does nothing
 	}
 
@@ -639,7 +639,7 @@ public class OperatorGUI_Statistics extends AbstractImageOperatorGUI implements
 	// ----------------------------------------------------------------------------------------------------------
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		logger.debug(e.getActionCommand() + " event has been triggered.");
+		System.out.println("IQM:  "+e.getActionCommand() + " event has been triggered.");
 		if ("parameter".equals(e.getActionCommand())) {
 			if (jCheckBoxOrder2 == e.getSource()) {
 				if (jCheckBoxOrder2.isSelected()) {
@@ -654,7 +654,7 @@ public class OperatorGUI_Statistics extends AbstractImageOperatorGUI implements
 
 		// preview if selected
 		if (this.isAutoPreviewSelected()) {
-			logger.debug("Performing AutoPreview");
+			System.out.println("IQM:  Performing AutoPreview");
 			this.showPreview();
 		}
 
@@ -676,7 +676,7 @@ public class OperatorGUI_Statistics extends AbstractImageOperatorGUI implements
 
 		// preview if selected
 		if (this.isAutoPreviewSelected()) {
-			logger.debug("Performing AutoPreview");
+			System.out.println("IQM:  Performing AutoPreview");
 			this.showPreview();
 		}
 

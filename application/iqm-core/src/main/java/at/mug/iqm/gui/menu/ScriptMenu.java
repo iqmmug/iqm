@@ -42,8 +42,8 @@ import javax.swing.JFileChooser;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+ 
+ 
 
 import at.mug.iqm.api.gui.IDialogUtil;
 import at.mug.iqm.api.gui.ScriptEditor;
@@ -67,7 +67,7 @@ public class ScriptMenu extends JMenu implements ActionListener {
 	private static final long serialVersionUID = 5914103324270969214L;
 
 	// class specific logger
-	private static final Logger logger = LogManager.getLogger(ScriptMenu.class);
+	  
 
 	// class variable declaration
 	// private JMenuItem neighDilMenuItem;
@@ -85,7 +85,7 @@ public class ScriptMenu extends JMenu implements ActionListener {
 	 * equipped ScriptMenu.
 	 */
 	public ScriptMenu() {
-		logger.debug("Generating new instance of 'script' menu.");
+		System.out.println("IQM:  Generating new instance of 'script' menu.");
 
 		this.setIcon(new ImageIcon(Resources.getImageURL("icon.menu.script")));
 
@@ -97,14 +97,14 @@ public class ScriptMenu extends JMenu implements ActionListener {
 		// assemble the gui elements to a JMenu
 		this.createAndAssembleMenu();
 
-		logger.debug("Menu 'script' generated.");
+		System.out.println("IQM:  Menu 'script' generated.");
 	}
 
 	/**
 	 * This method constructs the items.
 	 */
 	private void createAndAssembleMenu() {
-		logger.debug("Assembling menu items to 'script' menu.");
+		System.out.println("IQM:  Assembling menu items to 'script' menu.");
 
 		// set menu attributes
 		setText(I18N.getGUILabelText("menu.script.text"));
@@ -203,7 +203,7 @@ public class ScriptMenu extends JMenu implements ActionListener {
 	}
 
 	public void buildInstalledScriptsMenu() {
-		logger.debug("Parsing installed script files...");
+		System.out.println("IQM:  Parsing installed script files...");
 
 		// clear list and menu
 		scriptList.clear();
@@ -216,7 +216,7 @@ public class ScriptMenu extends JMenu implements ActionListener {
 			scriptPath = ConfigManager.getCurrentInstance().getDefaultIqmScriptPath();
 			scriptPath = ConfigManager.getCurrentInstance().getScriptPath();
 		} catch (Exception e) {
-			logger.error("Configuration error, no manager available. ", e);
+			System.out.println("IQM Error: Configuration error, no manager available. "+ e);
 		}
 
 		File[] allFiles = scriptPath.listFiles();
@@ -313,7 +313,7 @@ public class ScriptMenu extends JMenu implements ActionListener {
 					FileTools.copyFile(src, dest);
 				}
 			} catch (Exception e) {
-				logger.error("",e);
+				System.out.println("IQM Error: "+ e);
 			}
 		}
 		
@@ -364,7 +364,7 @@ public class ScriptMenu extends JMenu implements ActionListener {
 					FileTools.copyFile(src, dest);
 				}
 			} catch (Exception e) {
-				logger.error("",e);
+				System.out.println("IQM Error: "+ e);
 			}
 		}
 		

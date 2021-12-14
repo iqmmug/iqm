@@ -35,8 +35,8 @@ import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+ 
+ 
 
 import at.mug.iqm.api.Application;
 import at.mug.iqm.api.I18N;
@@ -60,7 +60,7 @@ public class SavePlotDataDialog extends AbstractTableSavingDialog {
 
 	// Logging variables
 	@SuppressWarnings("unused")
-	private static final Logger logger = LogManager.getLogger(SavePlotDataDialog.class);
+	  
 
 	/**
 	 * Standard constructor.

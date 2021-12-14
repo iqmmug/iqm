@@ -34,8 +34,8 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JMenuItem;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+ 
+ 
 
 import at.mug.iqm.api.gui.OperatorMenuItem;
 import at.mug.iqm.api.operator.OperatorType;
@@ -60,7 +60,7 @@ public class EnhanceMenu extends DeactivatableMenu implements ActionListener {
 	private static final long serialVersionUID = 5333828789266605725L;
 
 	// class specific logger
-	private static final Logger logger = LogManager.getLogger(EnhanceMenu.class);
+	  
 
 	// class variable declaration
 	private OperatorMenuItem edgeMenuItem;
@@ -77,7 +77,7 @@ public class EnhanceMenu extends DeactivatableMenu implements ActionListener {
 	 */
 	public EnhanceMenu() {
 
-		logger.debug("Generating new instance of 'enhance' menu.");
+		System.out.println("IQM:  Generating new instance of 'enhance' menu.");
 
 		// initialize the variables
 		this.edgeMenuItem = new OperatorMenuItem(OperatorType.IMAGE);
@@ -90,14 +90,14 @@ public class EnhanceMenu extends DeactivatableMenu implements ActionListener {
 		// assemble the gui elements to a JMenu
 		this.createAndAssembleMenu();
 
-		logger.debug("Menu 'enhance' generated.");
+		System.out.println("IQM:  Menu 'enhance' generated.");
 	}
 
 	/**
 	 * This method constructs the items.
 	 */
 	private void createAndAssembleMenu() {
-		logger.debug("Assembling menu items to the enhance menu.");
+		System.out.println("IQM:  Assembling menu items to the enhance menu.");
 
 		// set menu attributes
 		this.setText(I18N.getGUILabelText("menu.enhance.text"));
@@ -216,7 +216,7 @@ public class EnhanceMenu extends DeactivatableMenu implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 
-		logger.debug(e.getActionCommand());
+		System.out.println("IQM:  "+e.getActionCommand());
 
 		if ("edge".equals(e.getActionCommand())) {
 			ExecutionProxy.launchInstance(new IqmOpEdgeDescriptor());

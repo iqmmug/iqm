@@ -43,8 +43,8 @@ import javax.swing.JRadioButton;
 import javax.swing.JPanel;
 import javax.swing.border.TitledBorder;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+ 
+ 
 
 import at.mug.iqm.api.operator.AbstractImageOperatorGUI;
 import at.mug.iqm.api.operator.ParameterBlockIQM;
@@ -64,7 +64,7 @@ public class OperatorGUI_TempMatch extends AbstractImageOperatorGUI implements
 	private static final long serialVersionUID = 101857840809416483L;
 
 	// class specific logger
-	private static final Logger logger = LogManager.getLogger(OperatorGUI_Invert.class);
+	  
 
 	private ParameterBlockIQM pbJAI = null;
 
@@ -78,7 +78,7 @@ public class OperatorGUI_TempMatch extends AbstractImageOperatorGUI implements
 	 * constructor
 	 */
 	public OperatorGUI_TempMatch() {
-		logger.debug("Now initializing...");
+		System.out.println("IQM:  Now initializing...");
 
 		this.setOpName(new IqmOpTempMatchDescriptor().getName());
 		this.initialize();
@@ -126,7 +126,7 @@ public class OperatorGUI_TempMatch extends AbstractImageOperatorGUI implements
 	 */
 	@Override
 	public void update() {
-		logger.debug("Updating GUI...");
+		System.out.println("IQM:  Updating GUI...");
 		// here, it does nothing
 	}
 
@@ -211,7 +211,7 @@ public class OperatorGUI_TempMatch extends AbstractImageOperatorGUI implements
 
 		// preview if selected
 		if (this.isAutoPreviewSelected()) {
-			logger.debug("Performing AutoPreview");
+			System.out.println("IQM:  Performing AutoPreview");
 			this.showPreview();
 		}
 
@@ -223,7 +223,7 @@ public class OperatorGUI_TempMatch extends AbstractImageOperatorGUI implements
 
 		// preview if selected
 		if (this.isAutoPreviewSelected()) {
-			logger.debug("Performing AutoPreview");
+			System.out.println("IQM:  Performing AutoPreview");
 			this.showPreview();
 		}
 	}

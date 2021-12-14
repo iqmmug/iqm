@@ -53,8 +53,8 @@ import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.MatteBorder;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+ 
+ 
 
 import at.mug.iqm.api.gui.ITextPanel;
 import at.mug.iqm.commons.util.DialogUtil;
@@ -74,7 +74,7 @@ public class TextPanel extends JPanel implements ITextPanel, ActionListener {
 	private static final long serialVersionUID = -985683849398150097L;
 
 	// class specific logger
-	private static final Logger logger = LogManager.getLogger(TextPanel.class);
+	  
 
 	// class variable declaration
 	private final JTextPane textPane = new JTextPane();
@@ -100,7 +100,7 @@ public class TextPanel extends JPanel implements ITextPanel, ActionListener {
 	public TextPanel() {
 		super();
 		setBackground(Color.GRAY);
-		logger.debug("Creating new instance...");
+		System.out.println("IQM:  Creating new instance...");
 		
 		setBorder(new MatteBorder(5, 1, 1, 1, (Color) Color.GRAY));
 		this.createAndAssemble();

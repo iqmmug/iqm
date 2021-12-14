@@ -41,8 +41,8 @@ import java.util.concurrent.ExecutionException;
 import javax.media.jai.PlanarImage;
 import javax.swing.DefaultListModel;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+ 
+ 
 
 import at.mug.iqm.api.gui.BoardPanel;
 import at.mug.iqm.api.model.IDataModel;
@@ -77,7 +77,7 @@ public class ImageDataBoxLoader extends AbstractProcessingTask {
 	/**
 	 * Logger variable.
 	 */
-	private static final Logger logger = LogManager.getLogger(ImageDataBoxLoader.class);
+	  
 
 	/**
 	 * The progress publishing {@link PropertyChangeSupport}.
@@ -220,7 +220,7 @@ public class ImageDataBoxLoader extends AbstractProcessingTask {
 			int proz = (i + 1) * 100;
 			proz = proz / nFiles;
 
-			logger.debug("Loading image file #: " + (i + 1) + " of " + nFiles);
+			System.out.println("IQM:  Loading image file #: " + (i + 1) + " of " + nFiles);
 
 			// get file info
 			File file = fileList[i];
@@ -292,9 +292,9 @@ public class ImageDataBoxLoader extends AbstractProcessingTask {
 		File virtDir = VirtualDataManager.getNewVirtualDirectory();
 		boolean success = virtDir.mkdir();
 		if (success) {
-			logger.info("Created directory: " + virtDir.toString());
+			System.out.println("IQM Info: Created directory: " + virtDir.toString());
 		} else {
-			logger.error("Unable to create directory:  " + virtDir.toString());
+			System.out.println("IQM Error: Unable to create directory:  " + virtDir.toString());
 			DialogUtil.getInstance().showDefaultErrorMessage(
 					I18N.getMessage(
 							"application.tank.error.virtDirCreate.failed",
@@ -311,7 +311,7 @@ public class ImageDataBoxLoader extends AbstractProcessingTask {
 			int proz = (i + 1) * 100;
 			proz = proz / nFiles;
 
-			logger.debug("Loading image file #: " + (i + 1) + " of " + nFiles);
+			System.out.println("IQM:  Loading image file #: " + (i + 1) + " of " + nFiles);
 
 			// get file info
 			File file = fileList[i];
@@ -364,7 +364,7 @@ public class ImageDataBoxLoader extends AbstractProcessingTask {
 
 		} // END FOR LOOP
 
-		logger.info("Virtual image(s) stored in " + virtDir.toString());
+		System.out.println("IQM Info: Virtual image(s) stored in " + virtDir.toString());
 
 		return boxList;
 	}

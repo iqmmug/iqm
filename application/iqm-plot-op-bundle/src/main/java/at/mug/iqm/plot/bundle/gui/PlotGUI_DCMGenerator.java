@@ -56,8 +56,8 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.text.InternationalFormatter;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+ 
+ 
 
 import at.mug.iqm.api.operator.AbstractPlotOperatorGUI;
 import at.mug.iqm.api.operator.ParameterBlockIQM;
@@ -76,7 +76,7 @@ public class PlotGUI_DCMGenerator extends AbstractPlotOperatorGUI implements
 	 */
 	private static final long serialVersionUID = -8557561248409563634L;
 
-	private static final Logger logger = LogManager.getLogger(PlotGUI_DCMGenerator.class);
+	  
 
 	private ParameterBlockIQM pb;
 
@@ -105,7 +105,7 @@ public class PlotGUI_DCMGenerator extends AbstractPlotOperatorGUI implements
 	private JPanel   jPanelDCMParameters   = null;
 
 	public PlotGUI_DCMGenerator() {
-		logger.debug("Now initializing...");
+		System.out.println("IQM:  Now initializing...");
 
 		this.setOpName(new PlotOpDCMGeneratorDescriptor().getName());
 		this.initialize();
@@ -462,7 +462,7 @@ public class PlotGUI_DCMGenerator extends AbstractPlotOperatorGUI implements
 	@Override
 	public void actionPerformed(ActionEvent e) {
 
-		logger.debug(e.getActionCommand() + " event has been triggered.");
+		System.out.println("IQM:  "+e.getActionCommand() + " event has been triggered.");
 		if ("parameter".equals(e.getActionCommand())) {
 
 			if (e.getSource() == buttLogistic) {

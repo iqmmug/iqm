@@ -29,8 +29,8 @@ package at.mug.iqm.cleaner;
  */
 
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+ 
+ 
 
 /**
  * This task performs a <code>System.gc()</code> every given interval, so that 
@@ -41,7 +41,7 @@ import org.apache.logging.log4j.Logger;
 public class CleanerTask implements Runnable {
 
 	// class specific logger
-	private static final Logger logger = LogManager.getLogger(CleanerTask.class);
+	  
 
 	/**
 	 * The sleep sleepDelay for this thread in Milliseconds. Default is 10.000 ms.
@@ -70,7 +70,7 @@ public class CleanerTask implements Runnable {
 	 */
 	@Override
 	public void run() {
-		logger.debug("Cleaner thread is being executed.");
+		System.out.println("IQM:  Cleaner thread is being executed.");
 		
 		// do forever
 		while (true){
@@ -79,7 +79,7 @@ public class CleanerTask implements Runnable {
 				Thread.sleep(this.sleepDelay);
 				this.clean();
 			}catch (InterruptedException e) {
-				logger.error("An error occurred: ", e);
+				System.out.println("IQM Error: An error occurred: " + e);
 			}
 		}
 	}
@@ -97,9 +97,9 @@ public class CleanerTask implements Runnable {
 
 		// log the freed memory amount
 		if (diff > 0){
-			logger.trace("I was able to free " + String.valueOf(diff) + " MBytes of RAM! Running again in " + sleepDelay/1000 + " seconds.");
+			System.out.println("IQM Trace: I was able to free " + String.valueOf(diff) + " MBytes of RAM! Running again in " + sleepDelay/1000 + " seconds.");
 		}else {
-			logger.trace("I'm sorry, but I was not able to free any memory! Running again in " + sleepDelay/1000 + " seconds.");
+			System.out.println("IQM Trace: I'm sorry, but I was not able to free any memory! Running again in " + sleepDelay/1000 + " seconds.");
 		}
 	}
 	
@@ -116,9 +116,9 @@ public class CleanerTask implements Runnable {
 
 		// log the freed memory amount
 		if (diff > 0){
-			logger.info("I was able to free " + String.valueOf(diff) + " MBytes of RAM!");
+			System.out.println("IQM Info: I was able to free " + String.valueOf(diff) + " MBytes of RAM!");
 		}else {
-			logger.info("I'm sorry, but I was not able to free any memory!");
+			System.out.println("IQM Info: I'm sorry, but I was not able to free any memory!");
 		}
 	}
 

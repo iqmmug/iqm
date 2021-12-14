@@ -31,8 +31,8 @@ package at.mug.iqm.core.workflow;
 
 import java.util.List;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+ 
+ 
 
 import at.mug.iqm.api.Application;
 import at.mug.iqm.api.IQMConstants;
@@ -51,7 +51,7 @@ import at.mug.iqm.gui.util.GUITools;
 public final class Table implements ITable {
 
 	// class specific logger
-	private static final Logger logger = LogManager.getLogger(Table.class);
+	  
 
 	/**
 	 * The current {@link ITablePanel} instance to control.
@@ -97,7 +97,7 @@ public final class Table implements ITable {
 	 */
 	@Override
 	public void setNewData(TableModel tableModel) {
-		logger.debug("Setting new data...");
+		System.out.println("IQM:  Setting new data...");
 		this.tablePanel.setTableModel(tableModel);
 		updateMainFrameTitle();
 	}
@@ -109,7 +109,7 @@ public final class Table implements ITable {
 	 */
 	@Override
 	public void setNewData(List<TableModel> tableModels) {
-		logger.debug("Setting new multiple data...");
+		System.out.println("IQM:  Setting new multiple data...");
 		this.tablePanel.setTableModels(tableModels);
 		updateMainFrameTitle();
 	}
@@ -161,7 +161,7 @@ public final class Table implements ITable {
 							IQMConstants.APPLICATION_VERSION, modelName));
 
 		} catch (Exception ex) {
-			logger.error("Cannot update main frame title from tables: ", ex);
+			System.out.println("IQM Error: Cannot update main frame title from tables: "+ ex);
 		}
 	}
 }

@@ -47,8 +47,8 @@ import javax.swing.JSlider;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+ 
+ 
 
 import at.mug.iqm.api.Application;
 import at.mug.iqm.api.Resources;
@@ -65,7 +65,7 @@ public class IqmSlideShow extends JFrame implements ActionListener, WindowListen
 	private static final long serialVersionUID = 69330638302674941L;
 	
 	// class specific logger
-	private static final Logger logger = LogManager.getLogger(IqmSlideShow.class);
+	  
 	
 	// variable declaration
 	private SlideShow  slideSh;  //  @jve:decl-index=0:
@@ -84,7 +84,7 @@ public class IqmSlideShow extends JFrame implements ActionListener, WindowListen
 	public IqmSlideShow() {
 		  
 		  super();
-		  logger.debug("Creating a new instance of '" + this.getClass().getName() +
+		  System.out.println("IQM:  Creating a new instance of '" + this.getClass().getName() +
 		  		"'.");
 		  
 		  this.setTitle("Slide Show");
@@ -115,7 +115,7 @@ public class IqmSlideShow extends JFrame implements ActionListener, WindowListen
 	      this.getContentPane().add(this.createJLabelPlayDelay());
 	      this.getContentPane().add(this.createJSliderPlayDelay());
 	      
-	      logger.debug("IqmSlideShow constructed, will now be set to visible.");      
+	      System.out.println("IQM:  IqmSlideShow constructed, will now be set to visible.");      
 	}
 	
 	/**
@@ -144,7 +144,7 @@ public class IqmSlideShow extends JFrame implements ActionListener, WindowListen
         	threadStopped   = true;
         	//interrupt();
         	slideSh = null;
-        	logger.debug(this.getName() + " has been stopped.");
+        	System.out.println("IQM:  "+this.getName() + " has been stopped.");
         }
        
         /**
@@ -162,7 +162,7 @@ public class IqmSlideShow extends JFrame implements ActionListener, WindowListen
            		max = Application.getManager().getManagerModelRight().getSize();
 
             while(!threadStopped){          
-        		logger.debug("Slideshow is running");
+        		System.out.println("IQM:  Slideshow is running");
             	for (int i=0; i<max; i++){
                    	try{
                    		long delay = jSliderPlayDelay.getValue();
@@ -183,7 +183,7 @@ public class IqmSlideShow extends JFrame implements ActionListener, WindowListen
                         }
     	        	}
                    	catch(InterruptedException e){
-                   		logger.error("An error occurred: ", e);
+                   		System.out.println("IQM Error: An error occurred: " + e);
                    	}
             	}   	
             }    
@@ -279,7 +279,7 @@ public class IqmSlideShow extends JFrame implements ActionListener, WindowListen
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if ("play".equals(e.getActionCommand())) {
-			logger.info("Starting to play");
+			System.out.println("IQM Info: Starting to play");
 			this.slideSh = new SlideShow();
 			this.threadSuspended = false;
 			this.threadStopped   = false;
@@ -291,17 +291,17 @@ public class IqmSlideShow extends JFrame implements ActionListener, WindowListen
 				threadSuspended = !threadSuspended;
 		        if (!threadSuspended){
                   	synchronized(this.slideSh) {
-                  	logger.info("Restarting to play");
+                  	System.out.println("IQM Info: Restarting to play");
 		            slideSh.notify();
                   	}
 		        }
 		        else{
-		        	logger.info("Pause playing");
+		        	System.out.println("IQM Info: Pause playing");
 		        }
 			}
 		}
 		if ("stop".equals(e.getActionCommand())) {
-			logger.info("Stopping playing");
+			System.out.println("IQM Info: Stopping playing");
 			if (this.slideSh != null){
 				this.slideSh.cancel();
 			}
@@ -318,7 +318,7 @@ public class IqmSlideShow extends JFrame implements ActionListener, WindowListen
 	}
 	@Override
 	public void windowClosing(WindowEvent arg0) {
-		logger.info("Slideshow canceled");
+		System.out.println("IQM Info: Slideshow canceled");
 		if (this.slideSh != null){
 			this.slideSh.cancel();
 		}
@@ -349,7 +349,7 @@ public class IqmSlideShow extends JFrame implements ActionListener, WindowListen
 			if (obE == this.jSliderPlayDelay){
 				int delay =  this.jSliderPlayDelay.getValue();
 				this.jLabelPlayDelay.setText("Delay: " + delay + " [s] "); 
-				logger.debug("Updating JLabelPlayDelay to " + delay + "s");
+				System.out.println("IQM:  Updating JLabelPlayDelay to " + delay + "s");
 			}
 		
 		}

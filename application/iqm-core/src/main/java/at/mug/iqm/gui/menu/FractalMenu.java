@@ -35,8 +35,8 @@ import java.awt.event.ActionListener;
 import javax.swing.ImageIcon;
 import javax.swing.JMenuItem;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+ 
+ 
 
 import at.mug.iqm.api.gui.OperatorMenuItem;
 import at.mug.iqm.api.operator.OperatorType;
@@ -70,7 +70,7 @@ public class FractalMenu extends DeactivatableMenu implements ActionListener {
 	private static final long serialVersionUID = -3554830035229045459L;
 
 	// class specific logger
-	private static final Logger logger = LogManager.getLogger(FractalMenu.class);
+	  
 
 	// class variable declaration
 	private OperatorMenuItem fracIFSMenuItem;
@@ -94,7 +94,7 @@ public class FractalMenu extends DeactivatableMenu implements ActionListener {
 	 * equipped FractalMenu.
 	 */
 	public FractalMenu() {
-		logger.debug("Generating new instance of 'fractal' menu.");
+		System.out.println("IQM:  Generating new instance of 'fractal' menu.");
 
 		// initialize the variables
 		this.fracIFSMenuItem          = new OperatorMenuItem(OperatorType.IMAGE_GENERATOR);
@@ -115,14 +115,14 @@ public class FractalMenu extends DeactivatableMenu implements ActionListener {
 		// assemble the gui elements to a JMenu
 		this.createAndAssembleMenu();
 
-		logger.debug("Menu 'fractal' generated.");
+		System.out.println("IQM:  Menu 'fractal' generated.");
 	}
 
 	/**
 	 * This method constructs the items.
 	 */
 	private void createAndAssembleMenu() {
-		logger.debug("Assembling menu items in 'fractal' menu.");
+		System.out.println("IQM:  Assembling menu items in 'fractal' menu.");
 
 		// set menu attributes
 		this.setText(I18N.getGUILabelText("menu.fractal.text"));
@@ -414,7 +414,7 @@ public class FractalMenu extends DeactivatableMenu implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 
-		logger.debug(e.getActionCommand());
+		System.out.println("IQM:  "+e.getActionCommand());
 
 		if ("fracifs".equals(e.getActionCommand())) {
 			ExecutionProxy.launchInstance(new IqmOpFracIFSDescriptor());

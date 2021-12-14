@@ -47,8 +47,8 @@ import javax.xml.transform.stream.StreamSource;
 import javax.xml.validation.Schema;
 import javax.xml.validation.SchemaFactory;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+ 
+ 
 import org.xml.sax.SAXException;
 
 import at.mug.iqm.api.IQMConstants;
@@ -72,7 +72,7 @@ import at.mug.iqm.config.jaxb.Paths;
  */
 public class ConfigManager {
 	// class specific logger
-	private static final Logger logger = LogManager.getLogger(ConfigManager.class);
+	  
 
 	private static ConfigManager currentConfigManager = null;
 
@@ -111,12 +111,12 @@ public class ConfigManager {
 	 * Create a new instance of the configuration manager.
 	 */
 	private ConfigManager() throws JAXBException {
-		logger.debug("Initializing configuration in " + this.getClass() + "...");
+		System.out.println("IQM:  Initializing configuration in " + this.getClass() + "...");
 
 		this.loadDefaultConfiguration();
 
-		logger.info("User root IQM directory: " + DEFAULT_IQM_ROOT_DIR);
-		logger.info("Default configuration file stream (packed in JAR): "
+		System.out.println("IQM Info: User root IQM directory: " + DEFAULT_IQM_ROOT_DIR);
+		System.out.println("IQM Info: Default configuration file stream (packed in JAR): "
 				+ this.defaultConfigFileIS);
 
 		// try to create all necessary directories
@@ -127,19 +127,18 @@ public class ConfigManager {
 		try {
 			// if the directory does not already exist
 			if (DEFAULT_IQM_TEMP_DIR.mkdirs()) {
-				logger.info("Temporary directory '" + DEFAULT_IQM_TEMP_DIR
+				System.out.println("IQM Info: Temporary directory '" + DEFAULT_IQM_TEMP_DIR
 						+ "' has been created.");
 			} else {
-				logger.debug(DEFAULT_IQM_TEMP_DIR.toString()
+				System.out.println("IQM:  "+DEFAULT_IQM_TEMP_DIR.toString()
 						+ " already exists.");
 			}
 		} catch (SecurityException se) {
 			se.printStackTrace();
-			logger.error(
+			System.out.println("IQM Error: "+ 
 					"Temporary directory '"
 							+ DEFAULT_IQM_TEMP_DIR
-							+ "' cannot be created.\nCheck write permissions in directory.",
-					se);
+							+ "' cannot be created.\nCheck write permissions in directory."+ se);
 			DialogUtil
 					.getInstance()
 					.showErrorMessage(
@@ -154,19 +153,18 @@ public class ConfigManager {
 		try {
 			// if the directory does not already exist
 			if (DEFAULT_IQM_CONF_DIR.mkdirs()) {
-				logger.info("Configuration directory '" + DEFAULT_IQM_CONF_DIR
+				System.out.println("IQM Info: Configuration directory '" + DEFAULT_IQM_CONF_DIR
 						+ "' has been created.");
 			} else {
-				logger.debug(DEFAULT_IQM_CONF_DIR.toString()
+				System.out.println("IQM:  "+DEFAULT_IQM_CONF_DIR.toString()
 						+ " already exists.");
 			}
 		} catch (SecurityException se) {
 			se.printStackTrace();
-			logger.error(
+			System.out.println("IQM Error: "+ 
 					"Configuration directory '"
 							+ DEFAULT_IQM_CONF_DIR
-							+ "' cannot be created.\nCheck write permissions in directory.",
-					se);
+							+ "' cannot be created.\nCheck write permissions in directory."+ se);
 			DialogUtil
 					.getInstance()
 					.showErrorMessage(
@@ -181,19 +179,18 @@ public class ConfigManager {
 		try {
 			// if the directory does not already exist
 			if (DEFAULT_IQM_SCRIPT_DIR.mkdirs()) {
-				logger.info("Script directory '" + DEFAULT_IQM_SCRIPT_DIR
+				System.out.println("IQM Info: Script directory '" + DEFAULT_IQM_SCRIPT_DIR
 						+ "' has been created.");
 			} else {
-				logger.debug(DEFAULT_IQM_SCRIPT_DIR.toString()
+				System.out.println("IQM:  "+DEFAULT_IQM_SCRIPT_DIR.toString()
 						+ " already exists.");
 			}
 		} catch (SecurityException se) {
 			se.printStackTrace();
-			logger.error(
+			System.out.println("IQM Error: "+ 
 					"Script directory '"
 							+ DEFAULT_IQM_SCRIPT_DIR
-							+ "' cannot be created.\nCheck write permissions in directory.",
-					se);
+							+ "' cannot be created.\nCheck write permissions in directory."+ se);
 			DialogUtil
 					.getInstance()
 					.showErrorMessage(
@@ -214,10 +211,9 @@ public class ConfigManager {
 			try {
 				this.loadXMLConfiguration(this.xmlConfigFile);
 			} catch (Exception e) {
-				logger.error(
+				System.out.println("IQM Error: "+ 
 						"Sorry, but the stored file cannot be unmarshalled. "
-								+ "I will write a new default configuration file.",
-						e);
+								+ "I will write a new default configuration file."+ e);
 				this.xmlConfigFile
 						.renameTo(new File(this.xmlConfigFile.getPath()
 								+ "_CORRUPT_"
@@ -231,7 +227,7 @@ public class ConfigManager {
 	}
 
 	private void loadDefaultConfiguration() throws JAXBException {
-		logger.debug("Loading and validating default configuration.");
+		System.out.println("IQM:  Loading and validating default configuration.");
 		this.defaultConfigFileIS = ConfigManager.class
 				.getResourceAsStream("/xml/" + this.configFileName);
 
@@ -269,7 +265,7 @@ public class ConfigManager {
 				defaultIqmRoot = new File(resolved);
 			}
 
-			logger.info("User root IQM directory: " + defaultIqmRoot);
+			System.out.println("IQM Info: User root IQM directory: " + defaultIqmRoot);
 			// set globally available default directory
 			ConfigManager.getCurrentInstance().setRootPath(defaultIqmRoot);
 		} catch (EnvVariableNotFoundException e) {
@@ -289,7 +285,7 @@ public class ConfigManager {
 				defaultIqmTemp = new File(resolved);
 			}
 
-			logger.info("Temporary user IQM directory: " + DEFAULT_IQM_CONF_DIR);
+			System.out.println("IQM Info: Temporary user IQM directory: " + DEFAULT_IQM_CONF_DIR);
 			// set globally available default directory
 			ConfigManager.getCurrentInstance().setTempPath(defaultIqmTemp);
 		} catch (EnvVariableNotFoundException e) {
@@ -309,7 +305,7 @@ public class ConfigManager {
 				defaultIqmConf = new File(resolved);
 			}
 
-			logger.info("IQM configuration directory: " + DEFAULT_IQM_CONF_DIR);
+			System.out.println("IQM Info: IQM configuration directory: " + DEFAULT_IQM_CONF_DIR);
 			// set globally available default directory
 			ConfigManager.getCurrentInstance().setConfPath(defaultIqmConf);
 		} catch (EnvVariableNotFoundException e) {
@@ -329,7 +325,7 @@ public class ConfigManager {
 				defaultIqmScript = new File(resolved);
 			}
 
-			logger.info("IQM script directory: " + DEFAULT_IQM_SCRIPT_DIR);
+			System.out.println("IQM Info: IQM script directory: " + DEFAULT_IQM_SCRIPT_DIR);
 			// set globally available default directory
 			ConfigManager.getCurrentInstance().setScriptPath(defaultIqmScript);
 		} catch (EnvVariableNotFoundException e) {
@@ -351,7 +347,7 @@ public class ConfigManager {
 				defaultImageDirectory = new File(resolved);
 			}
 
-			logger.debug("Current image/file path: " + defaultImageDirectory);
+			System.out.println("IQM:  Current image/file path: " + defaultImageDirectory);
 
 			// set globally available default directory
 			ConfigManager.getCurrentInstance().setImagePath(
@@ -369,7 +365,7 @@ public class ConfigManager {
 			// write all messages to log and console (error stream)
 			for (String s : errorMsgs) {
 				System.err.println(s);
-				logger.error(s);
+				System.out.println("IQM Error: "+ s);
 			}
 
 			// throw new exception and catch it in calling method
@@ -379,7 +375,7 @@ public class ConfigManager {
 		}
 		// otherwise finish
 		else {
-			logger.debug("Done.");
+			System.out.println("IQM:  Done.");
 		}
 	}
 
@@ -394,7 +390,7 @@ public class ConfigManager {
 	private void loadXMLConfiguration(File xmlFile) throws JAXBException,
 			Exception {
 		// load from XML bean (IQMConfig) using ObjectFactory
-		logger.debug("Loading configuration from file " + xmlFile.toString()
+		System.out.println("IQM:  Loading configuration from file " + xmlFile.toString()
 				+ "...");
 		this.validate();
 		this.iqmConfiguration = (IQMConfig) unmarshaller.unmarshal(xmlFile);
@@ -410,7 +406,7 @@ public class ConfigManager {
 	 */
 	private void loadXMLConfiguration(InputStream is) throws JAXBException {
 		// load from XML bean (IQMConfig) using ObjectFactory
-		logger.debug("Loading configuration from input stream " + is.toString()
+		System.out.println("IQM:  Loading configuration from input stream " + is.toString()
 				+ "...");
 		this.validate();
 		this.iqmConfiguration = (IQMConfig) unmarshaller.unmarshal(is);
@@ -436,13 +432,13 @@ public class ConfigManager {
 			this.unmarshaller.setSchema(schema);
 		} catch (SAXException e) {
 			// log the error message
-			logger.error("An error occurred: ", e);
+			System.out.println("IQM Error: An error occurred: " + e);
 		} catch (NullPointerException e) {
 			// log the error message
-			logger.error("An error occurred: ", e);
+			System.out.println("IQM Error: An error occurred: " + e);
 		} catch (JAXBException e) {
 			// log the error message
-			logger.error("An error occurred: ", e);
+			System.out.println("IQM Error: An error occurred: " + e);
 		}
 	}
 
@@ -451,7 +447,7 @@ public class ConfigManager {
 	 * file system.
 	 */
 	private synchronized void writeDefaultXMLConfiguration() {
-		logger.debug("Writing new default configuration...");
+		System.out.println("IQM:  Writing new default configuration...");
 
 		File xmlFile = new File(DEFAULT_IQM_CONF_DIR
 				+ IQMConstants.FILE_SEPARATOR + this.configFileName);
@@ -468,12 +464,12 @@ public class ConfigManager {
 						true);
 				this.marshaller.marshal(getDefaultIQMConfig(), out);
 			} catch (JAXBException ex) {
-				logger.error(ex);
+				System.out.println("IQM Error: "+ ex);
 			}
 			out.flush();
 			out.close();
 		} catch (IOException ex) {
-			logger.error(ex);
+			System.out.println("IQM Error: "+ ex);
 		}
 	}
 
@@ -489,7 +485,7 @@ public class ConfigManager {
 	 * system.
 	 */
 	private synchronized void writeXMLConfiguration() {
-		logger.debug("Writing configuration...");
+		System.out.println("IQM:  Writing configuration...");
 
 		File xmlFile = new File(DEFAULT_IQM_CONF_DIR
 				+ IQMConstants.FILE_SEPARATOR + this.configFileName);
@@ -506,12 +502,12 @@ public class ConfigManager {
 						true);
 				this.marshaller.marshal(getIQMConfig(), out);
 			} catch (JAXBException ex) {
-				logger.error(ex);
+				System.out.println("IQM Error: "+ ex);
 			}
 			out.flush();
 			out.close();
 		} catch (IOException ex) {
-			logger.error(ex);
+			System.out.println("IQM Error: "+ ex);
 		}
 	}
 
@@ -626,13 +622,13 @@ public class ConfigManager {
 			// reassemble
 			resolved = resolve(original, envVarList);
 
-			logger.debug("Found " + envVarList.size() + " variables in "
+			System.out.println("IQM:  Found " + envVarList.size() + " variables in "
 					+ original + ": " + envVarList.toString()
 					+ ". Reassembled in: " + resolved);
 		} else {
 			// take the specified string, if no vars are referenced
 			resolved = original;
-			logger.debug("No variables found in this string: " + original);
+			System.out.println("IQM:  No variables found in this string: " + original);
 		}
 
 		// return the resolved string
@@ -668,7 +664,7 @@ public class ConfigManager {
 				// recurse with the remaining postfix
 				extractSingleVariable(postfix, envVarList);
 			} else {
-				logger.debug("No environment variable references found in this string: "
+				System.out.println("IQM:  No environment variable references found in this string: "
 						+ ((s.isEmpty()) ? "<emptyString>" : s));
 				result = null;
 			}

@@ -33,8 +33,8 @@ import java.util.List;
 import javax.swing.DefaultListModel;
 import javax.swing.JList;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+ 
+ 
 
 import at.mug.iqm.api.model.IqmDataBox;
 import at.mug.iqm.core.workflow.Tank;
@@ -60,7 +60,7 @@ public class SynchronousTankItemLoader extends TankItemLoader {
 	/**
 	 * Logging variable.
 	 */
-	private static final Logger logger = LogManager.getLogger(SynchronousTankItemLoader.class);
+	  
 
 	/**
 	 * The constructor.
@@ -79,13 +79,13 @@ public class SynchronousTankItemLoader extends TankItemLoader {
 	 * synchronous item loading to the tank.
 	 */
 	public void load() {
-		logger.info("Loading items to tank synchronously");
+		System.out.println("IQM Info: Loading items to tank synchronously");
 		try {
 			List<IqmDataBox> list = super.doInBackground();
 			super.setTankAndManager(list);
 		} catch (Exception e) {
 			//DialogUtil.getInstance().showErrorMessage("Cannot load tank items synchronously!", e, true);
-			logger.error(e);			
+			System.out.println("IQM Error: "+ e);			
 		} finally {
 			GUITools.getStatusPanel().resetProgressBarValueStack();
 		}

@@ -53,8 +53,8 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.WindowConstants;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+ 
+ 
 
 import at.mug.iqm.api.gui.IStatusPanel;
 import at.mug.iqm.api.gui.roi.AngleROI;
@@ -78,7 +78,7 @@ import at.mug.iqm.gui.tilecachetool.TCTool;
 public final class GUITools {
 
 	// class specific logger
-	private static final Logger logger = LogManager.getLogger(GUITools.class);
+	  
 	/**
 	 * The top-most GUI component of IQM. Default is 'null'.
 	 */
@@ -168,7 +168,7 @@ public final class GUITools {
 			throw new ImagingOpException("Unable to scale: Image is null!");
 		}
 
-		logger.trace("Zoom received in the GUITools="
+		System.out.println("IQM Trace: Zoom received in the GUITools="
 				+ String.format("%2s", Double.valueOf(zoom * 100.0d)) + "%");
 
 		ParameterBlockJAI zoomPB = new ParameterBlockJAI("scale");

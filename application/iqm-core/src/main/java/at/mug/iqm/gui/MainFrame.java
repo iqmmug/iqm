@@ -53,8 +53,8 @@ import javax.swing.Timer;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+ 
+ 
 import org.java.ayatana.ApplicationMenu;
 import org.java.ayatana.AyatanaDesktop;
 
@@ -99,7 +99,7 @@ public class MainFrame extends JFrame implements WindowListener, IMainFrame,
 
 	// class specific logger
 	private static Class<?> caller = MainFrame.class;
-	private static final Logger logger = LogManager.getLogger(MainFrame.class);
+	  
 
 	private JPanel applicationPanel;
 
@@ -159,7 +159,7 @@ public class MainFrame extends JFrame implements WindowListener, IMainFrame,
 	 * Constructs the default elements of the standard UI.
 	 */
 	public void constructDefaultElements() {
-		logger.debug("Constructing the default GUI (core version)");
+		System.out.println("IQM:  Constructing the default GUI (core version)");
 
 		this.coreMenuBar = new CoreMenuBar();
 		this.mainPanel = new MainPanel();
@@ -197,9 +197,9 @@ public class MainFrame extends JFrame implements WindowListener, IMainFrame,
 					awtAppClassName.setAccessible(true);
 					awtAppClassName.set(null, "IQM");
 				} catch (NoSuchFieldException nsfe) {
-					logger.warn("Cannot set awt title: ", nsfe);
+					System.out.println("IQM Warning: Cannot set awt title: "+ nsfe);
 				} catch (IllegalAccessException iae) {
-					logger.warn("Cannot set awt title: ", iae);
+					System.out.println("IQM Warning: Cannot set awt title: "+ iae);
 				}
 			}
 
@@ -317,7 +317,7 @@ public class MainFrame extends JFrame implements WindowListener, IMainFrame,
 			}
 		});
 
-		logger.debug("Done.");
+		System.out.println("IQM:  Done.");
 	}
 
 	public JPanel getApplicationPanel() {
@@ -409,7 +409,7 @@ public class MainFrame extends JFrame implements WindowListener, IMainFrame,
 			Thread ct = Application.getCleanerTask();
 			ct.interrupt();
 		} catch (Exception e) {
-			logger.error(e);
+			System.out.println("IQM Error: "+ e);
 		}
 
 		writeWindowProperties();
@@ -434,28 +434,28 @@ public class MainFrame extends JFrame implements WindowListener, IMainFrame,
 				Toolkit.getDefaultToolkit().beep();
 				DialogUtil.getInstance().showDefaultErrorMessage(
 						I18N.getMessage("application.deletingTempFiles.error"));
-				logger.info("Could not delete all temporary files, trying again next startup. Exit code: -1.");
+				System.out.println("IQM Info: Could not delete all temporary files, trying again next startup. Exit code: -1.");
 				System.exit(-1);
 			} else {
-				logger.debug("All temporary files deleted? -> " + success
+				System.out.println("IQM:  All temporary files deleted? -> " + success
 						+ ". Now shutting down, bye.");
-				logger.info("Exit code: 0.");
+				System.out.println("IQM Info: Exit code: 0.");
 				System.out.println("Exit code: 0.");
 				// finally exit normally (status code 0)
 				System.exit(0);
 			}
 		} catch (InterruptedException e) {
-			logger.error("", e);
-			logger.info("Exit code: -1.");
+			System.out.println("IQM Error: " + e);
+			System.out.println("IQM Info: Exit code: -1.");
 			System.out.println("Exit code: -1.");
 			System.exit(-1);
 		} catch (ExecutionException e) {
-			logger.error("", e);
-			logger.info("Exit code: -1.");
+			System.out.println("IQM Error: " + e);
+			System.out.println("IQM Info: Exit code: -1.");
 			System.out.println("Exit code: -1.");
 			System.exit(-1);
 		} finally {
-			logger.info("Exit code: -101.");
+			System.out.println("IQM Info: Exit code: -101.");
 			System.out.println("Exit code: -101.");
 			System.exit(-101);
 		}
@@ -588,10 +588,10 @@ public class MainFrame extends JFrame implements WindowListener, IMainFrame,
 			int selection = DialogUtil.getInstance().showQuestionMessage(this,
 					I18N.getMessage("application.exit.warn"));
 			if (selection != IDialogUtil.YES_OPTION) {
-				logger.debug("User aborted exiting the application.");
+				System.out.println("IQM:  User aborted exiting the application.");
 				return;
 			} else {
-				logger.debug("User confirmed exiting the application, shutting down.");
+				System.out.println("IQM:  User confirmed exiting the application, shutting down.");
 				BoardPanel.appendTextln(
 						I18N.getMessage("application.deletingTempFiles.info"),
 						caller);
@@ -605,8 +605,8 @@ public class MainFrame extends JFrame implements WindowListener, IMainFrame,
 							GUITools.getMainFrame().closeIQMAndExit();
 						} catch (Exception e1) {
 							// log the error message
-							logger.error("", e1);
-							logger.info("Exit code: -1.");
+							System.out.println("IQM Error: " + e1);
+							System.out.println("IQM Info: Exit code: -1.");
 							System.out.println("Exit code: -1");
 							System.exit(-1);
 						}
@@ -624,8 +624,8 @@ public class MainFrame extends JFrame implements WindowListener, IMainFrame,
 						GUITools.getMainFrame().closeIQMAndExit();
 					} catch (Exception e1) {
 						// log the error message
-						logger.error("", e1);
-						logger.info("Exit code: -1.");
+						System.out.println("IQM Error: " + e1);
+						System.out.println("IQM Info: Exit code: -1.");
 						System.out.println("Exit code: -1");
 						System.exit(-1);
 					}

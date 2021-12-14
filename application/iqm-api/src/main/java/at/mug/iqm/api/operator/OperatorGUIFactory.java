@@ -32,8 +32,8 @@ package at.mug.iqm.api.operator;
 import java.lang.reflect.InvocationTargetException;
 import java.util.NoSuchElementException;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+ 
+ 
 
 import at.mug.iqm.api.Application;
 
@@ -45,9 +45,9 @@ import at.mug.iqm.api.Application;
 public final class OperatorGUIFactory {
 
 	/**
-	 * Class specific logger.
+	 *  
 	 */
-	private static final Logger logger = LogManager.getLogger(OperatorGUIFactory.class);
+	  
 
 	/**
 	 * This method creates an instance of a specified operator GUI.
@@ -58,7 +58,7 @@ public final class OperatorGUIFactory {
 	 */
 	public static IOperatorGUI createGUI(String name) {
 		try {
-			logger.debug("Creating operator GUI '" + name + "'...");
+			System.out.println("IQM:  Creating operator GUI '" + name + "'...");
 
 			// find the class in the registry
 			String className = Application.getOperatorRegistry()
@@ -75,23 +75,23 @@ public final class OperatorGUIFactory {
 
 		} catch (NullPointerException e) {
 			e.printStackTrace();
-			logger.error("No operation found with name: '" + name + "'.", e);
+			System.out.println("IQM Error: No operation found with name: '" + name + "'." + e);
 			return null;
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
-			logger.error("No operation found with name: '" + name + "'.", e);
+			System.out.println("IQM Error: No operation found with name: '" + name + "'." + e);
 			return null;
 		} catch (InstantiationException e) {
 			e.printStackTrace();
-			logger.error("No operation found with name: '" + name + "'.", e);
+			System.out.println("IQM Error: No operation found with name: '" + name + "'." + e);
 			return null;
 		} catch (IllegalAccessException e) {
 			e.printStackTrace();
-			logger.error("No operation found with name: '" + name + "'.", e);
+			System.out.println("IQM Error: No operation found with name: '" + name + "'." + e);
 			return null;
 		} catch (NoSuchElementException e) {
 			e.printStackTrace();
-			logger.error("No operation found with name: '" + name + "'.", e);
+			System.out.println("IQM Error: No operation found with name: '" + name + "'." + e);
 			return null;
 		}
 	}
@@ -111,7 +111,7 @@ public final class OperatorGUIFactory {
 	public static IOperatorGUI createAndInitializeGUI(String name,
 			IWorkPackage wp) {
 		try {
-			logger.debug("Creating and initializing operator GUI '" + name
+			System.out.println("IQM:  Creating and initializing operator GUI '" + name
 					+ "' with default parameters...");
 
 			// find the class in the registry
@@ -136,38 +136,38 @@ public final class OperatorGUIFactory {
 
 			} catch (IllegalArgumentException e) {
 				e.printStackTrace();
-				logger.error("No operation found with name: '" + name + "'.", e);
+				System.out.println("IQM Error: No operation found with name: '" + name + "'." + e);
 			} catch (SecurityException e) {
 				e.printStackTrace();
-				logger.error("No operation found with name: '" + name + "'.", e);
+				System.out.println("IQM Error: No operation found with name: '" + name + "'." + e);
 			} catch (InvocationTargetException e) {
 				e.printStackTrace();
-				logger.error("No operation found with name: '" + name + "'.", e);
+				System.out.println("IQM Error: No operation found with name: '" + name + "'." + e);
 			} catch (NoSuchMethodException e) {
 				e.printStackTrace();
-				logger.error("No operation found with name: '" + name + "'.", e);
+				System.out.println("IQM Error: No operation found with name: '" + name + "'." + e);
 			}
 			return opGUI;
 
 		} catch (NullPointerException e) {
 			e.printStackTrace();
-			logger.error("No operation found with name: '" + name + "'.", e);
+			System.out.println("IQM Error: No operation found with name: '" + name + "'." + e);
 			return null;
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
-			logger.error("No operation found with name: '" + name + "'.", e);
+			System.out.println("IQM Error: No operation found with name: '" + name + "'." + e);
 			return null;
 		} catch (InstantiationException e) {
 			e.printStackTrace();
-			logger.error("No operation found with name: '" + name + "'.", e);
+			System.out.println("IQM Error: No operation found with name: '" + name + "'." + e);
 			return null;
 		} catch (IllegalAccessException e) {
 			e.printStackTrace();
-			logger.error("No operation found with name: '" + name + "'.", e);
+			System.out.println("IQM Error: No operation found with name: '" + name + "'." + e);
 			return null;
 		} catch (NoSuchElementException e) {
 			e.printStackTrace();
-			logger.error("No operation found with name: '" + name + "'.", e);
+			System.out.println("IQM Error: No operation found with name: '" + name + "'." + e);
 			return null;
 		}
 

@@ -36,8 +36,8 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+ 
+ 
 
 import at.mug.iqm.api.gui.IMainPanel;
 import at.mug.iqm.core.I18N;
@@ -51,7 +51,7 @@ public class MainPanel extends JPanel implements IMainPanel{
 	private static final long serialVersionUID = -2405514212516374323L;
 
 	// Logging variables
-	private static final Logger logger = LogManager.getLogger(MainPanel.class);
+	  
 
 	// variable declaration
 	//private AbstractMenuBar	      menuBar; 
@@ -62,7 +62,7 @@ public class MainPanel extends JPanel implements IMainPanel{
 	 * This method creates a new default (core) instance of IqmMainPanel. 
 	 */
 	public MainPanel() {
-		logger.debug("Creating new instance of '" + this.getClass().getName() + "'.");
+		System.out.println("IQM:  Creating new instance of '" + this.getClass().getName() + "'.");
 		
 		// variable initialization	
 		this.controlPanel = new ControlPanel();

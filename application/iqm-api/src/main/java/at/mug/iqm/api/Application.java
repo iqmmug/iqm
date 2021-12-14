@@ -1,5 +1,7 @@
 package at.mug.iqm.api;
 
+import java.lang.invoke.MethodHandles;
+
 /*
  * #%L
  * Project: IQM - API
@@ -33,8 +35,8 @@ import java.net.URL;
 
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+ 
+ 
 
 import at.mug.iqm.api.gui.IDialogUtil;
 import at.mug.iqm.api.gui.IMainFrame;
@@ -63,9 +65,6 @@ import at.mug.iqm.api.workflow.IText;
  */
 public final class Application {
 	
-
-	//private static final Logger logger = LogManager.getLogger(Application.class);
-	private static final Logger logger = LogManager.getLogger(Application.class);
 
 	private static boolean virtual;
 	private static IOperator currentOperator;
@@ -159,11 +158,11 @@ public final class Application {
 		URL url = null;
 		if (!virtual) {
 			url = Resources.getImageURL("icon.application.red.32x32");
-			logger.debug("Entering real mode, using RAM");
+			System.out.println("IQM:  Entering real mode, using RAM");
 		}
 		if (virtual) {
 			url = Resources.getImageURL("icon.application.blue.32x32");
-			logger.debug("Entering virtual mode, using hard disk");
+			System.out.println("IQM:  Entering virtual mode, using hard disk");
 		}
 
 		// change the icon in the frame

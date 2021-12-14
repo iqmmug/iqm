@@ -57,8 +57,8 @@ import javax.xml.transform.stream.StreamSource;
 import javax.xml.validation.Schema;
 import javax.xml.validation.SchemaFactory;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+ 
+ 
 import org.xml.sax.SAXException;
 
 import at.mug.iqm.api.IQMConstants;
@@ -118,7 +118,7 @@ import at.mug.iqm.commons.util.XMLGregCalUtil;
 public class XMLAnnotationManager {
 
 	// private class logger
-	private static final Logger logger = LogManager.getLogger(XMLAnnotationManager.class);
+	  
 
 	private final String xmlSchemaLocation = "/xsd/AnnotationLayers.xsd";
 	public static final String XML_DATA_ENCODING = "base64";
@@ -218,16 +218,16 @@ public class XMLAnnotationManager {
 			this.unmarshaller
 					.setEventHandler(new javax.xml.bind.helpers.DefaultValidationEventHandler());
 			this.unmarshaller.setSchema(schema);
-			logger.debug("Validation of XML file passed.");
+			System.out.println("IQM:  Validation of XML file passed.");
 		} catch (SAXException e) {
 			// log the error message
-			logger.error("An error occurred: ", e);
+			System.out.println("IQM Error: An error occurred: " + e);
 		} catch (NullPointerException e) {
 			// log the error message
-			logger.error("An error occurred: ", e);
+			System.out.println("IQM Error: An error occurred: " + e);
 		} catch (JAXBException e) {
 			// log the error message
-			logger.error("An error occurred: ", e);
+			System.out.println("IQM Error: An error occurred: " + e);
 		}
 	}
 
@@ -235,7 +235,7 @@ public class XMLAnnotationManager {
 	 * Writes an XML file to the specified path in the file system.
 	 */
 	protected synchronized void writeXML() {
-		logger.debug("Writing the annotations to XML file...");
+		System.out.println("IQM:  Writing the annotations to XML file...");
 		OutputStreamWriter out;
 		try {
 			out = new OutputStreamWriter(new FileOutputStream(xmlFile), "UTF-8");
@@ -251,12 +251,12 @@ public class XMLAnnotationManager {
 						true);
 				this.marshaller.marshal(allLayersJAXB, out);
 			} catch (JAXBException ex) {
-				logger.error(ex);
+				System.out.println("IQM Error: "+ ex);
 			}
 			out.flush();
 			out.close();
 		} catch (IOException ex) {
-			logger.error(ex);
+			System.out.println("IQM Error: "+ ex);
 		}
 	}
 
@@ -298,7 +298,7 @@ public class XMLAnnotationManager {
 	 */
 	protected AnnotationLayers readXML() throws JAXBException {
 		// load from XML bean using ObjectFactory
-		logger.debug("Loading annotations from file " + this.xmlFile.toString()
+		System.out.println("IQM:  Loading annotations from file " + this.xmlFile.toString()
 				+ "...");
 		this.validate();
 		// add the mapping root
@@ -326,7 +326,7 @@ public class XMLAnnotationManager {
 
 		allLayers = new ArrayList<DefaultDrawingLayer>(allLayersJAXB.size());
 
-		logger.info("Attempting to parse XML object...");
+		System.out.println("IQM Info: Attempting to parse XML object...");
 
 		for (AnnotationLayer layerJAXB : allLayersJAXB) {
 			// create new ROI layers without binding it to a display panel
@@ -349,7 +349,7 @@ public class XMLAnnotationManager {
 					layer.setHighlightColor(parseXML(cJAXB));
 					break;
 				default:
-					logger.warn("No property mapped with name ["
+					System.out.println("IQM Warning: No property mapped with name ["
 							+ cJAXB.getName() + "].");
 					break;
 				}
@@ -365,7 +365,7 @@ public class XMLAnnotationManager {
 					layer.setHighlightStroke(parseXML(sJAXB));
 					break;
 				default:
-					logger.warn("No property mapped with name ["
+					System.out.println("IQM Warning: No property mapped with name ["
 							+ sJAXB.getName() + "].");
 					break;
 				}
@@ -379,7 +379,7 @@ public class XMLAnnotationManager {
 					for (PointRoi prJAXB : rsJAXB.getPointRoi()) {
 						PointROI pr = parseXMLPointROI(prJAXB);
 						pointROIs.add(prJAXB.getId().intValue(), pr);
-						logger.debug("Adding " + pr);
+						System.out.println("IQM:  Adding " + pr);
 					}
 					layer.drawPointROIs(pointROIs);
 
@@ -391,7 +391,7 @@ public class XMLAnnotationManager {
 					for (RectangleRoi rrJAXB : rsJAXB.getRectangleRoi()) {
 						RectangleROI rr = parseXMLRectangleROI(rrJAXB);
 						rectangleROIs.add(rrJAXB.getId().intValue(), rr);
-						logger.debug("Adding " + rr);
+						System.out.println("IQM:  Adding " + rr);
 					}
 					layer.drawRectangleROIs(rectangleROIs);
 
@@ -401,7 +401,7 @@ public class XMLAnnotationManager {
 					for (AngleRoi arJAXB : rsJAXB.getAngleRoi()) {
 						AngleROI ar = parseXMLAngleROI(arJAXB);
 						angleROIs.add(arJAXB.getId().intValue(), ar);
-						logger.debug("Adding " + ar);
+						System.out.println("IQM:  Adding " + ar);
 					}
 					layer.drawAngleROIs(angleROIs);
 
@@ -412,7 +412,7 @@ public class XMLAnnotationManager {
 					for (EllipseRoi erJAXB : rsJAXB.getEllipseRoi()) {
 						EllipseROI er = parseXMLEllipseROI(erJAXB);
 						ellipseROIs.add(erJAXB.getId().intValue(), er);
-						logger.debug("Adding " + er);
+						System.out.println("IQM:  Adding " + er);
 					}
 					layer.drawEllipseROIs(ellipseROIs);
 
@@ -424,7 +424,7 @@ public class XMLAnnotationManager {
 					for (FreehandRoi frJAXB : rsJAXB.getFreehandRoi()) {
 						FreehandROI fr = parseXMLFreehandROI(frJAXB);
 						freehandROIs.add(frJAXB.getId().intValue(), fr);
-						logger.debug("Adding " + fr);
+						System.out.println("IQM:  Adding " + fr);
 					}
 					layer.drawFreehandROIs(freehandROIs);
 
@@ -434,7 +434,7 @@ public class XMLAnnotationManager {
 					for (LineRoi lrJAXB : rsJAXB.getLineRoi()) {
 						LineROI lr = parseXMLLineROI(lrJAXB);
 						lineROIs.add(lrJAXB.getId().intValue(), lr);
-						logger.debug("Adding " + lr);
+						System.out.println("IQM:  Adding " + lr);
 					}
 					layer.drawLineROIs(lineROIs);
 
@@ -445,7 +445,7 @@ public class XMLAnnotationManager {
 					for (PolygonRoi prJAXB : rsJAXB.getPolygonRoi()) {
 						PolygonROI pr = parseXMLPolygonROI(prJAXB);
 						polygonROIs.add(prJAXB.getId().intValue(), pr);
-						logger.debug("Adding " + pr);
+						System.out.println("IQM:  Adding " + pr);
 					}
 					layer.drawPolygonROIs(polygonROIs);
 				}
@@ -560,7 +560,7 @@ public class XMLAnnotationManager {
 		// shape
 		// representation
 		for (Segment sJAXB : segRootJAXB.getSegment()) {
-			logger.debug("Reading segment: sequence# "
+			System.out.println("IQM:  Reading segment: sequence# "
 					+ sJAXB.getSequence().intValue());
 
 			double[] coords = new double[6];
@@ -581,13 +581,13 @@ public class XMLAnnotationManager {
 					coords[5] = point[1];
 					break;
 				default:
-					logger.warn("No point mapped with ID [" + p.getId() + "].");
+					System.out.println("IQM Warning: No point mapped with ID [" + p.getId() + "].");
 					break;
 				}
 			}
 
 			int code = sJAXB.getCode().intValue();
-			logger.debug("Using method "
+			System.out.println("IQM:  Using method "
 					+ AbstractROIShape.segmentCodeToString(code)
 					+ " for path segment, sequcence# "
 					+ sJAXB.getSequence().intValue());
@@ -615,13 +615,13 @@ public class XMLAnnotationManager {
 				break;
 
 			default:
-				logger.warn("No property mapped with ID [" + sJAXB.getCode()
+				System.out.println("IQM Warning: No property mapped with ID [" + sJAXB.getCode()
 						+ "].");
 				break;
 			}
 		}
 
-		logger.debug("Successfully deserialized " + gp);
+		System.out.println("IQM:  Successfully deserialized " + gp);
 		return gp;
 	}
 
@@ -636,7 +636,7 @@ public class XMLAnnotationManager {
 		double x = xJAXB.getValue().doubleValue();
 		Y yJAXB = jaxbPoint.getY();
 		double y = yJAXB.getValue().doubleValue();
-		logger.debug("Successfully deserialized 2D point to coordinates (" + x
+		System.out.println("IQM:  Successfully deserialized 2D point to coordinates (" + x
 				+ "," + y + ")");
 		return new double[] { x, y };
 	}
@@ -665,7 +665,7 @@ public class XMLAnnotationManager {
 				jaxbObject.getLineJoin().getValue().intValue(), jaxbObject
 						.getMiterLimit().getValue().floatValue(), dashArray,
 				jaxbObject.getDashPhase().getValue().floatValue());
-		logger.debug("Successfully deserialized " + bs);
+		System.out.println("IQM:  Successfully deserialized " + bs);
 		return bs;
 
 	}
@@ -700,7 +700,7 @@ public class XMLAnnotationManager {
 		}
 
 		java.awt.Color c = new java.awt.Color(r, g, b, a);
-		logger.debug("Successfully deserialized " + c);
+		System.out.println("IQM:  Successfully deserialized " + c);
 		return c;
 	}
 
@@ -715,7 +715,7 @@ public class XMLAnnotationManager {
 
 		AnnotationLayers root = of.createAnnotationLayers();
 
-		logger.info("Attempting to serialized to XML object...");
+		System.out.println("IQM Info: Attempting to serialized to XML object...");
 
 		// set the root attributes
 		root.setIQMVersion(IQMConstants.APPLICATION_VERSION);
@@ -1186,7 +1186,7 @@ public class XMLAnnotationManager {
 
 			dataJAXB.setValue(BASE64Helper.encodeToString(obytes));
 		} catch (IOException ex) {
-			logger.error("Cannot serialize object. ", ex);
+			System.out.println("IQM Error: Cannot serialize object. " +  ex);
 			dataJAXB.setValue(null);
 		}
 
@@ -1239,7 +1239,7 @@ public class XMLAnnotationManager {
 
 			segmentsJAXB.getSegment().add(segmentJAXB);
 
-			logger.trace("sequ#"
+			System.out.println("IQM Trace: sequ#"
 					+ i
 					+ ": "
 					+ AbstractROIShape.segmentCodeToString(segCode)
@@ -1446,7 +1446,7 @@ public class XMLAnnotationManager {
 		try {
 			List<IDrawingLayer> list = mgr.read();
 			for (IDrawingLayer l : list) {
-				logger.debug(l.getName());
+				System.out.println("IQM:  "+l.getName());
 			}
 		} catch (JAXBException e) {
 			e.printStackTrace();

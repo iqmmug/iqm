@@ -43,8 +43,8 @@ import java.io.OutputStream;
 import java.io.RandomAccessFile;
 import java.io.Serializable;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+ 
+ 
 
 /**
  * This class serializes given {@link Object}s into a <code>byte[]</code>.
@@ -57,7 +57,7 @@ public class Serializer {
 	/**
 	 * Custom logger.
 	 */
-	private static final Logger logger = LogManager.getLogger(Serializer.class);
+	  
 
 	/**
 	 * The {@link OutputStream} for serialization.
@@ -100,7 +100,7 @@ public class Serializer {
 	public synchronized void serialize(Object o, File f)
 			throws FileNotFoundException, IOException {
 
-		logger.debug("Attempting to serialize object to [" + f.toString() + "]");
+		System.out.println("IQM:  Attempting to serialize object to [" + f.toString() + "]");
 
 		// open streams
 		RandomAccessFile raf = new RandomAccessFile(f, "rw");
@@ -114,7 +114,7 @@ public class Serializer {
 		oos.close();
 		fos.close();
 		raf.close();
-		logger.debug("Successfully serialized object to [" + f.toString()
+		System.out.println("IQM:  Successfully serialized object to [" + f.toString()
 				+ "].");
 	}
 
@@ -137,7 +137,7 @@ public class Serializer {
 	public synchronized Object deserialize(File f)
 			throws FileNotFoundException, IOException, ClassNotFoundException {
 		Object result = null;
-		logger.debug("Attempting to deserialize object from [" + f.toString()
+		System.out.println("IQM:  Attempting to deserialize object from [" + f.toString()
 				+ "]");
 
 		// open streams
@@ -151,7 +151,7 @@ public class Serializer {
 		ois.close();
 		fis.close();
 
-		logger.debug("Read output object, it's an instance of ["
+		System.out.println("IQM:  Read output object, it's an instance of ["
 				+ result.getClass() + "].");
 		return result;
 	}

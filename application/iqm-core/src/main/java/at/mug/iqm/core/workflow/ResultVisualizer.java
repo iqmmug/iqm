@@ -37,8 +37,8 @@ import java.util.Vector;
 import javax.media.jai.PlanarImage;
 import javax.swing.SwingUtilities;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+ 
+ 
 
 import at.mug.iqm.api.model.IqmDataBox;
 import at.mug.iqm.api.model.PlotModel;
@@ -63,20 +63,20 @@ import at.mug.iqm.gui.util.GUITools;
  */
 public class ResultVisualizer {
 	// class specific logger
-	private static final Logger logger = LogManager.getLogger(ResultVisualizer.class);
+	  
 
 	public ResultVisualizer() {
-		logger.debug("Initializing...");
+		System.out.println("IQM:  Initializing...");
 	}
 	
 	public void display(Result result){
-		logger.debug("Displaying results from [" + result.toString() + "].");
+		System.out.println("IQM:  Displaying results from [" + result.toString() + "].");
 		
 		// visualize the contents, don't use ELSE IF!
 		if (result.hasImages()) {
 			ArrayList<IqmDataBox> imageResults = result.listImageResults();
 
-			logger.debug("The image list contains " + imageResults.size()
+			System.out.println("IQM:  The image list contains " + imageResults.size()
 					+ " element" + (imageResults.size() > 1 ? "s" : "")
 					+ ".");
 
@@ -98,7 +98,7 @@ public class ResultVisualizer {
 			ArrayList<IqmDataBox> plotResults = result.listPlotResults();
 			Iterator<IqmDataBox> plotIterator = plotResults.iterator();
 
-			logger.debug("The plot list contains " + plotResults.size()
+			System.out.println("IQM:  The plot list contains " + plotResults.size()
 					+ " element" + (plotResults.size() > 1 ? "s" : "")
 					+ ".");
 
@@ -128,7 +128,7 @@ public class ResultVisualizer {
 
 			ArrayList<IqmDataBox> tableResults = result.listTableResults();
 
-			logger.debug("The table list contains " + tableResults.size()
+			System.out.println("IQM:  The table list contains " + tableResults.size()
 					+ " element" + (tableResults.size() > 1 ? "s" : "")
 					+ ".");
 
@@ -152,7 +152,7 @@ public class ResultVisualizer {
 					.listCustomResults();
 			Iterator<IqmDataBox> customIterator = customResults.iterator();
 
-			logger.debug("The custom list contains " + customResults.size()
+			System.out.println("IQM:  The custom list contains " + customResults.size()
 					+ " element" + (customResults.size() > 1 ? "s" : "")
 					+ ".");
 
@@ -203,7 +203,7 @@ public class ResultVisualizer {
 	 */
 	public void addResultsToTank(List<IqmDataBox> items) {
 		if (items != null && !items.isEmpty()) {
-			logger.debug("Adding results from a list to the Tank.");
+			System.out.println("IQM:  Adding results from a list to the Tank.");
 			// add the elements to the tank, according to certain conditions
 			switch (items.get(0).getDataType()) {
 			case IMAGE:
@@ -232,7 +232,7 @@ public class ResultVisualizer {
 	 */
 	public void add2DResultListToTank(List<ArrayList<IqmDataBox>> items) {
 		if (items != null && !items.isEmpty()) {
-			logger.debug("Adding results from a 2D-array-list to the Tank.");
+			System.out.println("IQM:  Adding results from a 2D-array-list to the Tank.");
 
 			for (int i = 0; i < items.size(); i++) {
 				addResultsToTank(items.get(i));
@@ -256,14 +256,13 @@ public class ResultVisualizer {
 	public void add3DResultListToTank(
 			List<ArrayList<ArrayList<IqmDataBox>>> items) {
 		if (items != null && !items.isEmpty()) {
-			logger.debug("Adding results from a 3D-array-list to the Tank.");
+			System.out.println("IQM:  Adding results from a 3D-array-list to the Tank.");
 
 			try {
 				add2DResultListToTank(mergeResults(items));
 			} catch (Exception e) {
-				logger.error(
-						"Cannot display results from a 3D-array list, because merge failed.",
-						e);
+				System.out.println("IQM Error: "+ 
+						"Cannot display results from a 3D-array list, because merge failed."+ e);
 			}
 
 		}

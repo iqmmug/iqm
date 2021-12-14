@@ -35,8 +35,8 @@ import java.awt.event.ActionListener;
 import javax.swing.ImageIcon;
 import javax.swing.JMenuItem;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+ 
+ 
 
 import at.mug.iqm.api.gui.OperatorMenuItem;
 import at.mug.iqm.api.model.IqmDataBox;
@@ -83,7 +83,7 @@ public class PlotAnalysisMenu extends DeactivatableMenu implements
 	private static final long serialVersionUID = -3301909889493957179L;
 
 	// class specific logger
-	private static final Logger logger = LogManager.getLogger(PlotAnalysisMenu.class);
+	  
 
 	// class variable declaration
 	private OperatorMenuItem tableOfPlotMenuItem;
@@ -115,7 +115,7 @@ public class PlotAnalysisMenu extends DeactivatableMenu implements
 	 * equipped PlotAnalysisMenu.
 	 */
 	public PlotAnalysisMenu() {
-		logger.debug("Generating new instance of 'PlotAnalysis' menu.");
+		System.out.println("IQM:  Generating new instance of 'PlotAnalysis' menu.");
 
 		// initialize the variables
 		this.tableOfPlotMenuItem       = new OperatorMenuItem(OperatorType.PLOT);
@@ -144,14 +144,14 @@ public class PlotAnalysisMenu extends DeactivatableMenu implements
 		// assemble the gui elements to a JMenu
 		this.createAndAssembleMenu();
 
-		logger.debug("Menu 'PlotAnalysis' generated.");
+		System.out.println("IQM:  Menu 'PlotAnalysis' generated.");
 	}
 
 	/**
 	 * This method constructs the items.
 	 */
 	private void createAndAssembleMenu() {
-		logger.debug("Assembling menu items in 'PlotAnalysis' menu.");
+		System.out.println("IQM:  Assembling menu items in 'PlotAnalysis' menu.");
 
 		// set menu attributes
 		this.setText(I18N.getGUILabelText("menu.plotanalysis.text"));
@@ -489,7 +489,7 @@ public class PlotAnalysisMenu extends DeactivatableMenu implements
 	@Override
 	public void actionPerformed(ActionEvent e) {
 
-		logger.debug(e.getActionCommand());
+		System.out.println("IQM:  "+e.getActionCommand());
 
 		if ("higuchiofplot".equals(e.getActionCommand())) {
 			ExecutionProxy.launchInstance(new PlotOpFracHiguchiDescriptor());

@@ -55,8 +55,8 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.text.InternationalFormatter;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+ 
+ 
 import at.mug.iqm.api.operator.AbstractPlotOperatorGUI;
 import at.mug.iqm.api.operator.ParameterBlockIQM;
 import at.mug.iqm.plot.bundle.descriptors.PlotOpResampleDescriptor;
@@ -74,7 +74,7 @@ public class PlotGUI_Resample extends AbstractPlotOperatorGUI implements
 	private static final long serialVersionUID = 5161696780502561840L;
 
 	// class specific logger
-	private static final Logger logger = LogManager.getLogger(PlotGUI_Resample.class);
+	  
 
 	private ParameterBlockIQM pb = null;
 
@@ -102,7 +102,7 @@ public class PlotGUI_Resample extends AbstractPlotOperatorGUI implements
 	 * constructor
 	 */
 	public PlotGUI_Resample() {
-		logger.debug("Now initializing...");
+		System.out.println("IQM:  Now initializing...");
 
 		this.setOpName(new PlotOpResampleDescriptor().getName());
 
@@ -163,7 +163,7 @@ public class PlotGUI_Resample extends AbstractPlotOperatorGUI implements
 	 */
 	@Override
 	public void update() {
-		logger.debug("Updating GUI...");
+		System.out.println("IQM:  Updating GUI...");
 		this.updateParameterBlock();
 		this.setParameterValuesToGUI();
 	}
@@ -409,7 +409,7 @@ public class PlotGUI_Resample extends AbstractPlotOperatorGUI implements
 
 		// preview if selected
 		if (this.isAutoPreviewSelected()) {
-			logger.debug("Performing AutoPreview");
+			System.out.println("IQM:  Performing AutoPreview");
 			this.showPreview();
 		}
 
@@ -418,7 +418,7 @@ public class PlotGUI_Resample extends AbstractPlotOperatorGUI implements
 	// -------------------------------------------------------------------------------------------------
 	@Override
 	public void stateChanged(ChangeEvent e) {
-		logger.debug("State has changed.");
+		System.out.println("IQM:  State has changed.");
 	
 	
 		this.updateParameterBlock();
@@ -426,7 +426,7 @@ public class PlotGUI_Resample extends AbstractPlotOperatorGUI implements
 
 		// preview if selected
 		if (this.isAutoPreviewSelected()) {
-			logger.debug("Performing AutoPreview");
+			System.out.println("IQM:  Performing AutoPreview");
 			this.showPreview();
 		}
 

@@ -46,8 +46,8 @@ import javax.media.jai.PlanarImage;
 import javax.media.jai.RasterFactory;
 import javax.media.jai.TiledImage;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+ 
+ 
 
 import at.mug.iqm.api.model.ImageModel;
 import at.mug.iqm.api.model.IqmDataBox;
@@ -69,7 +69,7 @@ import at.mug.iqm.plot.bundle.descriptors.PlotOpSymbolicAggregationDescriptor;
 public class PlotOpSymbolicAggregation extends AbstractOperator{
 	
 	// class specific logger
-	private static final Logger logger = LogManager.getLogger(PlotOpSymbolicAggregation.class);
+	  
 	
 	private String signalString = null; //Symbolic representation of signal
 	private String[][] LUMatrix;
@@ -274,7 +274,7 @@ public class PlotOpSymbolicAggregation extends AbstractOperator{
 			//System.out.println("PlotOpSymbolicAggregation: LUMatrix.length: " + LUMatrix.length);
 			
 		    if (matrixSize != LUMatrix.length) {
-		    	logger.error("Sizes of matrices do not fit!");
+		    	System.out.println("IQM Error: Sizes of matrices do not fit!");
 		    }
 		    
 			sm = RasterFactory.createPixelInterleavedSampleModel(DataBuffer.TYPE_BYTE, matrixSize, matrixSize, 1); // bugfix 2011 10 26 sm = RasterFactory.createBandedSampleModel(DataBuffer.TYPE_BYTE, imgWidth, imgHeight, 1); 1 banded sample model image too bright (only) on display error

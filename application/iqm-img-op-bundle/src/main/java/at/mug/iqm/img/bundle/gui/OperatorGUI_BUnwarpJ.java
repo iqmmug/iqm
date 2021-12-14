@@ -53,8 +53,8 @@ import javax.swing.border.TitledBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+ 
+ 
 
 import at.mug.iqm.api.operator.AbstractImageOperatorGUI;
 import at.mug.iqm.api.operator.ParameterBlockIQM;
@@ -76,7 +76,7 @@ implements ActionListener, PropertyChangeListener, ChangeListener {
 
 	// class specific logger
 	private static Class<?> caller = OperatorGUI_BUnwarpJ.class;
-	private static final Logger logger = LogManager.getLogger(OperatorGUI_BUnwarpJ.class);
+	  
 
 	private  ParameterBlockIQM pb = null; 
 
@@ -146,7 +146,7 @@ implements ActionListener, PropertyChangeListener, ChangeListener {
 	 * constructor
 	 */
 	public OperatorGUI_BUnwarpJ() {
-		logger.debug("Now initializing...");
+		System.out.println("IQM:  Now initializing...");
 		
 		this.setOpName(new IqmOpBUnwarpJDescriptor().getName());	
 		this.initialize(); 	
@@ -322,7 +322,7 @@ implements ActionListener, PropertyChangeListener, ChangeListener {
 	 */
 	@Override
 	public void update(){
-		logger.debug("Updating GUI...");
+		System.out.println("IQM:  Updating GUI...");
 		// here, it does nothing
 	}
 	
@@ -770,7 +770,7 @@ implements ActionListener, PropertyChangeListener, ChangeListener {
 
 		//preview if selected
 		if (this.isAutoPreviewSelected()){
-			logger.debug("Performing AutoPreview");
+			System.out.println("IQM:  Performing AutoPreview");
 			this.showPreview();
 		}
 
@@ -782,7 +782,7 @@ implements ActionListener, PropertyChangeListener, ChangeListener {
 
 		//preview if selected
 		if (this.isAutoPreviewSelected()){
-			logger.debug("Performing AutoPreview");
+			System.out.println("IQM:  Performing AutoPreview");
 			this.showPreview();
 		}
 
@@ -804,7 +804,7 @@ implements ActionListener, PropertyChangeListener, ChangeListener {
 
 	@Override
 	public void stateChanged(ChangeEvent e) {
-		logger.debug("State changed.");
+		System.out.println("IQM:  State changed.");
 		Object obE = e.getSource();
 		if (obE == spnrSubSamp){
 			subSamp = (Integer) spnrSubSamp.getValue();
@@ -813,7 +813,7 @@ implements ActionListener, PropertyChangeListener, ChangeListener {
 		
 		//execute Auto Preview or not
 		if (this.isAutoPreviewSelected()){
-			logger.debug("Performing AutoPreview");
+			System.out.println("IQM:  Performing AutoPreview");
 			this.showPreview();
 		}
 	}

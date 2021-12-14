@@ -61,8 +61,8 @@ import javax.swing.JTabbedPane;
 import javax.swing.JViewport;
 import javax.swing.SwingUtilities;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+ 
+ 
 
 import at.mug.iqm.api.Application;
 import at.mug.iqm.api.gui.ColorChannelSelectorPanel;
@@ -105,9 +105,9 @@ public class LookPanel extends JPanel implements ILookPanel, ActionListener,
 	 */
 	private static final long serialVersionUID = -3912758686700608387L;
 	/**
-	 * Class specific logger.
+	 *  
 	 */
-	private static final Logger logger = LogManager.getLogger(LookPanel.class);
+	  
 
 	/**
 	 * The top most container for all panels in the {@link LookPanel}.
@@ -510,7 +510,7 @@ public class LookPanel extends JPanel implements ILookPanel, ActionListener,
 		// LookPanels
 		Look.getInstance().removeLookPanel(this);
 
-		logger.debug("LookPanel " + this.getName() + " has been destroyed.");
+		System.out.println("IQM:  LookPanel " + this.getName() + " has been destroyed.");
 		System.gc();
 	}
 
@@ -844,7 +844,7 @@ public class LookPanel extends JPanel implements ILookPanel, ActionListener,
 					}
 
 					// log ALL loaded files anyway
-					logger.info("Selected image(s) for loading: "
+					System.out.println("IQM Info: Selected image(s) for loading: "
 							+ Arrays.asList(files).toString());
 
 					Application.getTank().loadImagesFromHD(files);
@@ -884,23 +884,23 @@ public class LookPanel extends JPanel implements ILookPanel, ActionListener,
 		}
 		if ("deletecurrroi".equals(e.getActionCommand())) {
 			this.deleteSelectedROI();
-			logger.debug("Current ROI has been deletedon the current layer "
+			System.out.println("IQM:  Current ROI has been deletedon the current layer "
 					+ roiLayerSelectorPanel.getCurrentLayer().getName());
 		}
 		if ("deleteallrois".equals(e.getActionCommand())) {
 			this.deleteAllROIShapesOnLayer();
-			logger.debug("All ROIs have been deleted on the current layer "
+			System.out.println("IQM:  All ROIs have been deleted on the current layer "
 					+ roiLayerSelectorPanel.getCurrentLayer().getName());
 		}
 		if ("deleteallroisalllayers".equals(e.getActionCommand())) {
 			this.deleteAllROIShapes();
-			logger.debug("All ROIs have been deleted");
+			System.out.println("IQM:  All ROIs have been deleted");
 		}
 	}
 
 	@Override
 	public void componentResized(ComponentEvent e) {
-		logger.trace("LookPanel has been resized, repainting...");
+		System.out.println("IQM Trace: LookPanel has been resized, repainting...");
 		updateImageLayer();
 	}
 
@@ -923,7 +923,7 @@ public class LookPanel extends JPanel implements ILookPanel, ActionListener,
 	public void updateImageLayer() {
 
 		if (this.renderedImage == null) {
-			logger.debug("Setting 'null' as rendered image in image layer.");
+			System.out.println("IQM:  Setting 'null' as rendered image in image layer.");
 			imageLayer.set(null);
 			isEmpty = true;
 			layerPane.repaint();
@@ -936,7 +936,7 @@ public class LookPanel extends JPanel implements ILookPanel, ActionListener,
 			// "Current image");
 
 			if (this.colorChannelSelectorPanel.hasSelectiveChannelsDisplayed()) {
-				logger.debug("Getting extracted image from color channel selector panel");
+				System.out.println("IQM:  Getting extracted image from color channel selector panel");
 
 				// zoom the extracted image according to the current zoom
 				// setting
@@ -950,7 +950,7 @@ public class LookPanel extends JPanel implements ILookPanel, ActionListener,
 				}
 				imageLayer.set(zoomedImage);
 			} else {
-				logger.debug("Getting the rendered image from the LookPanel.");
+				System.out.println("IQM:  Getting the rendered image from the LookPanel.");
 				imageLayer.set(this.renderedImage);
 
 				DecimalFormat fmt = new DecimalFormat("0.##");
@@ -978,7 +978,7 @@ public class LookPanel extends JPanel implements ILookPanel, ActionListener,
 		for (Component c : layers) {
 			if (c instanceof DefaultDrawingLayer) {
 				DefaultDrawingLayer layer = (DefaultDrawingLayer) c;
-				logger.debug("Setting bounds of layer " + c.getName() + " to "
+				System.out.println("IQM:  Setting bounds of layer " + c.getName() + " to "
 						+ dim);
 				layer.setBounds(new Rectangle(dim));
 			}
@@ -1001,7 +1001,7 @@ public class LookPanel extends JPanel implements ILookPanel, ActionListener,
 	public void mousePressed(MouseEvent e) {
 		// set the current look panel to this instance
 		if (SwingUtilities.isLeftMouseButton(e)) {
-			logger.debug("Activated LookPanel instance, setting current instance in Look: "
+			System.out.println("IQM:  Activated LookPanel instance, setting current instance in Look: "
 					+ this);
 			Look.getInstance().setCurrentLookPanel(this);
 		} else {

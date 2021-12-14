@@ -43,8 +43,8 @@ import javax.swing.ImageIcon;
 import javax.swing.JCheckBox;
 import javax.swing.JSeparator;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+ 
+ 
 
 import at.mug.iqm.api.Application;
 import at.mug.iqm.api.I18N;
@@ -67,7 +67,7 @@ public abstract class AbstractImageOperatorGUI extends AbstractOperatorGUI
 	 */
 	private static final long serialVersionUID = 1L;
 
-	protected static final Logger logger = LogManager.getLogger(AbstractImageOperatorGUI.class);
+	 
 
 	private CustomImageOptionsPanel customImageOptions;
 	private PreferencesPanel preferencesPanel;
@@ -177,7 +177,7 @@ public abstract class AbstractImageOperatorGUI extends AbstractOperatorGUI
 
 	@Override
 	public void initialize() {
-		logger.debug("Now initializing...");
+		System.out.println("IQM:  Now initializing...");
 		super.initialize();
 
 		this.setLocation((int) (Toolkit.getDefaultToolkit().getScreenSize()
@@ -193,7 +193,7 @@ public abstract class AbstractImageOperatorGUI extends AbstractOperatorGUI
 		// set the virtual check box automatically to true
 		// on closing set it to the state of before opening the GUI
 		isVirtualBefore = Application.isVirtual();
-		logger.debug("Window opened. Is now virtual (before operator GUI launch): "
+		System.out.println("IQM:  Window opened. Is now virtual (before operator GUI launch): "
 				+ isVirtualBefore);
 		chckbxVirtual.setSelected(isVirtualBefore);
 	}
@@ -237,7 +237,7 @@ public abstract class AbstractImageOperatorGUI extends AbstractOperatorGUI
 	 */
 	public void reset() {
 		// set gui elements to default
-		logger.debug("########################## Resetting Starting");
+		System.out.println("IQM:  ########################## Resetting Starting");
 		System.out.println("########################## Resetting Starting");
 
 		// execute common reset behavior
@@ -334,7 +334,7 @@ public abstract class AbstractImageOperatorGUI extends AbstractOperatorGUI
 	 */
 	@Override
 	public void destroy() {
-		logger.debug("Destroying. Was virtual before operator GUI launch: "
+		System.out.println("IQM:  Destroying. Was virtual before operator GUI launch: "
 				+ isVirtualBefore);
 		this.getCustomImageOptions().getChckbxAutoPreview().setSelected(false);
 		this.reset();
@@ -348,7 +348,7 @@ public abstract class AbstractImageOperatorGUI extends AbstractOperatorGUI
 			try {
 				Application.getCurrentExecutionProtocol().finishProtocol();
 			} catch (NullPointerException e) {
-				logger.debug("The execution proxy is not available! " + e);
+				System.out.println("IQM:  The execution proxy is not available! " + e);
 			}
 		}
 	}
@@ -358,7 +358,7 @@ public abstract class AbstractImageOperatorGUI extends AbstractOperatorGUI
 	 */
 	protected void actionEventAutoPreview(ActionEvent e) {
 		if (this.isAutoPreviewSelected()) {
-			logger.debug("Performing AutoPreview...");
+			System.out.println("IQM:  Performing AutoPreview...");
 			this.showPreview();
 		}
 	}
@@ -368,7 +368,7 @@ public abstract class AbstractImageOperatorGUI extends AbstractOperatorGUI
 	 */
 	protected void actionEventInvert(ActionEvent e) {
 		if (this.isAutoPreviewSelected()) {
-			logger.debug("Performing AutoPreview with invert option set...");
+			System.out.println("IQM:  Performing AutoPreview with invert option set...");
 			this.showPreview();
 		}
 	}
@@ -377,7 +377,7 @@ public abstract class AbstractImageOperatorGUI extends AbstractOperatorGUI
 	 * This method handles an action event.
 	 */
 	protected void actionEventVirtual(ActionEvent e) {
-		logger.debug("Virtual Checkbox isSelected --> " + chckbxVirtual.isSelected());
+		System.out.println("IQM:  Virtual Checkbox isSelected --> " + chckbxVirtual.isSelected());
 		this.fireVirtualFlagChanged(chckbxVirtual.isSelected());
 	}
 

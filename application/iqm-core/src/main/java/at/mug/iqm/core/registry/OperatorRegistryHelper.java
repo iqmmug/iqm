@@ -34,8 +34,8 @@ import java.util.List;
 
 import javax.media.jai.JAI;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+ 
+ 
 
 import at.mug.iqm.api.Application;
 import at.mug.iqm.api.operator.IOperatorDescriptor;
@@ -123,7 +123,7 @@ import at.mug.iqm.plot.bundle.descriptors.PlotOpSymbolicAggregationDescriptor;
  */
 public final class OperatorRegistryHelper {
 	// class specific logger
-	private static final Logger logger = LogManager.getLogger(OperatorRegistryHelper.class);
+	  
 
 	/**
 	 * This method initializes every IQM image processing operator of the
@@ -158,7 +158,7 @@ public final class OperatorRegistryHelper {
 	 *             if an operator's descriptor encounters any errors
 	 */
 	public static void registerImageOperators() throws Exception {
-		logger.debug("Initializing image operators of the standard operator bundle...");
+		System.out.println("IQM:  Initializing image operators of the standard operator bundle...");
 
 		IOperatorDescriptor invertDesc = IqmOpInvertDescriptor.register(); // 2009 01
 		updateWelcomeText(invertDesc.getName());
@@ -317,7 +317,7 @@ public final class OperatorRegistryHelper {
 		IOperatorDescriptor GenEntDesc = IqmOpGenEntDescriptor.register(); // 2018 12
 		updateWelcomeText(GenEntDesc.getName());
 
-		logger.debug("Done.");
+		System.out.println("IQM:  Done.");
 	}
 
 	/**
@@ -344,7 +344,7 @@ public final class OperatorRegistryHelper {
 	 *             if an operator's descriptor encounters any errors
 	 */
 	public static void registerPlotOperators() throws Exception {
-		logger.debug("Initializing plot operators of the standard operator bundle...");
+		System.out.println("IQM:  Initializing plot operators of the standard operator bundle...");
 
 		IOperatorDescriptor sigGenDesc = PlotOpSignalGeneratorDescriptor.register();
 		updateWelcomeText(sigGenDesc.getName());
@@ -409,11 +409,11 @@ public final class OperatorRegistryHelper {
 		IOperatorDescriptor plotResampleDesc = PlotOpResampleDescriptor.register(); //2018-11
 		updateWelcomeText(plotResampleDesc.getName());
 
-		logger.debug("Done.");
+		System.out.println("IQM:  Done.");
 	}
 
 	public static void updateRegistry() throws Exception {
-		logger.debug("Re-registering all operators...");
+		System.out.println("IQM:  Re-registering all operators...");
 		List<String> registeredOperators = new ArrayList<String>(Application
 				.getOperatorRegistry().getNames());
 
@@ -421,7 +421,7 @@ public final class OperatorRegistryHelper {
 			Application.getOperatorRegistry().updateRegistryEntry(name);
 		}
 
-		logger.debug("Done.");
+		System.out.println("IQM:  Done.");
 	}
 
 	/**

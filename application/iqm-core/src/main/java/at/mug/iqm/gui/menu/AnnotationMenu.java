@@ -39,8 +39,8 @@ import javax.swing.JMenuItem;
 import javax.swing.SwingWorker;
 import javax.xml.bind.JAXBException;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+ 
+ 
 
 import at.mug.iqm.api.gui.IDialogUtil;
 import at.mug.iqm.api.gui.IDrawingLayer;
@@ -69,7 +69,7 @@ public class AnnotationMenu extends JMenu {
 	private static final long serialVersionUID = 1932917444323071264L;
 
 	// private logger
-	private static final Logger logger = LogManager.getLogger(AnnotationMenu.class);
+	  
 
 	private JMenuItem mntmSave;
 	private JMenuItem mntmLoad;
@@ -78,7 +78,7 @@ public class AnnotationMenu extends JMenu {
 	 * Constructor.
 	 */
 	public AnnotationMenu() {
-		logger.debug("Generating new instance of 'annotation' menu.");
+		System.out.println("IQM:  Generating new instance of 'annotation' menu.");
 
 		// set menu attributes
 		this.setText(I18N.getGUILabelText("menu.annotation.text"));

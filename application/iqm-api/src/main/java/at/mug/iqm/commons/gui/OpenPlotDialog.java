@@ -37,8 +37,8 @@ import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+ 
+ 
 
 import at.mug.iqm.api.Application;
 import at.mug.iqm.api.I18N;
@@ -68,7 +68,7 @@ public class OpenPlotDialog extends Thread{
 	 */
 	// Logging variables
 	private static Class<?> caller = OpenPlotDialog.class;
-	private static final Logger logger = LogManager.getLogger(OpenPlotDialog.class);	
+	  	
 
 	private File currImgDir;
 
@@ -109,7 +109,7 @@ public class OpenPlotDialog extends Thread{
 			
 			int returnVal = fc.showOpenDialog(frame);
 			if (returnVal!=JFileChooser.APPROVE_OPTION) {
-				logger.info(I18N.getMessage("application.noPlotOpened"));
+				System.out.println("IQM Info: "+I18N.getMessage("application.noPlotOpened"));
 			} else{
 				File file = fc.getSelectedFile();
 				
@@ -127,7 +127,7 @@ public class OpenPlotDialog extends Thread{
 			
 		} 
 		catch (Exception e) {
-			logger.error("An error occurred: ", e);
+			System.out.println("IQM Error: An error occurred: " + e);
 			DialogUtil.getInstance().showErrorMessage(I18N.getMessage("application.error.generic"), e);
 		} finally {
 		}

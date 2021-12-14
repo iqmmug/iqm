@@ -62,8 +62,8 @@ import javax.swing.JSeparator;
 import javax.swing.KeyStroke;
 import javax.swing.border.EmptyBorder;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+ 
+ 
 
 import at.mug.iqm.api.Application;
 import at.mug.iqm.api.I18N;
@@ -80,7 +80,7 @@ public abstract class AbstractOperatorGUI extends JFrame implements
 	 */
 	private static final long serialVersionUID = -7846934011686537233L;
 
-	private static final Logger logger = LogManager.getLogger(AbstractOperatorGUI.class);
+	  
 
 	protected String opName;
 
@@ -482,7 +482,7 @@ public abstract class AbstractOperatorGUI extends JFrame implements
 	}
 
 	public void initialize() {
-		logger.debug("Initializing '" + this.getClass().getName() + "'...");
+		System.out.println("IQM:  Initializing '" + this.getClass().getName() + "'...");
 
 		this.setAlwaysOnTop(true);
 
@@ -513,14 +513,14 @@ public abstract class AbstractOperatorGUI extends JFrame implements
 			this.setParameterValuesToGUI();
 			this.update();
 		} catch (ArrayIndexOutOfBoundsException e) {
-			logger.debug("The source image is missing in the operator GUI, select one or close the operator.");
+			System.out.println("IQM:  The source image is missing in the operator GUI, select one or close the operator.");
 		} catch (Exception e) {
 			// DialogUtil
 			// .getInstance()
 			// .showErrorMessage(
 			// "The parameters could not be updated and set to the GUI elements!",
 			// e);
-			logger.error("The parameters could not be updated and set to the GUI elements!");
+			System.out.println("IQM Error: The parameters could not be updated and set to the GUI elements!");
 		}
 	}
 

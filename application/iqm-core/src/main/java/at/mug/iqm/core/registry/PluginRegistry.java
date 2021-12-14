@@ -33,8 +33,8 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+ 
+ 
 
 import at.mug.iqm.api.Application;
 import at.mug.iqm.api.operator.IOperator;
@@ -57,9 +57,9 @@ import at.mug.iqm.api.plugin.IPluginRegistry;
 public class PluginRegistry implements IPluginRegistry {
 	
 	/**
-	 * Class specific logger.
+	 *  
 	 */
-	private static final Logger logger = LogManager.getLogger(PluginRegistry.class);
+	  
 
 	/**
 	 * The {@link HashMap} containing the {@link IPlugin}s registered at
@@ -106,13 +106,13 @@ public class PluginRegistry implements IPluginRegistry {
 		// check if operator is already registered
 		if (!pluginRegistry.containsKey(pluginID)) {
 			pluginRegistry.put(pluginID, plugin);
-			logger.info("Registered plugin [" + pluginID + "]");
+			System.out.println("IQM Info: Registered plugin [" + pluginID + "]");
 		}
 
 		// register the op name with this plugin
 		if (!associatedOperators.containsKey(pluginID)) {
 			associatedOperators.put(pluginID, opName);
-			logger.info("Associated operator [" + opName
+			System.out.println("IQM Info: Associated operator [" + opName
 					+ "] with plugin [" + pluginID + "]");
 		}
 	}
@@ -130,12 +130,12 @@ public class PluginRegistry implements IPluginRegistry {
 		// check if operator is registered
 		if (pluginRegistry.containsKey(pluginID)) {
 			pluginRegistry.remove(pluginID);
-			logger.info("Unregistered plugin [" + pluginID + "]");
+			System.out.println("IQM Info: Unregistered plugin [" + pluginID + "]");
 		}
 
 		if (associatedOperators.containsKey(pluginID)) {
 			String opName = associatedOperators.remove(pluginID);
-			logger.info("Unregistered operator [" + opName
+			System.out.println("IQM Info: Unregistered operator [" + opName
 					+ "] with plugin [" + pluginID + "]");
 		}
 	}
@@ -191,7 +191,7 @@ public class PluginRegistry implements IPluginRegistry {
 			String key = iter.next().toString();
 			IPlugin value = pluginRegistry.get(key);
 
-			logger.info("[" + key + "]=" + value);
+			System.out.println("IQM Info: [" + key + "]=" + value);
 		}
 	}
 

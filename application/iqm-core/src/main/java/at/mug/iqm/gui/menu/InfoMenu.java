@@ -50,8 +50,8 @@ import javax.swing.ImageIcon;
 import javax.swing.JMenuItem;
 import javax.swing.KeyStroke;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+ 
+ 
 
 import at.mug.iqm.api.gui.IDialogUtil;
 import at.mug.iqm.commons.gui.OpenImageDialog;
@@ -85,7 +85,7 @@ public class InfoMenu extends DeactivatableMenu implements ActionListener {
 	private static final long serialVersionUID = -2574293426763777651L;
 
 	// class specific logger
-	private static final Logger logger = LogManager.getLogger(InfoMenu.class);
+	  
 
 	// class variable declaration
 	private JMenuItem currImgInfoMenuItem;
@@ -108,7 +108,7 @@ public class InfoMenu extends DeactivatableMenu implements ActionListener {
 	 * equipped InfoMenu.
 	 */
 	public InfoMenu() {
-		logger.debug("Generating new instance.");
+		System.out.println("IQM:  Generating new instance.");
 
 		// initialize the variables
 		this.currImgInfoMenuItem = new JMenuItem();
@@ -128,14 +128,14 @@ public class InfoMenu extends DeactivatableMenu implements ActionListener {
 		// assemble the gui elements to a JMenu
 		this.createAndAssembleMenu();
 
-		logger.debug("Menu 'info' generated.");
+		System.out.println("IQM:  Menu 'info' generated.");
 	}
 
 	/**
 	 * This method constructs the items.
 	 */
 	private void createAndAssembleMenu() {
-		logger.debug("Assembling menu items in 'info' menu.");
+		System.out.println("IQM:  Assembling menu items in 'info' menu.");
 
 		// set menu attributes
 		this.setText(I18N.getGUILabelText("menu.info.text"));
@@ -401,7 +401,7 @@ public class InfoMenu extends DeactivatableMenu implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 
-		logger.debug(e.getActionCommand());
+		System.out.println("IQM:  "+e.getActionCommand());
 
 		if ("currimginfo".equals(e.getActionCommand())) {
 			// display current image information
@@ -509,7 +509,7 @@ public class InfoMenu extends DeactivatableMenu implements ActionListener {
 						propertyArray.add(keys.nextElement().toString());
 					}
 				} catch (NoSuchElementException nsee) {
-					logger.error(nsee);
+					System.out.println("IQM Error: "+ nsee);
 				}
 
 				// sort the array
@@ -561,9 +561,9 @@ public class InfoMenu extends DeactivatableMenu implements ActionListener {
 				tdf.setVisible(true);
 
 			} catch (SecurityException se) {
-				logger.error(se);
+				System.out.println("IQM Error: "+ se);
 			} catch (NullPointerException npe) {
-				logger.error(npe);
+				System.out.println("IQM Error: "+ npe);
 			}
 
 		}

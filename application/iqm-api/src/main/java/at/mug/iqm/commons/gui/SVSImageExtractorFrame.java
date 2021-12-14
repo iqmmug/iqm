@@ -59,8 +59,8 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+ 
+ 
 
 import at.mug.iqm.api.Application;
 import at.mug.iqm.api.IQMConstants;
@@ -88,7 +88,7 @@ public class SVSImageExtractorFrame extends JFrame implements ActionListener,
 	private static final long serialVersionUID = -1164991986615901682L;
 
 	// Logging variables
-	private static final Logger logger = LogManager.getLogger(SVSImageExtractorFrame.class);
+	  
 
 	private JSpinner jSpinnerImgNum;
 	private JSpinner jSpinnerRescale;
@@ -223,7 +223,7 @@ public class SVSImageExtractorFrame extends JFrame implements ActionListener,
 			this.maxImgNum = this.tableData.length;
 			return true;
 		} catch (UnreadableSVSFileException e) {
-			logger.error("An error occurred: ", e);
+			System.out.println("IQM Error: An error occurred: " + e);
 			DialogUtil.getInstance().showErrorMessage(
 					"An error occurred, this SVS file is corrupt: \n"
 							+ file.toString(), e);
@@ -281,10 +281,10 @@ public class SVSImageExtractorFrame extends JFrame implements ActionListener,
 	 * @return an <code>int[4]</code> of the selected values
 	 */
 	private int[] getParametersFromGUI() {
-		logger.debug("Selected Image Number : " + imgNum);
-		logger.debug("Selected Rescale Factor : " + rescale);
-		logger.debug("Selected Interpolation Method: " + interP);
-		logger.debug("File extension: " + extension);
+		System.out.println("IQM:  Selected Image Number : " + imgNum);
+		System.out.println("IQM:  Selected Rescale Factor : " + rescale);
+		System.out.println("IQM:  Selected Interpolation Method: " + interP);
+		System.out.println("IQM:  File extension: " + extension);
 		return new int[] { imgNum, rescale, interP, extension };
 	}
 
@@ -563,7 +563,7 @@ public class SVSImageExtractorFrame extends JFrame implements ActionListener,
 			// "application.dialog.largeSVSImageWarning",
 			// null, null));
 			// if (selection != IDialogUtil.YES_OPTION) {
-			// logger.info("User cancelled the extraction process.");
+			// System.out.println("IQM Info: User cancelled the extraction process.");
 			// return;
 			// }
 			// }

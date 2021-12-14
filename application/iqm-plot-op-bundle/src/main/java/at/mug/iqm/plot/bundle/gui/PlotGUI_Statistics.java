@@ -61,8 +61,8 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.text.InternationalFormatter;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+ 
+ 
 
 import at.mug.iqm.api.model.IqmDataBox;
 import at.mug.iqm.api.model.PlotModel;
@@ -74,7 +74,7 @@ import at.mug.iqm.plot.bundle.descriptors.PlotOpStatisticsDescriptor;
 public class PlotGUI_Statistics extends AbstractPlotOperatorGUI implements
                                    ChangeListener{
 
-	private static final Logger logger = LogManager.getLogger(PlotGUI_Statistics.class);
+	  
 
 	/**
 	 * 
@@ -107,7 +107,7 @@ public class PlotGUI_Statistics extends AbstractPlotOperatorGUI implements
 	
 
 	public PlotGUI_Statistics() {
-		logger.debug("Now initializing...");
+		System.out.println("IQM:  Now initializing...");
 
 		this.setOpName(new PlotOpStatisticsDescriptor().getName());
 		this.initialize();
@@ -555,7 +555,7 @@ public class PlotGUI_Statistics extends AbstractPlotOperatorGUI implements
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		logger.debug(e.getActionCommand() + " event has been triggered.");
+		System.out.println("IQM:  "+e.getActionCommand() + " event has been triggered.");
 		if ("parameter".equals(e.getActionCommand())) {
 
 			if (e.getSource() == buttSingleValue) {

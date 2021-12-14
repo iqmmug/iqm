@@ -55,8 +55,8 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.text.InternationalFormatter;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+ 
+ 
 
 import at.mug.iqm.api.operator.AbstractPlotOperatorGUI;
 import at.mug.iqm.api.operator.ParameterBlockIQM;
@@ -76,7 +76,7 @@ import at.mug.iqm.plot.bundle.descriptors.PlotOpEntropyDescriptor;
 public class PlotGUI_Entropy extends AbstractPlotOperatorGUI implements
 		ChangeListener  {
 
-	private static final Logger logger = LogManager.getLogger(PlotGUI_Entropy.class);
+	  
 
 	/**
 	 * 
@@ -159,7 +159,7 @@ public class PlotGUI_Entropy extends AbstractPlotOperatorGUI implements
 
 	public PlotGUI_Entropy() {
 		getOpGUIContent().setBorder(new EmptyBorder(10, 10, 10, 10));
-		logger.debug("Now initializing...");
+		System.out.println("IQM:  Now initializing...");
 
 		this.setOpName(new PlotOpEntropyDescriptor().getName());
 		this.initialize();
@@ -1129,7 +1129,7 @@ public class PlotGUI_Entropy extends AbstractPlotOperatorGUI implements
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		logger.debug(e.getActionCommand() + " event has been triggered.");
+		System.out.println("IQM:  "+e.getActionCommand() + " event has been triggered.");
 		if ("parameter".equals(e.getActionCommand())) {
 			this.update();
 		}

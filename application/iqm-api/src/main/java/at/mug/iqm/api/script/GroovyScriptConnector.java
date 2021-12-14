@@ -37,8 +37,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+ 
+ 
 
 import at.mug.iqm.commons.util.DialogUtil;
 
@@ -56,7 +56,7 @@ import at.mug.iqm.commons.util.DialogUtil;
 public class GroovyScriptConnector {
 
 	// private logging variable
-	private static final Logger logger = LogManager.getLogger(GroovyScriptConnector.class);
+	  
 
 	/**
 	 * This variable contains all variables for the execution environment of a
@@ -82,7 +82,7 @@ public class GroovyScriptConnector {
 	 */
 	public void runScript(File file) {
 		File parent = file.getParentFile();
-		logger.info("Running script [" + file.getPath() + "]...");
+		System.out.println("IQM Info: Running script [" + file.getPath() + "]...");
 		GroovyScriptEngine gse = null;
 		try {
 			if (!paths.contains(parent.getPath())){

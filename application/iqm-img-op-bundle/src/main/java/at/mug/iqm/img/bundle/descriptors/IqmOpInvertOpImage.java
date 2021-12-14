@@ -59,8 +59,8 @@ import javax.media.jai.PlanarImage;
 import javax.media.jai.PointOpImage;
 import javax.media.jai.TiledImage;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+ 
+ 
 
 import at.mug.iqm.commons.util.DialogUtil;
 
@@ -73,7 +73,7 @@ public class IqmOpInvertOpImage extends PointOpImage {
 
 	// class specific logger
 	private static Class<?> caller = IqmOpInvertOpImage.class;
-	private static final Logger logger = LogManager.getLogger(IqmOpInvertOpImage.class);
+	  
 
 	private RenderedImage ri;
 	private int invOpt;
