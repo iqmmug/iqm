@@ -183,7 +183,7 @@ public class WelcomeDialog extends JDialog {
 	 * @param text the String to be displayed
 	 */
 	public void updateDynamicText(String text) {
-		System.out.println("IQM Trace: "+ text);
+		//System.out.println("IQM Trace: "+ text);
 		this.dynamicText.setText(text);
 	}
 }

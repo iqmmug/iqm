@@ -58,10 +58,10 @@ public class Resources {
 	 */
 	private static URL fetchURLfor(final String resName){
 		try{
-			System.out.println("IQM Trace: Trying to fetch an URL from resource folder: '" + resName + "'");
+			//System.out.println("IQM Trace: Trying to fetch an URL from resource folder: '" + resName + "'");
 			URL tmp = loader.getResource(resName);
 			if (tmp != null){
-				System.out.println("IQM Trace: '" + tmp + "': success.");
+				//System.out.println("IQM Trace: '" + tmp + "': success.");
 				return tmp;
 			} else{
 				System.out.println("IQM Error: '" + resName + "': failed. Could not find resource.");

@@ -95,10 +95,10 @@ public class MemoryMonitor implements Runnable {
 				double usedMem = totMem - freeMem;
 				double usedMemPercent = Math.ceil((usedMem / maxMem) * 100);
 
-				System.out.println("IQM Trace: Updating memory information: " + "Memory: "
-						+ (int) usedMem + "M (" + (int) usedMemPercent
-						+ "%) used / " + (int) totMem + "M tot / "
-						+ (int) maxMem + "M max ");
+				////System.out.println("IQM Trace: Updating memory information: " + "Memory: "
+				//		+ (int) usedMem + "M (" + (int) usedMemPercent
+				//		+ "%) used / " + (int) totMem + "M tot / "
+				//		+ (int) maxMem + "M max ");
 				((IMainFrame) Application.getMainFrame())
 						.getMainPanel()
 						.getMemoryLabel()

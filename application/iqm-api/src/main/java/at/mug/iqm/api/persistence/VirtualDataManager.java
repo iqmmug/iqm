@@ -153,8 +153,7 @@ public class VirtualDataManager {
 							// set found to true and do this for all files.
 							// if the number n is not found, found stays false
 							found = true;
-							System.out.println("IQM Trace: Found item stack: "
-									+ files[i].getAbsolutePath());
+							//System.out.println("IQM Trace: Found item stack: "+ files[i].getAbsolutePath());
 						}
 					}
 				}

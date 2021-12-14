@@ -238,8 +238,7 @@ public class CreateCopiesTask extends AbstractProcessingTask {
 			} catch (NullPointerException npe) {
 				// this null-pointer is thrown, if the copies task has been
 				// called without a work package
-				System.out.println("IQM Trace: No operator is launched, creating a copy instead of a new sample: "
-						+ npe);
+				//System.out.println("IQM Trace: No operator is launched, creating a copy instead of a new sample: "+ npe);
 			}
 
 			if (!isVirtual()) {

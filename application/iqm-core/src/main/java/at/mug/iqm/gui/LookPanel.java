@@ -900,7 +900,7 @@ public class LookPanel extends JPanel implements ILookPanel, ActionListener,
 
 	@Override
 	public void componentResized(ComponentEvent e) {
-		System.out.println("IQM Trace: LookPanel has been resized, repainting...");
+		//System.out.println("IQM Trace: LookPanel has been resized, repainting...");
 		updateImageLayer();
 	}
 

@@ -203,7 +203,7 @@ public final class ImageTools {
 	 * @return an image icon for the tank list, scaled to fit 60x60 px
 	 */
 	public static Thumbnail createTankThumb(PlanarImage pi) {
-		System.out.println("IQM Trace: Creating tank thumb nail.");
+		//System.out.println("IQM Trace: Creating tank thumb nail.");
 		return new Thumbnail(createThumbnail(pi, 60, 60, true, true).getImage());
 	}
 
@@ -215,7 +215,7 @@ public final class ImageTools {
 	 * @return ImageIcon
 	 */
 	public static Thumbnail createManagerThumb(PlanarImage pi) {
-		System.out.println("IQM Trace: Creating manager thumb nail.");
+		//System.out.println("IQM Trace: Creating manager thumb nail.");
 		return new Thumbnail(createThumbnail(pi, 40, 40, true, true).getImage());
 	}
 

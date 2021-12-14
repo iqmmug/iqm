@@ -97,9 +97,9 @@ public class CleanerTask implements Runnable {
 
 		// log the freed memory amount
 		if (diff > 0){
-			System.out.println("IQM Trace: I was able to free " + String.valueOf(diff) + " MBytes of RAM! Running again in " + sleepDelay/1000 + " seconds.");
+			//System.out.println("IQM Trace: I was able to free " + String.valueOf(diff) + " MBytes of RAM! Running again in " + sleepDelay/1000 + " seconds.");
 		}else {
-			System.out.println("IQM Trace: I'm sorry, but I was not able to free any memory! Running again in " + sleepDelay/1000 + " seconds.");
+			//System.out.println("IQM Trace: I'm sorry, but I was not able to free any memory! Running again in " + sleepDelay/1000 + " seconds.");
 		}
 	}
 	

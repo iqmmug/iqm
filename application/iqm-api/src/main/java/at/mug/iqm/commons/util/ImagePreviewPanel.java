@@ -135,8 +135,7 @@ public class ImagePreviewPanel extends JPanel implements PropertyChangeListener 
 				// do nothing
 				return;
 			} else {
-				System.out.println("IQM Trace: SELECTED_FILE_CHANGED_PROPERTY: "
-						+ ((File) e.getNewValue()));
+				//System.out.println("IQM Trace: SELECTED_FILE_CHANGED_PROPERTY: "+ ((File) e.getNewValue()));
 			}
 		} else if (propertyName
 				.equals(JFileChooser.SELECTED_FILES_CHANGED_PROPERTY)) {
@@ -149,8 +148,7 @@ public class ImagePreviewPanel extends JPanel implements PropertyChangeListener 
 				for (File f : files)
 					s += (f + ", ");
 
-				System.out.println("IQM Trace: SELECTED_FILES_CHANGED_PROPERTY: ["
-						+ s.substring(0, s.length() - 2) + "]");
+				//System.out.println("IQM Trace: SELECTED_FILES_CHANGED_PROPERTY: ["+ s.substring(0, s.length() - 2) + "]");
 			}
 		}
 

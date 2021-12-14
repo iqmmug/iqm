@@ -168,8 +168,7 @@ public final class GUITools {
 			throw new ImagingOpException("Unable to scale: Image is null!");
 		}
 
-		System.out.println("IQM Trace: Zoom received in the GUITools="
-				+ String.format("%2s", Double.valueOf(zoom * 100.0d)) + "%");
+		//System.out.println("IQM Trace: Zoom received in the GUITools="+ String.format("%2s", Double.valueOf(zoom * 100.0d)) + "%");
 
 		ParameterBlockJAI zoomPB = new ParameterBlockJAI("scale");
 		zoomPB.addSource(pi);

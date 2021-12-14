@@ -576,7 +576,7 @@ public class StatusPanel extends JPanel implements ActionListener, IStatusPanel 
 	public void forceRepaint() {
 		RepaintManager mgr = RepaintManager.currentManager(this);
 		mgr.markCompletelyDirty(this);
-		System.out.println("IQM Trace: Complete repainting of the GUI.");
+		//System.out.println("IQM Trace: Complete repainting of the GUI.");
 		mgr.paintDirtyRegions();
 	}
 

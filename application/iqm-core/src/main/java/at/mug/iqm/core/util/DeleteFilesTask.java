@@ -145,8 +145,7 @@ public class DeleteFilesTask extends SwingWorker<Boolean, Void> {
 					try {
 						boolean success = files[i].delete();
 						if (success) {
-							System.out.println("IQM Trace: [" + files[i].getName()
-									+ "] has been deleted successfully!");
+							//System.out.println("IQM Trace: [" + files[i].getName()+ "] has been deleted successfully!");
 						} else {
 							System.out.println("IQM Error: ["
 									+ files[i].getName()
@@ -190,8 +189,7 @@ public class DeleteFilesTask extends SwingWorker<Boolean, Void> {
 			try {
 				success = dir.delete();
 				if (success) {
-					System.out.println("IQM Trace: [" + dir.getName()
-							+ "] has been deleted successfully!");
+					//System.out.println("IQM Trace: [" + dir.getName()+ "] has been deleted successfully!");
 				} else {
 					System.out.println("IQM Error: ["
 							+ dir.getName()

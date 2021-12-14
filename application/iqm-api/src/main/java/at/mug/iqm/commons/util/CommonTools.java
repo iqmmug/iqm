@@ -398,7 +398,7 @@ public final class CommonTools {
 			double lx = coords.get(0) - coords.get(2);
 			double ly = coords.get(1) - coords.get(3);
 			lineLength = Math.sqrt(lx * lx + ly * ly); // Pythagoras
-			System.out.println("IQM Trace: Line length: " + lineLength);
+			//System.out.println("IQM Trace: Line length: " + lineLength);
 		} else {
 			System.out.println("IQM Error: Length calculation not possible for this shape!");
 		}

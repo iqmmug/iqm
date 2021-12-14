@@ -958,7 +958,7 @@ public class ManagerPanel extends JPanel implements IManagerPanel,
 			execToggle.awaitTermination(1, TimeUnit.SECONDS);
 			chbxTogglePreview.setSelected(false);
 		} catch (NullPointerException e) {
-			System.out.println("IQM Trace: There is currently no toggle service running.");
+			//System.out.println("IQM Trace: There is currently no toggle service running.");
 		} catch (InterruptedException e) {
 			System.out.println("IQM Warning: Toggle service has been interrupted. "+ e);
 		} finally {
@@ -1342,7 +1342,7 @@ public class ManagerPanel extends JPanel implements IManagerPanel,
 				break;
 			}
 		} catch (Exception e) {
-			System.out.println("IQM Trace: Not updating work package: "+ e);
+			//System.out.println("IQM Trace: Not updating work package: "+ e);
 		}
 
 		int[] newIndices = null;
@@ -1440,7 +1440,7 @@ public class ManagerPanel extends JPanel implements IManagerPanel,
 //				}
 //			}
 //		} catch (NullPointerException ex) {
-//			System.out.println("IQM Trace: "+ ex);
+//			//System.out.println("IQM Trace: "+ ex);
 //		}
 		//This solves ticket #55  2017-04 AH
 		IExecutionProtocol protocol = ExecutionProxy.getCurrentInstance();

@@ -263,7 +263,7 @@ public final class Look implements ILook {
 			boolean indexed = ImageAnalyzer.isIndexed(pi);
 			currentLookPanel.setIndexed(indexed);
 
-			System.out.println("IQM Trace: PlanarImage is indexed: " + indexed);
+			//System.out.println("IQM Trace: PlanarImage is indexed: " + indexed);
 
 			if (indexed) {
 				// short table: all values >=0
@@ -290,10 +290,7 @@ public final class Look implements ILook {
 
 			// #####################################################
 			// ZOOM the image
-			System.out.println("IQM Trace: The current zoom of the current LookPanel="
-					+ String.format("%2s",
-							Double.valueOf(currentLookPanel.getZoom() * 100.0d))
-					+ "%");
+			//System.out.println("IQM Trace: The current zoom of the current LookPanel="+ String.format("%2s", Double.valueOf(currentLookPanel.getZoom() * 100.0d))+ "%");
 			// calculate the individual zoom levels for each new image
 			double minDim = Math.min(pi.getWidth(), pi.getHeight()) * 1.0d;
 

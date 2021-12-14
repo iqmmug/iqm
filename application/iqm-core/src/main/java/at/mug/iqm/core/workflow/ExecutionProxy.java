@@ -1127,7 +1127,7 @@ public class ExecutionProxy implements IExecutionProtocol {
 	 */
 	@Override
 	public void disableInputs(final AbstractOperatorGUI window) {
-		System.out.println("IQM Trace: Setting wait cursor on dialog.");
+		//System.out.println("IQM Trace: Setting wait cursor on dialog.");
 		window.disableInputs();
 		CursorToolkit.startWaitCursor(window.getRootPane());
 	}
@@ -1139,7 +1139,7 @@ public class ExecutionProxy implements IExecutionProtocol {
 	 */
 	@Override
 	public void enableInputs(final AbstractOperatorGUI window) {
-		System.out.println("IQM Trace: Setting default cursor on dialog.");
+		//System.out.println("IQM Trace: Setting default cursor on dialog.");
 		window.enableInputs();
 		CursorToolkit.stopWaitCursor(window.getRootPane());
 	}

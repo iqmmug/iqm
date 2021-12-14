@@ -603,12 +603,12 @@ public class IqmDataBox implements Serializable, IThumbnailSupport, Cloneable {
 
 		switch (iqmDataBox.getDataType()) {
 		case IMAGE:
-			System.out.println("IQM Trace: Found an image in the IqmDataBox, returning image unchanged.");
+			//System.out.println("IQM Trace: Found an image in the IqmDataBox, returning image unchanged.");
 			pi = iqmDataBox.getImageModel().getImage();
 			break;
 
 		case PLOT:
-			System.out.println("IQM Trace: Found a PlotModel in the IqmDataBox, producing and returning an image of the plot.");
+			//System.out.println("IQM Trace: Found a PlotModel in the IqmDataBox, producing and returning an image of the plot.");
 			try {
 				pi = PlotTools.toPlanarImage(iqmDataBox.getPlotModel(), false);
 			} catch (Exception e1) {
@@ -618,7 +618,7 @@ public class IqmDataBox implements Serializable, IThumbnailSupport, Cloneable {
 			break;
 
 		case TABLE:
-			System.out.println("IQM Trace: Found a TableModel in the IqmDataBox, producing and returning a generic icon.");
+			//System.out.println("IQM Trace: Found a TableModel in the IqmDataBox, producing and returning a generic icon.");
 			// load the PNG thumb nail for the table
 			try {
 				BufferedImage bi = ImageIO.read(Resources

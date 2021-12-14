@@ -1239,16 +1239,16 @@ public class XMLAnnotationManager {
 
 			segmentsJAXB.getSegment().add(segmentJAXB);
 
-			System.out.println("IQM Trace: sequ#"
-					+ i
-					+ ": "
-					+ AbstractROIShape.segmentCodeToString(segCode)
-					+ " ("
-					+ segCode
-					+ ") : "
-					+ AbstractROIShape.windingRuleToString(iter
-							.getWindingRule()) + " (" + iter.getWindingRule()
-					+ ") : " + CommonTools.doubleArrayToString(coords));
+//			//System.out.println("IQM Trace: sequ#"
+//					+ i
+//					+ ": "
+//					+ AbstractROIShape.segmentCodeToString(segCode)
+//					+ " ("
+//					+ segCode
+//					+ ") : "
+//					+ AbstractROIShape.windingRuleToString(iter
+//							.getWindingRule()) + " (" + iter.getWindingRule()
+//					+ ") : " + CommonTools.doubleArrayToString(coords));
 			i++;
 			iter.next();
 		}

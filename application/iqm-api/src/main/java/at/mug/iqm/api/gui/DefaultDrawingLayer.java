@@ -1311,7 +1311,7 @@ public abstract class DefaultDrawingLayer extends JLabel implements
 					+ "px");
 
 			// log the line ROI length
-			System.out.println("IQM Trace: "+ lineRoi.toString());
+			//System.out.println("IQM Trace: "+ lineRoi.toString());
 		} else if (roi instanceof AngleROI) {
 			AngleROI angleRoi = (AngleROI) roi;
 			// show the text in the imageinfopanel
@@ -1325,7 +1325,7 @@ public abstract class DefaultDrawingLayer extends JLabel implements
 					+ "px");
 
 			// log the angle ROI
-			System.out.println("IQM Trace: "+ angleRoi.toString());
+			//System.out.println("IQM Trace: "+ angleRoi.toString());
 		} else if (roi instanceof AreaEnabledROI) {
 			AreaEnabledROI areaEnabledROI = (AreaEnabledROI) roi;
 
@@ -1346,7 +1346,7 @@ public abstract class DefaultDrawingLayer extends JLabel implements
 							.getHeight()) + "px");
 
 			// log the line ROI length
-			System.out.println("IQM Trace: "+ areaEnabledROI.toString());
+			//System.out.println("IQM Trace: "+ areaEnabledROI.toString());
 		}
 	}
 
@@ -1958,9 +1958,7 @@ public abstract class DefaultDrawingLayer extends JLabel implements
 			g2.fillRect(0, 0, getWidth(), getHeight());
 		} else {
 			System.out.println("IQM:  Layer " + getZOrder() + " is visible.");
-			System.out.println("IQM Trace: "+ Thread.currentThread().getName()
-					+ " paints ROI Shapes of layer [" + this.getZOrder()
-					+ "]...");
+			//System.out.println("IQM Trace: "+ Thread.currentThread().getName()+ " paints ROI Shapes of layer [" + this.getZOrder()+ "]...");
 
 			g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
 					RenderingHints.VALUE_ANTIALIAS_ON);
@@ -2011,7 +2009,7 @@ public abstract class DefaultDrawingLayer extends JLabel implements
 								.isSelected())) {
 
 					// log the incoming ROI shape type
-					System.out.println("IQM Trace: "+ this.currentROIShape);
+					//System.out.println("IQM Trace: "+ this.currentROIShape);
 
 					ROIShape roiShape = new ROIShape(this.currentROIShape
 							.transform(at).getAsShape());
@@ -2024,7 +2022,7 @@ public abstract class DefaultDrawingLayer extends JLabel implements
 						Point2D lineROIEndPoint = ((LineROI) currentROIShape)
 								.getEndPoint();
 
-						System.out.println("IQM Trace: "+ lineROIStartPoint + "|" + lineROIEndPoint);
+						//System.out.println("IQM Trace: "+ lineROIStartPoint + "|" + lineROIEndPoint);
 
 						g2.setStroke(lineROIBoundaryStroke);
 						g2.setColor(lineROIBoundaryColor);
@@ -2045,8 +2043,7 @@ public abstract class DefaultDrawingLayer extends JLabel implements
 						// Calculate edit points in real coordinates
 						ROIShape[] rectShapesUntransformed = new ROIShape[2];
 						for (int i = 0; i < 2; i++) {
-							System.out.println("IQM Trace: Bounds of LineROI element untransformed: "
-									+ rectArray[i].getBounds());
+							//System.out.println("IQM Trace: Bounds of LineROI element untransformed: " + rectArray[i].getBounds());
 							ROIShape rectShape = new ROIShape(rectArray[i]);
 							rectShapesUntransformed[i] = rectShape;
 						}
@@ -2066,7 +2063,7 @@ public abstract class DefaultDrawingLayer extends JLabel implements
 					} else if (this.currentROIShape instanceof PointROI) {
 						// draw boundaries without transformable edges
 						Rectangle bounds = roiShape.getBounds();
-						System.out.println("IQM Trace: "+ bounds);
+						//System.out.println("IQM Trace: "+ bounds);
 						g2.setColor(roiBoundaryColor);
 						g2.setStroke(roiBoundaryStroke);
 						bounds.grow(6, 6);
@@ -2075,7 +2072,7 @@ public abstract class DefaultDrawingLayer extends JLabel implements
 						g2.draw(bounds);
 					} else {
 						Rectangle bounds = roiShape.getBounds();
-						System.out.println("IQM Trace: "+ bounds);
+						//System.out.println("IQM Trace: "+ bounds);
 						g2.setColor(roiBoundaryColor);
 						g2.setStroke(roiBoundaryStroke);
 						g2.draw(bounds);
@@ -2122,8 +2119,7 @@ public abstract class DefaultDrawingLayer extends JLabel implements
 							// draw the rectangles
 							g2.draw(rectArray[i]);
 
-							System.out.println("IQM Trace: Bounds of non-LineROI element untransformed: "
-									+ rectArray[i].getBounds());
+							//System.out.println("IQM Trace: Bounds of non-LineROI element untransformed: "+ rectArray[i].getBounds());
 							ROIShape rectShape = new ROIShape(rectArray[i]);
 							rectShapesUntransformed[i] = rectShape;
 						}
@@ -2152,14 +2148,14 @@ public abstract class DefaultDrawingLayer extends JLabel implements
 								.getButtonArrow().isSelected())) {
 
 					// log the incoming roi shape type
-					System.out.println("IQM Trace: "+ this.roiShapeForHighlighting);
+					//System.out.println("IQM Trace: "+ this.roiShapeForHighlighting);
 
 					ROIShape roiShape = new ROIShape(
 							this.roiShapeForHighlighting.transform(at)
 									.getAsShape());
 
 					Rectangle bounds = roiShape.getBounds();
-					System.out.println("IQM Trace: "+ bounds);
+					//System.out.println("IQM Trace: "+ bounds);
 					g2.setColor(highlightColor);
 					g2.setStroke(highlightStroke);
 
@@ -2309,7 +2305,7 @@ public abstract class DefaultDrawingLayer extends JLabel implements
 
 		if (this.displayPanel == Application.getLook().getCurrentLookPanel()) {
 			this.requestFocusInWindow();
-			System.out.println("IQM Trace: got focus.");
+			//System.out.println("IQM Trace: got focus.");
 		}
 
 		LookToolboxPanel toolbox = this.displayPanel.getToolboxPanel();
@@ -3982,16 +3978,16 @@ public abstract class DefaultDrawingLayer extends JLabel implements
 			ROIShape testRoiShape = new ROIShape(clickedROIShape.transform(at)
 					.getAsShape());
 
-			System.out.println("IQM Trace: Clicked ROI Shape: " + getClickedROIShape());
-			System.out.println("IQM Trace: Current ROI Shape: " + getCurrentROIShape());
+			//System.out.println("IQM Trace: Clicked ROI Shape: " + getClickedROIShape());
+			//System.out.println("IQM Trace: Current ROI Shape: " + getCurrentROIShape());
 
-			System.out.println("IQM Trace: Entire image bounds: " + entireImage.getBounds());
-			System.out.println("IQM Trace: Test ROIShape bounds: " + testRoiShape.getBounds());
+			//System.out.println("IQM Trace: Entire image bounds: " + entireImage.getBounds());
+			//System.out.println("IQM Trace: Test ROIShape bounds: " + testRoiShape.getBounds());
 
 			if (!entireImage.contains(testRoiShape.getBounds())
 			// this clause is ESSENTIAL for LineROI translation
 					&& !entireImage.contains(p)) {
-				System.out.println("IQM Trace: ROIShape bounds does not lie within image bounds!");
+				//System.out.println("IQM Trace: ROIShape bounds does not lie within image bounds!");
 				repaint();
 				return;
 			}

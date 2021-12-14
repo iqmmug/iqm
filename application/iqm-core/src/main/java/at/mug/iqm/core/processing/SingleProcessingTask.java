@@ -132,8 +132,7 @@ public class SingleProcessingTask extends AbstractProcessingTask implements
 				System.out.println("IQM:  Result is null, operator may have been cancelled.");
 				return null;
 			}
-			System.out.println("IQM Trace: Finished operator '" + this.getOperator().getName()
-					+ "'");
+			//System.out.println("IQM Trace: Finished operator '" + this.getOperator().getName()+ "'");
 
 			try {
 				// INVERSION
@@ -179,7 +178,7 @@ public class SingleProcessingTask extends AbstractProcessingTask implements
 			BoardPanel.appendTextln(
 					"Processing finished, elapsed time: "
 							+ sdf.format(this.duration), caller);
-			System.out.println("IQM Trace: Done single processing.");
+			//System.out.println("IQM Trace: Done single processing.");
 		} catch (Exception e) {
 			System.out.println("IQM Error: An error occured: "+ e);
 			BoardPanel.appendTextln("Processing failed.", caller);

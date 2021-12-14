@@ -77,7 +77,7 @@ public class ZoomHelper {
 	 * @return the next lower zoom level
 	 */
 	public double getLowerZoomLevel(double currentLevel) {
-		System.out.println("IQM Trace: Current zoom level=" + currentLevel);
+		//System.out.println("IQM Trace: Current zoom level=" + currentLevel);
 		double newLevel = zoomLevels.getFirst();
 		
 		for (int i=0; i < zoomLevels.size(); i++){
@@ -87,7 +87,7 @@ public class ZoomHelper {
 				break;
 			}
 		}
-		System.out.println("IQM Trace: New zoom level=" + newLevel);
+		////System.out.println("IQM Trace: New zoom level=" + newLevel);
 		return newLevel;
 	}
 
@@ -97,7 +97,7 @@ public class ZoomHelper {
 	 * @return the next higher zoom level
 	 */
 	public double getHigherZoomLevel(double currentLevel) {
-		System.out.println("IQM Trace: Current zoom level=" + currentLevel);
+		//System.out.println("IQM Trace: Current zoom level=" + currentLevel);
 		double newLevel = zoomLevels.getLast();
 		
 		for (int i=zoomLevels.size()-1; i >=0 ; i--){
@@ -107,7 +107,7 @@ public class ZoomHelper {
 				break;
 			}
 		}
-		System.out.println("IQM Trace: New zoom level=" + newLevel);
+		//System.out.println("IQM Trace: New zoom level=" + newLevel);
 		return newLevel;
 	}
 	
@@ -117,7 +117,7 @@ public class ZoomHelper {
 	 */
 	public void calculateZoomLevels(double minDimension){
 		
-		System.out.println("IQM Trace: Calculating zoom levels...");
+		//System.out.println("IQM Trace: Calculating zoom levels...");
 		
 		// clear the list
 		zoomLevels.clear();
@@ -136,14 +136,14 @@ public class ZoomHelper {
 			zoomLevels.add(d);
 		}
 		
-		System.out.println("IQM Trace: Done: " + zoomLevels);
+		//System.out.println("IQM Trace: Done: " + zoomLevels);
 	}
 	
 	/**
 	 * Gets the minimal zoom of the calculated zoom list.
 	 */
 	public double getMinimalZoom(){
-		System.out.println("IQM Trace: The minimal zoom is currently: " + this.zoomLevels.getFirst());
+		//System.out.println("IQM Trace: The minimal zoom is currently: " + this.zoomLevels.getFirst());
 		return this.zoomLevels.getFirst();
 	}
 	
@@ -151,7 +151,7 @@ public class ZoomHelper {
 	 * Gets the maximal zoom of the calculated zoom list.
 	 */
 	public double getMaximalZoom(){
-		System.out.println("IQM Trace: The maximal zoom is currently: " + this.zoomLevels.getLast());
+		//System.out.println("IQM Trace: The maximal zoom is currently: " + this.zoomLevels.getLast());
 		return this.zoomLevels.getLast();
 	}
 
